@@ -9,5 +9,5 @@ define('VERSION',"0.01");
 define('APP_STATE',"ALPHA");
 
 define('DATABASE','/etc/kana/kana.db');
-define('DEBUG',true);
+define('DEBUG',false);
 ?>

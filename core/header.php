@@ -13,5 +13,4 @@ $tpl->assign("APP_NAME",APP_NAME);
 $tpl->assign("VERSION",VERSION);
 $tpl->draw(CORE_TEMPLATE."header");
 $tpl->draw(USER_TEMPLATE."topmenu");
-
 ?>

@@ -84,4 +84,17 @@ function t($val)
 	}  
 }
 
+function get_langlist(){
+	$lang_file = file("core/lang/lang_list.txt");
+	
+	foreach($lang_file as $language_available){
+	$lang_line = explode(" ",$language_available);
+	$lang_list[] = [
+	"value" => $lang_line[0],
+	"text" => trim($lang_line[1])
+	];
+	}
+	return $lang_list;
+}
+
 ?>

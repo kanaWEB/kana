@@ -1,0 +1,18 @@
+
+
+<!-- FORM -->
+<div class="container">
+  <form method="post" role="form">
+    <h1>{$form_name}
+    </h1>
+    {if="$help_array"}
+    <div class="alert alert-danger">
+      <ul>
+        {loop="help_array"}
+        <li>
+          {$value.text}
+        </li>
+        {/loop}
+      </ul>
+    </div>
+    {/if}
