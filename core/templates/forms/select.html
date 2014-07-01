@@ -2,7 +2,7 @@
 
 <div class="form-group">
 	<label for="{$input.id}">{$input.name|t}</label>
-	<select id="{$input.id}" class="form-control">
+	<select name="{$input.id}" class="form-control">
 		{loop="$input.options"}
 		<option {if="$input.selected==$value.value"}selected{/if} value="{$value.value}">{$value.text|t}</option>
 		{/loop}

@@ -9,5 +9,7 @@ define('VERSION',"0.01");
 define('APP_STATE',"ALPHA");
 
 define('DATABASE','/etc/kana/kana.db');
-define('DEBUG',false);
+define('SQL_PREFIX','');
+define('DEBUG',FALSE);
+define('REINSTALL',FALSE);
 ?>

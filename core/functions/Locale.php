@@ -23,14 +23,10 @@ HTML:
 
 /*LIST OF LANGUAGE SUPPORT */
 
-//If database does not exists (install) autodetect language
-if(!file_exists(DATABASE)){
-	if (DEBUG) echo "Reloading Language";
-	$_SESSION["LANGUAGE"] = get_lang();
-}
 
 //If Language session variable is not set, search it inside the database
 if (empty($_SESSION["LANGUAGE"])){
+	$_SESSION["LANGUAGE"] = get_lang();
 	//global $conf;
 	//$language_manager = new Language();
 	//if($conf){

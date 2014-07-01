@@ -1,13 +1,13 @@
 <?php
 /**
- * Class SQLiteEntity
- * @name: SQLiteEntity
+ * Class Entity
+ * @name: Entity
  * @author: Idleman <idleman@idleman.fr>
  * @description: Parent class for all models (entity) linked to the SQLite database,
  * This class is configured to act like a SQLite database,
  * but it is possible to redefine SQL codes to adapt them to another SGBD without affecting the application
  */
-class SQLiteEntity extends SQLite3
+class Entity extends SQLite3
 {
     /**
      * @var bool Debug mode, display SQL CREATE/UPDATE/DELETE commands when they are executed.
@@ -17,8 +17,9 @@ class SQLiteEntity extends SQLite3
 	/**
 	 * Open an SQLite connection
 	 */
-	function __construct(){
-		$this->open(DB_NAME);
+	function __construct($table_name){
+		$this->setTable($table_name);
+		$this->open(DATABASE);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
 	}
@@ -30,17 +31,17 @@ class SQLiteEntity extends SQLite3
 	 * @return string
 	 */
 	function __call($m,$p){
- 	  $v = strtolower(substr($m,3));
-      if (!strncasecmp($m,'get',3))return $this->$v;
-      if (!strncasecmp($m,'set',3)) $this->$v = $p[0];
- 	}
+		$v = strtolower(substr($m,3));
+		if (!strncasecmp($m,'get',3))return $this->$v;
+		if (!strncasecmp($m,'set',3)) $this->$v = $p[0];
+	}
 
  	/**
  	 * __destruct Close the SQLite database connection
  	 */
-	function __destruct(){
-		 $this->close();
-	}
+ 	function __destruct(){
+ 		$this->close();
+ 	}
 
 	/**
 	 * Convert a type of variable for SQLite3
@@ -53,23 +54,23 @@ class SQLiteEntity extends SQLite3
 			case 'string':
 			case 'timestamp':
 			case 'date':
-				$return = 'VARCHAR(255)';
+			$return = 'VARCHAR(255)';
 			break;
 			case 'longstring':
-				$return = 'longtext';
+			$return = 'longtext';
 			break;
 			case 'key':
-				$return = 'INTEGER NOT NULL PRIMARY KEY';
+			$return = 'INTEGER NOT NULL PRIMARY KEY';
 			break;
 			case 'object':
 			case 'int':
-				$return = 'bigint(20)';
+			$return = 'bigint(20)';
 			break;
 			case 'boolean':
-				$return = 'INT(1)';
+			$return = 'INT(1)';
 			break;
 			default;
-				$return = 'TEXT';
+			$return = 'TEXT';
 			break;
 		}
 		return $return ;
@@ -97,56 +98,69 @@ class SQLiteEntity extends SQLite3
  * @param  string $debug='false' activated debug mode (0 or 1) (DEPRECATED)
  * 
  */
-	public function create($debug='false'){
-		$query = 'CREATE TABLE IF NOT EXISTS `'.SQL_PREFIX.$this->TABLE_NAME.'` (';
+public function create($debug='false'){
 
-		$i=false;
+	$query = 'CREATE TABLE IF NOT EXISTS `'.SQL_PREFIX.$this->TABLE_NAME.'` (';
+
+		
+//Get all fields and generate
+		$last = count($this->object_fields);
+		$i = 0;
 		foreach($this->object_fields as $field=>$type){
-			if($i){$query .=',';}else{$i=true;}
+			$i++;
 			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
+			if($last != $i){$query .=",";}
 		}
 
 		$query .= ');';
-		if($this->debug)echo '<h1>SQL CREATE TABLE</h1><hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
-		if(!$this->exec($query)) echo $this->lastErrorMsg();
+//Debug Mode
+if($this->debug){
+	debug("SQL","Create",$this->TABLE_NAME);
+	echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
+}
+if(!$this->exec($query)) echo $this->lastErrorMsg();
+}
+
+public function drop($debug='false'){
+	$query = 'DROP TABLE IF EXISTS`'.SQL_PREFIX.$this->TABLE_NAME.'`;';
+	if($this->debug){
+	debug("SQL","Drop",$this->TABLE_NAME);
+	echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
+}
+
+	if(!$this->exec($query)) echo $this->lastErrorMsg();
+}
+
+
+public function massiveInsert($events){
+	$query = 'INSERT INTO `'.SQL_PREFIX.$this->TABLE_NAME.'`(';
+		$i=false;
+		foreach($this->object_fields as $field=>$type){
+			if($type!='key'){
+				if($i){$query .=',';}else{$i=true;}
+				$query .='`'.$field.'`';
+			}
+		}
+		$query .=') select';
+$u = false;
+foreach($events as $event){
+	if($u){$query .=' union select ';}else{$u=true;}
+
+	$i=false;
+	foreach($event->object_fields as $field=>$type){
+		if($type!='key'){
+			if($i){$query .=',';}else{$i=true;}
+			$query .='"'.eval('return htmlentities($event->'.$field.');').'"';
+		}
 	}
 
-	public function drop($debug='false'){
-		$query = 'DROP TABLE IF EXISTS`'.SQL_PREFIX.$this->TABLE_NAME.'`;';
-		if($this->debug)echo '<hr><h1>SQL DROP TABLE</h1>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
-		if(!$this->exec($query)) echo $this->lastErrorMsg();
-	}
+}
 
-
-	public function massiveInsert($events){
-		$query = 'INSERT INTO `'.SQL_PREFIX.$this->TABLE_NAME.'`(';
-			$i=false;
-			foreach($this->object_fields as $field=>$type){
-				if($type!='key'){
-					if($i){$query .=',';}else{$i=true;}
-					$query .='`'.$field.'`';
-				}
-			}
-			$query .=') select';
-			$u = false;
-			foreach($events as $event){
-				if($u){$query .=' union select ';}else{$u=true;}
-				
-				$i=false;
-				foreach($event->object_fields as $field=>$type){
-					if($type!='key'){
-						if($i){$query .=',';}else{$i=true;}
-						$query .='"'.eval('return htmlentities($event->'.$field.');').'"';
-					}
-				}
-				
-			}
-
-			$query .=';';
+$query .=';';
 		//echo '<i>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
-		if(!$this->exec($query)) echo $this->lastErrorMsg().'</i>';
+if(!$this->exec($query)) echo $this->lastErrorMsg().'</i>';
 
-	}
+}
 
 	/**
  * Insert or modify entity elements
@@ -171,28 +185,34 @@ class SQLiteEntity extends SQLite3
 			$query .= ' WHERE `id`="'.$this->id.'";';
 		}else{
 			$query = 'INSERT INTO `'.SQL_PREFIX.$this->TABLE_NAME.'`(';
-			$i=false;
-			foreach($this->object_fields as $field=>$type){
-				if($type!='key'){
-					if($i){$query .=',';}else{$i=true;}
-					$query .='`'.$field.'`';
-				}
-			}
-			$query .=')VALUES(';
-			$i=false;
-			foreach($this->object_fields as $field=>$type){
-				if($type!='key'){
-					if($i){$query .=',';}else{$i=true;}
-					$query .='"'.eval('return htmlentities($this->'.$field.');').'"';
-				}
-			}
 
-			$query .=');';
-		}
-		if($this->debug)echo '<h1>SQL SAVE TABLE</h1><i>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
-		if(!$this->exec($query)) echo $this->lastErrorMsg().'</i>';
-		$this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
-	}
+				$this->setUid(uniqid());
+				$i=false;
+				foreach($this->object_fields as $field=>$type){
+					if($type!='key'){
+						if($i){$query .=',';}else{$i=true;}
+						$query .='`'.$field.'`';
+					}
+				}
+				$query .=')VALUES(';
+				$i=false;
+				foreach($this->object_fields as $field=>$type){
+					if($type!='key'){
+						if($i){$query .=',';}else{$i=true;}
+						$query .='"'.eval('return htmlentities($this->'.$field.');').'"';
+					}
+				}
+
+				$query .=');';
+}
+if($this->debug){
+	debug("SQL","Save",$this->TABLE_NAME);
+	echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
+}
+
+if(!$this->exec($query)) echo $this->lastErrorMsg().'</i>';
+$this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
+}
 
 	/**
  * M�thode de modification d'�l�ments de l'entit�
@@ -221,7 +241,7 @@ class SQLiteEntity extends SQLite3
 			}
 		}
 
-		if($this->debug)echo '<h1>SQL SAVE CONFIGURATION</h1><i>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
+		if($this->debug)echo '<h1>SQL SAVE CONFIGURATION</h1><i>'.$this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
 		if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}
 
@@ -235,7 +255,7 @@ class SQLiteEntity extends SQLite3
  * @return <Array<Entity>> $Entity
  */
 	public function populate($order='null',$limit='null',$debug='false'){
-		eval('$results = '.$this->CLASS_NAME.'::loadAll(array(),\''.$order.'\','.$limit.',\'=\','.$debug.');');
+		eval('$results = '.$this->TABLE_NAME.'::loadAll(array(),\''.$order.'\','.$limit.',\'=\','.$debug.');');
 		return $results;
 	}
 
@@ -255,35 +275,37 @@ class SQLiteEntity extends SQLite3
 	public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug='false',$selColumn='*'){
 		$objects = array();
 		$whereClause = '';
-	
-			if($columns!=null && sizeof($columns)!=0){
+
+		if($columns!=null && sizeof($columns)!=0){
 			$whereClause .= ' WHERE ';
-				$i = false;
-				foreach($columns as $column=>$value){
+			$i = false;
+			foreach($columns as $column=>$value){
 
-					if($i){$whereClause .=' AND ';}else{$i=true;}
-					$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
-				}
+				if($i){$whereClause .=' AND ';}else{$i=true;}
+				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 			}
-			$query = 'SELECT '.$selColumn.' FROM `'.SQL_PREFIX.$this->TABLE_NAME.'` '.$whereClause.' ';
-			if($order!=null) $query .='ORDER BY '.$order.' ';
-			if($limit!=null) $query .='LIMIT '.$limit.' ';
-			$query .=';';
-			  
-			//echo '<hr>'.__METHOD__.' : Requete --> '.$query.'<br>';
-			$execQuery = $this->query($query);
+		}
+		$query = 'SELECT '.$selColumn.' FROM `'.SQL_PREFIX.$this->TABLE_NAME.'` '.$whereClause.' ';
+		if($order!=null) $query .='ORDER BY '.$order.' ';
+		if($limit!=null) $query .='LIMIT '.$limit.' ';
+		$query .=';';
 
-			if(!$execQuery) 
-				echo $this->lastErrorMsg();
-			while($queryReturn = $execQuery->fetchArray() ){
-				$object = eval(' return new '.$this->CLASS_NAME.'();');
-				foreach($this->object_fields as $field=>$type){
-					if(isset($queryReturn[$field])) eval('$object->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
-				}
-				$objects[] = $object;
-				unset($object);
+		//echo '<hr>'.__METHOD__.' : Requete --> '.$query.'<br>';
+		$execQuery = $this->query($query);
+		
+
+		if(!$execQuery)
+			echo $this->lastErrorMsg();
+		
+		while($queryReturn = $execQuery->fetchArray() ){
+			$object = eval(' return new Entity($this->TABLE_NAME);');
+			foreach($this->object_fields as $field=>$type){
+				if(isset($queryReturn[$field])) eval('$object->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
 			}
-			return $objects;
+			$objects[] = $object;
+			unset($object);
+		}
+		return $objects;
 	}
 
 	public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug='false'){
@@ -336,12 +358,12 @@ class SQLiteEntity extends SQLite3
 			$whereClause = ' WHERE ';
 			$i=false;
 			foreach($columns as $column=>$value){
-					if($i){$whereClause .=' AND ';}else{$i=true;}
-					$whereClause .= '`'.$column.'`="'.$value.'"';
+				if($i){$whereClause .=' AND ';}else{$i=true;}
+				$whereClause .= '`'.$column.'`="'.$value.'"';
 			}
 		}
 		$query = 'SELECT COUNT(id) FROM '.SQL_PREFIX.$this->TABLE_NAME.$whereClause;
-		//echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
+		//echo '<hr>'.$this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
 		$execQuery = $this->querySingle($query);
 		//echo $this->lastErrorMsg();
 		return (!$execQuery?0:$execQuery);
@@ -360,14 +382,14 @@ class SQLiteEntity extends SQLite3
 	public function delete($columns,$operation='=',$debug='false',$limit=null){
 		$whereClause = '';
 
-			$i=false;
-			foreach($columns as $column=>$value){
-				if($i){$whereClause .=' AND ';}else{$i=true;}
-				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
-			}
-			$query = 'DELETE FROM `'.SQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' '.(isset($limit)?'LIMIT '.$limit:'').';';
-			if($this->debug)echo '<h1>SQL DELETE TABLE</h1><hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
-			if(!$this->exec($query)) echo $this->lastErrorMsg();
+		$i=false;
+		foreach($columns as $column=>$value){
+			if($i){$whereClause .=' AND ';}else{$i=true;}
+			$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
+		}
+		$query = 'DELETE FROM `'.SQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' '.(isset($limit)?'LIMIT '.$limit:'').';';
+		if($this->debug)echo '<h1>SQL DELETE TABLE</h1><hr>'.$this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
+		if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}
 	
 	public function customExecute($request){
@@ -385,11 +407,11 @@ class SQLiteEntity extends SQLite3
  * @param Aucun
  * @return <Attribute> debug
  */
-	
-	public function getDebug(){
-		return $this->debug;
-	}
-	
+
+		public function getDebug(){
+			return $this->debug;
+		}
+
 	/**
  * M�thode de d�finition de l'attribut debug de l'entit�
  * @author Valentin CARRUESCO
@@ -405,5 +427,19 @@ class SQLiteEntity extends SQLite3
 		return $this->object_fields;
 	}
 
+	public function setTable($table_name){
+		$fields_file = "core/skeleton/".$table_name.".txt";
+		$db_text = file($fields_file);
+
+		array_shift($db_text);
+		$db_fields['id'] = "key";
+		$db_fields['uid'] = "int";
+		foreach($db_text as $field){
+			$field_info = explode(":",$field);
+			$db_fields[$field_info[0]] = $field_info[1];
+		}
+		$this->object_fields = $db_fields;
+		$this->TABLE_NAME = $table_name;
+	}
 }
 ?>

@@ -1,7 +1,23 @@
  
 
 <!-- CORE FOOTER -->
- <script src="./templates/bootstrap3/js/jquery.min.js"></script>
- <script src="./templates/bootstrap3/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="./templates/bootstrap3/js/jquery.min.js"></script>
+ <script type="text/javascript" src="./templates/bootstrap3/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="./templates/bootstrap3/js/validator.min.js"></script>
+ <script type="text/javascript" src="./templates/bootstrap3/js/jquery.noty.packaged.min.js"></script>
+ <script type="text/javascript" src="./templates/bootstrap3/js/notification.js"></script>
+ <script type="text/javascript" src="./templates/bootstrap3/js/start.js"></script>
+ {if="$error_message"}
+ <script>
+error = "{$error_message}"
+ </script>
+ {/if}
+
+  {if="$notice_message"}
+ <script>
+notice = "{$notice_message}"
+ </script>
+ {/if}
+
  </body>
  </html>
