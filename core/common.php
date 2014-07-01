@@ -17,9 +17,19 @@ $_ = array_map('Functions::secure',array_merge($_POST,$_GET));
 
 
 $currentUser = new User();
+
 if(isset($_SESSION['currentUser'])){
-$currentUser->check_session($_SESSION['currentUser']);
+	$currentUser->check_session($_SESSION['currentUser']);
 }
+else{
+	if(isset($_COOKIE[COOKIE_NAME])){
+		$currentUser->check_cookie($_COOKIE[COOKIE_NAME]);
+		$_SESSION['currentUser'] = serialize($currentUser);
+	}
+}
+
+
+
 //if(!$currentUser && isset($_COOKIE[$conf->get("COOKIE_NAME")])){
 //	$users = User::getAllUsers();
 //	foreach ($users as $user) {

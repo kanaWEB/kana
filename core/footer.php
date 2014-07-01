@@ -19,7 +19,7 @@ else
 
 $tpl->assign("error_message",$error);
 $tpl->assign("notice_message",$notice);
-$tpl->draw(USER_TEMPLATE."bottombar");
+//$tpl->draw(USER_TEMPLATE."bottombar");
 $tpl->draw(CORE_TEMPLATE."footer");
 ?>
 

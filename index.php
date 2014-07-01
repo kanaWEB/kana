@@ -1,6 +1,22 @@
 <?php
 include("core/common.php"); //Common libraries
-//var_dump($currentUser);
+
+//Logout
+if(isset($_["logout"]) && !isset($_["submit"])){
+//Delete Cookie if it exist
+	if(isset($_COOKIE[COOKIE_NAME])){
+		$user = new Entity("Users");
+		$user = $user->load(array("id"=>$currentUser->Id()));
+	$user->setCookie(""); //Reset cookie token
+	$user->save();
+	Functions::destroyCookie(COOKIE_NAME);
+}
+$_SESSION = array();
+session_unset();
+session_destroy();
+$currentUser = new User();
+
+}
 
 //Display login or redirect to install.php/display.php
 if(file_exists(DATABASE)){
@@ -9,17 +25,19 @@ if(file_exists(DATABASE)){
 	
 	include("core/header.php");
 	
-	if(!$currentUser->right()){
+	if(!$currentUser->isuser()){
 		if(isset($_["submit"])){
+			//Check user
 			$currentUser = new User();
-			$currentUser->check_password($_["username"],$_["pass"]);
-			if($currentUser->right()){
-			$_SESSION['currentUser'] = serialize($currentUser);
-			redirect("display","?notice=You are logged");
+			$cookie = isset($_["cookie"]);
+			$currentUser->check_password($_["username"],$_["pass"],$cookie);
+
+			if($currentUser->isuser()){
+				$_SESSION['currentUser'] = serialize($currentUser);
+				redirect("display","?notice=".t("You are logged"));
 			}
-			else
-			{
-			redirect("index","?error=This account doesn't exist");
+			else{
+				redirect("index","?error=".t("This account doesn't exist"));
 			}
 		}
 		else{
@@ -50,6 +68,14 @@ if(file_exists(DATABASE)){
 				"id" => "pass",
 				"name" => "Password",
 				]);
+
+			$login_form->input([
+				"type" => "checkbox",
+				"id" => "cookie",
+				"name" => "Remember me",
+				"selected" => false
+				]);
+
 			$login_form->display($tpl);
 
 			include("core/footer.php");
@@ -57,7 +83,6 @@ if(file_exists(DATABASE)){
 	}
 	else
 	{
-		echo "test";
 		redirect("display");
 	}
 

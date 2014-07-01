@@ -2,12 +2,13 @@
 /**
  * @todo Documented
 **/
-function redirect($page,$args=false,$message=false){
+function redirect($page,$args=false){
+	$page = $page.".php".$args;
 	if (DEBUG == false){
-				header('location:'.$page.'.php');
+				header('location:'.$page);
 			}
 			else{
-				debug("PHP","Redirection",$page);
+				debug("PHP","Redirection",$page,true);
 			}
 	
 

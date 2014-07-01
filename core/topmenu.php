@@ -12,9 +12,9 @@ $topmenu[] = [
 ];
 
 $topmenu[] = [
-"text" => $currentUser->name(),
+"text" => t("Logout")." (".$currentUser->name().")",
 "icon" => "glyphicon-user",
-"link" => "index.php"
+"link" => "index.php?logout"
 ];
 
 }
