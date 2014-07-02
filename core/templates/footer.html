@@ -1,23 +1,32 @@
- 
-
+ </div>
+</div>
+</div>
 <!-- CORE FOOTER -->
- <script type="text/javascript" src="./templates/bootstrap3/js/jquery.min.js"></script>
- <script type="text/javascript" src="./templates/bootstrap3/js/bootstrap.min.js"></script>
- <script type="text/javascript" src="./templates/bootstrap3/js/validator.min.js"></script>
- <script type="text/javascript" src="./templates/bootstrap3/js/jquery.noty.packaged.min.js"></script>
- <script type="text/javascript" src="./templates/bootstrap3/js/notification.js"></script>
- <script type="text/javascript" src="./templates/bootstrap3/js/start.js"></script>
- {if="$error_message"}
- <script>
-error = "{$error_message}"
- </script>
- {/if}
+<script type="text/javascript" src="core/templates/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="core/templates/js/jquery/jquery.noty.packaged.min.js"></script>
 
-  {if="$notice_message"}
- <script>
-notice = "{$notice_message}"
- </script>
- {/if}
+<script type="text/javascript" src="core/templates/js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="core/templates/js/bootstrap/validator.min.js"></script>
 
- </body>
- </html>
+{loop="js"}
+<script type="text/javascript" src="{$value}"></script>
+{/loop}
+
+
+<script type="text/javascript" src="core/templates/js/notification.js"></script>
+<script type="text/javascript" src="core/templates/js/start.js"></script>
+
+{if="$error_message"}
+<script>
+	error = "{$error_message}"
+</script>
+{/if}
+
+{if="$notice_message"}
+<script>
+	notice = "{$notice_message}"
+</script>
+{/if}
+
+</body>
+</html>

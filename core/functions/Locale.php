@@ -23,26 +23,15 @@ HTML:
 
 /*LIST OF LANGUAGE SUPPORT */
 
-
 //If Language session variable is not set, search it inside the database
-if (empty($_SESSION["LANGUAGE"])){
+if (!DB_EXISTS){
 	$_SESSION["LANGUAGE"] = get_lang();
-	//global $conf;
-	//$language_manager = new Language();
-	//if($conf){
-	//$language = $language_manager->getById($conf->get("general_language"));
-	//}
-	//print_r($language);
-
-	//if (empty($language)){
-//		if (DEBUG) echo "Reloading Language";
-		//$_SESSION["LANGUAGE"] = get_lang();
-	//}
-	//else
-	//{
-	//$_SESSION["LANGUAGE"] = $language->getShortName();
-	//}
 }
+else
+{
+	$_SESSION["LANGUAGE"] = $config->getLanguage();
+}
+
 
 //Loading Core Translation
 global $lang;

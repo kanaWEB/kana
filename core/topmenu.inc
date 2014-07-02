@@ -1,5 +1,5 @@
 <?php
-
+//Default topmenu (can be override to display a custom menu)
 if(!isset($topmenu)){
 $topmenu_selected = [
 "text" => "Settings",
@@ -8,7 +8,7 @@ $topmenu_selected = [
 $topmenu[] = [
 "text" => "Settings",
 "icon" => "glyphicon-wrench",
-"link" => "setting.php"
+"link" => "settings.php"
 ];
 
 $topmenu[] = [
@@ -21,5 +21,5 @@ $topmenu[] = [
 
 $tpl->assign("topmenu_selected",$topmenu_selected);
 $tpl->assign("topmenu",$topmenu);
-$tpl->draw(USER_TEMPLATE."topmenu");
+$tpl->draw(CORE_TEMPLATE."topmenu"); //Display core/templates/topmenu.html
 ?>

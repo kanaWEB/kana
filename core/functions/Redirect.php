@@ -10,6 +10,4 @@ function redirect($page,$args=false){
 			else{
 				debug("PHP","Redirection",$page,true);
 			}
-	
-
 }

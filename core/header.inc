@@ -1,0 +1,18 @@
+<?php
+//Include template manager
+include EXTERNAL_LIB."RainTpl/rain.tpl.class.php";
+
+//Prepare Template
+raintpl::$cache_dir = CACHE_DIR;
+raintpl::$tpl_dir = "";
+raintpl::configure( 'path_replace', false );
+$tpl = new RainTPL();
+
+//Generate Template
+$tpl->assign("css",$theme->css()); //Theme CSS
+$tpl->assign("lang",$lang); //Get internationalization
+$tpl->assign("APP_NAME",APP_NAME); //Application Name
+$tpl->assign("VERSION",VERSION); //Application Version
+$tpl->draw(CORE_TEMPLATE."header"); //Add header.html
+
+?>

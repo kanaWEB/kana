@@ -246,7 +246,7 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 	}
 
 	/**
- * M�thode de selection de tous les elements de l'entit�
+ * Display a table inside an Entity objects
  * @author Valentin CARRUESCO
  * @category manipulation SQL
  * @param <String> $ordre=null
@@ -255,7 +255,7 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
  * @return <Array<Entity>> $Entity
  */
 	public function populate($order='null',$limit='null',$debug='false'){
-		eval('$results = '.$this->TABLE_NAME.'::loadAll(array(),\''.$order.'\','.$limit.',\'=\','.$debug.');');
+		eval('$results = $this->loadAll(array(),\''.$order.'\','.$limit.',\'=\','.$debug.');');
 		return $results;
 	}
 
@@ -428,7 +428,7 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 	}
 
 	public function setTable($table_name){
-		$fields_file = "core/skeleton/".$table_name.".txt";
+		$fields_file = CORE_SCHEMA.$table_name.".txt";
 		$db_text = file($fields_file);
 
 		array_shift($db_text);

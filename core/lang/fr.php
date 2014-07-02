@@ -13,6 +13,9 @@ $lang["Login"] = "Identifiant";
 $lang["Password"] = "Mot de passe";
 $lang["Language"] = "Langue";
 
+$lang["Installation is already done!"] = "L'installation a déja été exécuté";
+$lang["Change this constant to reinstall:"] ="Changez cette constant pour réinstaller";
+
 //Login
 $lang["Identification"] = "Identification";
 $lang["You need to be logged to use this application"] = "Vous devez vous identifier pour utiliser cette application";
@@ -23,4 +26,10 @@ $lang["You need to be logged to see this page"] = "Vous devez être connecté po
 $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 //Form
 $lang["Send"] = "Envoyer";
+
+//Default Settings Menu
+$lang["Preferences"] = "Préférences";
+$lang["System"] = "Système";
+$lang["Users"] = "Utilisateurs";
+$lang["Preferences saved"] = "Préférences sauvegardé";
 ?>
