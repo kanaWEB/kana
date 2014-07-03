@@ -1,0 +1,49 @@
+<?php
+//Default topmenu (can be override to display a custom menu)
+if(!isset($topmenu)){
+
+//Display custom views
+$user_views = scandir(USER_VIEWS);
+array_shift($user_views);
+array_shift($user_views);
+var_dump($user_views);
+
+foreach($user_views as $user_view){
+	$menu_file = file(USER_VIEWS."/".$user_view."/menu.md");
+	var_dump($menu_file);
+}
+
+
+if(PHP_PAGE == "views.php" || PHP_PAGE == "settings.php"){
+
+
+$topmenu[] = [
+"text" => "Settings",
+"icon" => "glyphicon-wrench",
+"link" => "settings.php"
+];
+
+$topmenu[] = [
+"text" => t("Logout")." (".$currentUser->name().")",
+"icon" => "glyphicon-user",
+"link" => "index.php?logout"
+];
+
+$topmenu_selected = [
+"text" => "Settings",
+"icon" => "glyphicon-wrench"
+];
+
+
+
+}
+
+}
+
+
+
+
+$tpl->assign("topmenu_selected",$topmenu_selected);
+$tpl->assign("topmenu",$topmenu);
+$tpl->draw(CORE_VIEWS."menu/top"); //Display core/templates/topmenu.html
+?>

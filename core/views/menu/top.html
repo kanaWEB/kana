@@ -1,0 +1,24 @@
+
+
+<!-- core/templates/topmenu.html -->
+
+<div id="top-nav" class="navbar navbar-static-top navbar-inverse navbar-default" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				 <span class="icon-bar"></span>
+				 <span class="icon-bar"></span>
+				 <span class="icon-bar"></span>
+			</button>
+			<p class="navbar-brand visible-xs"><i class="glyphicon {$topmenu_selected.icon}"></i> {$topmenu_selected.text|t}</p>
+		</div>
+
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+			{loop="topmenu"}
+				<li {if="$topmenu_selected.text==$value.text"}class="active"{/if}><a href="{$value.link}"><i class="glyphicon {$value.icon}"></i> {$value.text|t}</a></li>
+			{/loop}
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</div>

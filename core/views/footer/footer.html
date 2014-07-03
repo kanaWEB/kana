@@ -1,0 +1,35 @@
+
+
+<!-- core/templates/footer.html -->
+
+ </div>
+</div>
+</div>
+
+<script type="text/javascript" src="core/libraries/dependancies/jquery/js/jquery.min.js"></script>
+<script type="text/javascript" src="core/libraries/dependancies/jquery/js/jquery.noty.packaged.min.js"></script>
+
+<script type="text/javascript" src="core/libraries/dependancies/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="core/libraries/dependancies/bootstrap/js/validator.min.js"></script>
+
+{loop="js"}
+<script type="text/javascript" src="{$value}"></script>
+{/loop}
+
+<script type="text/javascript" src="core/views/footer/notification.js"></script>
+<script type="text/javascript" src="core/views/footer/onload.js"></script>
+
+{if="$error_message"}
+<script>
+	error = "{$error_message}"
+</script>
+{/if}
+
+{if="$notice_message"}
+<script>
+	notice = "{$notice_message}"
+</script>
+{/if}
+
+</body>
+</html>

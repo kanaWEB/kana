@@ -19,15 +19,15 @@ if($currentUser->isadmin()){
 //SETTING FORM
 	else
 	{	//Header
-		include("core/header.inc");
-		include("core/topmenu.inc");
-		include("core/leftmenu.inc");
+		include(CORE_VIEWS."header/header.data");
+		include(CORE_VIEWS."menu/top.data");
+		include(CORE_VIEWS."menu/left.data");
 		//Form
-		include("core/functions/Form.class.php");
+		include(CORE_VIEWS."forms/Form.class.php");
 		//Page
-		include("core/forms/settings/".$leftmenu_active.".form.inc");
+		include("core/forms/settings/".$leftmenu_active.".form");
 		//Footer
-		include("core/footer.inc");
+		include(CORE_VIEWS."footer/footer.data");
 	}
 }
 ?>

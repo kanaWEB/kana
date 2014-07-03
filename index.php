@@ -4,11 +4,11 @@ if(REINSTALL){unlink(DATABASE);redirect("install");}
 
 if(DB_EXISTS){
 	if(isset($_["logout"]) || isset($_["submit"])){
-		include("core/posts/login.post.inc"); //Load Post
+		include("core/forms/index.post"); //Load Post
 	}
 	else
 	{
-		include("core/forms/login.form.inc"); //Load Form
+		include("core/forms/index.form"); //Load Form
 	}		
 }
 else{

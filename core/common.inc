@@ -4,21 +4,21 @@
  * 
 **/
 session_start();
-include("config.inc"); //Global Constants
+include("constants.inc"); //Global Constants
 
 /*
 LOAD FUNCTIONS
 */
 //Add core functionalities
-include("functions/SQLiteEntity.class.php"); //SQL manager
-include("functions/Functions.class.php"); //DEPRECATED FUNCTIONALITY
-include("functions/Users.class.php"); //User Class
-include("functions/Theme.class.php"); //Theme Class
+include("schema/Entity.class.php"); //SQL manager
+include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY
+include("schema/Users/Users.class.php"); //User Class
+include("schema/Config/Theme.class.php"); //Theme Class
 
-include("functions/Redirect.php"); //Redirection manager
+include("libraries/Redirect.php"); //Redirection manager
 
 if(DEBUG){
-include("functions/Debug.php"); //Debug 
+include("libraries/Debug.php"); //Debug 
 }
 /*
 
@@ -75,6 +75,6 @@ else{
 $_ = array_map('Functions::secure',array_merge($_POST,$_GET));
 
 //We need the configuration to manage local
-include("functions/Locale.php"); //Load internationalization
+include("libraries/Locale.php"); //Load internationalization
 
 ?>
