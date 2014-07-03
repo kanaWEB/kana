@@ -14,7 +14,7 @@ if($currentUser->isadmin()){
 
 //POST SETTING
 	if(isset($_["submit"])){
-		include("core/posts/settings/".$leftmenu_active.".post.inc");
+		include("core/forms/settings/".$leftmenu_active.".post");
 	}
 //SETTING FORM
 	else

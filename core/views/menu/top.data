@@ -2,41 +2,56 @@
 //Default topmenu (can be override to display a custom menu)
 if(!isset($topmenu)){
 
-//Display custom views
-$user_views = scandir(USER_VIEWS);
-array_shift($user_views);
-array_shift($user_views);
-var_dump($user_views);
 
-foreach($user_views as $user_view){
-	$menu_file = file(USER_VIEWS."/".$user_view."/menu.md");
-	var_dump($menu_file);
-}
+	if(PHP_PAGE == "views.php" || PHP_PAGE == "settings.php"){
+//Display user views menu
+		
+		//Get list of plugins/views
+		$user_views = Functions::getdir(USER_VIEWS);
+		foreach($user_views as $user_view){
+			//Get View language
+			$lang_view = add_language(USER_VIEWS."/".$user_view);
+			$lang = array_merge($lang,$lang_view);
+			
+			$menu_file = file(USER_VIEWS."/".$user_view."/menu.md");
+			$menu_data = explode("|",$menu_file[2]);
 
+			if(isset($_["view"]) && $_["view"] == $user_view ){
+				$topmenu_selected = [
+				"text" => $menu_data[1],
+				"icon" => $menu_data[0]
+				];
+			}
 
-if(PHP_PAGE == "views.php" || PHP_PAGE == "settings.php"){
+			$topmenu[] = [
+			"text" => $menu_data[1],
+			"icon" => $menu_data[0],
+			"link" => "views.php?view=".$user_view
+			];
+		}
 
+		if(PHP_PAGE == "settings.php"){
+			$topmenu_selected = [
+			"text" => "Settings",
+			"icon" => "glyphicon-wrench"
+			];
+		}
 
-$topmenu[] = [
-"text" => "Settings",
-"icon" => "glyphicon-wrench",
-"link" => "settings.php"
-];
+//Default views
 
-$topmenu[] = [
-"text" => t("Logout")." (".$currentUser->name().")",
-"icon" => "glyphicon-user",
-"link" => "index.php?logout"
-];
+//Display 
+		$topmenu[] = [
+		"text" => "Settings",
+		"icon" => "glyphicon-wrench",
+		"link" => "settings.php"
+		];
 
-$topmenu_selected = [
-"text" => "Settings",
-"icon" => "glyphicon-wrench"
-];
-
-
-
-}
+		$topmenu[] = [
+		"text" => t("Logout")." (".$currentUser->name().")",
+		"icon" => "glyphicon-user",
+		"link" => "index.php?logout"
+		];
+	}
 
 }
 

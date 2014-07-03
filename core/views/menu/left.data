@@ -1,11 +1,5 @@
 <?php
 $leftmenu[] = [
-"text" => "System",
-"icon" => "glyphicon-info-sign",
-"link" => "sys"
-];
-
-$leftmenu[] = [
 "text" => "Preferences",
 "icon" => "glyphicon-cog",
 "link" => "pref"

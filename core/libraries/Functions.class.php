@@ -412,7 +412,7 @@ public static function listener_warning($objectManager){
 
 //Check if trigger database is consistent (when you modified a specific object)
 public static function update_triggers($id,$uid,$db){
-		
+
 }
 
 //Send a message to a socket
@@ -654,12 +654,21 @@ public static function ajax_notify($text,$type){
 	echo $type." !::! ".t($text);
 }
 
+//Get directory in an array without . and ..
+public static function getdir($dir){
+	//Display custom views
+	$dir = scandir(USER_VIEWS);
+	array_shift($dir);
+	array_shift($dir);
+	return $dir;
+}
+
 //Strip all accentuate characters
 public static function remove_accents($str, $charset='utf-8')
 {
-	 $str = htmlentities($str, ENT_NOQUOTES, $charset);
-    
-    $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+	$str = htmlentities($str, ENT_NOQUOTES, $charset);
+
+	$str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // for ligature e.g. '&oelig;'
     $str = preg_replace('#&[^;]+;#', '', $str); // delete other characters
     

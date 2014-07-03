@@ -1,2 +1,3 @@
-* Name : System
-* Icon : glyphicons-info
+icon               |text
+-------------------|---
+glyphicon-info-sign|System

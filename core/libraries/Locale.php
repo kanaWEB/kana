@@ -22,7 +22,6 @@ HTML:
 */
 
 /*LIST OF LANGUAGE SUPPORT */
-
 //If Language session variable is not set, search it inside the database
 if (!DB_EXISTS){
 	$_SESSION["LANGUAGE"] = get_lang();
@@ -35,10 +34,31 @@ else
 
 //Loading Core Translation
 global $lang;
-if (file_exists("plugins/lang/".$_SESSION["LANGUAGE"].".php"))
+$lang = add_language("plugins");
+
+
+
+
+
+
+
+
+function add_language($dir){
+$lang_php = $dir."/"."language/".$_SESSION["LANGUAGE"]."/".$_SESSION["LANGUAGE"].".php";
+if (file_exists($lang_php))
 {
-	require("plugins/lang/".$_SESSION["LANGUAGE"].".php");
+	include($lang_php);
 }
+else{
+$lang = false;
+}
+return $lang;
+}
+
+
+//Loading others
+
+
 
 /* ----------------------- */
 /*
@@ -73,11 +93,11 @@ function get_langlist(){
 	$lang_file = file("core/libraries/Locale.txt");
 	
 	foreach($lang_file as $language_available){
-	$lang_line = explode(" ",$language_available);
-	$lang_list[] = [
-	"value" => $lang_line[0],
-	"text" => trim($lang_line[1])
-	];
+		$lang_line = explode(" ",$language_available);
+		$lang_list[] = [
+		"value" => $lang_line[0],
+		"text" => trim($lang_line[1])
+		];
 	}
 	return $lang_list;
 }

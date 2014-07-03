@@ -7,7 +7,7 @@
 define('CORE_VIEWS',"core/views/");
 define('CORE_SCHEMA',"core/schema/");
 
-define('USER_THEME',"plugins/theme");
+define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views");
 define('LANGUAGE',"plugins/language");
 
@@ -38,4 +38,5 @@ define('INSTALL_THEME',"bootstrap");
 
 //MENU
 define('DEFAULT_MENU_SETTINGS',"pref")
+
 ?>

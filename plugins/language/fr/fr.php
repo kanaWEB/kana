@@ -29,7 +29,8 @@ $lang["Send"] = "Envoyer";
 
 //Default Settings Menu
 $lang["Preferences"] = "Préférences";
-$lang["System"] = "Système";
 $lang["Users"] = "Utilisateurs";
-$lang["Preferences saved"] = "Préférences sauvegardé";
+$lang["Preferences saved"] = "Préférences sauvegardés";
+$lang["General"] = "Général";
+$lang["Theme"] = "Thème";
 ?>
