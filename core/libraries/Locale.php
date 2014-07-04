@@ -37,12 +37,6 @@ global $lang;
 $lang = add_language("plugins");
 
 
-
-
-
-
-
-
 function add_language($dir){
 $lang_php = $dir."/"."language/".$_SESSION["LANGUAGE"]."/".$_SESSION["LANGUAGE"].".php";
 if (file_exists($lang_php))
@@ -90,13 +84,20 @@ function t($val)
 }
 
 function get_langlist(){
-	$lang_file = file("core/libraries/Locale.txt");
-	
-	foreach($lang_file as $language_available){
-		$lang_line = explode(" ",$language_available);
+	$lang_list[] = [
+	"value" => "en",
+	"text" => "English"
+	];
+
+	$lang_files = Functions::getdir("plugins/language");
+	var_dump($lang_files);
+	foreach($lang_files as $lang_file){
+		$lang_file = file("plugins/language/".$lang_file."/readme.md");
+		$lang_line = explode("|",$lang_file[4]);
+		var_dump($lang_line);
 		$lang_list[] = [
-		"value" => $lang_line[0],
-		"text" => trim($lang_line[1])
+		"value" => $lang_file,
+		"text" => $lang_line[1]
 		];
 	}
 	return $lang_list;

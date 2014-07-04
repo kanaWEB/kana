@@ -657,7 +657,7 @@ public static function ajax_notify($text,$type){
 //Get directory in an array without . and ..
 public static function getdir($dir){
 	//Display custom views
-	$dir = scandir(USER_VIEWS);
+	$dir = scandir($dir);
 	array_shift($dir);
 	array_shift($dir);
 	return $dir;
