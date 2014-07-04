@@ -1,50 +1,37 @@
 <?php
-
-$block = [
+$blocks[0] = [
 "name" => "Hardware",
 "icon" => "glyphicon-tasks"
 ];
 
-$tpl->assign("block",$block);
-
-//COL1
-$tpl->draw(CORE_VIEWS."grids/block/open");
-
-$tpl->draw(CORE_VIEWS."table/open");
-	$tpl->draw(CORE_VIEWS."table/row/open");
-
-		$tpl->draw(CORE_VIEWS."table/cell/open");
-
-		$tpl->draw(CORE_VIEWS."table/cell/close");
-
-		$tpl->draw(CORE_VIEWS."table/cell/open");
-
-		$tpl->draw(CORE_VIEWS."table/cell/close");
-
-	$tpl->draw(CORE_VIEWS."table/row/close");
-
-$tpl->draw(CORE_VIEWS."table/close");
-
-$tpl->draw(CORE_VIEWS."grids/block/close");
-
-$block = [
-"name" => "Disks",
-"icon" => "glyphicon-hdd"
+$blocks[0]["row"][0]["name"] = [
+"text" => t("Name"),
+"icon" => "glyphicon-tag"
 ];
-$tpl->assign("block",$block);
-//COL2
-$tpl->draw(CORE_VIEWS."grids/block/open");
-$tpl->draw(CORE_VIEWS."grids/block/close");
 
-$block = [
-"name" => "Network",
-"icon" => "glyphicon-stats"
+include($data_path."hostname.data");
+$blocks[0]["row"][0]["data"] = [
+"type" => "text/h2",
+"text" => $data,
+"label" => "label label-info"
 ];
-$tpl->assign("block",$block);
 
-//COL3
-$tpl->draw(CORE_VIEWS."grids/block/open");
-$tpl->draw(CORE_VIEWS."grids/block/close");
+$blocks[0]["row"][1]["name"] = [
+"type" => "text/h2",
+"text" => t("Name"),
+"icon" => "glyphicon-tag"
+];
+
+include($data_path."cpu.data");
+$blocks[0]["row"][1]["data"] = [
+"type" => "text/h2",
+"text" => $data,
+"label" => "label label-info"
+];
+
+var_dump($data);
+
+include(CORE_VIEWS."complex/columns_data.data");
 
 
 ?>

@@ -33,4 +33,6 @@ $lang["Users"] = "Utilisateurs";
 $lang["Preferences saved"] = "Préférences sauvegardés";
 $lang["General"] = "Général";
 $lang["Theme"] = "Thème";
+
+$lang["Name"] = "Nom";
 ?>

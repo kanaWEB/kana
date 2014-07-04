@@ -1,0 +1,17 @@
+<h4>
+	{if="isset($text.label)"}
+		<span class="{$text.label}">
+	{/if}
+
+	{if="isset($text.icon)"}
+		<i class="glyphicon {$text.icon}"></i>
+	{/if}
+
+	{$text.text}
+
+	{if="isset($text.label)"}
+		</span>
+	{/if}
+
+	
+</h4>

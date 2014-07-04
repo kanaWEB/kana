@@ -10,8 +10,12 @@ if(!isset($topmenu)){
 		$user_views = Functions::getdir(USER_VIEWS);
 		foreach($user_views as $user_view){
 			//Get View language
+			
 			$lang_view = add_language(USER_VIEWS."/".$user_view);
-			$lang = array_merge($lang,$lang_view);
+			if(is_array($lang) && is_array($lang_view)){
+				$lang = array_merge($lang,$lang_view);
+			}
+			
 			
 			$menu_file = file(USER_VIEWS."/".$user_view."/menu.md");
 			$menu_data = explode("|",$menu_file[2]);

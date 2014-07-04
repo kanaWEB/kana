@@ -90,16 +90,17 @@ function get_langlist(){
 	];
 
 	$lang_files = Functions::getdir("plugins/language");
-	var_dump($lang_files);
-	foreach($lang_files as $lang_file){
-		$lang_file = file("plugins/language/".$lang_file."/readme.md");
+	
+	foreach($lang_files as $lang_filename){
+		$lang_file = file("plugins/language/".$lang_filename."/readme.md");
 		$lang_line = explode("|",$lang_file[4]);
-		var_dump($lang_line);
+
 		$lang_list[] = [
-		"value" => $lang_file,
+		"value" => $lang_filename,
 		"text" => $lang_line[1]
 		];
 	}
+
 	return $lang_list;
 }
 

@@ -6,8 +6,10 @@ if($currentUser->isuser()){
 	include("core/views/header/header.data");
 
 	if(isset($_["view"])){
-	$view_dir = USER_VIEWS."/".$_["view"];
-	if(file_exists($view_dir."/view")){
+	$view_name = "/".$_["view"]."/";
+	$view_dir = USER_VIEWS.$view_name;
+	$data_path = USER_DATAS.$view_name;
+	if(file_exists($view_dir."view")){
 		include("core/views/menu/top.data");
 		include($view_dir."/view");
 	}

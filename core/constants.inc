@@ -9,6 +9,7 @@ define('CORE_SCHEMA',"core/schema/");
 
 define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views");
+define('USER_DATAS',"plugins/datas/");
 define('LANGUAGE',"plugins/language");
 
 //RAINTPL
