@@ -1,0 +1,7 @@
+<div class="col-md-1">
+	<div class="btn-group">
+		{loop="buttons"}
+		<button type="button" onclick="{$value.onclick}()" id="{$value.onclick}" class="btn {$value.class}"><i class="glyphicon {$value.icon}"></i></button>
+		{/loop}
+	</div>
+</div>

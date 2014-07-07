@@ -11,6 +11,7 @@ LOAD FUNCTIONS
 */
 //Add core functionalities
 include("schema/Entity.class.php"); //SQL manager
+
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY
 include("schema/Users/Users.class.php"); //User Class
 include("schema/Config/Theme.class.php"); //Theme Class

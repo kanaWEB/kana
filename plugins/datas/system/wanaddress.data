@@ -1,0 +1,16 @@
+ <?php
+ $ip = Functions::loadUrl('http://whatismyip.akamai.com');
+ if(filter_var($ip, FILTER_VALIDATE_IP) === false)
+ 	$ip = Functions::loadUrl('http://ipecho.net/plain');
+ if(filter_var($ip, FILTER_VALIDATE_IP) === false)
+ 	return 'Unavailable';
+$data = $ip;
+
+//AJAX DATA
+ if(isset($_["data_id"])){
+  $data_json["data_id"] = $_["data_id"];
+  $data_json["data"] = $data;
+  $data_json["label"] = "info";
+  echo json_encode($data_json);
+ }
+?>

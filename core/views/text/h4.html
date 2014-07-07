@@ -1,0 +1,8 @@
+{if="isset($text.ajax)"}<div id="{$text.ajax_link}" class="{if="isset($text.label)"}label-ajax{/if} {$text.ajax}">{/if}
+<h4>
+	{if="isset($text.label)"}<span {if="isset($text.id)"}id="{$text.id}"{/if} class="{$text.label}">{/if}
+	{if="isset($text.icon)"}<i class="glyphicon {$text.icon}"></i>{/if}
+	{$text.text}
+	{if="isset($text.label)"}</span>{/if}
+</h4>
+{if="isset($text.ajax)"}</div>{/if}

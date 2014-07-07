@@ -1,0 +1,16 @@
+<?php
+
+$uptime = shell_exec("cat /proc/uptime");
+$uptime = explode(" ", $uptime);
+$data = Functions::readableTime($uptime[0]);
+$label_color = "info";
+
+//AJAX DATA
+ if(isset($_["data_id"])){
+  $data_json["data_id"] = $_["data_id"];
+  $data_json["data"] = $data;
+  $data_json["label"] = $label_color;
+  echo json_encode($data_json);
+}
+
+?>

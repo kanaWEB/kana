@@ -103,7 +103,6 @@ input[type=submit] {
 }
 input[type=text], input[type=password], textarea {
   color:#fff;
-  background: #555;
   font-size: 13px;
   display: block;
   width: 100%;
@@ -127,10 +126,51 @@ textarea {
 
 
 
-
 .progress-bar {
   background-color: #b2c831;
 }
+
+.progress-bar-info {
+background-color: #326574;
+background-image: none;
+}
+
+.progress-bar-success {
+background-color: #468847;
+background-image: none;
+}
+
+.progress-bar-warning {
+}
+
+.progress-bar-danger {
+background-color: #e74c3c;
+background-image: none;
+}
+
+.progress {
+  position: relative;
+  background-color: #3D3C3C;
+}
+
+.progress-bar {
+  color: black;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+}
+
+.progress-label {
+  position: relative;
+    color: black;
+    top:-15px;
+}
+
+
 
 .alert-success {
 color: #468847;
@@ -151,3 +191,29 @@ background-color: #d9edf7;
 border-color: #bce8f1;
 }
 
+.form-control {
+  background-color: #696868;
+  border: 1px solid #706F6F;
+  color: black;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: #313131;
+
+}
+
+.table tbody tr td, .table tbody tr th {
+    border: solid #313131 1px;
+}
+
+.label-info {
+background-color: #326574;
+}
+
+.label-success {
+  background-color: #468847;
+}
+
+.label-danger {
+  background-color:#e74c3c;
+}

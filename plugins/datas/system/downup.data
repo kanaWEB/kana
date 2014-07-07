@@ -1,0 +1,30 @@
+<?php
+
+$ifconfig = str_ireplace(array("TX bytes:","RX bytes:"), "",shell_exec("/sbin/ifconfig eth0 | grep RX\ bytes"));
+$ifconfig =  explode(" ", trim($ifconfig));
+
+$up = round($ifconfig[4] / 1024 / 1024,2);
+$down = round($ifconfig[0] / 1024 / 1024,2);
+
+$label_color = "info";
+
+$datas[] =  [
+	'name' => "upload",
+	'text' => $up,
+	'label' => "info"
+];
+
+$datas[] =  [
+	'name' => "download",
+	'text' => $down,
+	'label' => "info"
+];
+
+if(isset($_["data_id"])){
+	$datas["data_id"] = $_["data_id"];
+	$json = json_encode($datas);
+	echo $json;
+}
+
+
+?>

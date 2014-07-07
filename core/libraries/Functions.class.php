@@ -675,5 +675,68 @@ public static function remove_accents($str, $charset='utf-8')
     return $str;
 }
 
+ public static function loadUrl($url){
+      if(function_exists('curl_init')){
+          $curl = curl_init();
+          curl_setopt($curl, CURLOPT_URL, $url);
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+          $content = curl_exec($curl);
+          curl_close($curl);
+          return trim($content);
+      }elseif(function_exists('file_get_contents')){
+          return trim(file_get_contents($url));
+      }else{
+          return false;
+      }
+  }
+
+
+
+ public static function readableTime($seconds) {
+    $y = floor($seconds / 60/60/24/365);
+    $d = floor($seconds / 60/60/24) % 365;
+    $h = floor(($seconds / 3600) % 24);
+    $m = floor(($seconds / 60) % 60);
+    $s = $seconds % 60;
+
+    $string = '';
+   
+    if ($y > 0) {
+      $years = t("years");
+   	  $year = t("year");
+      $yw = $y > 1 ? ' '.$years.' ' : ' '.$year.' ';
+      $string .= $y . $yw;
+    }
+
+    if ($d > 0) {
+      $day = t("day");
+      $days = t("days");
+      $dw = $d > 1 ? ' days ' : ' day ';
+      $string .= $d . $dw;
+    }
+
+    if ($h > 0) {
+      $hours = t("hours");
+   	  $hour = t("hour");
+      $hw = $h > 1 ? ' '.$hours.' ' : ' '.$hour.' ';
+      $string .= $h . $hw;
+    }
+
+    if ($m > 0) {
+      $minutes = t("minutes");
+      $minute = t("minute");
+      $mw = $m > 1 ? ' '.$minutes.' ' : ' '.$minute.' ';
+      $string .= $m . $mw;
+    }
+
+    if ($s > 0) {
+     $seconds = t("seconds");
+     $second = t("second");
+     $sw = $s > 1 ? ' '.$seconds.' ' : ' '.$second.' ';
+     $string .= $s . $sw;
+    }
+
+    return preg_replace('/\s+/', ' ', $string);
+  }
 }
 ?>

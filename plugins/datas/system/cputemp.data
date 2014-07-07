@@ -1,0 +1,26 @@
+<?php
+$data = round(file_get_contents("/sys/class/thermal/thermal_zone0/temp") / 1000,1);
+
+    //OK
+if ($data < 55){
+  $label_color = "success";
+}
+
+    //WARNING
+if (($data >= 55) && ($data < 70)) {
+  $label_color = "warning";
+}
+
+    //DANGER
+if ($data >= 70) {
+  $label_color = "danger";
+}
+
+//AJAX DATA
+ if(isset($_["data_id"])){
+  $data_json["data_id"] = $_["data_id"];
+  $data_json["data"] = $data;
+  $data_json["label"] = $label_color;
+  echo json_encode($data_json);
+ }
+?>

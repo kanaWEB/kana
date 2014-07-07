@@ -1,20 +1,4 @@
-//Cast a shadow before unload to tell the user the page is loading
- $(window).on('beforeunload', function(){
- 	$("body").append($("<div>").css({
- 		position: "fixed"
- 		,width: "100%"
- 		,height: "100%"
- 		,"background-color": "#000"
- 		,opacity: 0.6
- 		,"z-index": 999
- 		,top: 0
- 		,left: 0
- 	}).attr("id","page-cover"));
-
- });
-
-
-//check update
+//check for notification and ajax request
 $(document).ready(function(){
 	//maj();
 	if (typeof error !== 'undefined') {
@@ -23,6 +7,13 @@ $(document).ready(function(){
 	if (typeof notice !== 'undefined') {
 		notification(notice,"success");
 	}
-	//get_dash_infos();
-
+/*
+setInterval(function(){
+if ( $( ".ajax_onload" ).length ) {
+		console.log("AJAX ONLOAD----------------")
+		ajax_onload("progressbar",".progress-bar");
+		ajax_onload("label","span");
+}
+},1000);
+*/
 });

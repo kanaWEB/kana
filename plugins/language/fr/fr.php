@@ -35,4 +35,14 @@ $lang["General"] = "Général";
 $lang["Theme"] = "Thème";
 
 $lang["Name"] = "Nom";
+
+//Time
+$lang["year"] = "an";
+$lang["years"] = "ans";
+$lang["hours"] = "heures";
+$lang["hour"] = "heure";
+$lang["minutes"] = "minutes";
+$lang["minute"] = "minute";
+$lang["seconds"] = "secondes";
+$lang["second"] = "seconde";
 ?>

@@ -1,0 +1,14 @@
+<?php
+$blocks[$nb]["row"][$tr]["name"] = [
+"type" => "text/h4",
+"text" => t("Uptime"),
+"icon" => "glyphicon-tag"
+];
+
+include($data_path."uptime.data");
+$blocks[$nb]["row"][$tr]["data"] = [
+"type" => "text/h4",
+"text" => $data,
+"label" => $label_color
+];
+?>

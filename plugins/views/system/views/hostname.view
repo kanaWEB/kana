@@ -1,0 +1,16 @@
+<?php
+$blocks[$nb]["row"][$tr]["name"] = [
+"type" => "text/h4",
+"text" => t("Name"),
+"icon" => "glyphicon-tag"
+];
+
+include($data_path."hostname.data");
+$blocks[$nb]["row"][$tr]["data"] = [
+"type" => "text/h4",
+"text" => $data,
+"label" => "label label-info"
+];
+
+
+?>

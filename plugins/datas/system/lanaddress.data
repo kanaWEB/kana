@@ -1,5 +1,5 @@
 <?php
-$data = gethostname();
+$data = $_SERVER['SERVER_ADDR'];
 
 //AJAX DATA
  if(isset($_["data_id"])){
@@ -8,5 +8,4 @@ $data = gethostname();
   $data_json["label"] = "info";
   echo json_encode($data_json);
  }
-
 ?>

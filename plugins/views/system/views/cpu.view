@@ -1,0 +1,16 @@
+<?php
+$blocks[$nb]["row"][$tr]["name"] = [
+"type" => "text/h4",
+"text" => t("CPU load"),
+"icon" => "glyphicon-dashboard"
+];
+
+$blocks[$nb]["row"][$tr]["data"] = [
+"id" => "cpu",
+"ajax" => "ajax_refresh",
+"ajax_link" => "system/cpu",
+"type" => "progressbars/percent",
+"text" => "...",
+"label" => ""
+];
+?>

@@ -1,4 +1,8 @@
 <?php
+if($ajax_buttons){
+	$tpl->assign("buttons",$ajax_buttons);
+	$tpl->draw(CORE_VIEWS."buttons/button_group");
+}
 foreach($blocks as $key => $block){
 	$tpl->assign("block",$block);
 	$tpl->draw(CORE_VIEWS."grids/block/open");
@@ -9,13 +13,17 @@ foreach($blocks as $key => $block){
 		$tpl->draw(CORE_VIEWS."table/row/open");
 
 		$tpl->draw(CORE_VIEWS."table/cell/open");
+		
 		$tpl->assign("text",$row["name"]);
-		$tpl->draw(CORE_VIEWS.$row["data"]["type"]);
+		$tpl->draw(CORE_VIEWS.$row["name"]["type"]);
+
 		$tpl->draw(CORE_VIEWS."table/cell/close");
 
 		$tpl->draw(CORE_VIEWS."table/cell/open");
+		$tpl->draw(CORE_VIEWS."grids/center/open");
 		$tpl->assign("text",$row["data"]);
 		$tpl->draw(CORE_VIEWS.$row["data"]["type"]);
+		$tpl->draw(CORE_VIEWS."grids/center/close");
 		$tpl->draw(CORE_VIEWS."table/cell/close");
 		$tpl->draw(CORE_VIEWS."table/row/close");
 	}

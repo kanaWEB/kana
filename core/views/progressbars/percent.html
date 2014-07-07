@@ -1,0 +1,7 @@
+{if="isset($text.ajax)"}<div id="{$text.ajax_link}" class="progressbar-ajax {$text.ajax}">{/if}
+<div class="progress">
+  <div {if="isset($text.id)"}id="{$text.id}"{/if} class="progress-bar {$text.label} active" role="progressbar" aria-valuenow="{$text.text}" aria-valuemin="0" aria-valuemax="100">
+    <span>{$text.text}%</span>
+  </div>
+</div>
+{if="isset($text.ajax)"}</div>{/if}

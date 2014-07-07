@@ -1,6 +1,6 @@
 //AJAX Notification (in yellow)
 function ajax_notify(data){
-	console.log(data);
+	//console.log(data);
 	text = data.split("!::!");
 
 	if (text.length == 1){

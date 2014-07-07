@@ -1,0 +1,17 @@
+<?php
+$blocks[$nb]["row"][$tr]["name"] = [
+"type" => "text/h4",
+"text" => t("CPU Temp"),
+"icon" => "glyphicon-fire"
+];
+
+$blocks[$nb]["row"][$tr]["data"] = [
+"id" => "cputemp",
+"ajax" => "ajax_refresh",
+"ajax_link" => "system/cputemp",
+"type" => "text/h4",
+"label" => "label",
+"text" => "...",
+"label" => ""
+];
+?>
