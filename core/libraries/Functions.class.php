@@ -739,4 +739,5 @@ public static function remove_accents($str, $charset='utf-8')
     return preg_replace('/\s+/', ' ', $string);
   }
 }
+
 ?>

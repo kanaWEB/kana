@@ -8,9 +8,12 @@ define('CORE_VIEWS',"core/views/");
 define('CORE_SCHEMA',"core/schema/");
 
 define('USER_THEME',"plugins/theme/");
-define('USER_VIEWS',"plugins/views");
+define('USER_VIEWS',"plugins/views/");
 define('USER_DATAS',"plugins/datas/");
-define('LANGUAGE',"plugins/language");
+define('USER_PROJECTS',"plugins/projects/");
+define('USER_OBJECTS',"plugins/objects/");
+define('USER_ELEC',"plugins/electronics/");
+define('LANGUAGE',"plugins/language/");
 
 //RAINTPL
 define('CACHE_DIR',"cache/");
@@ -21,6 +24,7 @@ define('APP_NAME',"KANA");
 define('VERSION',"0.01");
 define('APP_STATE',"ALPHA");
 define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
+
 
 //DATABASE
 define('DATABASE','/etc/kana/kana.db');

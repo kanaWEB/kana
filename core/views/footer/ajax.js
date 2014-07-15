@@ -1,21 +1,40 @@
+disable_ajaxbuttons(false,false,true);
 function ajax_play(){
+	ajax_start()
+	disable_ajaxbuttons(true,false,true);
+	change_colorbuttons("#ajax_refresh","btn-danger","btn-default");
+}
+
+function ajax_refresh(){
+	ajax_refresh_timer = setInterval(function(){
+		ajax_start();
+	},5000);
+	disable_ajaxbuttons(true,true,false);
+	change_colorbuttons("#ajax_refresh","btn-default","btn-danger");
+}
+
+function ajax_stop(){
+	clearInterval(ajax_refresh_timer);
+	change_colorbuttons("#ajax_refresh","btn-danger","btn-default");
+	disable_ajaxbuttons(true,false,true);
+}
+
+function disable_ajaxbuttons(play,refresh,stop){
+	$("#ajax_play").attr("disabled",play);
+	$("#ajax_refresh").attr("disabled",refresh);
+	$("#ajax_stop").attr("disabled",stop);
+}
+
+function change_colorbuttons(id,oldclass,newclass){
+	$(id).removeClass(oldclass);
+	$(id).addClass(newclass);
+}
+
+function ajax_start(){
 	ajax_update("progressbar",".progress-bar");
 	ajax_update("label","span");
 }
 
-function ajax_refresh(){
-ajax_refresh = setInterval(function(){
-ajax_play();
-},5000);
-$("#ajax_play").attr("disabled",true);
-$("#ajax_refresh").attr("disabled",true);
-}
-
-function ajax_stop(){
-clearInterval(ajax_refresh);
-$("#ajax_play").attr("disabled",false);
-$("#ajax_refresh").attr("disabled",false);
-}
 
 function ajax_update(view_type,view_obj){
 	$("."+view_type+"-ajax").each(function(){
@@ -26,7 +45,7 @@ function ajax_update(view_type,view_obj){
 		$.ajax({
 			url: "actions.php",
 			dataType: "json",
-			data: {action: "ajax", data: data_link , data_id: data_id}
+			data: {action: "data", data: data_link , data_id: data_id}
 		}).done(function ( data ) {
 			if(view_type == "progressbar"){
 				update_progressbar(data);
@@ -41,14 +60,12 @@ function ajax_update(view_type,view_obj){
 
 function update_progressbar(data){
 	console.log(data);
-
 	progressbar = $("#" + data.data_id);
 	progressbar.removeClass();
 	progressbar.addClass("progress-bar progress-bar-"+data.label);
 	progressbar.attr("aria_valuenow",data.data);
 	progressbar.css("width",data.data + "%");
 	progressbar.html("<span>"+data.data + "%</span>");
-
 }
 
 function update_label(data){

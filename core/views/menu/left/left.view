@@ -1,0 +1,104 @@
+<?php
+//Left menu is only visible inside settings.php
+$tpl->assign("leftmenu_active",$leftmenu_active); //As set inside settings.php
+
+/*
+Category General
+*/
+
+$tpl->draw(CORE_VIEWS."menu/left/open");
+
+/*
+
+General
+
+ */
+$category = [
+"text" => "General"
+];
+$tpl->assign("category",$category);
+
+		//Preferences item
+$leftmenu[] = [
+"text" => "Preferences",
+"icon" => "glyphicon-cog",
+"link" => "pref"
+];
+
+		//Users item
+$leftmenu[] = [
+"text" => "Users",
+"icon" => "glyphicon-user",
+"link" => "users"
+];
+$tpl->assign("leftmenu",$leftmenu);
+$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
+unset($leftmenu);
+
+/*
+
+Electronics
+
+ */
+
+$category = [
+"text" => "Electronics",
+"link" => "electronics"
+];
+$tpl->assign("leftmenu",false);
+
+$tpl->assign("category",$category);
+$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
+
+/*
+
+Objects
+
+*/
+$objects = Functions::getdir(USER_OBJECTS);
+//@todo check if there is a projects
+
+$category = [
+"text" => "Objects",
+"link" => "Objects"
+];
+$tpl->assign("category",$category);
+
+foreach($objects as $object){
+	$object_dir = USER_OBJECTS.$object;
+
+	//Check if projects directory exists
+	if(is_dir($object_dir)){
+		
+		//Check for menu translation
+		$translated_menu_dir = $object_dir."/md/menu.".$_SESSION["LANGUAGE"].".md";
+
+		if(file_exists($translated_menu_dir)){
+			$menu_filepath = $translated_menu_dir;
+		}
+		else{
+		//If no translation check for menu 
+			if(file_exists($object_dir."/md/menu.md")){
+				$menu_filepath = $object_dir."/md/menu.md";
+			}
+		}
+		//If the menu exists generate it
+		if(isset($menu_filepath)){
+			$menu_file = file($menu_filepath); 
+			$menu_data = explode("|",$menu_file[2]);
+			$leftmenu[] = [
+			"text" => $menu_data[1],
+			"icon" => $menu_data[0],
+			"link" => "objects&name=".$object,
+			"label" => "label-danger",
+			"state" => "glyphicon-remove"
+			];
+			$tpl->assign("leftmenu",$leftmenu);
+			$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
+		}
+	}
+}
+
+
+$tpl->draw(CORE_VIEWS."menu/left/close");
+?>

@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs" role="tablist">
+  {loop="$navtab_items"}
+  <li {if="$navtab_item_selected==$value.link"}class="active"{/if}><a href="{$value.link}">{$value.text}</a></li>
+  {/loop}
+</ul>

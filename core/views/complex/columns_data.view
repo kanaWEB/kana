@@ -1,4 +1,7 @@
 <?php
+/*
+Colums data use blocks and table
+ */
 if($ajax_buttons){
 	$tpl->assign("buttons",$ajax_buttons);
 	$tpl->draw(CORE_VIEWS."buttons/button_group");

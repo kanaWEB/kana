@@ -1,4 +1,5 @@
-Type   |View
+Name   |System
 -------|----
-Version|0.1
-repo   |https://github.com/madnerds/kana-views-system
+Type   |View
+Repo   |madnerds
+Version|1.0

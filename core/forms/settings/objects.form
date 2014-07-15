@@ -1,0 +1,58 @@
+<?php
+if(isset($_["name"])){
+	$object_name = $_["name"];
+	$tpl->assign("text",$object_name);
+	$tpl->draw(CORE_VIEWS."text/h1");
+
+	$link_begin = "settings.php?menu=objects&name=".$object_name."&tab=";
+
+	$navtab_items[] = [
+	"text" => "Add/Remove",
+	"link" => $link_begin."add-remove"
+	];
+
+	$navtab_items[] = [
+	"text" => "Actions",
+	"link" => $link_begin."actions"
+	];
+
+	$navtab_items[] = [
+	"text" => "Help",
+	"link" => $link_begin."help"
+	];
+
+	if(isset($_["tab"])){
+		$navtab_item_selected = $link_begin.$_["tab"];
+	}
+	else
+	{
+		$navtab_item_selected = $link_begin."actions";
+	}
+
+	$tpl->assign("navtab_item_selected",$navtab_item_selected);
+	$tpl->assign("navtab_items",$navtab_items);
+	$tpl->draw(CORE_VIEWS."menu/navtab");
+
+	if(isset($_["tab"])){
+		$tab = $_["tab"]; 
+		switch ($tab) {
+			case "help":
+			$Parsedown = new Parsedown();
+			$translated_help = USER_OBJECTS.$object_name."/md/help.".$_SESSION["LANGUAGE"].".md";
+
+			if(file_exists($translated_menu_dir)){
+				$text = file_get_contents($translated_help);
+			}
+			else
+			{
+			$text = file_get_contents(USER_OBJECTS.$object_name."/md/help.md");
+			}
+			echo $Parsedown->text($text);
+			break;
+		}
+	}
+}
+
+
+
+?>

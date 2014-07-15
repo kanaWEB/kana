@@ -8,4 +8,5 @@ $data = $_SERVER['SERVER_ADDR'];
   $data_json["label"] = "info";
   echo json_encode($data_json);
  }
-?>
+
+ ?>

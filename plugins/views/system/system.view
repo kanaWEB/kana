@@ -53,5 +53,8 @@ $ajax_buttons[] = [
 "onclick" => "ajax_stop"
 ];
 
+ # prints: <p>Hello <em>Parsedown</em>!</p>
+
+
 include(CORE_VIEWS."complex/columns_data.view");
 ?>

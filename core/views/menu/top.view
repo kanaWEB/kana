@@ -4,22 +4,25 @@ if(!isset($topmenu)){
 
 
 	if(PHP_PAGE == "views.php" || PHP_PAGE == "settings.php"){
-//Display user views menu
+/*
+Display user views menu
+ */
 		
 		//Get list of plugins/views
 		$user_views = Functions::getdir(USER_VIEWS);
 		foreach($user_views as $user_view){
-			//Get View language
-			
-			$lang_view = add_language(USER_VIEWS."/".$user_view);
+		
+		//Get View language
+		$lang_view = add_language(USER_VIEWS."/".$user_view);
 			if(is_array($lang) && is_array($lang_view)){
-				$lang = array_merge($lang,$lang_view);
+				$lang = array_merge($lang,$lang_view); //Merge General translation with user view translation
 			}
 			
-			
-			$menu_file = file(USER_VIEWS."/".$user_view."/menu.md");
+		//Get View's menu data	
+			$menu_file = file(USER_VIEWS."/".$user_view."/menu.md"); 
 			$menu_data = explode("|",$menu_file[2]);
 
+		//Selected Menu
 			if(isset($_["view"]) && $_["view"] == $user_view ){
 				$topmenu_selected = [
 				"text" => $menu_data[1],
@@ -27,6 +30,7 @@ if(!isset($topmenu)){
 				];
 			}
 
+		//Menu generation
 			$topmenu[] = [
 			"text" => $menu_data[1],
 			"icon" => $menu_data[0],
@@ -34,6 +38,8 @@ if(!isset($topmenu)){
 			];
 		}
 
+
+		//If we are inside settings make it as selected
 		if(PHP_PAGE == "settings.php"){
 			$topmenu_selected = [
 			"text" => "Settings",
@@ -42,26 +48,23 @@ if(!isset($topmenu)){
 		}
 
 //Default views
-
-//Display 
+		//Settings
 		$topmenu[] = [
 		"text" => "Settings",
 		"icon" => "glyphicon-wrench",
 		"link" => "settings.php"
 		];
 
+		//Log Out
 		$topmenu[] = [
 		"text" => t("Logout")." (".$currentUser->name().")",
 		"icon" => "glyphicon-user",
 		"link" => "index.php?logout"
 		];
 	}
-
 }
 
-
-
-
+//Send variables and RainTpl and generate it
 $tpl->assign("topmenu_selected",$topmenu_selected);
 $tpl->assign("topmenu",$topmenu);
 $tpl->draw(CORE_VIEWS."menu/top"); //Display core/templates/topmenu.html

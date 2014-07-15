@@ -15,6 +15,8 @@ include("schema/Entity.class.php"); //SQL manager
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY
 include("schema/Users/Users.class.php"); //User Class
 include("schema/Config/Theme.class.php"); //Theme Class
+include EXTERNAL_LIB."Parsedown/Parsedown.php";
+
 
 include("libraries/Redirect.php"); //Redirection manager
 

@@ -2,6 +2,7 @@
 
 $uptime = shell_exec("cat /proc/uptime");
 $uptime = explode(" ", $uptime);
+//Translated
 $data = Functions::readableTime($uptime[0]);
 $label_color = "info";
 

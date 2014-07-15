@@ -1,0 +1,29 @@
+<?php
+
+/*
+$electronics_form = new Form("Electronics");
+
+$electronics_form->input([
+	"type" => "select",
+	"id" => "theme",
+	"name" => "Theme",
+	"options" => $theme_list,
+	"selected" => $config->getTheme()
+	]);
+
+$electronics_form->input([
+	"type" => "select",
+	"id" => "lang",
+	"name" => "Language",
+	"options" => $lang_list,
+	"selected" => $_SESSION["LANGUAGE"]
+	]);
+
+$electronics_form->display($tpl);
+*/
+
+include(USER_DATAS."gpio/pins.data");
+$tpl->assign("gpios",$datas);
+$tpl->assign("gpios_type","WiringPi");
+$tpl->draw(USER_DATAS."gpio/pins");
+?>
