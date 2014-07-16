@@ -42,6 +42,9 @@ define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
 
 //MENU
-define('DEFAULT_MENU_SETTINGS',"pref")
+define('DEFAULT_MENU_SETTINGS',"pref");
+
+//GPIO
+define('DEFAULT_GPIO',"WiringPi");
 
 ?>

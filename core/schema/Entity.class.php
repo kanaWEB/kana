@@ -13,11 +13,13 @@ class Entity extends SQLite3
      * @var bool Debug mode, display SQL CREATE/UPDATE/DELETE commands when they are executed.
      */
     private $debug = false;
+    private $user = false;
 
 	/**
 	 * Open an SQLite connection
 	 */
-	function __construct($table_name){
+	function __construct($table_name,$user=false){
+		$this->user = $user;
 		$this->setTable($table_name);
 		$this->open(DATABASE);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
@@ -76,13 +78,6 @@ class Entity extends SQLite3
 		return $return ;
 	}
 	
-/* DEPRECATED
-	public function closeDatabase(){
-		$this->close();
-	}
-*/
-
-
 // SQL MANAGEMENT
 
 	/**
@@ -292,20 +287,23 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 
 		//echo '<hr>'.__METHOD__.' : Requete --> '.$query.'<br>';
 		$execQuery = $this->query($query);
-		
 
 		if(!$execQuery)
 			echo $this->lastErrorMsg();
-		
-		while($queryReturn = $execQuery->fetchArray() ){
-			$object = eval(' return new Entity($this->TABLE_NAME);');
+		$array = false;
+		while($queryReturn = $execQuery->fetchArray(SQLITE3_ASSOC) ){
+			$array[] = $queryReturn; 
+			/*
+			$object = eval(' return new Entity($this->TABLE_NAME,$this->user);');
 			foreach($this->object_fields as $field=>$type){
-				if(isset($queryReturn[$field])) eval('$object->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
+				if(isset($queryReturn[$field])) eval('$this->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
 			}
 			$objects[] = $object;
 			unset($object);
+			*/
 		}
-		return $objects;
+
+		return $array;
 	}
 
 	public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug='false'){
@@ -427,13 +425,30 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		return $this->object_fields;
 	}
 
+	public function setId($id){
+		$this->id = $id;
+		$this->setUid(uniqid());
+	}
+
 	public function setTable($table_name){
-		$fields_file = CORE_SCHEMA."/".$table_name."/".$table_name.".txt";
+		if($this->user){
+			$fields_file = USER_OBJECTS."/".$table_name."/".$table_name.".txt";
+		}
+		else
+		{
+			$fields_file = CORE_SCHEMA.$table_name."/".$table_name.".txt";
+		}
 		$db_text = file($fields_file);
 
 		array_shift($db_text);
 		$db_fields['id'] = "key";
 		$db_fields['uid'] = "int";
+
+		if($this->user){
+		$db_fields['object_name'] = "string";
+		$db_fields['object_description'] = "string";
+		}
+
 		foreach($db_text as $field){
 			$field_info = explode(":",$field);
 			$db_fields[$field_info[0]] = $field_info[1];

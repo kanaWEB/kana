@@ -1,0 +1,38 @@
+<?php
+if(isset($_["tab"])){
+	if($_["tab"] == "add-remove"){
+		if(isset($_["del"])){
+			$object_name = $_["name"];
+			$object_db = new Entity($object_name,true);
+			$object_db->delete(array('id'=>$_['id']));
+				redirect("settings","?menu=objects&name=".$object_name."&tab=add-remove&error=".t("Object delete"));
+			}
+			else{
+
+				$fields = $_;
+				unset($fields["submit"]);
+				unset($fields["menu"]);
+				unset($fields["tab"]);
+				unset($fields["name"]);
+
+				$object_name = $_["name"];
+				$object_db = new Entity($object_name,true);
+				if(isset($_["id"])){
+					$object_db->setId($_["id"]);
+				}
+				else{
+				$object_db->create();
+				}
+				foreach($fields as $key => $field){
+					$setter = "set".$key;
+					$object_db->$setter($field);
+				}
+				$object_db->save();
+				redirect("settings","?menu=objects&name=".$object_name."&tab=add-remove&notice=".t("Object saved"));
+			}
+
+		}
+
+	}
+
+	?>

@@ -10,11 +10,11 @@ Elle compte plusieurs dérivées, principalement, l'OLED, l'AMOLED ou le FOLED (
 
 [Wikipedia](http://fr.wikipedia.org/wiki/Diode_%C3%A9lectroluminescente)
 
-Electronique
+Caractéristiques
 -----------
-Tension | Intensité | Intensité lumineuse
---------|-----------|--------------------
-2.2V    | 20ma      | 220mcd
+* Tension : 2.2V
+* Intensité : 20ma
+* Intensité lumineuse : 220mcd
 
 Liens
 -----------
@@ -24,4 +24,3 @@ Liens
 Branchement
 -----------
 ![Led's Wiring](plugins/objects/led/md/img/wiring.jpg)
-

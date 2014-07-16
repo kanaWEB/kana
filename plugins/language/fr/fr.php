@@ -34,15 +34,31 @@ $lang["Preferences saved"] = "Préférences sauvegardés";
 $lang["General"] = "Général";
 $lang["Theme"] = "Thème";
 
+//Settings -> Objects
 $lang["Name"] = "Nom";
+$lang["Description"] = "Description";
+$lang["New"] = "Nouveau";
+$lang["Add/Remove"] = "Ajouter/Enlever";
+$lang["Actions"] = "Actions";
+$lang["Help"] = "Aide";
+$lang["Object's name"] = "Nom de l'objet";
+$lang["Object's description"] = "Description de l'objet";
+
 
 //Time
 $lang["year"] = "an";
 $lang["years"] = "ans";
+$lang["days"] = "jours";
+$lang["day"] = "jour";
 $lang["hours"] = "heures";
 $lang["hour"] = "heure";
 $lang["minutes"] = "minutes";
 $lang["minute"] = "minute";
 $lang["seconds"] = "secondes";
 $lang["second"] = "seconde";
+
+//Electronics Terms
+$lang["Pin"] = "Broche";
+
+
 ?>

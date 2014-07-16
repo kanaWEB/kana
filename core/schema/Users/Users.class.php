@@ -24,21 +24,20 @@ class User {
 	//Verify if a account exists (returns false if not)
 	function check_password($login,$password,$cookie=false){
 		$user = new Entity("Users");
-
 		$user = $user->load([
 			'name'=>$login,
 			'password'=>sha1(md5($password))
 			]);
 		if($user){
-			$this->right = $user->getState();
-			$this->name = $user->getName();
-			$this->id = $user->getId();
+			$this->right = $user["state"];
+			$this->name = $user["name"];
+			$this->id = $user["id"];
 
 			//If no cookie token exists, we generate it inside the database.
 			//We destroy the cookie when we disconnect.
 			if($cookie){	
 				$expire_time = time() + COOKIE_LIFE*86400; //Day in seconds
-				$actual_cookie = $user->getCookie();
+				$actual_cookie = $user["cookie"];
 
 				if ($actual_cookie == ""){
 					$cookie_token = sha1(time().rand(0,1000));
@@ -70,14 +69,16 @@ class User {
 	function check_cookie($cookie){
 		if(isset($cookie)){
 			$user = new Entity("Users");
+			var_dump($user);
 			$user = $user->load([
 				"cookie" => $cookie
 				]);
 		}
+
 		if($user){
-			$this->right = $user->getState();
-			$this->name = $user->getName();
-			$this->id = $user->getId();
+			$this->right = $user["state"];
+			$this->name = $user["name"];
+			$this->id = $user["id"];
 		}
 	}
 

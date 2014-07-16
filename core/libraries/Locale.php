@@ -28,7 +28,7 @@ if (!DB_EXISTS){
 }
 else
 {
-	$_SESSION["LANGUAGE"] = $config->getLanguage();
+	$_SESSION["LANGUAGE"] = $config["language"];
 }
 
 

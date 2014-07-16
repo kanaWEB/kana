@@ -711,7 +711,7 @@ public static function remove_accents($str, $charset='utf-8')
     if ($d > 0) {
       $day = t("day");
       $days = t("days");
-      $dw = $d > 1 ? ' days ' : ' day ';
+      $dw = $d > 1 ? ' '.$days.' ' : ' '.$day.' ';
       $string .= $d . $dw;
     }
 

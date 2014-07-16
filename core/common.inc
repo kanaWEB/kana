@@ -65,7 +65,7 @@ else{
 //Get Actual Theme if not loaded inside session
 if(!isset($_SESSION["theme"])){
 
-	$theme_name = $config->getTheme();
+	$theme_name = $config["theme"];
 	$theme = new Theme($theme_name);
 	$_SESSION["theme"] = serialize($theme);
 }
