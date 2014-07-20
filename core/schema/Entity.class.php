@@ -19,8 +19,15 @@ class Entity extends SQLite3
 	 * Open an SQLite connection
 	 */
 	function __construct($table_name,$user=false){
-		$this->user = $user;
-		$this->setTable($table_name);
+		
+		if(!is_array($user)){
+			$this->user = $user;
+			$this->setTable($table_name);
+		}
+		else
+		{
+			$this->setCustomTable($table_name,$user);
+		}
 		$this->open(DATABASE);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
@@ -119,9 +126,9 @@ if(!$this->exec($query)) echo $this->lastErrorMsg();
 public function drop($debug='false'){
 	$query = 'DROP TABLE IF EXISTS`'.SQL_PREFIX.$this->TABLE_NAME.'`;';
 	if($this->debug){
-	debug("SQL","Drop",$this->TABLE_NAME);
-	echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
-}
+		debug("SQL","Drop",$this->TABLE_NAME);
+		echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
+	}
 
 	if(!$this->exec($query)) echo $this->lastErrorMsg();
 }
@@ -430,6 +437,16 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$this->setUid(uniqid());
 	}
 
+	public function setCustomTable($table_name,$db_fields){
+		$db_fields['id'] = "key";
+		$db_fields['uid'] = "int";
+		$db_fields['object_name'] = "string";
+		$db_fields['object_description'] = "string";
+		$this->object_fields = $db_fields;
+	
+		$this->TABLE_NAME = $table_name;
+	}
+
 	public function setTable($table_name){
 		if($this->user){
 			$fields_file = USER_OBJECTS."/".$table_name."/".$table_name.".txt";
@@ -445,8 +462,8 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$db_fields['uid'] = "int";
 
 		if($this->user){
-		$db_fields['object_name'] = "string";
-		$db_fields['object_description'] = "string";
+			$db_fields['object_name'] = "string";
+			$db_fields['object_description'] = "string";
 		}
 
 		foreach($db_text as $field){

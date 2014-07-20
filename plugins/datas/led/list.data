@@ -1,0 +1,16 @@
+<?php
+$object_db = new Entity("led",true);
+$objects = $object_db->populate();
+if($objects){
+foreach($objects as $object){
+	$data[] = [
+	"text" => $object["object_name"],
+	"value" => $object["id"]
+	 ];
+}
+}
+else
+{
+	$data = false;
+}
+?>

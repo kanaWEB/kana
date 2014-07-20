@@ -1,0 +1,12 @@
+ <div class="container">
+ <h1>{"What do you want to do?"|t}</h1>
+      <!-- Example row of columns -->
+      <div class="row">
+      {loop="actions"}
+        <div class="col-md-4">
+          <h2>{$value.text}</h2>
+          <p>{$value.description}</p>
+          <p><a class="btn btn-primary" href="{$value.link}" role="button">Choose</a></p>
+        </div>
+      {/loop}
+      </div>

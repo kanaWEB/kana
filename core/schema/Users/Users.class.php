@@ -69,7 +69,7 @@ class User {
 	function check_cookie($cookie){
 		if(isset($cookie)){
 			$user = new Entity("Users");
-			var_dump($user);
+			
 			$user = $user->load([
 				"cookie" => $cookie
 				]);

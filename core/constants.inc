@@ -10,7 +10,7 @@ define('CORE_SCHEMA',"core/schema/");
 define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views/");
 define('USER_DATAS',"plugins/datas/");
-define('USER_PROJECTS',"plugins/projects/");
+define('USER_ACTIONS',"plugins/actions/");
 define('USER_OBJECTS',"plugins/objects/");
 define('USER_ELEC',"plugins/electronics/");
 define('LANGUAGE',"plugins/language/");
@@ -37,7 +37,7 @@ define('COOKIE_LIFE','355');
 define('COOKIE_NAME','KANA');
 
 //DEBUG
-define('DEBUG',FALSE);
+define('DEBUG',TRUE);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
 
