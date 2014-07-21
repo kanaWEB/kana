@@ -1,0 +1,3 @@
+//Group Object : 1.0
+name:string
+description:string

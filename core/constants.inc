@@ -6,6 +6,8 @@
 //APP PATH
 define('CORE_VIEWS',"core/views/");
 define('CORE_SCHEMA',"core/schema/");
+define('CORE_DATAS',"core/datas/");
+define('CORE_BUTTONS',"core/buttons/");
 
 define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views/");
@@ -37,7 +39,7 @@ define('COOKIE_LIFE','355');
 define('COOKIE_NAME','KANA');
 
 //DEBUG
-define('DEBUG',TRUE);
+define('DEBUG',FALSE);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
 

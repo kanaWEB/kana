@@ -2,7 +2,7 @@
 $theme = new Theme(INSTALL_THEME);
 
 //Header
-include(CORE_VIEWS."header/header.data");
+include(CORE_VIEWS."header/header.view");
 
 //Menu
 $topmenu_selected = [
@@ -14,7 +14,7 @@ $topmenu[] = [
 "text" => "Installation",
 "icon" => "glyphicon-asterisk"
 ];
-include("core/views/menu/top.data");
+include("core/views/menu/top.view");
 
 //Form
 include("core/views/forms/Form.class.php");
@@ -48,6 +48,6 @@ $install_form->input([
 $install_form->display($tpl);
 
 //Footer
-include(CORE_VIEWS."/footer/footer.data");
+include(CORE_VIEWS."/footer/footer.view");
 //}
 ?>

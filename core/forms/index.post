@@ -4,7 +4,9 @@ if(isset($_["logout"]) && !isset($_["submit"])){
 //Delete Cookie if it exist
 	if(isset($_COOKIE[COOKIE_NAME])){
 		$user = new Entity("Users");
-		$user = $user->load(array("id"=>$currentUser->Id()));
+		$user_data = $user->load(array("id"=>$currentUser->Id()));
+
+	$user = Entity::data2object($user_data,$user);
 	$user->setCookie(""); //Reset cookie token
 	$user->save();
 	Functions::destroyCookie(COOKIE_NAME);

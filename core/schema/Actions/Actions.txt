@@ -1,0 +1,6 @@
+state:int
+action:text
+command:text
+object_key:int
+gpio:int
+group_key:int

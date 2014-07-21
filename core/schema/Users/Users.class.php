@@ -2,11 +2,12 @@
 
 class User {
 
-	protected $id,$name,$right;
+	protected $id,$name,$right,$cookie;
 	function __construct(){
 		$this->right = false;
 		$this->id = false;
 		$this->name = false;
+		$this->cookie = false;
 	}
 
 	function right(){
@@ -28,7 +29,7 @@ class User {
 			'name'=>$login,
 			'password'=>sha1(md5($password))
 			]);
-		if($user){
+		if($user){	
 			$this->right = $user["state"];
 			$this->name = $user["name"];
 			$this->id = $user["id"];
@@ -41,8 +42,12 @@ class User {
 
 				if ($actual_cookie == ""){
 					$cookie_token = sha1(time().rand(0,1000));
-					$user->setCookie($cookie_token);
-					$user->save();
+					var_dump($user);
+					$user_modified = new Entity("Users");
+					$user_modified = Entity::data2object($user,$user_modified);
+					$user_modified->Setcookie($cookie_token);
+					$user_modified->save();
+
 				}
 				else{
 					$cookie_token = $actual_cookie;

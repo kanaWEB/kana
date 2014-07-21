@@ -27,6 +27,11 @@ $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 //Form
 $lang["Send"] = "Envoyer";
 
+
+//Group
+$lang["Default Group"] = "Groupe par défaut";
+$lang["Auto-generated group"] = "Groupe auto-généré";
+
 //Default Settings Menu
 $lang["Preferences"] = "Préférences";
 $lang["Users"] = "Utilisateurs";

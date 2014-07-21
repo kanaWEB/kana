@@ -28,6 +28,12 @@ $user_db->setToken("");
 $user_db->setPassword(sha1(md5($password)));
 $user_db->save();
 
+//Generate Group
+$group_db = new Entity("Group");
+$group_db->setName(t("Default Group"));
+$group_db->setDescription(t("Auto-generated group"));
+$group_db->save();
+
 unset($_SESSION);
 //Redirect to index
 redirect("index","?notice=".t("Installation successful"));

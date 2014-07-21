@@ -86,17 +86,17 @@ if(isset($_["tab"])){
 		}
 		else{
 			$action_name = $_["name"]."_actions";
+			$db_fields = [
+			"state" => "int",
+			"action" => "text",
+			"command" => "text",
+			"object_key" => "int",
+			"gpio" => "int",
+			"group_key" => "int"
+			];
 
 		//Action chosen
 			if(isset($_["id"])){
-
-				$db_fields = [
-				"state" => "int",
-				"action" => "text",
-				"command" => "text",
-				"object_key" => "int",
-				"gpio" => "int"
-				];
 				$selected_action_db = new Entity($object_name."_actions",$db_fields);
 				$selected_action = $selected_action_db->getById($_["id"]);
 				$form_name = "ID:".$_["id"];
@@ -137,7 +137,7 @@ if(isset($_["tab"])){
 				"placeholder" => "Actions's description",
 				"selected" => $selected_action["object_description"]
 				]);
-
+	
 			include(USER_DATAS.$object_name."/list.data");
 			$action_form->input([
 				"type" => "select",
@@ -147,25 +147,25 @@ if(isset($_["tab"])){
 				"selected" => $selected_action["object_key"]
 				]);
 
+			include(CORE_DATAS."group.data");
+			$action_form->input([
+				"type" => "select",
+				"id" => "group_key",
+				"name" => "Group",
+				"options" => $data,
+				"selected" => $selected_action["group_key"]
+				]);
+
 			$action_form->display($tpl);
-
-
-			$db_fields = [
-			"state" => "int",
-			"action" => "text",
-			"command" => "text",
-			"object_key" => "int",
-			"gpio" => "int"
-			];
-
-			
-
 
 			$table_headers[] = $object_name;
 			$table_datas[] = "object_key";
+			$table_headers[] = "Group";
+			$table_datas[] = "group_key";
 			$table_headers[] = "";
 
 			$object_db = new Entity($object_name,true);
+			$group_db = new Entity("Group");
 			$action_db = new Entity($action_name,$db_fields);
 			$actions = $action_db->populate();
 
@@ -197,13 +197,23 @@ for($i=0;$i<count($actions);$i++){
 	$tpl->draw(CORE_VIEWS."table/row/open");
 	foreach($table_datas as $td){
 		$tpl->draw(CORE_VIEWS."table/cell/open");
-		if($td == "object_key"){
+		switch($td){
+			case "object_key":
 			$name = $object_db->getById($actions[$i][$td]);
 			echo $name["object_name"];
-		}
-		else{
+			break;
+
+			case "group_key":
+			$name = $group_db->getById($actions[$i][$td]);
+			echo $name["name"];
+			break;
+
+			default:
 			echo $actions[$i][$td];	
+			break;
+
 		}
+		
 
 		$tpl->draw(CORE_VIEWS."table/cell/close");
 
@@ -212,7 +222,7 @@ for($i=0;$i<count($actions);$i++){
 
 	$buttons = [
 	"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$_["action"],
-	"id" => $objects[$i]["id"]
+	"id" => $actions[$i]["id"]
 	];
 	$tpl->assign("buttons",$buttons);
 	$tpl->draw(CORE_VIEWS."table/buttons");
@@ -320,7 +330,6 @@ echo "<br>";
 
 
 $object_db = new Entity($object_name,true);
-
 $objects = $object_db->populate();
 if($objects){
 /*

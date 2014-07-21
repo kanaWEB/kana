@@ -33,8 +33,6 @@ if(isset($_["tab"])){
 	}
 
 	if($_["tab"] == "actions"){
-
-
 		$fields = $_;
 		unset($fields["submit"]);
 		unset($fields["menu"]);
@@ -51,16 +49,18 @@ if(isset($_["tab"])){
 		"action" => "text",
 		"command" => "text",
 		"object_key" => "int",
-		"gpio" => "int"
+		"gpio" => "int",
+		"group_key" => "int"
 		];
+
+		var_dump($fields);
 
 		if(isset($_["del"])){
 			$action_db = new Entity($action_name,$db_fields);
 			$action_db->delete(array('id'=>$_['id']));
-			//redirect("settings","?menu=objects&name=".$object_name."&tab=add-remove&error=".t("Action delete"));
+			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&error=".t("Action deleted"));
 		}
 		else{
-
 			$object_db = new Entity($object_name,true);
 			$object_data = $object_db->getById($_["object_key"]);
 			$gpio = $object_data["gpio"];
@@ -85,6 +85,7 @@ if(isset($_["tab"])){
 			}
 
 			$action_db->save();
+			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&notice=".t("Action saved"));
 
 		}
 	}

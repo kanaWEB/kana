@@ -20,6 +20,7 @@ class Entity extends SQLite3
 	 */
 	function __construct($table_name,$user=false){
 		
+		
 		if(!is_array($user)){
 			$this->user = $user;
 			$this->setTable($table_name);
@@ -31,6 +32,7 @@ class Entity extends SQLite3
 		$this->open(DATABASE);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
+		$this->create(); //Create the table of the entity if it doesn't exists
 	}
 
 	/**
@@ -50,6 +52,14 @@ class Entity extends SQLite3
  	 */
  	function __destruct(){
  		$this->close();
+ 	}
+
+ 	function data2object($data,$object){
+ 		foreach($data as $key => $field){	
+						$setter = "set".$key;
+						$object->$setter($field);
+		}
+		return $object;
  	}
 
 	/**
@@ -445,6 +455,18 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$this->object_fields = $db_fields;
 	
 		$this->TABLE_NAME = $table_name;
+	}
+
+	public function Actions_fields(){
+		$db_fields = [
+		"state" => "int",
+		"action" => "text",
+		"command" => "text",
+		"object_key" => "int",
+		"gpio" => "int",
+		"group_key" => "int"
+		];
+		return $db_fields;
 	}
 
 	public function setTable($table_name){
