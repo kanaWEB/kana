@@ -5,7 +5,7 @@ $blocks[$nb]["row"][$tr]["name"] = [
 "icon" => "glyphicon-fire"
 ];
 
-include($data_path."overclock.data");
+include("overclock.data");
 $blocks[$nb]["row"][$tr]["data"] = [
 "type" => "text/h4",
 "label" => "label label-".$label_color,

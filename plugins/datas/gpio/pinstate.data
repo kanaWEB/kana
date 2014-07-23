@@ -1,0 +1,20 @@
+<?php
+if(isset($_["gpio"])){
+	$gpio = $_["gpio"];
+	$command = "/usr/local/bin/gpio read ".$gpio;
+	$data = trim(shell_exec($command));
+	echo $data;
+}
+else
+{
+	if (!isset($gpio)){
+		echo "UNSPECIFIED";
+	}
+	else{
+		$command = "/usr/local/bin/gpio read ".$gpio;
+		$data = trim(shell_exec($command));
+	}
+}
+
+
+?>

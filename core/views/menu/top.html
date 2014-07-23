@@ -15,7 +15,11 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 			{loop="topmenu"}
-				<li {if="$topmenu_selected.text==$value.text"}class="active"{/if}><a href="{$value.link}"><i class="glyphicon {$value.icon}"></i> {$value.text|t}</a></li>
+				<li {if="$topmenu_selected.text==$value.text"}class="active"{/if}>
+					<a href="{$value.link}">
+						<h4><i class="glyphicon {$value.icon}"></i> {$value.text|t}</h4>
+					</a>
+				</li>
 			{/loop}
 			</ul>
 		</div><!--/.nav-collapse -->

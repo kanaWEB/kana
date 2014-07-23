@@ -1,3 +1,6 @@
+tab_notification = [];
+notify_time = 5000;
+
 //AJAX Notification (in yellow)
 function ajax_notify(data){
 	//console.log(data);

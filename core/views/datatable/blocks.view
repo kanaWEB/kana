@@ -2,10 +2,7 @@
 /*
 Colums data use blocks and table
  */
-if($ajax_buttons){
-	$tpl->assign("buttons",$ajax_buttons);
-	$tpl->draw(CORE_VIEWS."buttons/button_group");
-}
+
 foreach($blocks as $key => $block){
 	$tpl->assign("block",$block);
 	$tpl->draw(CORE_VIEWS."grids/block/open");

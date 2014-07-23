@@ -1,5 +1,6 @@
 <?php
-$objects = Functions::getdir(USER_ACTIONS);
+$objects = Functions::getdir(USER_OBJECTS);
+
 foreach($objects as $object){
 	$actions_db = new Entity($object."_actions",Entity::Actions_fields());
 	$actions_db = $actions_db->populate();
@@ -10,14 +11,20 @@ foreach($objects as $object){
 		$webobjects[$key]["type"] = $object;
 		$webobjects[$key]["name"] = $action["object_name"];
 		$webobjects[$key]["icon"] = "glyphicon-tint";
-	}
 
+
+		if(isset($action["gpio"])){
+			$gpio = $action["gpio"];
+			include(USER_DATAS."gpio/pinstate.data");
+			$webobjects[$key]["state"] = $data ? "success" : "danger";
+		}
+	}
 }
 
 foreach($webobjects as $webobject){
-	var_dump($webobject);
-	$tpl->assign("webobject",$webobject);
-	$tpl->draw(CORE_BUTTONS.$webobject["action"]."/".$webobject["action"]);
+
+		$tpl->assign("webobject",$webobject);
+		$tpl->draw(CORE_BUTTONS.$webobject["action"]."/".$webobject["action"]);
 }
 
 ?>

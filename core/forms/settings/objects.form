@@ -366,6 +366,7 @@ for($i=0;$i<count($objects);$i++){
 	"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=add-remove",
 	"id" => $objects[$i]["id"]
 	];
+
 	$tpl->assign("buttons",$buttons);
 	$tpl->draw(CORE_VIEWS."table/buttons");
 	$tpl->draw(CORE_VIEWS."table/cell/close");
@@ -373,7 +374,6 @@ for($i=0;$i<count($objects);$i++){
 
 	$tpl->draw(CORE_VIEWS."table/row/close");
 }
-
 
 $tpl->draw(CORE_VIEWS."table/close");
 

@@ -1,6 +1,6 @@
 <?php
 $tr = 0;
-include($data_path."disks.data");
+include("disks.data");
 foreach($datas as $data){
 $blocks[$nb]["row"][$tr]["name"] = [
 "type" => "text/h4",

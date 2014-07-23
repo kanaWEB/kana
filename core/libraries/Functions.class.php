@@ -552,6 +552,67 @@ public static function getdir($dir){
 	return $dir;
 }
 
+public static function getdata_dir($data_link){
+	$data_link_array = explode("/",$data_link);
+	$plugin = $data_link_array[0];
+	$file = $data_link_array[1];
+
+	$data_files[] = USER_DATAS.$data_link.".data";
+	$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data";
+	$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data";
+
+	foreach($data_files as $data_file){
+		if(file_exists($data_file)){
+			return $data_file;
+		}
+	}
+}
+
+//Move to another functions
+public static function md2datatable($filename,$datadir){
+	$file_array = file($filename);
+	$isdata = false;
+	$isblock = true;
+	$nb = 0;
+	$tr = 0;
+	foreach($file_array as $key => $line){
+		if($isblock){
+			$line_array = explode("|",$line);
+			$blocks[$nb] = [
+			"name" => trim($line_array[0]),
+			"icon" => trim($line_array[1])
+			];
+			$isblock = false;
+		}
+		else{
+			if($isdata){
+				//@todo choose between views/datas
+				
+				$line_array = explode("|",$line);
+				
+
+				$plugin = trim($line_array[0]);
+				if($plugin == ""){
+					$isdata = false;
+					$isblock = true;
+					$nb++;
+				}
+				else{
+					$data_file = trim($line_array[1]);
+					include(USER_VIEWS.$plugin."/datas/".$data_file.".view");
+					$tr++;
+				}
+			}
+			else{
+				$isdata = true;
+			}
+		}
+		
+	}
+	return $blocks;
+
+}
+
 //Strip all accentuate characters
 public static function remove_accents($str, $charset='utf-8')
 {
@@ -564,69 +625,69 @@ public static function remove_accents($str, $charset='utf-8')
     return $str;
 }
 
- public static function loadUrl($url){
-      if(function_exists('curl_init')){
-          $curl = curl_init();
-          curl_setopt($curl, CURLOPT_URL, $url);
-          curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-          $content = curl_exec($curl);
-          curl_close($curl);
-          return trim($content);
-      }elseif(function_exists('file_get_contents')){
-          return trim(file_get_contents($url));
-      }else{
-          return false;
-      }
-  }
+public static function loadUrl($url){
+	if(function_exists('curl_init')){
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$content = curl_exec($curl);
+		curl_close($curl);
+		return trim($content);
+	}elseif(function_exists('file_get_contents')){
+		return trim(file_get_contents($url));
+	}else{
+		return false;
+	}
+}
 
 
 
- public static function readableTime($seconds) {
-    $y = floor($seconds / 60/60/24/365);
-    $d = floor($seconds / 60/60/24) % 365;
-    $h = floor(($seconds / 3600) % 24);
-    $m = floor(($seconds / 60) % 60);
-    $s = $seconds % 60;
+public static function readableTime($seconds) {
+	$y = floor($seconds / 60/60/24/365);
+	$d = floor($seconds / 60/60/24) % 365;
+	$h = floor(($seconds / 3600) % 24);
+	$m = floor(($seconds / 60) % 60);
+	$s = $seconds % 60;
 
-    $string = '';
-   
-    if ($y > 0) {
-      $years = t("years");
-   	  $year = t("year");
-      $yw = $y > 1 ? ' '.$years.' ' : ' '.$year.' ';
-      $string .= $y . $yw;
-    }
+	$string = '';
 
-    if ($d > 0) {
-      $day = t("day");
-      $days = t("days");
-      $dw = $d > 1 ? ' '.$days.' ' : ' '.$day.' ';
-      $string .= $d . $dw;
-    }
+	if ($y > 0) {
+		$years = t("years");
+		$year = t("year");
+		$yw = $y > 1 ? ' '.$years.' ' : ' '.$year.' ';
+		$string .= $y . $yw;
+	}
 
-    if ($h > 0) {
-      $hours = t("hours");
-   	  $hour = t("hour");
-      $hw = $h > 1 ? ' '.$hours.' ' : ' '.$hour.' ';
-      $string .= $h . $hw;
-    }
+	if ($d > 0) {
+		$day = t("day");
+		$days = t("days");
+		$dw = $d > 1 ? ' '.$days.' ' : ' '.$day.' ';
+		$string .= $d . $dw;
+	}
 
-    if ($m > 0) {
-      $minutes = t("minutes");
-      $minute = t("minute");
-      $mw = $m > 1 ? ' '.$minutes.' ' : ' '.$minute.' ';
-      $string .= $m . $mw;
-    }
+	if ($h > 0) {
+		$hours = t("hours");
+		$hour = t("hour");
+		$hw = $h > 1 ? ' '.$hours.' ' : ' '.$hour.' ';
+		$string .= $h . $hw;
+	}
 
-    if ($s > 0) {
-     $seconds = t("seconds");
-     $second = t("second");
-     $sw = $s > 1 ? ' '.$seconds.' ' : ' '.$second.' ';
-     $string .= $s . $sw;
-    }
+	if ($m > 0) {
+		$minutes = t("minutes");
+		$minute = t("minute");
+		$mw = $m > 1 ? ' '.$minutes.' ' : ' '.$minute.' ';
+		$string .= $m . $mw;
+	}
 
-    return preg_replace('/\s+/', ' ', $string);
-  }
+	if ($s > 0) {
+		$seconds = t("seconds");
+		$second = t("second");
+		$sw = $s > 1 ? ' '.$seconds.' ' : ' '.$second.' ';
+		$string .= $s . $sw;
+	}
+
+	return preg_replace('/\s+/', ' ', $string);
+}
 }
 
 ?>

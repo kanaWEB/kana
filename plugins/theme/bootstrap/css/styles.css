@@ -45,4 +45,23 @@ Left menu item border fix
 /* Label fixed for Android */
 
 
+/*List Fix */
+.centered {
+text-align: center;
+}
+
+.btn-xlg {
+    padding: 18px 28px;
+    font-size: 22px; //change this to your desired size
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+            margin:5px;
+}
+
+.bordered{
+   border: 1px solid #000;
+
+}
 

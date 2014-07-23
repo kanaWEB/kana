@@ -23,6 +23,6 @@ $electronics_form->display($tpl);
 */
 include(USER_DATAS."gpio/pins.data");
 $tpl->assign("gpios",$datas);
-$tpl->assign("gpios_type","WiringPi");
+$tpl->assign("gpios_type",DEFAULT_GPIO);
 $tpl->draw(USER_DATAS."gpio/pins");
 ?>
