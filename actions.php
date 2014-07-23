@@ -6,9 +6,10 @@ if($currentUser->isuser()){
 	if(isset($_["type"])){
 		$type = $_["type"];
 		switch($type){
+
+			//Include
 			case "data":
-			$data_link = $_["data"];
-			$data_file = Functions::getdata_dir($data_link);
+			$data_file = Variable::data_dir($_["data"]);
 			include($data_file);
 			break;
 
@@ -18,12 +19,12 @@ if($currentUser->isuser()){
 			$object_name = $_["object"];
 			$id = $_["id"];
 
-			$object = new Entity($object_name."_actions",Entity::Actions_fields());
+			$object = new Entity($object_name."_actions",Variable::actions_fields());
 			$object = $object->getById($id);
 
 			if($arg1 == 2){
 				$gpio = $object["gpio"]; 
-				include(USER_DATAS."gpio/pinstate.data");
+				include(CORE_DATAS."gpio/pinstate.data");
 				$arg1 = $data ? 0 : 1;
 			}
 
@@ -31,7 +32,7 @@ if($currentUser->isuser()){
 			$command .= " ".$object["gpio"]." ".$arg1;
 			exec($command,$result,$out);
 			if($out != 0){
-				Functions::ajax_notify(t("This doesn't work, please check your configuration"),"error");
+				Draw::ajax_notify(t("This doesn't work, please check your configuration"),"error");
 			}
 		}
 	}

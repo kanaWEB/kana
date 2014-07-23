@@ -37,13 +37,13 @@ unset($leftmenu);
 
 /*
 
-Electronics
+Overview
 
  */
 
 $category = [
-"text" => "Electronics",
-"link" => "electronics"
+"text" => "Overview",
+"link" => "overview"
 ];
 $tpl->assign("leftmenu",false);
 
@@ -66,39 +66,19 @@ $tpl->assign("category",$category);
 
 foreach($objects as $object){
 	$object_dir = USER_OBJECTS.$object;
-
-	//Check if projects directory exists
-	if(is_dir($object_dir)){
-		
-		//Check for menu translation
-		$translated_menu_dir = $object_dir."/md/menu.".$_SESSION["LANGUAGE"].".md";
-
-		if(file_exists($translated_menu_dir)){
-			$menu_filepath = $translated_menu_dir;
-		}
-		else{
-		//If no translation check for menu 
-			if(file_exists($object_dir."/md/menu.md")){
-				$menu_filepath = $object_dir."/md/menu.md";
-			}
-		}
+	$menu_name = Variable::objectName($object_dir);
 		//If the menu exists generate it
-		if(isset($menu_filepath)){
-			$menu_file = file($menu_filepath); 
-			$menu_data = explode("|",$menu_file[2]);
+		if($menu_name){
 			$leftmenu[] = [
-			"text" => $menu_data[1],
-			"icon" => $menu_data[0],
+			"text" => $menu_name,
+			"icon" => $object_dir."/icon.png",
 			"link" => "objects&name=".$object,
 			"label" => "label-danger",
-			"state" => "glyphicon-remove"
 			];
 			$tpl->assign("leftmenu",$leftmenu);
-			$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
+			$tpl->draw(CORE_VIEWS."menu/left/item_image"); //Display core/templates/topmenu.html
 		}
-	}
 }
-
 
 $tpl->draw(CORE_VIEWS."menu/left/close");
 ?>

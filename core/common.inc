@@ -3,7 +3,7 @@
  * Common loads all functions and global scope variables/constants (user/lang/theme)
  * 
 **/
-session_start();
+	session_start();
 include("constants.inc"); //Global Constants
 
 /*
@@ -12,10 +12,13 @@ LOAD FUNCTIONS
 //Add core functionalities
 include("schema/Entity.class.php"); //SQL manager
 
-include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY
+include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY @todo remove unused functions and refactor
+include("libraries/Draw.class.php"); //Draw Functionnalities
+include("libraries/Variable.class.php");
 include("schema/Users/Users.class.php"); //User Class
 include("schema/Config/Theme.class.php"); //Theme Class
-include EXTERNAL_LIB."Parsedown/Parsedown.php";
+include(EXTERNAL_LIB."Parsedown/Parsedown.php");
+
 
 
 include("libraries/Redirect.php"); //Redirection manager

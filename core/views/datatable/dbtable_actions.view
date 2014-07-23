@@ -1,0 +1,51 @@
+<?php
+$object_db = new Entity($object_name,true);
+$group_db = new Entity("Group");
+$action_db = new Entity($action_name,Variable::actions_fields());
+$actions = $action_db->populate();
+
+if($actions){
+//Table Header
+$tpl->draw(CORE_VIEWS."grids/container/open");
+include(CORE_VIEWS."table/header/header.view");
+
+	//Table Datas
+for($i=0;$i<count($actions);$i++){
+$tpl->draw(CORE_VIEWS."table/row/open");
+	foreach($table_datas as $td){
+		$tpl->draw(CORE_VIEWS."table/cell/open");
+		switch($td){
+			case "object_key":
+				$name = $object_db->getById($actions[$i][$td]);
+				echo $name["object_name"];
+			break;
+
+			case "group_key":
+				$name = $group_db->getById($actions[$i][$td]);
+				echo $name["name"];
+			break;
+
+			default:
+				echo $actions[$i][$td];	
+			break;
+	}
+	$tpl->draw(CORE_VIEWS."table/cell/close");
+	}
+
+	$tpl->draw(CORE_VIEWS."table/cell/open");
+
+		$buttons = [
+			"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$_["action"],
+			"id" => $actions[$i]["id"]
+	];
+		$tpl->assign("buttons",$buttons);
+		$tpl->draw(CORE_VIEWS."table/buttons");
+	$tpl->draw(CORE_VIEWS."table/cell/close");
+
+$tpl->draw(CORE_VIEWS."table/row/close");
+}
+
+$tpl->draw(CORE_VIEWS."table/close");
+$tpl->draw(CORE_VIEWS."grids/container/close");
+}
+?>

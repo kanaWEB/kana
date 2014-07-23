@@ -1,0 +1,39 @@
+<?php
+/*
+NavTab / Name
+*/
+$link_begin = "settings.php?menu=objects&name=".$object_name."&tab=";
+
+if(file_exists(USER_OBJECTS.$object_name."/gpios")){
+	$navtab_items[] = [
+	"text" => "Electronics",
+	"link" => $link_begin."gpios"
+	];
+}
+
+if(file_exists(USER_OBJECTS.$object_name."/actions")){
+	$navtab_items[] = [
+	"text" => "Actions",
+	"link" => $link_begin."actions"
+	];
+}
+
+if(file_exists(USER_OBJECTS.$object_name."/help")){
+	$navtab_items[] = [
+	"text" => "Help",
+	"link" => $link_begin."help"
+	];
+}
+
+
+if($tab){ 
+	$navtab_item_selected = $link_begin.$tab;
+}
+else{
+	$navtab_item_selected = $link_begin."actions";
+}
+
+$tpl->assign("navtab_item_selected",$navtab_item_selected);
+$tpl->assign("navtab_items",$navtab_items);
+$tpl->draw(CORE_VIEWS."menu/navtab");
+?>

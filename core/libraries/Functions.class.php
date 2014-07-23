@@ -174,34 +174,6 @@ class Functions
 
 	}
 
-	// Redirect to page
-	// $page = .php
-	// section = ?section=
-	// param = End of URL (added options)
-	public static function goback($page,$section="",$param="")
-	{
-		if ($section == "")
-		{
-			if (DEBUG == false){
-				header('location:'.$page.'.php'.$param);
-			}
-			else{
-				echo '<br><a href="'.$page.'.php'.$param.'">Continue Debug</a>';
-
-			}
-		}
-		else
-		{
-			if (DEBUG == false){
-				header('location:'.$page.'.php?section='.$section.$param);
-			}
-			else{
-				echo '<br><a href="'.$page.'.php?section='.$section.$param.'">Continue Debug</a>';
-			}
-		}
-		
-	}
-
 	//Manage Plugin translation
 	//$Path: Path of plugins (ex plugin/camera)
 	public static function localize($plugin_path)
@@ -537,11 +509,7 @@ public static function vocal_command($vocal,$command,$actionUrl){
 		);
 }
 
-//Ajax Notification
-//If a PHP file is called in ajax, you can make it return a notification
-public static function ajax_notify($text,$type){
-	echo $type." !::! ".t($text);
-}
+
 
 //Get directory in an array without . and ..
 public static function getdir($dir){
@@ -552,66 +520,7 @@ public static function getdir($dir){
 	return $dir;
 }
 
-public static function getdata_dir($data_link){
-	$data_link_array = explode("/",$data_link);
-	$plugin = $data_link_array[0];
-	$file = $data_link_array[1];
 
-	$data_files[] = USER_DATAS.$data_link.".data";
-	$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data";
-	$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data";
-
-	foreach($data_files as $data_file){
-		if(file_exists($data_file)){
-			return $data_file;
-		}
-	}
-}
-
-//Move to another functions
-public static function md2datatable($filename,$datadir){
-	$file_array = file($filename);
-	$isdata = false;
-	$isblock = true;
-	$nb = 0;
-	$tr = 0;
-	foreach($file_array as $key => $line){
-		if($isblock){
-			$line_array = explode("|",$line);
-			$blocks[$nb] = [
-			"name" => trim($line_array[0]),
-			"icon" => trim($line_array[1])
-			];
-			$isblock = false;
-		}
-		else{
-			if($isdata){
-				//@todo choose between views/datas
-				
-				$line_array = explode("|",$line);
-				
-
-				$plugin = trim($line_array[0]);
-				if($plugin == ""){
-					$isdata = false;
-					$isblock = true;
-					$nb++;
-				}
-				else{
-					$data_file = trim($line_array[1]);
-					include(USER_VIEWS.$plugin."/datas/".$data_file.".view");
-					$tr++;
-				}
-			}
-			else{
-				$isdata = true;
-			}
-		}
-		
-	}
-	return $blocks;
-
-}
 
 //Strip all accentuate characters
 public static function remove_accents($str, $charset='utf-8')

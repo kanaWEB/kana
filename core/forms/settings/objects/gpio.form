@@ -1,0 +1,49 @@
+<?php
+//If an object is selected
+if(isset($_["id"])){
+	$selected_db = new Entity($object_name,true);
+	$selected = $selected_db->getById($_["id"]);
+	$form_name = "ID:".$_["id"];
+	$hidden_input = [
+	"type" => "hidden",
+	"value" => $_["id"]
+	];
+}
+else
+{
+	$selected = false;
+	$form_name = "New";
+}
+
+$form = new Form($form_name);
+	include(CORE_VIEWS."forms/form_default.view");
+
+//Custom Fields
+$inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."gpios/");
+foreach($inputs_file as $input_file){
+	
+	$file = USER_OBJECTS.$object_name."/"."gpios/".$input_file;
+	$input = Variable::md2var($file);
+	
+	$input["selected"] = $selected[$input["id"]];
+	if(isset($input["options"])){
+		$data_file = Variable::data_dir($input["options"]);
+		include($data_file);
+		$input["options"] = $data;
+	}
+
+	$form->input($input);
+	$table_headers[] = $input["name"];
+	$table_datas[] = $input["id"];
+}
+$form->display($tpl);
+
+
+$object_db = new Entity($object_name,true);
+$objects = $object_db->populate();
+if($objects){
+	include(CORE_VIEWS."/"."datatable/dbtable.view");
+}
+
+
+?>

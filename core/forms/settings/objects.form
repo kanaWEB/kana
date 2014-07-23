@@ -1,391 +1,44 @@
 <?php
 if(isset($_["name"])){
 	$object_name = $_["name"];
+	$tab = isset($_["tab"]) ? $_["tab"] : false;
 
-/*
+//Header
+	$object_dir = USER_OBJECTS.$object_name;
+	$object_icon = USER_OBJECTS.$object_name."/icon.png";
+	$object_longname = Variable::ObjectName($object_dir);
+	$tpl->assign("text",$object_longname);
+	$tpl->assign("image",$object_icon);
+	$tpl->draw(CORE_VIEWS."text/h1_image");
 
-NavTab / Name
+//Navbar generation
+	include(CORE_VIEWS."menu/objects.view");
 
- */
+	if($tab){
+		switch ($tab) {
+		//Help Tabs
+			case "help":
+			Draw::md2help($object_name);
+			break;
 
-$tpl->assign("text",$object_name);
-$tpl->draw(CORE_VIEWS."text/h1");
-
-$link_begin = "settings.php?menu=objects&name=".$object_name."&tab=";
-
-$navtab_items[] = [
-"text" => "Add/Remove",
-"link" => $link_begin."add-remove"
-];
-
-$navtab_items[] = [
-"text" => "Actions",
-"link" => $link_begin."actions"
-];
-
-$navtab_items[] = [
-"text" => "Help",
-"link" => $link_begin."help"
-];
-
-if(isset($_["tab"])){
-	$navtab_item_selected = $link_begin.$_["tab"];
-}
-else{
-	$navtab_item_selected = $link_begin."actions";
-}
-
-$tpl->assign("navtab_item_selected",$navtab_item_selected);
-$tpl->assign("navtab_items",$navtab_items);
-$tpl->draw(CORE_VIEWS."menu/navtab");
-
-/*
-
-All tabs
-
- */
-
-if(isset($_["tab"])){
-	$tab = $_["tab"]; 
-	switch ($tab) {
-			//Help Tabs
-		case "help":
-		$Parsedown = new Parsedown();
-		$translated_help = USER_OBJECTS.$object_name."/md/help.".$_SESSION["LANGUAGE"].".md";
-
-		if(file_exists($translated_menu_dir)){
-			$text = file_get_contents($translated_help);
+		//Actions Tabs
+			case "actions":
+		//@todo If only one action redirect
+		if(!isset($_["action"])){ //Available actions
+			include(CORE_VIEWS."/menu/available_actions.view");	
 		}
-		else
-		{
-			$text = file_get_contents(USER_OBJECTS.$object_name."/md/help.md");
+		else{ //Selected Action
+			include(CORE_FORMS."/settings/objects/actions.form");
 		}
-		echo $Parsedown->text($text);
 		break;
 
-		/* 
-		Actions Tabs
-		*/
-
-		case "actions":
-		//@todo If only one action redirect
-		
-		//Choose actions
-		if(!isset($_["action"])){
-			$actions_list = Functions::getdir(USER_ACTIONS.$object_name);
-
-			foreach($actions_list as $action_dir){
-				$actions[] = [
-				"text" => file_get_contents(USER_ACTIONS.$object_name."/".$action_dir."/"."md/text.md"),
-				"description" => file_get_contents(USER_ACTIONS.$object_name."/".$action_dir."/"."md/description.md"),
-				"link" =>  $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$action_dir
-				];
-			}
-			$tpl->assign("actions",$actions);
-			$tpl->draw(CORE_VIEWS."test/actions");
-		}
-		else{
-			$action_name = $_["name"]."_actions";
-			$db_fields = [
-			"state" => "int",
-			"action" => "text",
-			"command" => "text",
-			"object_key" => "int",
-			"gpio" => "int",
-			"group_key" => "int"
-			];
-
-		//Action chosen
-			if(isset($_["id"])){
-				$selected_action_db = new Entity($object_name."_actions",$db_fields);
-				$selected_action = $selected_action_db->getById($_["id"]);
-				$form_name = "ID:".$_["id"];
-				$hidden_input = [
-				"type" => "hidden",
-				"value" => $_["id"]
-				];
-			}
-			else{
-				$selected_action = false;
-				$form_name = "New";
-			}
-
-			$action_form = new Form($form_name);
-
-		//Default Fields
-			$table_headers[] = "Name";
-			$table_headers[] = "Description";
-			$table_datas[] = "object_name";
-			$table_datas[] = "object_description";
-
-			if(isset($hidden_input)){
-				$action_form->input($hidden_input);
-			}
-
-			$action_form->input([
-				"type" => "text",
-				"id" => "object_name",
-				"name" => "Name",
-				"placeholder" => "Actions's name",
-				"selected" => $selected_action["object_name"]
-				]);
-
-			$action_form->input([
-				"type" => "text",
-				"id" => "object_description",
-				"name" => "Description",
-				"placeholder" => "Actions's description",
-				"selected" => $selected_action["object_description"]
-				]);
-	
-			include(USER_DATAS.$object_name."/list.data");
-			$action_form->input([
-				"type" => "select",
-				"id" => "object_key",
-				"name" => $object_name,
-				"options" => $data,
-				"selected" => $selected_action["object_key"]
-				]);
-
-			include(CORE_DATAS."group.data");
-			$action_form->input([
-				"type" => "select",
-				"id" => "group_key",
-				"name" => "Group",
-				"options" => $data,
-				"selected" => $selected_action["group_key"]
-				]);
-
-			$action_form->display($tpl);
-
-			$table_headers[] = $object_name;
-			$table_datas[] = "object_key";
-			$table_headers[] = "Group";
-			$table_datas[] = "group_key";
-			$table_headers[] = "";
-
-			$object_db = new Entity($object_name,true);
-			$group_db = new Entity("Group");
-			$action_db = new Entity($action_name,$db_fields);
-			$actions = $action_db->populate();
-
-			echo "<br>";
-			echo '<div class="container">';
-
-			if($actions){
-/*
-
-Table Header
-
- */
-
-$tpl->draw(CORE_VIEWS."table/open");
-$tpl->draw(CORE_VIEWS."table/row/open");
-foreach($table_headers as $table_header){
-	$tpl->draw(CORE_VIEWS."table/header/open");
-	echo t($table_header);
-	$tpl->draw(CORE_VIEWS."table/header/close");
-}
-$tpl->draw(CORE_VIEWS."table/row/close");
-
-/*
-
-Table Datas
- */
-
-for($i=0;$i<count($actions);$i++){
-	$tpl->draw(CORE_VIEWS."table/row/open");
-	foreach($table_datas as $td){
-		$tpl->draw(CORE_VIEWS."table/cell/open");
-		switch($td){
-			case "object_key":
-			$name = $object_db->getById($actions[$i][$td]);
-			echo $name["object_name"];
-			break;
-
-			case "group_key":
-			$name = $group_db->getById($actions[$i][$td]);
-			echo $name["name"];
-			break;
-
-			default:
-			echo $actions[$i][$td];	
-			break;
-
-		}
-		
-
-		$tpl->draw(CORE_VIEWS."table/cell/close");
-
-	}
-	$tpl->draw(CORE_VIEWS."table/cell/open");
-
-	$buttons = [
-	"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$_["action"],
-	"id" => $actions[$i]["id"]
-	];
-	$tpl->assign("buttons",$buttons);
-	$tpl->draw(CORE_VIEWS."table/buttons");
-	$tpl->draw(CORE_VIEWS."table/cell/close");
-
-
-	$tpl->draw(CORE_VIEWS."table/row/close");
-}
-
-
-$tpl->draw(CORE_VIEWS."table/close");
-
-}
-
-echo '</div>';
-
-}
-break;
-
-
 		//Add/Remove Tabs
-case "add-remove":
-
-if(isset($_["id"])){
-
-	$selected_object_db = new Entity($object_name,true);
-	$selected_object = $selected_object_db->getById($_["id"]);
-	$form_name = "ID:".$_["id"];
-	$hidden_input = [
-	"type" => "hidden",
-	"value" => $_["id"]
-	];
-}
-else
-{
-	$selected_object = false;
-	$form_name = "New";
-}
-
-$object_form = new Form($form_name);
-
-			//Default Fields
-$table_headers[] = "Name";
-$table_headers[] = "Description";
-$table_datas[] = "object_name";
-$table_datas[] = "object_description";
-
-if(isset($hidden_input)){
-	$object_form->input($hidden_input);
-}
-
-$object_form->input([
-	"type" => "text",
-	"id" => "object_name",
-	"name" => "Name",
-	"placeholder" => "Object's name",
-	"selected" => $selected_object["object_name"]
-	]);
-
-$object_form->input([
-	"type" => "text",
-	"id" => "object_description",
-	"name" => "Description",
-	"placeholder" => "Object's description",
-	"selected" => $selected_object["object_description"]
-	]);
-
-		//Custom Fields
-$inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."add-remove/");
-foreach($inputs_file as $input_file){
-	$input_data = file(USER_OBJECTS.$object_name."/"."add-remove/".$input_file);
-	$variables = explode("|",$input_data[0]);
-	$variables = array_map('trim',$variables);
-	$values = explode("|",$input_data[2]);
-	$values = array_map('trim',$values);
-	$input = array_combine($variables,$values);
-	$input["selected"] = $selected_object[$input["id"]];
-	if(isset($input["options"])){
-		include(USER_DATAS.$input["options"].".data");
-		$input["options"] = $data;
+		case "gpios":
+		include(CORE_FORMS."/settings/objects/gpio.form");
+		break;
 	}
-	$object_form->input($input);
-	$table_headers[] = $input["name"];
-	$table_datas[] = $input["id"];
-}
-$object_form->display($tpl);
-
-$table_headers[] = ""; //Actions Buttons
-
-echo "<br>";
-echo '<div class="container">';
-
-/*
-
-GPIO
-
- */
-
-include(USER_DATAS."gpio/pins.data");
-$tpl->assign("gpios",$datas);
-$tpl->assign("gpios_type","WiringPi");
-$tpl->draw(USER_DATAS."gpio/pins");
-
-echo "<br>";
-
-
-$object_db = new Entity($object_name,true);
-$objects = $object_db->populate();
-if($objects){
-/*
-
-Table Header
-
- */
-
-$tpl->draw(CORE_VIEWS."table/open");
-$tpl->draw(CORE_VIEWS."table/row/open");
-foreach($table_headers as $table_header){
-	$tpl->draw(CORE_VIEWS."table/header/open");
-	echo t($table_header);
-	$tpl->draw(CORE_VIEWS."table/header/close");
-}
-$tpl->draw(CORE_VIEWS."table/row/close");
-
-/*
-
-Table Datas
- */
-
-
-for($i=0;$i<count($objects);$i++){
-	$tpl->draw(CORE_VIEWS."table/row/open");
-	foreach($table_datas as $td){
-		$tpl->draw(CORE_VIEWS."table/cell/open");
-		echo $objects[$i][$td];
-		$tpl->draw(CORE_VIEWS."table/cell/close");
-	}
-	$tpl->draw(CORE_VIEWS."table/cell/open");
-
-	$buttons = [
-	"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=add-remove",
-	"id" => $objects[$i]["id"]
-	];
-
-	$tpl->assign("buttons",$buttons);
-	$tpl->draw(CORE_VIEWS."table/buttons");
-	$tpl->draw(CORE_VIEWS."table/cell/close");
-
-
-	$tpl->draw(CORE_VIEWS."table/row/close");
 }
 
-$tpl->draw(CORE_VIEWS."table/close");
-
-}
-
-echo '</div>';
-
-
-
-break;
-}
-}
 }
 
 

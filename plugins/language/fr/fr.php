@@ -49,6 +49,10 @@ $lang["Help"] = "Aide";
 $lang["Object's name"] = "Nom de l'objet";
 $lang["Object's description"] = "Description de l'objet";
 
+$lang["Electronics"] = "Electronique";
+$lang["Overview"] = "Vue d'ensemble";
+$lang["Objects"] = "Objets";
+$lang["Group"] = "Groupe";
 
 //Time
 $lang["year"] = "an";

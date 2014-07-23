@@ -1,0 +1,20 @@
+<!-- core/templates/left/item.html -->
+<legend>
+	{if="isset($category.link)"}<a href="settings.php?menu={$category.link}">{/if}
+	{$category.text|t}
+	{if="isset($category.link)"}</a>{/if}
+</legend>
+
+<ul class="nav nav-pills nav-stacked">
+	{if="isset($leftmenu)"}
+	{loop="$leftmenu"}
+			<li {if="$leftmenu_active==$value.link"}class="active"{/if}>
+				<a href="settings.php?menu={$value.link}">
+					<img src="{$value.icon}">  {$value.text|t}   		
+					{if="isset($value.state)"}<span class="label {$value.label}"><i class="glyphicon {$value.state}"></i></span>{/if}
+				</a>
+
+			</li>
+	{/loop}
+	{/if}
+</ul>

@@ -7,13 +7,11 @@ $(document).ready(function(){
 	if (typeof notice !== 'undefined') {
 		notification(notice,"success");
 	}
-/*
-setInterval(function(){
-if ( $( ".ajax_onload" ).length ) {
-		console.log("AJAX ONLOAD----------------")
-		ajax_onload("progressbar",".progress-bar");
-		ajax_onload("label","span");
-}
-},1000);
-*/
+
 });
+
+function rotate(deg){
+	$(".rotable").css("-ms-transform","rotate("+deg+"deg)");
+	$(".rotable").css("-webkit-transform","rotate("+deg+"deg)");
+	$(".rotable").css("transform","rotate("+deg+"deg)");
+}

@@ -1,0 +1,27 @@
+<?php
+//Default Fields
+$table_headers[] = "Name";
+$table_headers[] = "Description";
+$table_datas[] = "object_name";
+$table_datas[] = "object_description";
+
+if(isset($hidden_input)){
+	$form->input($hidden_input);
+}
+
+$form->input([
+	"type" => "text",
+	"id" => "object_name",
+	"name" => "Name",
+	"placeholder" => "name",
+	"selected" => $selected["object_name"]
+	]);
+
+$form->input([
+	"type" => "text",
+	"id" => "object_description",
+	"name" => "Description",
+	"placeholder" => "description",
+	"selected" => $selected["object_description"]
+	]);
+?>

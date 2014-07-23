@@ -8,6 +8,7 @@ define('CORE_VIEWS',"core/views/");
 define('CORE_SCHEMA',"core/schema/");
 define('CORE_DATAS',"core/datas/");
 define('CORE_BUTTONS',"core/buttons/");
+define('CORE_FORMS',"core/forms/");
 
 define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views/");

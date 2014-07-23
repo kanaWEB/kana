@@ -18,7 +18,7 @@ if($currentUser->isuser()){
 		}
 		elseif(file_exists($md_file)){
 			include(CORE_VIEWS."/menu/top.view");
-			$blocks = Functions::md2datatable($md_file,$view_dir);
+			$blocks = Draw::md2datatable($md_file,$view_dir);
 			include(CORE_VIEWS."buttons/ajax_play.view");
 			include(CORE_VIEWS."datatable/blocks.view");
 

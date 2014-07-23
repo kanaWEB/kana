@@ -27,9 +27,9 @@ if($currentUser->isadmin()){
 
 //Settings post
 	if(isset($_["submit"])){
-		$file = "core/forms/settings/".$filename.".post";
+		$file = CORE_FORMS."/settings/".$filename.".post";
 		if(file_exists($file)){
-		include("core/forms/settings/".$filename.".post");
+		include(CORE_FORMS."/settings/".$filename.".post");
 		}
 	}
 //Settings form
@@ -44,9 +44,9 @@ if($currentUser->isadmin()){
 		include(CORE_VIEWS."forms/Form.class.php");
 		
 		//Page
-		$file = "core/forms/settings/".$filename.".form";
+		$file = CORE_FORMS."/settings/".$filename.".form";
 		if(file_exists($file)){
-		include("core/forms/settings/".$filename.".form");
+		include(CORE_FORMS."/settings/".$filename.".form");
 		}
 		
 		//Footer

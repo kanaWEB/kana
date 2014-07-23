@@ -457,17 +457,7 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$this->TABLE_NAME = $table_name;
 	}
 
-	public function Actions_fields(){
-		$db_fields = [
-		"state" => "int",
-		"action" => "text",
-		"command" => "text",
-		"object_key" => "int",
-		"gpio" => "int",
-		"group_key" => "int"
-		];
-		return $db_fields;
-	}
+	
 
 	public function setTable($table_name){
 		if($this->user){
