@@ -1,44 +1,72 @@
 <?php
-if(isset($_["name"])){
-	$object_name = $_["name"];
-	$tab = isset($_["tab"]) ? $_["tab"] : false;
+//Settings.php -> Objects Redirector
 
-//Header
-	$object_dir = USER_OBJECTS.$object_name;
-	$object_icon = USER_OBJECTS.$object_name."/icon.png";
-	$object_longname = Variable::ObjectName($object_dir);
-	$tpl->assign("text",$object_longname);
+//If an object is selected
+if(isset($_["name"])){
+	$object_name = $_["name"]; //Get object directory name
+	$tab = isset($_["tab"]) ? $_["tab"] : false; //Is a tab selected?
+
+//Variables
+	$object_dir = USER_OBJECTS.$object_name; //Directory of object
+	$object_icon = USER_OBJECTS.$object_name."/icon.png"; //Icon of object (32x32)
+	$object_longname = Variable::ObjectName($object_dir); //Translatable name of object
+//////
+	
+//Generating Header
+	$tpl->assign("text",$object_longname); 
 	$tpl->assign("image",$object_icon);
 	$tpl->draw(CORE_VIEWS."text/h1_image");
 
-//Navbar generation
+//3th Menu Navbar generation
 	include(CORE_VIEWS."menu/objects.view");
 
+//If a tab is selected redirected to the correct form
 	if($tab){
 		switch ($tab) {
-		//Help Tabs
+			//Help Tabs
 			case "help":
 			Draw::md2help($object_name);
 			break;
 
-		//Actions Tabs
+			//Actions Tabs
 			case "actions":
-		//@todo If only one action redirect
-		if(!isset($_["action"])){ //Available actions
-			include(CORE_VIEWS."/menu/available_actions.view");	
-		}
-		else{ //Selected Action
-			include(CORE_FORMS."/settings/objects/actions.form");
-		}
-		break;
+			$object_db = new Entity($_["name"]);
+			$nb_objects = $object_db->rowCount();
+			
+			if($nb_objects > 0){
+				//@todo If only one action redirect
+				if(!isset($_["action"])){ //Available actions
+					include(CORE_VIEWS."/menu/available_actions.view");
+					include(CORE_VIEWS."datatable/dbtable_actions.view");
+				}
+				else{ //Selected Action
+					include(CORE_FORMS."/settings/objects/actions.form");
+				}
+			}
+			else
+			{
+				echo "No actions";
+			}
+			break;
 
-		//Add/Remove Tabs
-		case "gpios":
-		include(CORE_FORMS."/settings/objects/gpio.form");
-		break;
+			//Electronics Tabs
+			case "gpios":
+			include(CORE_FORMS."/settings/objects/gpios.form");
+			break;
+
+			//Codes Tabs
+			//case "codes":
+			//	include(CORE_FORMS."/settings/objects/codes.form");
+			//break;
+
+			//Unknown Tab
+			//default:
+			//break;
+		}
 	}
 }
-
+else{
+	echo "TODO: Objects Overview";
 }
 
 

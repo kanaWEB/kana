@@ -18,28 +18,33 @@
 #define RANGE		100
 
 
-int main (int argc, char **argv)
-{
+ int main (int argc, char **argv)
+ {
 
   int led = atoi(argv[1]);
+  int speed = atoi(argv[2]);
+  int times = atoi(argv[3]);
 
-  int i, j ;
+
+  int i, j,k ;
   wiringPiSetup();
   softPwmCreate (led, 0, RANGE) ;
 
+  for (k = 0; k< times;k++){
 // Bring all up one by one:
- for (j = 0 ; j <= 100 ; ++j)
-    {
-      softPwmWrite (led, j) ;
-      delay (10) ;
-    }
+   for (j = 0 ; j <= speed ; ++j)
+   {
+    softPwmWrite (led, j) ;
+    delay (10) ;
+  }
 
 
 // Down fast
-  for (i = 100 ; i > 0 ; --i)
+  for (i = speed; i > 0 ; --i)
   {
-      softPwmWrite (led, i) ;
+    softPwmWrite (led, i) ;
     delay (10) ;
+  }
 }
 
 }

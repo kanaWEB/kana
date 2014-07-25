@@ -3,6 +3,13 @@
 $tpl->draw(CORE_VIEWS."grids/container/open");
 include(CORE_VIEWS."table/header/header.view");
 
+//Link generator
+$link = $_SERVER['SCRIPT_NAME']."?menu=".$_["menu"];
+if(isset($_["tab"]))
+{
+	$link .= "&name=".$object_name."&tab=".$_["tab"];
+}
+
 //Table datas
 for($i=0;$i<count($objects);$i++){
 	$tpl->draw(CORE_VIEWS."table/row/open");
@@ -14,7 +21,7 @@ for($i=0;$i<count($objects);$i++){
 	$tpl->draw(CORE_VIEWS."table/cell/open");
 
 	$buttons = [
-	"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=add-remove",
+	"link" => $link,
 	"id" => $objects[$i]["id"]
 	];
 

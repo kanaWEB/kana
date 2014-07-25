@@ -6,6 +6,7 @@ include EXTERNAL_LIB."RainTpl/rain.tpl.class.php";
 raintpl::$cache_dir = CACHE_DIR;
 raintpl::$tpl_dir = "";
 raintpl::configure( 'path_replace', false );
+raintpl::configure( 'php_enabled', true );
 $tpl = new RainTPL();
 
 //Generate Template

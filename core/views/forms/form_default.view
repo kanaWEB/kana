@@ -14,7 +14,8 @@ $form->input([
 	"id" => "object_name",
 	"name" => "Name",
 	"placeholder" => "name",
-	"selected" => $selected["object_name"]
+	"selected" => $selected["object_name"],
+	"required" => true
 	]);
 
 $form->input([

@@ -1,93 +1,11 @@
 <?php
 if(isset($_["tab"])){
-	if($_["tab"] == "add-remove"){
-		if(isset($_["del"])){
-			$object_name = $_["name"];
-			$object_db = new Entity($object_name,true);
-			$object_db->delete(array('id'=>$_['id']));
-			redirect("settings","?menu=objects&name=".$object_name."&tab=add-remove&error=".t("Object delete"));
-		}
-		else{
-
-			$fields = $_;
-			unset($fields["submit"]);
-			unset($fields["menu"]);
-			unset($fields["tab"]);
-			unset($fields["name"]);
-
-			$object_name = $_["name"];
-			$object_db = new Entity($object_name,true);
-			if(isset($_["id"])){
-				$object_db->setId($_["id"]);
-			}
-			else{
-				$object_db->create();
-			}
-			foreach($fields as $key => $field){
-				$setter = "set".$key;
-				$object_db->$setter($field);
-			}
-			$object_db->save();
-			redirect("settings","?menu=objects&name=".$object_name."&tab=add-remove&notice=".t("Object saved"));
-		}
+	if($_["tab"] == "gpios"){
+		include(CORE_FORMS."/settings/objects/gpios.post");
 	}
 
 	if($_["tab"] == "actions"){
-		$fields = $_;
-		unset($fields["submit"]);
-		unset($fields["menu"]);
-		unset($fields["tab"]);
-		unset($fields["name"]);
-
-		$action = $_["action"];
-		$object_name = $_["name"];
-
-		$action_name = $_["name"]."_actions";
-
-		$db_fields = [
-		"state" => "int",
-		"action" => "text",
-		"command" => "text",
-		"object_key" => "int",
-		"gpio" => "int",
-		"group_key" => "int"
-		];
-
-		var_dump($fields);
-
-		if(isset($_["del"])){
-			$action_db = new Entity($action_name,$db_fields);
-			$action_db->delete(array('id'=>$_['id']));
-			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&error=".t("Action deleted"));
-		}
-		else{
-			$object_db = new Entity($object_name,true);
-			$object_data = $object_db->getById($_["object_key"]);
-			$gpio = $object_data["gpio"];
-
-			$command = file_get_contents(USER_ACTIONS."/".$_["name"]."/".$_["action"]."/action.txt");
-			$action_db = new Entity($action_name,$db_fields);
-			foreach($fields as $key => $field){
-				$setter = "set".$key;
-				$action_db->$setter($field);
-			}
-
-		//var_dump($action_db);
-
-			$action_db->setGpio($gpio);
-			$action_db->setCommand($command);
-			$action_db->setState(0);
-			if(isset($_["id"])){
-				$action_db->setId($_["id"]);
-			}
-			else{
-				$action_db->create();
-			}
-
-			$action_db->save();
-			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&notice=".t("Action saved"));
-
-		}
+		include(CORE_FORMS."/settings/objects/actions.post");
 	}
 }
 

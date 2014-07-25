@@ -3,5 +3,5 @@
 
 <div class="form-group">
     <label for="{$input.id}">{$input.name|t}</label>
-    <input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" required>
+    <input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"}required{/if}>
 </div>

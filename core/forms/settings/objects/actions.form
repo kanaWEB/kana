@@ -1,6 +1,6 @@
 <?php
 $action_name = $_["name"]."_actions";
-
+$action_dir = $_["action"];
 //If an action is choosen
 if(isset($_["id"])){
 	$selected_db = new Entity($object_name."_actions",Variable::actions_fields());
@@ -19,6 +19,23 @@ else{
 $form = new Form($form_name);
 	include(CORE_VIEWS."forms/form_default.view");
 	include(CORE_VIEWS."forms/form_object.view");
+	//Custom Fields
+$inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form");
+foreach($inputs_file as $input_file){
+	$file = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form/".$input_file;
+	$input = Variable::md2var($file);
+	
+	$input["selected"] = $selected[$input["id"]];
+	if(isset($input["options"])){
+		$data_file = Variable::data_dir($input["options"]);
+		include($data_file);
+		$input["options"] = $data;
+	}
+
+	$form->input($input);
+	$table_headers[] = $input["name"];
+	$table_datas[] = $input["id"];
+}
 	include(CORE_VIEWS."forms/form_group.view");
 $form->display($tpl);
 

@@ -30,7 +30,18 @@ if($tab){
 	$navtab_item_selected = $link_begin.$tab;
 }
 else{
-	$navtab_item_selected = $link_begin."actions";
+	$object_db = new Entity($object_name);
+	$nb_object = $object_db->rowCount();
+	if($nb_object == 0){
+		$menu_name = Variable::object_menus_name($object_name);
+		if($menu_name["gpios"]){
+			redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
+    }
+	}
+    else
+    {
+    	redirect("settings","?menu=objects&name=".$object_name."&tab=actions");
+    }
 }
 
 $tpl->assign("navtab_item_selected",$navtab_item_selected);

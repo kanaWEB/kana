@@ -30,8 +30,8 @@ $user_db->save();
 
 //Generate Group
 $group_db = new Entity("Group");
-$group_db->setName(t("Default Group"));
-$group_db->setDescription(t("Auto-generated group"));
+$group_db->setObject_name(t("Default Group"));
+$group_db->setObject_description(t("Auto-generated group"));
 $group_db->save();
 
 unset($_SESSION);

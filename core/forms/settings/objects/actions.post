@@ -1,0 +1,45 @@
+<?php
+$fields = $_;
+		unset($fields["submit"]);
+		unset($fields["menu"]);
+		unset($fields["tab"]);
+		unset($fields["name"]);
+		unset($fields["notice"]);
+		unset($fields["error"]);
+
+		$action = $_["action"];
+		$object_name = $_["name"];
+		$action_name = $_["name"]."_actions";
+
+		if(isset($_["del"])){
+			$action_db = new Entity($action_name,Variable::actions_fields());
+			$action_db->delete(array('id'=>$_['id']));
+			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&error=".t("Action deleted"));
+		}
+		else{
+			$object_db = new Entity($object_name);
+			$object_data = $object_db->getById($_["object_key"]);
+			$gpio = $object_data["gpio"];
+
+			var_dump($fields);
+
+			$db_fields = Variable::actions_fields();
+			$action_db = new Entity($action_name,$fields);
+			foreach($fields as $key => $field){
+				$setter = "set".$key;
+				$action_db->$setter($field);
+			}
+		
+			$action_db->setState(0);
+			if(isset($_["id"])){
+				$action_db->setId($_["id"]);
+			}
+			else{
+				$action_db->create();
+			}
+
+			$action_db->save();
+			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&notice=".t("Action saved"));
+
+		}
+?>

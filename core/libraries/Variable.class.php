@@ -34,9 +34,7 @@ class Variable{
 		$db_fields = [
 		"state" => "int",
 		"action" => "text",
-		"command" => "text",
 		"object_key" => "int",
-		"gpio" => "int",
 		"group_key" => "int"
 		];
 		return $db_fields;
@@ -50,6 +48,22 @@ class Variable{
 		$values = array_map('trim',$values);
 		$input = array_combine($variables,$values);
 		return $input;
+	}
+
+	public function object_menus_name($object_name){
+		$path = USER_OBJECTS.$object_name;
+		if(file_exists($path."/actions")){
+			$menu_name["actions"] = True;
+		}
+		if(file_exists($path."/help")){
+			$menu_name["help"] = True;
+
+		}
+		if(file_exists($path."/gpios")){
+			$menu_name["gpios"] = True;
+
+		}
+		return $menu_name;
 	}
 
 	public function objectName($object_dir){
@@ -79,4 +93,4 @@ class Variable{
 		}
 	}
 }
-	?>
+?>

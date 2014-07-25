@@ -13,26 +13,46 @@ class Entity extends SQLite3
      * @var bool Debug mode, display SQL CREATE/UPDATE/DELETE commands when they are executed.
      */
     private $debug = false;
-    private $user = false;
+    private $object_table = false;
 
 	/**
 	 * Open an SQLite connection
 	 */
-	function __construct($table_name,$user=false){
-		
-		
-		if(!is_array($user)){
-			$this->user = $user;
-			$this->setTable($table_name);
+	//function __construct($table_name,$user=false){	
+	function __construct($table_name,$dbfields=false){	
+
+		$user_dir = USER_OBJECTS.$table_name."/".$table_name.".txt";
+		$core_dir = CORE_SCHEMA.$table_name."/".$table_name.".txt";
+
+
+		if(file_exists($user_dir)){
+			$this->object_table = true;
+			$this->setTable($table_name,$user_dir);
 		}
-		else
-		{
-			$this->setCustomTable($table_name,$user);
+		else if(file_exists($core_dir)){
+			$this->setTable($table_name,$core_dir);
 		}
+		else{
+			if($dbfields){
+				$this->setCustomTable($table_name,$dbfields);
+			
+			}
+			else
+			{
+				var_dump($table_name." NOT FOUNDED");
+				var_dump($user_dir);
+				var_dump($core_dir);
+				var_dump($dbfields);
+				exit();
+			}
+		}
+
+		if(!isset($notfound)){
 		$this->open(DATABASE);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
 		$this->create(); //Create the table of the entity if it doesn't exists
+		}
 	}
 
 	/**
@@ -56,10 +76,10 @@ class Entity extends SQLite3
 
  	function data2object($data,$object){
  		foreach($data as $key => $field){	
-						$setter = "set".$key;
-						$object->$setter($field);
-		}
-		return $object;
+ 			$setter = "set".$key;
+ 			$object->$setter($field);
+ 		}
+ 		return $object;
  	}
 
 	/**
@@ -126,15 +146,18 @@ public function create($debug='false'){
 
 		$query .= ');';
 //Debug Mode
+/*
 if($this->debug){
 	debug("SQL","Create",$this->TABLE_NAME);
 	echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
 }
+*/
 if(!$this->exec($query)) echo $this->lastErrorMsg();
 }
 
 public function drop($debug='false'){
 	$query = 'DROP TABLE IF EXISTS`'.SQL_PREFIX.$this->TABLE_NAME.'`;';
+	
 	if($this->debug){
 		debug("SQL","Drop",$this->TABLE_NAME);
 		echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
@@ -377,7 +400,7 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 				$whereClause .= '`'.$column.'`="'.$value.'"';
 			}
 		}
-		$query = 'SELECT COUNT(id) FROM '.SQL_PREFIX.$this->TABLE_NAME.$whereClause;
+		$query = 'SELECT COUNT(id) FROM '.SQL_PREFIX."`".$this->TABLE_NAME."`".$whereClause;
 		//echo '<hr>'.$this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
 		$execQuery = $this->querySingle($query);
 		//echo $this->lastErrorMsg();
@@ -453,27 +476,18 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$db_fields['object_name'] = "string";
 		$db_fields['object_description'] = "string";
 		$this->object_fields = $db_fields;
-	
+
 		$this->TABLE_NAME = $table_name;
 	}
 
-	
+	public function setTable($table_name,$fields_filepath){
+		$db_text = file($fields_filepath);
+		array_shift($db_text); //Remove first line (description of schema)
 
-	public function setTable($table_name){
-		if($this->user){
-			$fields_file = USER_OBJECTS."/".$table_name."/".$table_name.".txt";
-		}
-		else
-		{
-			$fields_file = CORE_SCHEMA.$table_name."/".$table_name.".txt";
-		}
-		$db_text = file($fields_file);
-
-		array_shift($db_text);
 		$db_fields['id'] = "key";
 		$db_fields['uid'] = "int";
 
-		if($this->user){
+		if($this->object_table){
 			$db_fields['object_name'] = "string";
 			$db_fields['object_description'] = "string";
 		}
@@ -485,5 +499,7 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$this->object_fields = $db_fields;
 		$this->TABLE_NAME = $table_name;
 	}
+
+
 }
 ?>

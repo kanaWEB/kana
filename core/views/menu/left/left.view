@@ -31,6 +31,13 @@ $leftmenu[] = [
 "icon" => "glyphicon-user",
 "link" => "users"
 ];
+
+$leftmenu[] = [
+"text" => "Groups",
+"icon" => "glyphicon-user",
+"link" => "groups"
+];
+
 $tpl->assign("leftmenu",$leftmenu);
 $tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
 unset($leftmenu);
@@ -60,7 +67,7 @@ $objects = Functions::getdir(USER_OBJECTS);
 
 $category = [
 "text" => "Objects",
-"link" => "Objects"
+"link" => "objects"
 ];
 $tpl->assign("category",$category);
 

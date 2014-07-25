@@ -1,0 +1,50 @@
+<?php
+if(isset($_["del"])){
+	$object_db = new Entity("Group");
+	$object_count = $object_db->rowCount();
+	
+	$list_dir = Functions::getDir(USER_OBJECTS);
+	$linked_count = 0;
+	foreach($list_dir as $dir){
+		$db = new Entity($dir."_actions",Variable::actions_fields());
+		$linked_count = $db->rowCount(array("group_key" => $_["id"]));
+
+		if($linked_count > 0){
+			break;
+		}
+	}
+	if($linked_count == 0){
+		if($object_count == 1){
+			redirect("settings","?menu=groups&error=".t("You can't delete the last group!"));
+		}
+		else{
+			$object_db->delete(array('id'=>$_['id']));
+			redirect("settings","?menu=groups&error=".t("Group delete"));
+		}
+	}
+	else
+	{
+			redirect("settings","?menu=groups&error=".t("This group is not empty!"));
+	}
+}
+else{
+
+	$fields = $_;
+	unset($fields["submit"]);
+	unset($fields["menu"]);
+
+	$object_db = new Entity("Group");
+	if(isset($_["id"])){
+		$object_db->setId($_["id"]);
+	}
+	else{
+		$object_db->create();
+	}
+	foreach($fields as $key => $field){
+		$setter = "set".$key;
+		$object_db->$setter($field);
+	}
+	$object_db->save();
+	redirect("settings","?menu=groups&notice=".t("Group saved"));
+}
+?>

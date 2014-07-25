@@ -1,8 +1,8 @@
 <?php
 if(isset($_["gpio"])){
 	$gpio = $_["gpio"];
-	$command = "/usr/local/bin/gpio read ".$gpio;
-	$data = trim(shell_exec($command));
+	$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
+	$data = trim(shell_exec($pinstate_command));
 	echo $data;
 }
 else
@@ -11,10 +11,9 @@ else
 		echo "UNSPECIFIED";
 	}
 	else{
-		$command = "/usr/local/bin/gpio read ".$gpio;
-		$data = trim(shell_exec($command));
+		$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
+		$data = trim(shell_exec($pinstate_command));
 	}
 }
-
 
 ?>

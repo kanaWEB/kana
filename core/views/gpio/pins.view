@@ -1,6 +1,7 @@
 <?php
 include(CORE_DATAS."gpio/pins.data");
 $tpl->assign("gpios",$datas);
+$tpl->assign("model",$model);
 $tpl->assign("gpios_type",DEFAULT_GPIO);
 $tpl->draw(CORE_VIEWS."gpio/pins");
 ?>

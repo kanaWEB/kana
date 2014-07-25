@@ -1,5 +1,5 @@
 <?php
-$object_db = new Entity($object_name,true);
+$object_db = new Entity($object_name);
 $objects = $object_db->populate();
 if($objects){
 foreach($objects as $object){

@@ -5,7 +5,7 @@ unset($data);
 if($objects){
 	foreach($objects as $object){
 		$data[] = [
-		"text" => $object["name"],
+		"text" => $object["object_name"],
 		"value" => $object["id"]
 		];
 	}

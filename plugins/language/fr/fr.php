@@ -31,6 +31,12 @@ $lang["Send"] = "Envoyer";
 //Group
 $lang["Default Group"] = "Groupe par défaut";
 $lang["Auto-generated group"] = "Groupe auto-généré";
+$lang["Group"] = "Groupe";
+$lang["Groups"] = "Groupes";
+$lang["You can't delete the last group!"] = "Vous ne pouvez pas effacer le dernier groupe!";
+$lang["This group is not empty!"] = "Ce groupe n'est pas vide!";
+$lang["Group delete"] = "Groupe effacé";
+$lang["Group saved"] = "Groupe sauvegardé";
 
 //Default Settings Menu
 $lang["Preferences"] = "Préférences";
@@ -52,7 +58,10 @@ $lang["Object's description"] = "Description de l'objet";
 $lang["Electronics"] = "Electronique";
 $lang["Overview"] = "Vue d'ensemble";
 $lang["Objects"] = "Objets";
-$lang["Group"] = "Groupe";
+$lang["Component added"] = "Composant ajouté";
+$lang["Component removed"] = "Composant enlevé";
+
+
 
 //Time
 $lang["year"] = "an";

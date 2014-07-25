@@ -1,0 +1,3 @@
+/usr/local/bin/gpio write [gpio] [state]
+bin/blink [gpio] [times] [speed]
+bin/pwm [gpio] [times] [speed]

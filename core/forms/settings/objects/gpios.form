@@ -1,7 +1,7 @@
 <?php
 //If an object is selected
 if(isset($_["id"])){
-	$selected_db = new Entity($object_name,true);
+	$selected_db = new Entity($object_name);
 	$selected = $selected_db->getById($_["id"]);
 	$form_name = "ID:".$_["id"];
 	$hidden_input = [
@@ -21,7 +21,6 @@ $form = new Form($form_name);
 //Custom Fields
 $inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."gpios/");
 foreach($inputs_file as $input_file){
-	
 	$file = USER_OBJECTS.$object_name."/"."gpios/".$input_file;
 	$input = Variable::md2var($file);
 	
@@ -38,8 +37,11 @@ foreach($inputs_file as $input_file){
 }
 $form->display($tpl);
 
+$tpl->draw(CORE_VIEWS."grids/container/open");
+include(CORE_VIEWS."gpio/pins.view");
+$tpl->draw(CORE_VIEWS."grids/container/close");
 
-$object_db = new Entity($object_name,true);
+$object_db = new Entity($object_name);
 $objects = $object_db->populate();
 if($objects){
 	include(CORE_VIEWS."/"."datatable/dbtable.view");

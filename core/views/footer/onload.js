@@ -9,9 +9,3 @@ $(document).ready(function(){
 	}
 
 });
-
-function rotate(deg){
-	$(".rotable").css("-ms-transform","rotate("+deg+"deg)");
-	$(".rotable").css("-webkit-transform","rotate("+deg+"deg)");
-	$(".rotable").css("transform","rotate("+deg+"deg)");
-}

@@ -121,3 +121,21 @@ function change_td_color(id,color){
 	td.removeClass();
 	td.addClass("bg-"+color);
 }
+
+function rotate(deg){
+	$(".rotable").css("-ms-transform","rotate("+deg+"deg)");
+	$(".rotable").css("-webkit-transform","rotate("+deg+"deg)");
+	$(".rotable").css("transform","rotate("+deg+"deg)");
+	if(deg == 180){
+		norotate(deg);
+	}
+	if(deg == 0){
+		norotate(deg);
+	}
+}
+
+function norotate(deg){
+	$(".no-rotate").css("-ms-transform","rotate("+deg+"deg)");
+	$(".no-rotate").css("-webkit-transform","rotate("+deg+"deg)");
+	$(".no-rotate").css("transform","rotate("+deg+"deg)");
+}

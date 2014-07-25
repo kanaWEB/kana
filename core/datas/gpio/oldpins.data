@@ -1,0 +1,42 @@
+ <?php
+ $gpios_unsorted = array();
+ $gpios_unsorted = shell_exec("/usr/local/bin/gpio readall");
+
+ $gpios_unsorted = explode("\n",$gpios_unsorted);
+ array_shift($gpios_unsorted);
+ array_shift($gpios_unsorted);
+ array_shift($gpios_unsorted);
+ array_pop($gpios_unsorted);
+ array_pop($gpios_unsorted);
+
+ foreach($gpios_unsorted as $key => $gpio_unsorted){
+ 	$gpios_item = explode("|",$gpio_unsorted);
+
+ 	if($gpios_item[6] == " High  "){
+ 		$label = "success";
+ 	}
+ 	else
+ 	{
+ 		$label = "warning";
+ 	}
+ 	$datas[$key] = [
+ 	"WiringPi" => $key,
+ 	"gpio" => intval(trim($gpios_item[2])),
+ 	"phys" => intval(trim($gpios_item[3])),
+ 	"name" => trim($gpios_item[4]),
+ 	"mode" => trim($gpios_item[5]),
+ 	"value" => trim($gpios_item[6]),
+ 	"label" => $label
+ 	];
+
+ }
+
+
+//AJAX DATA
+ if(isset($_["data_id"])){
+ 	$data_json["data_id"] = $_["data_id"];
+ 	$data_json["data"] = $datas;
+ 	echo json_encode($data_json);
+ }
+
+ ?>

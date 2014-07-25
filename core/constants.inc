@@ -48,6 +48,5 @@ define('INSTALL_THEME',"bootstrap");
 define('DEFAULT_MENU_SETTINGS',"pref");
 
 //GPIO
-define('DEFAULT_GPIO',"WiringPi");
-
+define('DEFAULT_GPIO',"wPi");
 ?>

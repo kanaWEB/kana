@@ -1,0 +1,31 @@
+<?php
+$object_name = "Groups";
+$objects_db = new Entity("Group");
+$objects = $objects_db->populate();
+
+//If an object is selected
+if(isset($_["id"])){
+	$selected_db = new Entity("Group");
+	$selected = $selected_db->getById($_["id"]);
+	$form_name = "ID:".$_["id"];
+	$hidden_input = [
+	"type" => "hidden",
+	"value" => $_["id"]
+	];
+}
+else{
+	$selected = false;
+	$form_name = "New";
+}
+
+$tpl->assign("text",$object_name);
+$tpl->draw(CORE_VIEWS."text/h1");
+
+$form = new Form($form_name);
+	include(CORE_VIEWS."forms/form_default.view");
+
+$form->display($tpl);
+if($objects){
+include(CORE_VIEWS."/"."datatable/dbtable.view");
+}
+?>
