@@ -5,6 +5,7 @@ $action_dir = $_["action"];
 if(isset($_["id"])){
 	$selected_db = new Entity($object_name."_actions",Variable::actions_fields());
 	$selected = $selected_db->getById($_["id"]);
+	$selected = Variable::action_args($selected);
 	$form_name = "ID:".$_["id"];
 	$hidden_input = [
 	"type" => "hidden",
@@ -16,11 +17,20 @@ else{
 	$form_name = "New";
 }
 
+include(CORE_VIEWS."menu/available_actions.view");
+
+
 $form = new Form($form_name);
 	include(CORE_VIEWS."forms/form_default.view");
 	include(CORE_VIEWS."forms/form_object.view");
-	//Custom Fields
+
+//Custom Fields
+$form_file_dir = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form";
+if(file_exists($form_file_dir)){
 $inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form");
+
+
+
 foreach($inputs_file as $input_file){
 	$file = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form/".$input_file;
 	$input = Variable::md2var($file);
@@ -36,6 +46,9 @@ foreach($inputs_file as $input_file){
 	$table_headers[] = $input["name"];
 	$table_datas[] = $input["id"];
 }
+
+}
+
 	include(CORE_VIEWS."forms/form_group.view");
 $form->display($tpl);
 

@@ -11,8 +11,6 @@ int main (int argc, char **argv)
 
 	wiringPiSetup();
 
-	printf("BLINK");
-
 	pinMode(led,OUTPUT);
 	for(j=1;j <= times;j++){
 	digitalWrite(led,HIGH);

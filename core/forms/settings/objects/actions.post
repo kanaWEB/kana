@@ -17,25 +17,40 @@ $fields = $_;
 			redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&error=".t("Action deleted"));
 		}
 		else{
+
+			//Get data from object (GPIO)
 			$object_db = new Entity($object_name);
 			$object_data = $object_db->getById($_["object_key"]);
 			$gpio = $object_data["gpio"];
 
-			var_dump($fields);
+			//Get Arguments
+			$args = $fields;
+			unset($args["object_name"]);
+			unset($args["object_description"]);
+			unset($args["object_key"]);
+			unset($args["group_key"]);
+			unset($args["action"]);
+			$args_key = array_keys($args);
+			foreach($args_key as $arg_key){
+				unset($fields[$arg_key]);
+			}
+			$args = json_encode($args);
+
 
 			$db_fields = Variable::actions_fields();
-			$action_db = new Entity($action_name,$fields);
+			$action_db = new Entity($action_name,$db_fields);
+		
+			//Predefined fields
 			foreach($fields as $key => $field){
 				$setter = "set".$key;
 				$action_db->$setter($field);
 			}
+
+			//Args Fields
+			$action_db->setArgs($args);
 		
-			$action_db->setState(0);
 			if(isset($_["id"])){
 				$action_db->setId($_["id"]);
-			}
-			else{
-				$action_db->create();
 			}
 
 			$action_db->save();

@@ -5,10 +5,15 @@ class Variable{
 //Searching a data everywhere we can
 	public static function data_dir($data_link){
 		$data_link_array = explode("/",$data_link);
+
+		if(count($data_link_array) != 1){
 		$plugin = $data_link_array[0];
 		$file = $data_link_array[1];
-
-
+		}
+		else{
+			$plugin = $data_link;
+			$file = $data_link;
+		}
 
 //You can prioritize similar named datas here, this can be used to override how a data inside core works.
 		$data_files[] = USER_DATAS.$data_link.".data";
@@ -32,12 +37,32 @@ class Variable{
 
 	public function actions_fields(){
 		$db_fields = [
-		"state" => "int",
 		"action" => "text",
+		"args" => "text",
 		"object_key" => "int",
 		"group_key" => "int"
 		];
 		return $db_fields;
+	}
+
+	public function actions_args($actions){
+		foreach($actions as $key_action => $action){
+			$args = json_decode(html_entity_decode($action["args"]));
+			foreach($args as $key_arg => $arg){
+				$actions[$key_action][$key_arg] = $arg;
+			}
+			unset($actions[$key_action]["args"]);
+		}
+		return $actions;
+	}
+
+	public function action_args($action){
+		$args = json_decode(html_entity_decode($action["args"]));
+			foreach($args as $key_arg => $arg){
+				$action[$key_arg] = $arg;
+			}
+			unset($action["args"]);
+		return $action;
 	}
 
 	public function md2var($file){

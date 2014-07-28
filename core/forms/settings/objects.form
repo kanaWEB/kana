@@ -4,6 +4,7 @@
 //If an object is selected
 if(isset($_["name"])){
 	$object_name = $_["name"]; //Get object directory name
+	add_language(USER_OBJECTS.$object_name);
 	$tab = isset($_["tab"]) ? $_["tab"] : false; //Is a tab selected?
 
 //Variables
@@ -12,6 +13,7 @@ if(isset($_["name"])){
 	$object_longname = Variable::ObjectName($object_dir); //Translatable name of object
 //////
 	
+	$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
 //Generating Header
 	$tpl->assign("text",$object_longname); 
 	$tpl->assign("image",$object_icon);
@@ -30,10 +32,9 @@ if(isset($_["name"])){
 
 			//Actions Tabs
 			case "actions":
-			$object_db = new Entity($_["name"]);
-			$nb_objects = $object_db->rowCount();
+			$actions_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
 			
-			if($nb_objects > 0){
+			if($actions_list > 0){
 				//@todo If only one action redirect
 				if(!isset($_["action"])){ //Available actions
 					include(CORE_VIEWS."/menu/available_actions.view");
@@ -64,6 +65,7 @@ if(isset($_["name"])){
 			//break;
 		}
 	}
+	$tpl->draw(CORE_VIEWS."grids/container/close");
 }
 else{
 	echo "TODO: Objects Overview";

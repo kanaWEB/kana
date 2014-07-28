@@ -25,7 +25,7 @@ if($currentUser->isuser()){
 		}
 	}
 	else{
-		redirect("views","?view=system");
+		redirect("views","?view=list");
 	}
 
 	include(CORE_VIEWS."/footer/footer.view");

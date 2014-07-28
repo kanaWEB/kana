@@ -61,7 +61,21 @@ text-align: center;
 }
 
 .bordered{
-   border: 1px solid #000;
-
+   border: 1px solid #cccccc;
+ border-radius: 14px;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -o-border-radius: 14px;
+   box-shadow: 0px 0px 6px 0px #cccccc;
+  -webkit-box-shadow: 0px 0px 6px 0px #cccccc;
+  -moz-box-shadow: 0px 0px 6px 0px #cccccc;
+  -ms-box-shadow: 0px 0px 6px 0px #cccccc;
+  -o-box-shadow: 0px 0px 6px 0px #cccccc;
 }
+
+ input,select {
+        max-width: 95%;
+} 
+
 

@@ -1,4 +1,5 @@
 <?php
+$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
 $preferences_form = new Form("Preferences");
 
 
@@ -24,4 +25,18 @@ $preferences_form->input([
 	]);
 
 $preferences_form->display($tpl);
+
+$buttons[] = [
+"text" => "Check permissions",
+"command" => "check_perm"
+];
+
+$buttons[] = [
+"text" => "Update system",
+"command" => "aptupdate"
+];
+
+$tpl->assign("buttons",$buttons);
+$tpl->draw(CORE_VIEWS."modal/root_permissions");
+$tpl->draw(CORE_VIEWS."grids/container/close");
 ?>

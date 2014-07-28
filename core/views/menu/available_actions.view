@@ -1,15 +1,39 @@
 <?php
-$actions_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
+
 
 //Get actions availables for selected objects
-foreach($actions_list as $action_dir){
-$actions[] = [
-"text" => file_get_contents(USER_OBJECTS.$object_name."/actions/".$action_dir."/"."md/text.md"),
-"description" => file_get_contents(USER_OBJECTS.$object_name."/actions/".$action_dir."/"."md/description.md"),
-"link" =>  $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$action_dir
-];
+foreach($actions_list as $available_action_dir){
+
+$file_name = USER_OBJECTS.$object_name."/actions/".$available_action_dir."/"."md/text.md";
+$file_name_translated = USER_OBJECTS.$object_name."/actions/".$available_action_dir."/"."md/text.".$_SESSION["LANGUAGE"].".md";
+$file_description = USER_OBJECTS.$object_name."/actions/".$available_action_dir."/"."md/description.md";
+$file_description_translated = USER_OBJECTS.$object_name."/actions/".$available_action_dir."/"."md/description.".$_SESSION["LANGUAGE"].".md";
+
+if(file_exists($file_name_translated)){
+	$text = file_get_contents($file_name_translated);
+	$description = file_get_contents($file_description_translated);
+}
+else{
+	$text = file_get_contents($file_name);
+	$description = file_get_contents($file_description);
 }
 
+	$actions[] = [
+	"text" => $text,
+	"description" => $description,
+	"link" =>  $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$available_action_dir,
+	"dir" => $available_action_dir
+	];
+}
+
+if(isset($_["action"])){
+$selected_action = $_["action"];
+}
+else{
+$selected_action = false;
+}
+
+$tpl->assign("selected_action",$selected_action);
 $tpl->assign("actions",$actions);
 $tpl->draw(CORE_VIEWS."menu/available_actions");
 ?>

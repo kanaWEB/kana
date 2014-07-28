@@ -1,0 +1,4 @@
+<?php
+$data_file = Variable::data_dir($_["data"]);
+include($data_file);
+?>

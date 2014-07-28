@@ -24,11 +24,12 @@ class Entity extends SQLite3
 		$user_dir = USER_OBJECTS.$table_name."/".$table_name.".txt";
 		$core_dir = CORE_SCHEMA.$table_name."/".$table_name.".txt";
 
-
+		//User schema
 		if(file_exists($user_dir)){
 			$this->object_table = true;
 			$this->setTable($table_name,$user_dir);
 		}
+		//Core Schema
 		else if(file_exists($core_dir)){
 			$this->setTable($table_name,$core_dir);
 		}

@@ -28,6 +28,25 @@ $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 $lang["Send"] = "Envoyer";
 
 
+//Root Command
+$lang["SSH Username"] = "Utilisateur SSH";
+$lang["SSH Password"] = "Mot de passe SSH";
+$lang["SSH Admin Actions"] = "Actions Administrateur SSH";
+$lang["Perfom Actions"] = "Effectuer l'action";
+$lang["Close"] = "Fermer";
+$lang["Login with a user having root permission to perform this action"] = "Identifiez vous avec un utilisateur ayant les droits root pour effectuer cette action";
+$lang["Check permissions"] = "Vérifier les permissions";
+$lang["Update system"] = "Mise à jour du système";
+$lang["Command executed successfully"] = "Commande exécuté avec succès";
+$lang["The command didn't worked, Error code:"] = "La commande n'a pas marché, code d'erreur:";
+$lang["Wrong Username/Password"] = "Mauvais utilisateur/mot de passe";
+$lang["File not founded"] = "Fichier introuvable";
+$lang["Permissions not granted"] = "Permissions non accordés";
+$lang["Fix this"] = "Réparer";
+$lang["Error: "] = "Erreur:";
+
+
+
 //Group
 $lang["Default Group"] = "Groupe par défaut";
 $lang["Auto-generated group"] = "Groupe auto-généré";
@@ -61,6 +80,9 @@ $lang["Objects"] = "Objets";
 $lang["Component added"] = "Composant ajouté";
 $lang["Component removed"] = "Composant enlevé";
 
+//Actions
+$lang["Action saved"] = "Action sauvegardé";
+$lang["Action deleted"] = "Action effacé";
 
 
 //Time

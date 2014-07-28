@@ -7,9 +7,9 @@ if($currentUser->isadmin()){
 //Show selected menu or default menu
 	if(isset($_["menu"])){
 		
-		if( ($_["menu"] == "projects") && isset($_["name"])){
-			$leftmenu_active = $_["name"];
-			$filename = "projects";
+		if( ($_["menu"] == "objects") && isset($_["name"])){
+			$leftmenu_active = "objects&name=".$_["name"];
+			$filename = "objects";
 		}
 		else
 		{

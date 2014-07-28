@@ -2,6 +2,7 @@
 //If no user is load
 if(!$currentUser->isuser()){
 	//Header
+	
 	include(CORE_VIEWS."header/header.view");
 
 	/*

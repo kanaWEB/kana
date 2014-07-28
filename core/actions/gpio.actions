@@ -1,0 +1,7 @@
+<?php
+if($currentUser->isadmin()){
+	$command = "/usr/local/bin/gpio mode ".$_["gpio"]." out ;/usr/local/bin/gpio write ".$_["gpio"]." ".$_["state"];
+	exec($command,$result,$out);
+	echo $command;
+}
+?>

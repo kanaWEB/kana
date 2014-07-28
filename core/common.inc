@@ -19,8 +19,6 @@ include("schema/Users/Users.class.php"); //User Class
 include("schema/Config/Theme.class.php"); //Theme Class
 include(EXTERNAL_LIB."Parsedown/Parsedown.php");
 
-
-
 include("libraries/Redirect.php"); //Redirection manager
 
 if(DEBUG){

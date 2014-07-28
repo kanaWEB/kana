@@ -1,11 +1,18 @@
  <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-      {loop="actions"}
-        <div class="col-md-4">
+
+  <!-- Example row of columns -->
+  <div class="row">
+    {loop="actions"}
+    <button class="col-md-4 panel {if="$selected_action == $value.dir"}panel-success{else}panel-primary{/if}" onclick="window.location = '{$value.link}';">
+
+        <div class="panel-heading">
           <h2>{$value.text}</h2>
-          <p>{$value.description}</p>
-          <p><a class="btn btn-primary" href="{$value.link}" role="button">OK</a></p>
         </div>
-      {/loop}
-      </div>
+        <div class="panel-body"> 
+            <i>{$value.description}</i>
+        </div>
+      
+    </button>
+
+    {/loop}
+  </div>
