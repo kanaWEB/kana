@@ -1,4 +1,8 @@
 <?php
+/*
+Installation Form
+ */
+
 $theme = new Theme(INSTALL_THEME);
 
 //Header

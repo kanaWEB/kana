@@ -1,0 +1,26 @@
+<?php
+if(Functions::is_port_open($_["socket"])){
+	Functions::sendto_socket($_["socket"],"stop");
+	echo "Socket was already started, restart it<br>";
+}
+$port = $_["port"];
+$speed = $_["speed"];
+$socket = $_["socket"];
+$object = $_["object"];
+$collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/serial2php.py";
+$args = " ".$port." ".$speed." ".$socket." ".dirname($_SERVER['SCRIPT_FILENAME'])." '".$object."'";
+echo $collector_filename.$args;
+if(DEBUG){
+	echo $collector_filename.$args;
+	echo shell_exec($collector_filename.$args);
+}
+Functions::launch_background($collector_filename.$args);
+sleep(3);
+if(Functions::is_port_open($_["socket"])){
+	echo "Socket OK";
+}
+else
+{
+	echo "<br>Socket Not opened</br>";
+}
+?>

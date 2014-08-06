@@ -2,6 +2,16 @@
 class Variable{
 
 
+	public static function leftmenu_item($menu_name,$object_dir,$object){
+		$leftmenu_item = [
+			"text" => $menu_name,
+			"icon" => $object_dir."/icon.png",
+			"link" => "objects&name=".$object,
+			"label" => "label-danger",
+			];
+		return $leftmenu_item;
+	}
+
 //Searching a data everywhere we can
 	public static function data_dir($data_link){
 		$data_link_array = explode("/",$data_link);
@@ -28,7 +38,7 @@ class Variable{
 				return $data_file;
 			}
 		}
-		var_dump($data_link);
+		//var_dump($data_link);
 		if($data_link == $plugin."list"){
 			echo "TEST";
 		}
@@ -86,13 +96,16 @@ class Variable{
 		}
 		if(file_exists($path."/gpios")){
 			$menu_name["gpios"] = True;
+		}
 
+		if(file_exists($path."/electronics")){
+			$menu_name["electronics"] = True;
 		}
 		return $menu_name;
 	}
 
 	public function objectName($object_dir){
-	//Check if projects directory exists
+	//Check if objects directory exists
 		if(is_dir($object_dir)){
 		//Check for menu translation
 			$translated_menu_dir = $object_dir."/info/name.".$_SESSION["LANGUAGE"].".md";
@@ -107,6 +120,7 @@ class Variable{
 				}
 			}
 		}
+
 
 		if(isset($menu_filepath)){
 			$menu_name = file_get_contents($menu_filepath);

@@ -19,17 +19,16 @@ else{
 
 include(CORE_VIEWS."menu/available_actions.view");
 
-
 $form = new Form($form_name);
 	include(CORE_VIEWS."forms/form_default.view");
-	include(CORE_VIEWS."forms/form_object.view");
+	if(file_exists(USER_OBJECTS.$object_name."/"."gpios")){
+	include(CORE_VIEWS."forms/form_gpio.view");
+	}
 
 //Custom Fields
 $form_file_dir = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form";
 if(file_exists($form_file_dir)){
 $inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form");
-
-
 
 foreach($inputs_file as $input_file){
 	$file = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form/".$input_file;
@@ -38,8 +37,10 @@ foreach($inputs_file as $input_file){
 	$input["selected"] = $selected[$input["id"]];
 	if(isset($input["options"])){
 		$data_file = Variable::data_dir($input["options"]);
+		//var_dump($data_file);
 		include($data_file);
 		$input["options"] = $data;
+		unset($data);
 	}
 
 	$form->input($input);

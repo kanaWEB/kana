@@ -4,13 +4,13 @@
  * 
 **/
 	session_start();
-include("constants.inc"); //Global Constants
+require_once("constants.inc"); //Global Constants
 
 /*
 LOAD FUNCTIONS
 */
 //Add core functionalities
-include("schema/Entity.class.php"); //SQL manager
+require_once("schema/Entity.class.php"); //SQL manager
 
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY @todo remove unused functions and refactor
 include("libraries/Draw.class.php"); //Draw Functionnalities

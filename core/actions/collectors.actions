@@ -1,0 +1,18 @@
+<?php
+//Collector Control redirector
+if(isset($_["collector"])){
+	$collector = $_["collector"];
+	$command = $_["command"];
+
+	$path = "core/actions/collectors/".$collector."/".$command.".actions";
+	if(file_exists($path)){
+	include($path);
+	}
+	else
+	{
+		echo "Command unknown!";
+	}
+}
+
+
+?>

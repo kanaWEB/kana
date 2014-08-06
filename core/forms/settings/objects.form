@@ -1,10 +1,10 @@
 <?php
+
 //Settings.php -> Objects Redirector
 
 //If an object is selected
 if(isset($_["name"])){
 	$object_name = $_["name"]; //Get object directory name
-	add_language(USER_OBJECTS.$object_name);
 	$tab = isset($_["tab"]) ? $_["tab"] : false; //Is a tab selected?
 
 //Variables
@@ -51,14 +51,18 @@ if(isset($_["name"])){
 			break;
 
 			//Electronics Tabs
-			case "gpios":
+			case "gpios": //If action object have different gpios
 			include(CORE_FORMS."/settings/objects/gpios.form");
 			break;
 
+			case "electronics": //If action object have same gpios
+			include(CORE_FORMS."/settings/objects/electronics.form");
+			break;
+
 			//Codes Tabs
-			//case "codes":
-			//	include(CORE_FORMS."/settings/objects/codes.form");
-			//break;
+			case "codes":
+				include(CORE_FORMS."/settings/objects/codes.form");
+			break;
 
 			//Unknown Tab
 			//default:

@@ -1,4 +1,9 @@
 <?php
+/*
+Installation Post
+*/
+ */
+
 if(DEBUG){
 	debug("PHP","Variables");
 	var_dump($_);

@@ -52,7 +52,13 @@ $actions = Variable::actions_args($actions);
 				break;
 
 				default:
+				if(substr($td,0,4) == "code"){
+					$name = $object_db->getById($actions[$i][$td]);
+					echo $name["object_name"];
+				}
+				else{
 				echo $actions[$i][$td];
+				}
 				break;
 			}
 			$tpl->draw(CORE_VIEWS."table/cell/close");

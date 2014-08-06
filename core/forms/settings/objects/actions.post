@@ -19,9 +19,9 @@ $fields = $_;
 		else{
 
 			//Get data from object (GPIO)
-			$object_db = new Entity($object_name);
-			$object_data = $object_db->getById($_["object_key"]);
-			$gpio = $object_data["gpio"];
+			//$object_db = new Entity($object_name);
+			//$object_data = $object_db->getById($_["object_key"]);
+			//$gpio = $object_data["gpio"];
 
 			//Get Arguments
 			$args = $fields;
@@ -31,6 +31,12 @@ $fields = $_;
 			unset($args["group_key"]);
 			unset($args["action"]);
 			$args_key = array_keys($args);
+			if(isset($args_key["object_key"])){
+				$fields["object_key"] = 0;
+				
+			}
+			$fields["state"] = 0;
+
 			foreach($args_key as $arg_key){
 				unset($fields[$arg_key]);
 			}

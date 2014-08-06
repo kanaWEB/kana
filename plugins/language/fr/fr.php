@@ -24,6 +24,7 @@ $lang["You are logged"] = "Vous êtes connecté";
 $lang["Remember me"] = "Se souvenir de moi";
 $lang["You need to be logged to see this page"] = "Vous devez être connecté pour voir cette page";
 $lang["This account doesn't exist"] = "Ce compte n'existe pas";
+
 //Form
 $lang["Send"] = "Envoyer";
 
@@ -44,7 +45,6 @@ $lang["File not founded"] = "Fichier introuvable";
 $lang["Permissions not granted"] = "Permissions non accordés";
 $lang["Fix this"] = "Réparer";
 $lang["Error: "] = "Erreur:";
-
 
 
 //Group
@@ -74,11 +74,16 @@ $lang["Help"] = "Aide";
 $lang["Object's name"] = "Nom de l'objet";
 $lang["Object's description"] = "Description de l'objet";
 
+//Gpio/Electronics
 $lang["Electronics"] = "Electronique";
 $lang["Overview"] = "Vue d'ensemble";
 $lang["Objects"] = "Objets";
 $lang["Component added"] = "Composant ajouté";
 $lang["Component removed"] = "Composant enlevé";
+$lang["Wiring"] = "Branchement";
+
+//Codes
+$lang["Autodetect"] = "Détection Automatique";
 
 //Actions
 $lang["Action saved"] = "Action sauvegardé";

@@ -14,18 +14,23 @@ class Entity extends SQLite3
      */
     private $debug = false;
     private $object_table = false;
+    private $database = false;
+    private $default = false;
 
 	/**
 	 * Open an SQLite connection
 	 */
 	//function __construct($table_name,$user=false){	
-	function __construct($table_name,$dbfields=false){	
+	function __construct($table_name,$dbfields=false,$database=DATABASE,$default=true){	
+		$this->database = $database;
+		$this->default= $default;
+		//@todo simplified database creations when table name is normalize
 
 		$user_dir = USER_OBJECTS.$table_name."/".$table_name.".txt";
 		$core_dir = CORE_SCHEMA.$table_name."/".$table_name.".txt";
 
 		//User schema
-		if(file_exists($user_dir)){
+		if(file_exists($user_dir) && !$dbfields){
 			$this->object_table = true;
 			$this->setTable($table_name,$user_dir);
 		}
@@ -33,13 +38,19 @@ class Entity extends SQLite3
 		else if(file_exists($core_dir)){
 			$this->setTable($table_name,$core_dir);
 		}
+		//Predefine Schema
 		else{
 			if($dbfields){
-				$this->setCustomTable($table_name,$dbfields);
-			
+				if(is_array($dbfields)){
+					$this->setCustomTable($table_name,$dbfields);
+				}
+				else
+				{
+					$altuser_dir = USER_OBJECTS.$table_name."/".$table_name."_".$dbfields.".txt";
+					$this->setTable($table_name."_".$dbfields,$altuser_dir);
+				}
 			}
-			else
-			{
+			else{
 				var_dump($table_name." NOT FOUNDED");
 				var_dump($user_dir);
 				var_dump($core_dir);
@@ -49,12 +60,13 @@ class Entity extends SQLite3
 		}
 
 		if(!isset($notfound)){
-		$this->open(DATABASE);
+			$this->open($database);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
-		$this->create(); //Create the table of the entity if it doesn't exists
-		}
+		$this->create(); //Create the table of the entity if it doesn't exists 
+		//@todo check performance issue from trying to regenerate table
 	}
+}
 
 	/**
 	 * Auto Generate Get and Set as explains in http://blog.idleman.fr/snippet-24-php-allegez-vos-classes-avec-des-getset-automatiques/
@@ -263,10 +275,12 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 	public function change($columns,$columns2=null,$operation='=',$debug='false'){
 		$query = 'UPDATE `'.SQL_PREFIX.$this->TABLE_NAME.'` SET ';
 		$i=false;
+		
 		foreach ($columns as $column=>$value){
 			if($i){$query .=',';}else{$i=true;}
 			$query .= '`'.$column.'`="'.$value.'" ';
 		}
+		
 
 		if($columns2!=null){
 			$query .=' WHERE '; 
@@ -473,15 +487,22 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 
 	public function setCustomTable($table_name,$db_fields){
 		$db_fields['id'] = "key";
+		
+		if($this->default){
 		$db_fields['uid'] = "int";
+		//@todo Rename Entity_name / Entity description
 		$db_fields['object_name'] = "string";
 		$db_fields['object_description'] = "string";
+		$db_fields['state'] = "int";
+		}
+
 		$this->object_fields = $db_fields;
 
 		$this->TABLE_NAME = $table_name;
 	}
 
 	public function setTable($table_name,$fields_filepath){
+		
 		$db_text = file($fields_filepath);
 		array_shift($db_text); //Remove first line (description of schema)
 

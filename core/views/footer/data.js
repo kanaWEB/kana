@@ -139,3 +139,6 @@ function norotate(deg){
 	$(".no-rotate").css("-webkit-transform","rotate("+deg+"deg)");
 	$(".no-rotate").css("transform","rotate("+deg+"deg)");
 }
+
+
+

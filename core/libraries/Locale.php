@@ -41,11 +41,14 @@ function add_language($dir){
 $lang_php = $dir."/"."language/".$_SESSION["LANGUAGE"]."/".$_SESSION["LANGUAGE"].".php";
 if (file_exists($lang_php))
 {
+	if(DEBUG){error_log("LOADING LANGUAGE FILE:".$lang_php);}
 	include($lang_php);
 }
 else{
 $lang = false;
 }
+
+
 return $lang;
 }
 

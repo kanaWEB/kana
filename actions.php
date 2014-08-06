@@ -1,6 +1,5 @@
 <?php
 include("core/common.inc");
-
 if($currentUser->isuser()){
 	//@todo check user right to do actions
 	if(isset($_["type"])){
@@ -8,5 +7,8 @@ if($currentUser->isuser()){
 		include("core/actions/".$type.".actions");
 	}
 }
-
+else
+{
+	echo "NOT LOGGED";
+}
 ?>

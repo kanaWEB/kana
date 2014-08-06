@@ -1,0 +1,9 @@
+<?php
+	if(Functions::is_port_open($_["socket"])){
+		echo "Socket Stop";
+		Functions::sendto_socket($_["socket"],"stop");
+	}
+	else{
+		echo "Socket was already closed";
+	}
+?>

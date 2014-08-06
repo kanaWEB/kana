@@ -76,16 +76,10 @@ foreach($objects as $object){
 	$menu_name = Variable::objectName($object_dir);
 		//If the menu exists generate it
 		if($menu_name){
-			$leftmenu[] = [
-			"text" => $menu_name,
-			"icon" => $object_dir."/icon.png",
-			"link" => "objects&name=".$object,
-			"label" => "label-danger",
-			];
-			$tpl->assign("leftmenu",$leftmenu);
-			$tpl->draw(CORE_VIEWS."menu/left/item_image"); //Display core/templates/topmenu.html
+			$leftmenu[] = Variable::leftmenu_item($menu_name,$object_dir,$object);
 		}
 }
-
+$tpl->assign("leftmenu",$leftmenu);
+$tpl->draw(CORE_VIEWS."menu/left/item_image"); //Display core/templates/topmenu.html
 $tpl->draw(CORE_VIEWS."menu/left/close");
 ?>

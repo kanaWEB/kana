@@ -390,6 +390,7 @@ public static function update_triggers($id,$uid,$db){
 //Send a message to a socket
 public static function sendto_socket($port,$command){
 	$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
+
 //Error message if socket cannot be opened
 	if (($socket == false) && (DEBUG)){
 		echo "Error: socket_create() failed: reason: " .
@@ -404,6 +405,60 @@ public static function sendto_socket($port,$command){
 		socket_strerror(socket_last_error($socket));
 	}
 	socket_write($socket, $command);
+	sleep(1);
+	socket_close($socket);
+}
+
+public static function receivefrom_socket($port){
+	$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
+//Error message if socket cannot be opened
+	if (($socket == false) && (DEBUG)){
+		echo "Error: socket_create() failed: reason: " .
+		socket_strerror(socket_last_error($socket));
+	}
+
+// Connect to the socket
+	$result = socket_connect($socket, 'localhost', $port);
+
+	$out = "";
+
+	while (($currentByte = socket_read($socket, 1)) != "\n") {
+		$out .= $currentByte;
+	}
+
+	//@todo Error on the server socket (broken pipe/connection reset by peer should be investigate)
+
+	echo $out;
+
+	socket_close($socket);
+}
+
+public static function sendandreceive_socket($port,$command){
+	$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
+	
+	//Error message if socket cannot be opened
+	if (($socket == false) && (DEBUG)){
+		echo "Error: socket_create() failed: reason: " .
+		socket_strerror(socket_last_error());
+	}
+// Connect to the socket
+	$result = socket_connect($socket, 'localhost', $port);
+
+//Error message if socket cannot be opened
+	if (($result === false) && (DEBUG)){
+		echo "Error: socket_connect() failed.\nReason: ($result) " .
+		socket_strerror(socket_last_error($socket));
+	}
+	sleep(1);
+	socket_write($socket, $command);
+	sleep(1);
+	exit();
+	$out = "";
+	while (($currentByte = socket_read($socket, 1)) != "\n") {
+		$out .= $currentByte;
+	}
+	echo $out;
+
 	socket_close($socket);
 }
 
@@ -550,6 +605,20 @@ public static function loadUrl($url){
 }
 
 
+public static function timestamp_nearest_minutes($nearminutes){
+	$time = time();
+	$minutes = date("i");
+	$nearminutes_half = $nearminutes / 2;
+	$nearseconds = $nearminutes * 60;
+
+	if($minutes[1] < $nearminutes_half){
+		$time_new = ceil($time/$nearseconds)*$nearseconds - $nearseconds;
+	}
+	else{
+		$time_new = ceil($time/$nearseconds)*$nearseconds;
+	}
+	return $time_new;
+}
 
 public static function readableTime($seconds) {
 	$y = floor($seconds / 60/60/24/365);

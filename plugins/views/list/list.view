@@ -1,13 +1,14 @@
 <?php
 $objects = Functions::getdir(USER_OBJECTS);
 
-
+$key = 0;
 foreach($objects as $object){
+	
 	$actions_db = new Entity($object."_actions",Variable::actions_fields());
 	$actions_db = $actions_db->populate();
 
 	if($actions_db){
-		foreach($actions_db as $key => $action){
+		foreach($actions_db as $action){
 			$webobjects[$key]["id"] = $action["id"];
 			$webobjects[$key]["action"] = $action["action"];
 			$webobjects[$key]["type"] = $object;
@@ -16,7 +17,7 @@ foreach($objects as $object){
 
 			$object_db = new Entity($object);
 			$object_db = $object_db->getById($action["object_key"]);
-			$i = 1;
+
 
 //Get GPIO state (if objects have 1,n GPIO)
 			if(isset($object_db["gpio"])){
@@ -24,9 +25,16 @@ foreach($objects as $object){
 				include(CORE_DATAS."gpio/pinstate.data");
 				$webobjects[$key]["state"] = $data ? "success" : "danger";
 			}
+			else
+			{
+				$webobjects[$key]["state"] = $action["state"] ? "success" : "danger";
+			}
+			$key++;
 		}
+
 	}
 }
+
 
 //If there is webobjects to show
 if(isset($webobjects)){

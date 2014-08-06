@@ -1,4 +1,6 @@
 <?php
+//Group Post
+
 if(isset($_["del"])){
 	$object_db = new Entity("Group");
 	$object_count = $object_db->rowCount();

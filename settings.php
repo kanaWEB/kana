@@ -7,10 +7,12 @@ if($currentUser->isadmin()){
 //Show selected menu or default menu
 	if(isset($_["menu"])){
 		
+		//Objects item
 		if( ($_["menu"] == "objects") && isset($_["name"])){
 			$leftmenu_active = "objects&name=".$_["name"];
 			$filename = "objects";
 		}
+		//General item
 		else
 		{
 			$leftmenu_active = $_["menu"];
@@ -19,6 +21,7 @@ if($currentUser->isadmin()){
 	}
 	else
 	{
+		//Default active menu
 		$leftmenu_active = DEFAULT_MENU_SETTINGS;
 		$filename = $leftmenu_active;
 	}

@@ -5,11 +5,6 @@ class Draw
 {
 
 
-public static function menu_objects($object_name,$tpl,$tab){
-
-
-return $tpl;
-}
 
 //Ajax Notification
 //If a PHP file is called in ajax, you can make it return a notification

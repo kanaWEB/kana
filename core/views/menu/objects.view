@@ -4,10 +4,24 @@ NavTab / Name
 */
 $link_begin = "settings.php?menu=objects&name=".$object_name."&tab=";
 
+if(file_exists(USER_OBJECTS.$object_name."/electronics")){
+	$navtab_items[] = [
+	"text" => "Electronics",
+	"link" => $link_begin."electronics"
+	];
+}
+
 if(file_exists(USER_OBJECTS.$object_name."/gpios")){
 	$navtab_items[] = [
 	"text" => "Electronics",
 	"link" => $link_begin."gpios"
+	];
+}
+
+if(file_exists(USER_OBJECTS.$object_name."/codes")){
+	$navtab_items[] = [
+	"text" => "Codes",
+	"link" => $link_begin."codes"
 	];
 }
 
@@ -32,11 +46,18 @@ if($tab){
 else{
 	$object_db = new Entity($object_name);
 	$nb_object = $object_db->rowCount();
+	
+	//If Electronics was not setup
 	if($nb_object == 0){
 		$menu_name = Variable::object_menus_name($object_name);
-		if($menu_name["gpios"]){
+		
+		if(isset($menu_name["gpios"])){
 			redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
-    }
+		}
+
+		if(isset($menu_name["electronics"])){
+			redirect("settings","?menu=objects&name=".$object_name."&tab=electronics");
+		}
 	}
     else
     {

@@ -1,0 +1,26 @@
+<?php
+$object_name = $_["name"];
+$object_db = new Entity($object_name,"electronics");
+
+$fields = $_;
+unset($fields["submit"]);
+unset($fields["menu"]);
+unset($fields["tab"]);
+unset($fields["name"]);
+unset($fields["notice"]);
+
+$object_exists = $object_db->getById(1);
+var_dump($object_exists);
+if($object_exists){
+ $object_db->setId(1);
+}
+
+//var_dump($fields);
+foreach($fields as $key => $field){
+	$setter = "set".$key;
+	$object_db->$setter($field);
+}
+//var_dump($object_db);
+$object_db->save();
+redirect("settings","?menu=objects&name=".$object_name."&tab=".$_["tab"]."&notice=".t("Component added"));
+?>
