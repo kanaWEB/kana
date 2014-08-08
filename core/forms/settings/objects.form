@@ -31,17 +31,17 @@ if(isset($_["name"])){
 			break;
 
 			//Actions Tabs
-			case "actions":
-			$actions_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
-			
-			if($actions_list > 0){
+			case "action":
+			$dir_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
+			include(CORE_VIEWS."/menu/menu_md.view");
+			if($dir_list > 0){
 				//@todo If only one action redirect
 				if(!isset($_["action"])){ //Available actions
-					include(CORE_VIEWS."/menu/available_actions.view");
+				
 					include(CORE_VIEWS."datatable/dbtable_actions.view");
 				}
 				else{ //Selected Action
-					include(CORE_FORMS."/settings/objects/actions.form");
+					include(CORE_FORMS."/settings/objects/action.form");
 				}
 			}
 			else

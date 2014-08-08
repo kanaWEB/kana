@@ -487,15 +487,19 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 
 	public function setCustomTable($table_name,$db_fields){
 		$db_fields['id'] = "key";
-		
+
 		if($this->default){
 		$db_fields['uid'] = "int";
 		//@todo Rename Entity_name / Entity description
 		$db_fields['object_name'] = "string";
 		$db_fields['object_description'] = "string";
-		$db_fields['state'] = "int";
 		}
 
+				//@todo remove dirty hack
+		if(!isset($db_fields["trigger"])){
+			$db_fields['state'] = "int";
+		}
+		//var_dump($db_fields);
 		$this->object_fields = $db_fields;
 
 		$this->TABLE_NAME = $table_name;

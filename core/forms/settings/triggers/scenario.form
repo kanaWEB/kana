@@ -1,0 +1,32 @@
+<?php
+
+$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
+$form = new Form("Scenario");
+
+$data_file = Variable::data_dir("triggers");
+include($data_file);
+
+$form->input([
+	"type" => "select",
+	"id" => "id",
+	"name" => "Triggers",
+	"options" => $data,
+	"selected" => false
+	]);
+
+$data_file = Variable::data_dir("Actions");
+include($data_file);
+
+$form->input([
+	"type" => "select",
+	"id" => "id",
+	"name" => "Actions",
+	"options" => $data,
+	"selected" => false
+	]);
+
+$form->display($tpl);
+
+
+$tpl->draw(CORE_VIEWS."grids/container/close");
+?>

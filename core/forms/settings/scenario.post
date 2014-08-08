@@ -1,0 +1,7 @@
+<?php
+
+if(isset($_["tab"])){
+	include(CORE_FORMS."settings/triggers/".$_["tab"].".post");
+}
+
+?>

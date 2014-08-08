@@ -1,0 +1,34 @@
+<?php
+$action_name = $_["name"]."_actions";
+$action_dir = $_["action"];
+//If an action is choosen
+if(isset($_["id"])){
+	$selected_db = new Entity($object_name."_actions",Variable::actions_fields());
+	$selected = $selected_db->getById($_["id"]);
+	$selected = Variable::action_args($selected);
+	$form_name = "ID:".$_["id"];
+	$hidden_input = [
+	"type" => "hidden",
+	"value" => $_["id"]
+	];
+}
+else{
+	$selected = false;
+	$form_name = "New";
+}
+
+$form = new Form($form_name);
+	include(CORE_VIEWS."forms/form_default.view");
+	if(file_exists(USER_OBJECTS.$object_name."/"."gpios")){
+	include(CORE_VIEWS."forms/form_gpio.view");
+	}
+
+//Custom Fields
+$form_file_dir = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form/";
+include(CORE_VIEWS."forms/form_md2.view");
+
+include(CORE_VIEWS."datatable/dbtable_actions.view");
+
+
+?>
+

@@ -1,0 +1,37 @@
+<?php
+if(file_exists($form_file_dir)){
+$inputs_file = Functions::getdir($form_file_dir);
+
+foreach($inputs_file as $input_file){
+	$file = $form_file_dir.$input_file;
+	$input = Variable::md2var($file);
+	
+	$input["selected"] = $selected[$input["id"]];
+	if(isset($input["options"])){
+		$data_file = Variable::data_dir($input["options"]);
+		include($data_file);
+		
+		//@todo Should be remove
+		if(isset($data)){
+		 $input["options"] = $data;
+		 unset($data);
+		}
+		elseif(isset($datas)){
+			 $input["options"] = $datas;
+			 unset($datas);
+			}
+		
+	}
+
+	$form->input($input);
+	$table_headers[] = $input["name"];
+	$table_datas[] = $input["id"];
+}
+
+}
+
+if($_["menu"] == "objects"){
+include(CORE_VIEWS."forms/form_group.view");
+}
+$form->display($tpl);
+?>

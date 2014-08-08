@@ -27,6 +27,7 @@ $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 
 //Form
 $lang["Send"] = "Envoyer";
+$lang["Go back"] = "Retour";
 
 
 //Root Command
@@ -63,6 +64,9 @@ $lang["Users"] = "Utilisateurs";
 $lang["Preferences saved"] = "Préférences sauvegardés";
 $lang["General"] = "Général";
 $lang["Theme"] = "Thème";
+$lang["Scenario"] = "Scénario";
+$lang["Scenarios"] = "Scénarios";
+$lang["Triggers"] = "Déclencheurs";
 
 //Settings -> Objects
 $lang["Name"] = "Nom";

@@ -3,7 +3,7 @@
   <!-- Example row of columns -->
   <div class="row">
     {loop="menu_items"}
-    <button class="col-md-4 panel {if="$selected_action == $value.dir"}panel-success{else}panel-primary{/if}" onclick="window.location = '{$value.link}';">
+    <button class="col-md-4 panel {if="$selected_menu_item == $value.dir"}panel-success{else}panel-primary{/if}" onclick="window.location = '{$value.link}';">
 
         <div class="panel-heading">
           <h2>{$value.text}</h2>

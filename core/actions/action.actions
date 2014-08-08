@@ -5,18 +5,28 @@ $object_name = $_["object"];
 $action_nb = $_["action_nb"];
 $id = $_["id"];
 
+
+//Open Action table
 $action_db = new Entity($object_name."_actions",Variable::actions_fields());
 $action = $action_db->getById($id);
 $action = Variable::action_args($action); //Json to array for the arguments
 
+//Is this an GPIO object?
 if(file_exists(USER_OBJECTS.$object_name."/gpios")){
 $object_db = new Entity($object_name);
 $object = $object_db->getById($action["object_key"]);
 }
-else
-{
+
+//Is this a remotely controllable Electronics Objects
+if(file_exists(USER_OBJECTS.$object_name."/electronics")){
 $object_db = new Entity($object_name,"electronics");
 $object = $object_db->getById(1);
+}
+
+//Is this a program objects ?
+if(!isset($object)){
+	//$object_db = new Entity($object_name);
+	//exit();
 }
 
 //Get command number
@@ -126,6 +136,7 @@ if(file_exists($user_command));
 				$final_command .= $command;
 			}
 			//exec($final_command,$result,$out);
+			//var_dump($out);
 			Functions::launch_background($final_command);
 			$out = 0;
 

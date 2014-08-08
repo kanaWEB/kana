@@ -81,5 +81,18 @@ foreach($objects as $object){
 }
 $tpl->assign("leftmenu",$leftmenu);
 $tpl->draw(CORE_VIEWS."menu/left/item_image"); //Display core/templates/topmenu.html
+
+/*
+
+Scenario
+
+ */
+$category = [
+"text" => "Scenario",
+"link" => "scenario"
+];
+$tpl->assign("leftmenu",false);
+$tpl->assign("category",$category);
+$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
 $tpl->draw(CORE_VIEWS."menu/left/close");
 ?>

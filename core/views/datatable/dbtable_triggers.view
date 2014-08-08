@@ -1,0 +1,75 @@
+<?php
+if(!isset($table_headers)){
+	$table_headers[] = "Name";
+	$table_headers[] = "Description";
+	$table_headers[] = "Object";
+	$table_headers[] = "Trigger";
+	$table_datas[] = "object_name";
+	$table_datas[] = "object_description";
+	$table_datas[] = "trigger_object";
+	$table_datas[] = "trigger";
+	$action_name = $object_name."_actions";
+}
+
+if(isset($_["trigger"])){
+	$action_get = $_["trigger"];
+}
+
+$db = new Entity("triggers",Variable::scenario_triggers_fields());
+$triggers = $db->populate();
+/*
+if(!isset($action_dir)){
+	
+}
+else{
+$actions = $action_db->loadAll(["action" => $action_dir]);
+}
+*/
+//if($triggers){
+//$triggers = Variable::scenario_triggers_args($triggers);
+//}
+
+//Table Header
+	$tpl->draw(CORE_VIEWS."grids/container/open");
+	include(CORE_VIEWS."table/header/header.view");
+//var_dump($triggers);
+//Table Datas
+	for($i=0;$i<count($triggers);$i++){
+		$tpl->draw(CORE_VIEWS."table/row/open");
+		foreach($table_datas as $td){
+			$tpl->draw(CORE_VIEWS."table/cell/open");
+			switch($td){ 
+				case "object_name":
+				$name = html_entity_decode($triggers[$i][$td]);
+				echo $name;
+				break;
+
+				case "trigger":
+				$trigger_get = $triggers[$i][$td];
+				echo $trigger_get;
+				break;
+
+				default:
+				echo $triggers[$i][$td];
+				break;
+			}
+			$tpl->draw(CORE_VIEWS."table/cell/close");
+		}
+
+		$tpl->draw(CORE_VIEWS."table/cell/open");
+
+		$buttons = [
+		"link" => $_SERVER['SCRIPT_NAME']."?menu=scenario&name=".$object_name."&tab=trigger&trigger=".$trigger_get,
+		"id" => $triggers[$i]["id"]
+		];
+		$tpl->assign("buttons",$buttons);
+		$tpl->draw(CORE_VIEWS."table/buttons");
+		$tpl->draw(CORE_VIEWS."table/cell/close");
+
+		$tpl->draw(CORE_VIEWS."table/row/close");
+	}
+
+	$tpl->draw(CORE_VIEWS."table/close");
+	$tpl->draw(CORE_VIEWS."grids/container/close");
+//}
+?>

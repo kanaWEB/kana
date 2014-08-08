@@ -2,45 +2,30 @@
 /*
 NavTab / Name
 */
-$link_begin = "settings.php?menu=objects&name=".$object_name."&tab=";
-
+$menu = $_["menu"];
+$name = $_["name"];
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
-	$navtab_items[] = [
-	"text" => "Electronics",
-	"link" => $link_begin."electronics"
-	];
+	$navtab_items[] = Variable::navtab_item($menu,"Electronics","electronics",$name);
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/gpios")){
-	$navtab_items[] = [
-	"text" => "Electronics",
-	"link" => $link_begin."gpios"
-	];
+	$navtab_items[] = Variable::navtab_item($menu,"Electronics","gpios",$name);
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/codes")){
-	$navtab_items[] = [
-	"text" => "Codes",
-	"link" => $link_begin."codes"
-	];
+	$navtab_items[] = Variable::navtab_item($menu,"Codes","codes",$name);
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/actions")){
-	$navtab_items[] = [
-	"text" => "Actions",
-	"link" => $link_begin."actions"
-	];
+	$navtab_items[] = Variable::navtab_item($menu,"Actions","action",$name);
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/help")){
-	$navtab_items[] = [
-	"text" => "Help",
-	"link" => $link_begin."help"
-	];
+	$navtab_items[] = Variable::navtab_item($menu,"Help","help",$name);
 }
 
-
-if($tab){ 
+if($tab){
+	$link_begin = "settings.php?menu=".$menu."&name=".$object_name."&tab=";
 	$navtab_item_selected = $link_begin.$tab;
 }
 else{
@@ -59,10 +44,14 @@ else{
 			redirect("settings","?menu=objects&name=".$object_name."&tab=electronics");
 		}
 	}
-    else
-    {
-    	redirect("settings","?menu=objects&name=".$object_name."&tab=actions");
-    }
+	else
+	{
+		redirect("settings","?menu=objects&name=".$object_name."&tab=actions");
+	}
+}
+
+if(!isset($navtab_item_selected)){
+	$navtab_item_selected = False;
 }
 
 $tpl->assign("navtab_item_selected",$navtab_item_selected);
