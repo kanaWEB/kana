@@ -36,8 +36,9 @@ else{
 	foreach($args_key as $arg_key){
 		unset($fields[$arg_key]);
 	}
-			//var_dump($args);
 	$args = json_encode($args);
+	$fields["args"] = $args;	
+	
 
 
 	$db_fields = Variable::scenario_triggers_fields();

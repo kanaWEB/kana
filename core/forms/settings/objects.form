@@ -72,7 +72,15 @@ if(isset($_["name"])){
 	$tpl->draw(CORE_VIEWS."grids/container/close");
 }
 else{
-	echo "TODO: Objects Overview";
+	?>
+<h1>Add Objects</h1>
+REPO MADNERDS
+<input type='text' id="searchterms">
+<button onclick="getplugins(this,'madnerds')">Search for plugins</button>
+<span id="plugin_list"></span>
+
+<?php
+	//include(CORE_DATAS."remoteplugins.data");
 }
 
 

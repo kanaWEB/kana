@@ -1,28 +1,42 @@
 <?php
+unset($data);
 if(isset($_["name"])){
 	$object_name = $_["name"];
 }
 
-$object_db = new Entity($object_name);
-$objects = $object_db->populate();
-if($objects){
-
-foreach($objects as $object){
-	$data[] = [
-	"text" => $object["object_name"],
-	"value" => $object["id"]
-	 ];
-}
+if(!isset($object_name)){
+	$objects_dir = Functions::getdir(USER_OBJECTS);
+	foreach($objects_dir as $object_dir){
+		$data[] = [
+		"text" => Variable::objectname(USER_OBJECTS.$object_dir),
+		"value" => $object_dir,
+		"img" => "plugins/objects/".$object_dir."/icon.png"
+		];
+	}
 }
 else
 {
-	$data = false;
+	$object_db = new Entity($object_name);
+
+	$objects = $object_db->populate();
+	if($objects){
+
+		foreach($objects as $object){
+			$data[] = [
+			"text" => $object["object_name"],
+			"value" => $object["id"]
+			];
+		}
+	}
+	else
+	{
+		$data = false;
+	}
 }
 
-
 if(isset($_["data_id"])){
- 	$data_json["data_id"] = $_["data_id"];
- 	$data_json["data"] = $data;
+	$data_json["data_id"] = $_["data_id"];
+	$data_json["data"] = $data;
 	echo json_encode($data_json);
 }
 ?>

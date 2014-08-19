@@ -79,6 +79,9 @@ foreach($objects as $object){
 			$leftmenu[] = Variable::leftmenu_item($menu_name,$object_dir,$object);
 		}
 }
+if(!isset($leftmenu)){
+	$leftmenu = false;
+}
 $tpl->assign("leftmenu",$leftmenu);
 $tpl->draw(CORE_VIEWS."menu/left/item_image"); //Display core/templates/topmenu.html
 

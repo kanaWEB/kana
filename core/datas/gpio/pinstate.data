@@ -3,7 +3,7 @@ if(isset($_["gpio"])){
 	$gpio = $_["gpio"];
 	$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
 	$data = trim(shell_exec($pinstate_command));
-	echo $data;
+	//echo $data;
 }
 else
 {
@@ -15,5 +15,22 @@ else
 		$data = trim(shell_exec($pinstate_command));
 	}
 }
+
+if(isset($_["voice"])){
+
+	if($data){
+		//$data = "on";
+		$data = "Allumée";
+ 	}
+ 	else
+ 	{
+ 		$data = "Eteinte";
+ 		//$data = "off";
+ 	}
+ 	//$text = "Pin ".$gpio." is ".$data;
+  	$text = "La broche ".$gpio." est ".$data;
+ 	$tts = $text;
+ 	Functions::launch_background("/usr/local/bin/tts -l ".$_SESSION["LANGUAGE"]." ".$tts);
+ }
 
 ?>

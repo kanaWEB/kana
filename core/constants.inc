@@ -47,6 +47,8 @@ define('INSTALL_THEME',"bootstrap");
 //MENU
 define('DEFAULT_MENU_SETTINGS',"pref");
 
-//GPIO
+//GPIO : wPi / BCM / Name
+//define('DEFAULT_GPIO',"wPi");
 define('DEFAULT_GPIO',"wPi");
+
 ?>

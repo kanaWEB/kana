@@ -36,7 +36,7 @@ else{
 
 $form = new Form($form_name);
 include(CORE_VIEWS."forms/form_trigger.view");
-	
+
 //Custom Fields
 $form_file_dir = USER_OBJECTS.$object_name."/triggers/".$trigger_dir."/form/";
 include(CORE_VIEWS."forms/form_md2.view");

@@ -12,21 +12,31 @@ class Variable{
 		return $leftmenu_item;
 	}
 
+	public static function object_html($object_dir){
+		$object_name = self::objectName($object_dir);
+		$object_name = 'data-content="<img src="plugins/objects/'.$object_dir.'/icon.png">"  '.$object_name;
+		$object_html = [
+		"text" => $object_name,
+		"img" => $object_dir
+		];
+		return $object_html;
+	}
+
 	public static function navtab_item($menu,$text,$link,$name=false){
-	if($name){
-		$link_begin = "settings.php?menu=".$menu."&name=".$name."&tab=";
-	}
-	else
-	{
+		if($name){
+			$link_begin = "settings.php?menu=".$menu."&name=".$name."&tab=";
+		}
+		else
+		{
 			$link_begin = "settings.php?menu=".$menu."&tab=";
-	}
+		}
 
-	$navtab_item = [
-	"text" => $text,
-	"link" => $link_begin.$link
-	];
+		$navtab_item = [
+		"text" => $text,
+		"link" => $link_begin.$link
+		];
 
-	return $navtab_item;
+		return $navtab_item;
 	}
 
 //Searching a data everywhere we can
@@ -69,115 +79,132 @@ Fields
  */
 
 //Actions fields
-	public function actions_fields(){
-		$db_fields = [
-		"action" => "text",
-		"args" => "text",
-		"object_key" => "int",
-		"group_key" => "int"
-		];
-		return $db_fields;
-	}
+public function actions_fields(){
+	$db_fields = [
+	"action" => "text",
+	"args" => "text",
+	"object_key" => "int",
+	"group_key" => "int"
+	];
+	return $db_fields;
+}
 
 //Scenario Triggers Fields
-	public function scenario_triggers_fields(){
-		$db_fields = [
-		"trigger_object"=>"text",
-		"trigger"=>"text",
-		"args"=>"text",
-		"trigger_type"=>"text",
-		"scenario_group"=>"int",
-		];
-		return $db_fields;
-	}
+public function scenario_triggers_fields(){
+	$db_fields = [
+	"trigger_object"=>"text",
+	"trigger"=>"text",
+	"args"=>"text",
+	"trigger_type"=>"text",
+	"scenario_group"=>"int",
+	];
+	return $db_fields;
+}
 
 //Scenario Actions Fields
-	public function scenario_actions_fields(){
-		$db_fields = [
-		"action" => "text",
-		"args" => "text",
-		"scenario_actions_group_key" => "int"
-		];
-		return $db_fields;
-	}
+public function scenario_actions_fields(){
+	$db_fields = [
+	"action" => "text",
+	"args" => "text",
+	"scenario_actions_group_key" => "int"
+	];
+	return $db_fields;
+}
 
 //Get all actions arguments from json
-	public function actions_args($actions){
-		foreach($actions as $key_action => $action){
-			$args = json_decode(html_entity_decode($action["args"]));
-			foreach($args as $key_arg => $arg){
-				$actions[$key_action][$key_arg] = $arg;
-			}
-			unset($actions[$key_action]["args"]);
-		}
-		return $actions;
-	}
-
-//Get action arguments from json
-	public function action_args($action){
+public function actions_args($actions){
+	foreach($actions as $key_action => $action){
 		$args = json_decode(html_entity_decode($action["args"]));
 		foreach($args as $key_arg => $arg){
-			$action[$key_arg] = $arg;
+			$actions[$key_action][$key_arg] = $arg;
 		}
-		unset($action["args"]);
-		return $action;
+		unset($actions[$key_action]["args"]);
 	}
+	return $actions;
+}
+
+//Get action arguments from json
+public function action_args($action){
+	$args = json_decode(html_entity_decode($action["args"]));
+	foreach($args as $key_arg => $arg){
+		$action[$key_arg] = $arg;
+	}
+	unset($action["args"]);
+	return $action;
+}
 
 //Markdown to inputs
-	public function md2var($file){
-		$input_data = file($file);
-		$variables = explode("|",$input_data[0]);
+public function md2var($file){
+	$input_data = file($file);
+	$variables = explode("|",$input_data[0]);
+	$variables = array_map('trim',$variables);
+	$values = explode("|",$input_data[2]);
+	$values = array_map('trim',$values);
+	$input = array_combine($variables,$values);
+	return $input;
+}
+
+//Markdown to array
+public function md2vars($file){
+	$input_data = file($file);
+		//var_dump($input_data);
+	foreach($input_data as $key => $data){
+		$variables = explode("|",$input_data[$key]);
 		$variables = array_map('trim',$variables);
-		$values = explode("|",$input_data[2]);
-		$values = array_map('trim',$values);
-		$input = array_combine($variables,$values);
-		return $input;
+		if($variables[0] == "repo"){
+			$values = explode("|",$input_data[$key+2]);
+			$values = array_map('trim',$values);
+			$inputs[] = array_combine($variables,$values);
+		}
 	}
+		//var_dump($inputs);
+	return $inputs;
+}
 
 //Availables Actions menu item
-	public function md2menuitem($menu,$tab,$object_name,$available_md_item){
-		$dir_tab = $tab."s";
-		$md_dir = USER_OBJECTS.$object_name."/".$dir_tab."/".$available_md_item."/md/";
+public function md2menuitem($menu,$tab,$object_name,$available_md_item){
+	$dir_tab = $tab."s";
+	$md_dir = USER_OBJECTS.$object_name."/".$dir_tab."/".$available_md_item."/md/";
 
 
 		//Get name of actions/triggers (internationalized)
-		$mdfile_name = $md_dir."text.md";
-		$mdfile_name_translated = $md_dir."text.".$_SESSION["LANGUAGE"].".md";
+	$mdfile_name = $md_dir."text.md";
+	$mdfile_name_translated = $md_dir."text.".$_SESSION["LANGUAGE"].".md";
 
 //Get Description file (internationalized)
-		$mdfile_description = $md_dir."description.md";
-		$mdfile_description_translated = $md_dir."description.".$_SESSION["LANGUAGE"].".md";
+	$mdfile_description = $md_dir."description.md";
+	$mdfile_description_translated = $md_dir."description.".$_SESSION["LANGUAGE"].".md";
 
-		if(file_exists($mdfile_name_translated)){
-			$text = file_get_contents($mdfile_name_translated);
-			$description = file_get_contents($mdfile_description_translated);
-		}
-		else{
-			if(file_exists($mdfile_name)){
-			$text = file_get_contents($mdfile_name);
-			}
-			else
-			{
-			$text = $mdfile_name;
-			}
-			if(file_exists($mdfile_description)){
-			$description = file_get_contents($mdfile_description);
-			}
-			else
-			{
-			$description = $mdfile_description;
-			}
-		}
-
-		$menu_item = [
-		"text" => $text,
-		"description" => $description,
-		"link" =>  $_SERVER['SCRIPT_NAME']."?menu=".$menu."&name=".$object_name."&tab=".$tab."&".$tab."=".$available_md_item,
-		"dir" => $available_md_item
-		];
-
-		return $menu_item;
+	if(file_exists($mdfile_name_translated)){
+		$text = file_get_contents($mdfile_name_translated);
+		$description = file_get_contents($mdfile_description_translated);
 	}
+	else{
+		if(file_exists($mdfile_name)){
+			$text = file_get_contents($mdfile_name);
+		}
+		else
+		{
+			$text = $mdfile_name;
+		}
+		if(file_exists($mdfile_description)){
+			$description = file_get_contents($mdfile_description);
+		}
+		else
+		{
+			$description = $mdfile_description;
+		}
+	}
+
+	$menu_item = [
+	"text" => $text,
+	"description" => $description,
+	"link" =>  $_SERVER['SCRIPT_NAME']."?menu=".$menu."&name=".$object_name."&tab=".$tab."&".$tab."=".$available_md_item,
+	"dir" => $available_md_item
+	];
+
+	return $menu_item;
+}
 
 //Which menu has an object 
 public function object_menus_name($object_name){

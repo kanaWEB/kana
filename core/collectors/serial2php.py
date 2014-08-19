@@ -70,7 +70,7 @@ def send_data(response,path,dataname):
 """ Main Program """
 
 """
-Arguments Ex Serial_Listener.py "/dev/ttyAMA0" 9600 9060 "/var/www/yana" "radioDevices"
+Arguments Ex Serial_Listener.py "/dev/ttyAMA0" 9600 9060 "/var/www/kana" "radioDevices"
 """
 serial_port = sys.argv[1] #Get Serial Port (ex:/dev/ttyAMA0)
 serial_speed = sys.argv[2] #Get Serial speed (ex:9600)

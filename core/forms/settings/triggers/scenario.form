@@ -14,15 +14,18 @@ $form->input([
 	"selected" => false
 	]);
 
-$data_file = Variable::data_dir("Actions");
+$data_file = Variable::data_dir("object");
 include($data_file);
+var_dump($data);
+
 
 $form->input([
 	"type" => "select",
 	"id" => "id",
-	"name" => "Actions",
+	"name" => "Objects",
 	"options" => $data,
-	"selected" => false
+	"selected" => false,
+	"img" => true
 	]);
 
 $form->display($tpl);
