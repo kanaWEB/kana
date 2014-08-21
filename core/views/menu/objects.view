@@ -12,6 +12,10 @@ if(file_exists(USER_OBJECTS.$object_name."/gpios")){
 	$navtab_items[] = Variable::navtab_item($menu,"Electronics","gpios",$name);
 }
 
+if(file_exists(USER_OBJECTS.$object_name."/group")){
+	$navtab_items[] = Variable::navtab_item($menu,"Groups","groups",$name);
+}
+
 if(file_exists(USER_OBJECTS.$object_name."/codes")){
 	$navtab_items[] = Variable::navtab_item($menu,"Codes","codes",$name);
 }
@@ -37,16 +41,16 @@ else{
 		$menu_name = Variable::object_menus_name($object_name);
 		
 		if(isset($menu_name["gpios"])){
-			redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
+			//redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
 		}
 
 		if(isset($menu_name["electronics"])){
-			redirect("settings","?menu=objects&name=".$object_name."&tab=electronics");
+			//redirect("settings","?menu=objects&name=".$object_name."&tab=electronics");
 		}
 	}
 	else
 	{
-		redirect("settings","?menu=objects&name=".$object_name."&tab=actions");
+		//redirect("settings","?menu=objects&name=".$object_name."&tab=actions");
 	}
 }
 

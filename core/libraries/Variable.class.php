@@ -164,7 +164,7 @@ public function md2vars($file){
 //Availables Actions menu item
 public function md2menuitem($menu,$tab,$object_name,$available_md_item){
 	$dir_tab = $tab."s";
-	$md_dir = USER_OBJECTS.$object_name."/".$dir_tab."/".$available_md_item."/md/";
+	$md_dir = USER_OBJECTS.$object_name."/".$dir_tab."/".$available_md_item."/info/";
 
 
 		//Get name of actions/triggers (internationalized)

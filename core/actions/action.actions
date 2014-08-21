@@ -1,9 +1,15 @@
 <?php
+/*
+This file manages object's actions
+*/
+
+
 //Object Actions
-$action_name = $_["action"];
-$object_name = $_["object"];
-$action_nb = $_["action_nb"];
-$id = $_["id"];
+$action_name = $_["action"]; //Get Actions data
+$object_name = $_["object"]; //Get Object name
+$action_nb = $_["action_nb"]; //Get Action nb
+$id = $_["id"]; //Get ID of objects
+
 
 
 //Open Action table
@@ -29,13 +35,12 @@ if(!isset($object)){
 	//exit();
 }
 
-//Get command number
-$command_file = file(USER_OBJECTS.$object_name."/actions/".$action_name."/"."action.txt");
+//Get availables commands
+$command_file = file(USER_OBJECTS.$object_name."/actions/".$action_name."/"."commands.txt");
 
-//COMMAND TREATMENT
+//Command Argument Treatment
 $command_array = trim($command_file[$action_nb]);
 $command_array = explode("[",$command_array);
-
 
 //Program (without arguments)
 $commands[0] = $command_array[0];
@@ -52,14 +57,17 @@ if(file_exists($user_command));
 			foreach($command_array as $key => $argument){
 				
 				switch(trim($argument)){
+					//GPIO
 					case "gpio]":
 					$commands[$key+1] = " ".$object["gpio"]." "; 
 					break;
 
+					//GPIO TX
 					case "gpio_tx]":
 					$commands[$key+1] = " ".$object["gpio_tx"]." ";
 					break;
 
+					//Code
 					case "code]":
 					$state_code = trim($_["state"]);
 					$code_db = new Entity($object_name);

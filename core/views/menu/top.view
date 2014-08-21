@@ -9,6 +9,8 @@ Display user views menu
  */
 
 		//Get list of plugins/views
+clearstatcache();
+if(file_exists(USER_VIEWS)){
 $user_views = Functions::getdir(USER_VIEWS);
 foreach($user_views as $user_view){
 
@@ -54,6 +56,7 @@ foreach($user_views as $user_view){
 			"link" => "views.php?view=".$user_view
 			];
 		}
+}
 
 
 		//If we are inside settings make it as selected

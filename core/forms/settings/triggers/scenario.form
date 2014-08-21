@@ -16,8 +16,6 @@ $form->input([
 
 $data_file = Variable::data_dir("object");
 include($data_file);
-var_dump($data);
-
 
 $form->input([
 	"type" => "select",

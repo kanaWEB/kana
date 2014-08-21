@@ -1,1 +1,1 @@
-<input type="hidden" value={$input.value}>
+<input type="hidden" {if="isset($input.id)"} id="{$input.id}" name="{input.id}"{/if} value={$input.value}>

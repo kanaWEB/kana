@@ -1,4 +1,6 @@
 <?php
+//Install a plugin with git from a github repo
+
 $repo["repo"] = $_["plugin_repo"];
 $repo["name"] = $_["plugin_name"];
 $repo["type"] = $_["plugin_type"];

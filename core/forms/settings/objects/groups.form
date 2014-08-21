@@ -1,0 +1,40 @@
+<?php
+
+$form_name = "Groups";
+$form = new Form($form_name);
+$selected = false;
+$form->input([
+	"type" => "hidden",
+	"id" => "nb_actions",
+	"value" => 0
+	]);
+
+$form->input([
+	"type" => "chainedselect_buttons",
+	"id" => "actions",
+	]);
+
+include(CORE_VIEWS."forms/form_default.view");
+
+include(CORE_DATAS."url/commandsurl.data");
+var_dump($data);
+
+$form->input([
+	"type" => "chainedselect",
+	"id" => "id",
+	"name" => "Objects",
+	"options" => $data,
+	"selected" => false,
+	"img" => true
+	]);
+
+$form->input([
+	"type" => "chainedselect_ajax",
+	"id" => "new_actions",
+	]);
+
+
+
+$form->display($tpl);
+
+

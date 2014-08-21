@@ -64,6 +64,10 @@ if(isset($_["name"])){
 				include(CORE_FORMS."/settings/objects/codes.form");
 			break;
 
+			case "groups":
+				include(CORE_FORMS."/settings/objects/groups.form");
+			break;
+
 			//Unknown Tab
 			//default:
 			//break;

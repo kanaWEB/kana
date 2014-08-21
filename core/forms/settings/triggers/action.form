@@ -1,3 +1,35 @@
 <?php
 echo "ACTIONS";
+$form = new Form("Actions Group");
+
+$data_file = Variable::data_dir("object");
+include($data_file);
+
+$form->input([
+	"type" => "select",
+	"id" => "id",
+	"name" => "Objects",
+	"options" => $data,
+	"selected" => false,
+	"img" => true
+	]);
+
+$data_file = Variable::data_dir("actions");
+var_dump($data_file);
+include($data_file);
+var_dump($data);
+
+$form->input([
+	"type" => "select",
+	"id" => "id",
+	"name" => "Actions",
+	"options" => $data,
+	"selected" => false,
+	"img" => true
+	]);
+
+$form->display($tpl);
+
+$tpl->draw(CORE_VIEWS."grids/container/close");
+
 ?>

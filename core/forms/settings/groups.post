@@ -30,7 +30,6 @@ if(isset($_["del"])){
 	}
 }
 else{
-
 	$fields = $_;
 	unset($fields["submit"]);
 	unset($fields["menu"]);

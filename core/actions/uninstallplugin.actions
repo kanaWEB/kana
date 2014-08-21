@@ -1,12 +1,15 @@
 <?php
+//Remove a plugin
+//
+
+
 if(isset($_["plugin_name"]) && isset($_["plugin_type"])){
 	$repo["name"] = $_["plugin_name"];
 	$repo["type"] = $_["plugin_type"];
 	if($repo["type"] == "" || $repo["name"] == ""){
 		echo "Empty Plugin name and type makes me unhappy :-(";
 	}
-	else
-	{
+	else{
 		echo "Plugin uninstall"."<br>";
 		$absolute_path = " ".dirname(dirname(dirname(__FILE__)))."/plugins/".$repo["type"]."/".$repo["name"];
 		echo $absolute_path;

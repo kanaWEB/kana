@@ -1,5 +1,10 @@
 <?php
-//Collector Control redirector
+/*
+Redirect to collectors (collectors get datas from external sources and works as background mini python server)
+When a data is collected it is send with a php script request
+*/
+
+//Collector Control redirectors
 if(isset($_["collector"])){
 	$collector = $_["collector"];
 	$command = $_["command"];
