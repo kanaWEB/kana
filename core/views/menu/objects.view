@@ -50,7 +50,7 @@ else{
 	}
 	else
 	{
-		//redirect("settings","?menu=objects&name=".$object_name."&tab=actions");
+		//redirect("settings","?menu=objects&name=".$object_name."&tab=action");
 	}
 }
 

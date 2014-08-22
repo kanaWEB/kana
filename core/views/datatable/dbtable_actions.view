@@ -67,7 +67,7 @@ $actions = Variable::actions_args($actions);
 		$tpl->draw(CORE_VIEWS."table/cell/open");
 
 		$buttons = [
-		"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=actions&action=".$action_get,
+		"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=action&action=".$action_get,
 		"id" => $actions[$i]["id"]
 		];
 		$tpl->assign("buttons",$buttons);

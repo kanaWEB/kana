@@ -2,7 +2,7 @@
 if(isset($_["del"])){
 	$db = new Entity("Triggers",Variable::scenario_triggers_fields());
 	$db->delete(array('id'=>$_['id']));
-	redirect("settings","?menu=objects&name=".$object_name."&tab=actions&action=".$action."&error=".t("Action deleted"));
+	redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$action."&error=".t("Action deleted"));
 }
 else{
 	$fields = $_;

@@ -67,6 +67,15 @@ if(file_exists($user_command));
 					$commands[$key+1] = " ".$object["gpio_tx"]." ";
 					break;
 
+					case "lang]":
+					$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
+					break;
+
+					case "text]":
+					$argument = substr(trim($argument), 0, -1);
+					$commands[$key+1] = '"'.htmlspecialchars_decode($action[$argument], ENT_QUOTES).'"';
+					break;
+
 					//Code
 					case "code]":
 					$state_code = trim($_["state"]);
@@ -143,6 +152,7 @@ if(file_exists($user_command));
 			foreach($commands as $command){
 				$final_command .= $command;
 			}
+			//var_dump($final_command);
 			//exec($final_command,$result,$out);
 			//var_dump($out);
 			Functions::launch_background($final_command);
