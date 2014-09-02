@@ -75,3 +75,4 @@ function update_label(data){
 	label.addClass("label label-"+data.label);
 	label.html(data.data);
 }
+

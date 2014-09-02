@@ -4,6 +4,7 @@ NavTab / Name
 */
 $menu = $_["menu"];
 $name = $_["name"];
+
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
 	$navtab_items[] = Variable::navtab_item($menu,"Electronics","electronics",$name);
 }
@@ -33,25 +34,7 @@ if($tab){
 	$navtab_item_selected = $link_begin.$tab;
 }
 else{
-	$object_db = new Entity($object_name);
-	$nb_object = $object_db->rowCount();
-	
-	//If Electronics was not setup
-	if($nb_object == 0){
-		$menu_name = Variable::object_menus_name($object_name);
-		
-		if(isset($menu_name["gpios"])){
-			//redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
-		}
-
-		if(isset($menu_name["electronics"])){
-			//redirect("settings","?menu=objects&name=".$object_name."&tab=electronics");
-		}
-	}
-	else
-	{
-		//redirect("settings","?menu=objects&name=".$object_name."&tab=action");
-	}
+	//
 }
 
 if(!isset($navtab_item_selected)){

@@ -1,0 +1,36 @@
+<?php
+//Default topmenu (can be override to display a custom menu by making an $topmenu array)
+if(!isset($topmenu)){
+
+	if(PHP_PAGE == "views.php" || PHP_PAGE == "settings.php"){
+/*
+Display user views menu
+ */
+
+//Get list of plugins/views
+clearstatcache(); //Refresh file cache
+if(file_exists(USER_VIEWS)){ //If there is a user_views to display
+	$user_views = $currentUser->viewsRight();
+	
+	foreach($user_views as $user_view){
+
+//Get translation for views
+		include(CORE_VIEWS."header/translation.view");
+//Get Users Plugins views
+		include(CORE_VIEWS."menu/top/topusers.view");
+
+
+		
+
+	}
+
+}
+//Get Default views
+include(CORE_VIEWS."menu/top/topdefault.view");
+}
+}
+//Send variables and RainTpl and generate it
+$tpl->assign("topmenu_selected",$topmenu_selected);
+$tpl->assign("topmenu",$topmenu);
+$tpl->draw(CORE_VIEWS."menu/top/top"); //Display core/templates/topmenu.html
+?>

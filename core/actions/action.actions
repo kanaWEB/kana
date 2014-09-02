@@ -3,6 +3,7 @@
 This file manages object's actions
 */
 
+if(isset($_["action"]) && isset($_["object"]) && isset($_["action_nb"])){
 
 //Object Actions
 $action_name = $_["action"]; //Get Actions data
@@ -10,23 +11,26 @@ $object_name = $_["object"]; //Get Object name
 $action_nb = $_["action_nb"]; //Get Action nb
 $id = $_["id"]; //Get ID of objects
 
-
-
 //Open Action table
 $action_db = new Entity($object_name."_actions",Variable::actions_fields());
 $action = $action_db->getById($id);
+
+
+if($action){
+	if($currentUser->GroupRight($action["group_key"])){ //Check User
+
 $action = Variable::action_args($action); //Json to array for the arguments
 
 //Is this an GPIO object?
 if(file_exists(USER_OBJECTS.$object_name."/gpios")){
-$object_db = new Entity($object_name);
-$object = $object_db->getById($action["object_key"]);
+	$object_db = new Entity($object_name);
+	$object = $object_db->getById($action["object_key"]);
 }
 
 //Is this a remotely controllable Electronics Objects
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
-$object_db = new Entity($object_name,"electronics");
-$object = $object_db->getById(1);
+	$object_db = new Entity($object_name,"electronics");
+	$object = $object_db->getById(1);
 }
 
 //Is this a program objects ?
@@ -93,7 +97,7 @@ if(file_exists($user_command));
 							$state = 0;
 						}
 					}
-				
+
 					$code = $code_db->getById($action["code_".$state_code]);
 					//echo $action["code_".$state];
 					//echo $code["code"];
@@ -120,9 +124,9 @@ if(file_exists($user_command));
 
 						case "change":
 						if(isset($object["gpio"])){
-						$gpio = $object["gpio"];
-						include(CORE_DATAS."gpio/pinstate.data");
-						$state = $data ? 0 : 1;
+							$gpio = $object["gpio"];
+							include(CORE_DATAS."gpio/pinstate.data");
+							$state = $data ? 0 : 1;
 						}
 						else
 						{
@@ -141,7 +145,7 @@ if(file_exists($user_command));
 					default:
 					$argument = substr(trim($argument), 0, -1);
 					//echo $argument;
-					$commands[$key+1] = " ".$action[$argument]; 
+					$commands[$key+1] = " ".$action[$argument]." "; 
 					break;
 				}
 			}
@@ -186,6 +190,13 @@ if(file_exists($user_command));
 
 			}
 			if(DEBUG){				
-					Draw::ajax_notify("<h1>DEBUG</h1>".$final_command." <br> EXIT CODE: ".$out,"warning");
-				}
-			?>
+				Draw::ajax_notify("<h1>DEBUG</h1>".$final_command." <br> EXIT CODE: ".$out,"warning");
+			}
+		}
+		else
+		{
+			echo Draw::ajax_notify("Permissions denied by Administrator","error");
+		}
+		} //actions
+	} //isset
+	?>

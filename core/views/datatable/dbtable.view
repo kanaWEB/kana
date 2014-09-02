@@ -15,7 +15,7 @@ for($i=0;$i<count($objects);$i++){
 	$tpl->draw(CORE_VIEWS."table/row/open");
 	foreach($table_datas as $td){
 		$tpl->draw(CORE_VIEWS."table/cell/open");
-		echo $objects[$i][$td];
+		echo html_entity_decode($objects[$i][$td]);
 		$tpl->draw(CORE_VIEWS."table/cell/close");
 	}
 	$tpl->draw(CORE_VIEWS."table/cell/open");

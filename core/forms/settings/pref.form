@@ -1,6 +1,6 @@
 <?php
 $tpl->draw(CORE_VIEWS."grids/container/bordered_open");
-$preferences_form = new Form("Preferences");
+$form = new Form("Preferences");
 
 
 $lang_list = get_langlist();
@@ -8,7 +8,7 @@ $lang_list = get_langlist();
 $theme_list = new Theme();
 $theme_list = $theme_list->getlist();
 
-$preferences_form->input([
+$form->input([
 	"type" => "select",
 	"id" => "theme",
 	"name" => "Theme",
@@ -16,7 +16,7 @@ $preferences_form->input([
 	"selected" => $config["theme"]
 	]);
 
-$preferences_form->input([
+$form->input([
 	"type" => "select",
 	"id" => "lang",
 	"name" => "Language",
@@ -24,7 +24,7 @@ $preferences_form->input([
 	"selected" => $_SESSION["LANGUAGE"]
 	]);
 
-$preferences_form->display($tpl);
+$form->display($tpl);
 
 $buttons[] = [
 "text" => "Check permissions",

@@ -37,7 +37,7 @@ if(isset($_["name"])){
 			if($dir_list > 0){
 				//@todo If only one action redirect
 				if(!isset($_["action"])){ //Available actions
-				
+
 					include(CORE_VIEWS."datatable/dbtable_actions.view");
 				}
 				else{ //Selected Action
@@ -61,15 +61,16 @@ if(isset($_["name"])){
 
 			//Codes Tabs
 			case "codes":
-				include(CORE_FORMS."/settings/objects/codes.form");
+			include(CORE_FORMS."/settings/objects/codes.form");
 			break;
 
 			case "groups":
-				include(CORE_FORMS."/settings/objects/groups.form");
+			include(CORE_FORMS."/settings/objects/groups.form");
 			break;
 
 			//Unknown Tab
 			//default:
+			//echo "default";
 			//break;
 		}
 	}
@@ -77,13 +78,13 @@ if(isset($_["name"])){
 }
 else{
 	?>
-<h1>Add Objects</h1>
-REPO MADNERDS
-<input type='text' id="searchterms">
-<button onclick="getplugins(this,'madnerds')">Search for plugins</button>
-<span id="plugin_list"></span>
+	<h1>Add Objects</h1>
+	REPO MADNERDS
+	<input type='text' id="searchterms">
+	<button onclick="getplugins(this,'madnerds')">Search for plugins</button>
+	<span id="plugin_list"></span>
 
-<?php
+	<?php
 	//include(CORE_DATAS."remoteplugins.data");
 }
 

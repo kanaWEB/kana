@@ -1,0 +1,19 @@
+<?php
+if($currentUser->isadmin()){
+$right_db = new Entity("ViewRight");
+	if($_["state"] == "true"){
+		$right_db->setId_user($_["id_user"]);
+		$right_db->setId_view($_["id_view"]);
+		$right_db->save();
+		echo Draw::ajax_notify("Permission added","success");
+	}
+
+	if($_["state"] == "false"){
+		$right_db->delete([
+			'id_user' => $_['id_user'],
+			'id_view' => $_['id_view']
+			]);
+		echo Draw::ajax_notify("Permission removed","error");
+	}
+}
+?>

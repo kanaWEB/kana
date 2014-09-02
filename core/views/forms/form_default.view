@@ -1,5 +1,6 @@
 <?php
 //Default Fields
+//@todo move to another file
 $table_headers[] = "Name";
 $table_headers[] = "Description";
 $table_datas[] = "object_name";

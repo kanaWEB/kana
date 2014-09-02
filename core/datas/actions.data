@@ -18,11 +18,9 @@ foreach($objects_dir as $object_dir){
 
 foreach($objects_dir as $key => $object_dir){
 	$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
-	$actions_db_array[$object_dir] = $actions_db->populate();
+	$data[] = $actions_db->populate();
 }
 
-var_dump($actions_db_array);
-exit();
 
 /*
 //$actions_db = new Entity("triggers",Variable::scenario_triggers_fields());

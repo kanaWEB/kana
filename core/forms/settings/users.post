@@ -1,0 +1,48 @@
+<?php
+//Group Post
+
+if(isset($_["del"])){
+		if($_["id"] == 1){
+			redirect("settings","?menu=users&error=".t("You can't delete the admin!"));
+		}
+		else{
+			$object_db = new Entity("Users");
+			$object_db->delete(array('id'=>$_['id']));
+			
+			$group_right_db = new Entity("GroupRight");
+			$group_right_db->delete([
+			'id_user' => $_['id_user'],
+			'id_group' => $_['id_group']
+			]);
+			
+			redirect("settings","?menu=users&error=".t("User delete"));
+		}
+}
+else{
+	$fields = $_;
+
+	unset($fields["submit"]);
+	unset($fields["menu"]);
+
+	$object_db = new Entity("Users");
+	if(isset($_["id"])){
+		$object_db->setId($_["id"]);
+	}
+	else{
+		$object_db->create();
+	}
+	foreach($fields as $key => $field){
+		if($key == "password"){
+			$field = sha1(md5($field));
+		}
+		$setter = "set".$key;
+		$object_db->$setter($field);
+	}
+	$object_db->setState(2);
+	$object_db->setCookie("");
+	$object_db->setToken("");
+	$object_db->save();
+
+	redirect("settings","?menu=users&notice=".t("User saved"));
+}
+?>

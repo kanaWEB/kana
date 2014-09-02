@@ -2,13 +2,15 @@
 
 class User {
 
-	protected $id,$name,$right,$cookie;
+	protected $id,$name,$right,$cookie,$default_view,$default_group;
 	function __construct(){
 		$this->right = false;
 		$this->id = false;
 		$this->name = false;
 		$this->cookie = false;
-	}
+		$this->default_view = false;
+		$this->default_group = false;
+ 	}
 
 	function right(){
 		return $this->right;
@@ -22,6 +24,22 @@ class User {
 		return $this->id;
 	}
 
+	function default_view(){
+		return $this->default_view;
+	}
+
+	function default_group(){
+		return $this->default_group;
+	}
+
+	function RefreshDefaultView($view){
+		$this->default_view = $view;
+	}
+
+	function RefreshDefaultGroup($group){
+		$this->default_group = $group;
+	}
+
 	//Verify if a account exists (returns false if not)
 	function check_password($login,$password,$cookie=false){
 		$user = new Entity("Users");
@@ -29,10 +47,13 @@ class User {
 			'name'=>$login,
 			'password'=>sha1(md5($password))
 			]);
+		var_dump($user);
 		if($user){	
 			$this->right = $user["state"];
 			$this->name = $user["name"];
 			$this->id = $user["id"];
+			$this->default_view = $user["default_view"];
+			$this->default_group = $user["default_group"];
 
 			//If no cookie token exists, we generate it inside the database.
 			//We destroy the cookie when we disconnect.
@@ -64,6 +85,8 @@ class User {
 			$this->right = $session->right();
 			$this->name = $session->name();
 			$this->id = $session->id();
+			$this->default_view = $session->default_view();
+			$this->default_group = $session->default_group();
 		}
 		else{
 			return $this->right = false;
@@ -84,6 +107,8 @@ class User {
 			$this->right = $user["state"];
 			$this->name = $user["name"];
 			$this->id = $user["id"];
+			$this->default_view = $user["default_view"];
+			$this->default_group = $user["default_group"];
 		}
 	}
 
@@ -103,6 +128,38 @@ class User {
 			return false;
 	}
 
+	function viewsRight(){
+		$views = Functions::getdir(USER_VIEWS);
+		$view_right_db = new Entity("ViewRight");
+		foreach($views as $key => $view){
+			$view_right = $view_right_db->load([
+			'id_user'=>$this->id,
+			'id_view'=>$view
+			]);
+			if(!$view_right){
+			unset($views[$key]);
+			}
+		}
+	return $views;
+	}
+
+	function viewRight($view_name){
+		$view_right_db = new Entity("ViewRight");
+			$view_right = $view_right_db->load([
+			'id_user'=>$this->id,
+			'id_view'=>$view_name
+			]);
+		return $view_right;
+	}
+
+	function groupRight($group_id){
+		$group_right_db = new Entity("GroupRight");
+			$group_right = $group_right_db->load([
+			'id_user'=>$this->id,
+			'id_group'=>$group_id
+			]);
+		return $group_right;
+	}
 
 
 }

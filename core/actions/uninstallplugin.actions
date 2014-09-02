@@ -2,7 +2,7 @@
 //Remove a plugin
 //
 
-
+if($currentUser->isadmin()){
 if(isset($_["plugin_name"]) && isset($_["plugin_type"])){
 	$repo["name"] = $_["plugin_name"];
 	$repo["type"] = $_["plugin_type"];
@@ -26,7 +26,7 @@ else{
 	echo "No plugin name and type makes me unhappy :-(";
 }
 
-
+}
 
 
 ?>

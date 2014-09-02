@@ -1,0 +1,64 @@
+<?php
+if(isset($_["action_name"]) && isset($_["object_name"])){
+	$md_actions_dir = (USER_OBJECTS.$_["object_name"]."/actions/".$_["action_name"]."/actions/");
+	$actions_array = Functions::getdir($md_actions_dir);
+	foreach($actions_array as $actions){
+		$data = Variable::md2var($md_actions_dir."/".$actions);
+	}
+}
+else{
+	$objects_dir = Functions::getdir(USER_OBJECTS);
+	$key = 0;
+	foreach($objects_dir as $object_dir){
+		//Get actions from objects	
+		$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
+		$actions_db = $actions_db->populate();
+
+	//If objects has actions
+		if($actions_db){
+				foreach($actions_db as $action){
+					if($currentUser->GroupRight($action["group_key"])){
+					$md_actions_dir = (USER_OBJECTS.$object_dir."/actions/".$action["action"]."/actions/");
+					$actions_array = Functions::getdir($md_actions_dir);
+					foreach($actions_array as $actions){
+						$action_datas[$key][] = Variable::md2var($md_actions_dir."/".$actions);
+						for($i=0;$i < count($action_datas[$key]);$i++){
+								$action_datas[$key][$i]["object_dir"] = $object_dir;
+								$action_datas[$key][$i]["object_name"] = $action["object_name"];
+								$action_datas[$key][$i]["id"] = $action["id"];
+								$action_datas[$key][$i]["action"] = $action["action"];
+						}
+						$key++;
+					}
+				}
+			}
+		}
+	}
+$data = $action_datas;
+}
+
+/*
+	echo "<a href='../log.php'>LOG</a><br>";
+foreach($action_datas as $key => $action_data){
+	//var_dump($action_data);
+	if(!isset($action_nb)){
+		$action_data["action_nb"] = 0;
+	}
+	
+	echo "Object Type:".$action_data["object_dir"]."<br>";
+	echo "Object Name:".$action_data["object_name"]."<br>";
+	echo "Action:".$action_data[0]["name"]."<br>";
+
+	echo "<a href='";
+	echo "actions.php?type=action&object=".$action_data["object_dir"]."&id=".$action_data["id"]."&action=".$action_data["action"]."&action_nb=".$action_data["action_nb"]."&state=".$action_data[0]["type"];
+	echo "'>go</a>";
+	echo "<br><br>";
+
+	
+	$data[$key]["object_type"] =  $action_data["object_dir"];
+	$data[$key]["object_name"] = $action_data["object_name"];
+	$data[$key]["object_action"] = $action_data[0]["name"];
+	$data[$key]["url"] = "actions.php?type=action&object=".$action_data["object_dir"]."&id=".$action_data["id"]."&action=".$action_data["action"]."&action_nb=".$action_data["action_nb"]."&state=".$action_data[0]["type"];
+}
+*/
+?>

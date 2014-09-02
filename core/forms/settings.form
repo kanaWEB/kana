@@ -1,0 +1,19 @@
+<?php
+//Settings default form
+		//Header
+include(CORE_VIEWS."header/header.view");
+include(CORE_VIEWS."menu/top/top.view");
+include(CORE_VIEWS."menu/left/left.view");
+
+//Form generator
+include(CORE_VIEWS."forms/Form.class.php");
+
+//Page
+$file = CORE_FORMS."/settings/".$filename.".form";
+if(file_exists($file)){
+	include(CORE_FORMS."/settings/".$filename.".form");
+}
+
+//Footer
+include(CORE_VIEWS."footer/footer.view");
+?>

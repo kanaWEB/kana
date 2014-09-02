@@ -2,7 +2,6 @@
 /*
 Installation Post
 */
- */
 
 if(DEBUG){
 	debug("PHP","Variables");
@@ -38,6 +37,9 @@ $group_db = new Entity("Group");
 $group_db->setObject_name(t("Default Group"));
 $group_db->setObject_description(t("Auto-generated group"));
 $group_db->save();
+
+$group_db = new Entity("GroupRight");
+$group_db = new Entity("ViewRight");
 
 unset($_SESSION);
 //Redirect to index

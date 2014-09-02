@@ -1,0 +1,8 @@
+	<!-- Select INPUT Plugin -->
+		<select name="plugin_actions0" id="plugin_actions0" class="form-control selectpicker">
+			{loop="$input.options"}
+			<option value="$options.object_id" class="{$options.object_dir}">
+			{$options.name}    
+			</option>
+			{/loop}
+		</select>

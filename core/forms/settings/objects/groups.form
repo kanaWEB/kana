@@ -14,26 +14,29 @@ $form->input([
 	"id" => "actions",
 	]);
 
-include(CORE_VIEWS."forms/form_default.view");
+//include(CORE_VIEWS."forms/form_default.view");
 
-include(CORE_DATAS."url/commandsurl.data");
+$list_all_objects = True;
+include(CORE_DATAS."object.data");
+$plugin_data = $data;
+
+include(CORE_DATAS."actions.data");
 var_dump($data);
 
+include(CORE_DATAS."url/commands.data");
+$action_data = $data;
+//var_dump($action_data);
 $form->input([
-	"type" => "chainedselect",
-	"id" => "id",
-	"name" => "Objects",
-	"options" => $data,
+	"type" => "chainedselect_plugin",
+	"options" => $plugin_data,
 	"selected" => false,
-	"img" => true
 	]);
 
 $form->input([
-	"type" => "chainedselect_ajax",
-	"id" => "new_actions",
+	"type" => "chainedselect_actions",
+	"options" => $action_data,
+	"selected" => false,
 	]);
-
-
 
 $form->display($tpl);
 

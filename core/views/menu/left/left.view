@@ -8,82 +8,8 @@ Category General
 
 $tpl->draw(CORE_VIEWS."menu/left/open");
 
-/*
-
-General
-
- */
-$category = [
-"text" => "General"
-];
-$tpl->assign("category",$category);
-
-		//Preferences item
-$leftmenu[] = [
-"text" => "Preferences",
-"icon" => "glyphicon-cog",
-"link" => "pref"
-];
-
-		//Users item
-$leftmenu[] = [
-"text" => "Users",
-"icon" => "glyphicon-user",
-"link" => "users"
-];
-
-$leftmenu[] = [
-"text" => "Groups",
-"icon" => "glyphicon-user",
-"link" => "groups"
-];
-
-$tpl->assign("leftmenu",$leftmenu);
-$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
-unset($leftmenu);
-
-/*
-
-Overview
-
- */
-
-$category = [
-"text" => "Overview",
-"link" => "overview"
-];
-$tpl->assign("leftmenu",false);
-
-$tpl->assign("category",$category);
-$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
-
-/*
-
-Objects
-
-*/
-$objects = Functions::getdir(USER_OBJECTS);
-//@todo check if there is a projects
-
-$category = [
-"text" => "Objects",
-"link" => "objects"
-];
-$tpl->assign("category",$category);
-
-foreach($objects as $object){
-	$object_dir = USER_OBJECTS.$object;
-	$menu_name = Variable::objectName($object_dir);
-		//If the menu exists generate it
-		if($menu_name){
-			$leftmenu[] = Variable::leftmenu_item($menu_name,$object_dir,$object);
-		}
-}
-if(!isset($leftmenu)){
-	$leftmenu = false;
-}
-$tpl->assign("leftmenu",$leftmenu);
-$tpl->draw(CORE_VIEWS."menu/left/item_image"); //Display core/templates/topmenu.html
+include(CORE_VIEWS."menu/left/left_general.view");
+include(CORE_VIEWS."menu/left/left_objects.view");
 
 /*
 
@@ -94,6 +20,7 @@ $category = [
 "text" => "Scenario",
 "link" => "scenario"
 ];
+
 $tpl->assign("leftmenu",false);
 $tpl->assign("category",$category);
 $tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html

@@ -1,0 +1,22 @@
+<?php
+if($currentUser->id() == $_["id_user"]){
+
+	$id_user = $_["id_user"];
+	$id_view = $_["id_view"];
+
+	$user_db = new entity("Users");
+	$user_db->update($id_user,"default_view",$id_view);
+
+	//Refresh current default view
+	$currentUser->RefreshDefaultView($id_view);
+	$_SESSION['currentUser'] = serialize($currentUser);
+	
+	echo Draw::ajax_notify("View set as default","success");
+}
+else
+{
+	echo Draw::ajax_notify("You can only modify YOUR default view","danger");
+}
+
+
+?>

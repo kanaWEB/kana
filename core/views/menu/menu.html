@@ -1,6 +1,5 @@
  <div class="container">
 
-  <!-- Example row of columns -->
   <div class="row">
     {loop="menu_items"}
     <button class="col-md-4 panel {if="$selected_menu_item == $value.dir"}panel-success{else}panel-primary{/if}" onclick="window.location = '{$value.link}';">

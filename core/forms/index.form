@@ -21,7 +21,7 @@ if(!$currentUser->isuser()){
 	"text" => "Identification",
 	"icon" => "glyphicon-credit-card"
 	];
-	include(CORE_VIEWS."menu/top.view");
+	include(CORE_VIEWS."menu/top/top.view");
 
 	//Form
 	include(CORE_VIEWS."forms/Form.class.php");
@@ -58,6 +58,14 @@ if(!$currentUser->isuser()){
 }
 else
 {
-	redirect("views"); //Redirect to views if user valid
+	//Default view
+			if($currentUser->default_view() == ""){
+				$view_list = Functions::getdir(USER_VIEWS);
+				redirect("views","?view=".$view_list[0]);
+			}
+			else
+			{
+				redirect("views","?view=".$currentUser->default_view());
+			}
 }
 ?>

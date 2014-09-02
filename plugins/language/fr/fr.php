@@ -29,6 +29,11 @@ $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 $lang["Send"] = "Envoyer";
 $lang["Go back"] = "Retour";
 
+//Users
+$lang["Nickname"] = "Pseudonyme";
+$lang["First name"] = "Prénom";
+$lang["Last name"] = "Nom";
+$lang["Please choose a safe password!"] = "Choissisez un mot de passe sûr!";
 
 //Root Command
 $lang["SSH Username"] = "Utilisateur SSH";
@@ -109,5 +114,13 @@ $lang["second"] = "seconde";
 //Electronics Terms
 $lang["Pin"] = "Broche";
 
-
+//Views
+$lang["Make as default view"] = "Vue par défaut";
+$lang["Make as default group"] = "Groupe par défaut";
+$lang["Permissions denied by Administrator"] = "Permissions refusé par l'administrateur";
+$lang["PERMISSIONS DENIED"] = "PERMISSIONS REFUSE";
+$lang["Ask your administrator to enable your account"] = "Demandez à l'administrateur d'activer votre compte";
+$lang["Log out"] = "Déconnexion";
+$lang["View set as default"] = "Cette vue est maintenant votre vue par défaut";
+$lang["Group set as default"] = "Ce groupe est maintenant le groupe par défaut";
 ?>

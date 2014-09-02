@@ -295,6 +295,14 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}
 
+	public function update($id,$field,$value){
+		$query = 'UPDATE `'.SQL_PREFIX.$this->TABLE_NAME.'` SET ';
+		$query .= '`'.$field.'` = "'.$value.'" ';
+		$query .=' WHERE '; 
+		$query .= '`id` = "'.$id.'"';
+		if(!$this->exec($query)) echo $this->lastErrorMsg();
+	}
+
 	/**
  * Display a table inside an Entity objects
  * @author Valentin CARRUESCO

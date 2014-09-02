@@ -1,0 +1,21 @@
+<?php
+if($currentUser->isadmin()){
+$group_right_db = new Entity("GroupRight");
+	if($_["state"] == "true"){
+		$group_right_db->setId_user($_["id_user"]);
+		$group_right_db->setId_group($_["id_group"]);
+		$group_right_db->save();
+		echo Draw::ajax_notify("Permission added","success");
+	}
+
+	if($_["state"] == "false"){
+		$group_right_db->delete([
+			'id_user' => $_['id_user'],
+			'id_group' => $_['id_group']
+			]);
+		echo Draw::ajax_notify("Permission removed","error");
+	}
+}
+
+
+?>

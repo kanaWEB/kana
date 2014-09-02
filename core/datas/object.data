@@ -4,7 +4,7 @@ if(isset($_["name"])){
 	$object_name = $_["name"];
 }
 
-if(!isset($object_name)){
+if(!isset($object_name) || isset($list_all_objects)){
 	$objects_dir = Functions::getdir(USER_OBJECTS);
 	foreach($objects_dir as $object_dir){
 		$data[] = [
@@ -16,11 +16,10 @@ if(!isset($object_name)){
 }
 else
 {
-	$object_db = new Entity($object_name);
 
+	$object_db = new Entity($object_name);
 	$objects = $object_db->populate();
 	if($objects){
-
 		foreach($objects as $object){
 			$data[] = [
 			"text" => $object["object_name"],

@@ -11,49 +11,82 @@ if($currentUser->isadmin()){
 		if( ($_["menu"] == "objects") && isset($_["name"])){
 			$leftmenu_active = "objects&name=".$_["name"];
 			$filename = "objects";
+			
+			/*
+			Auto Redirector for objects
+			@todo Refactor!
+			*/
+			
+			if(!isset($_["tab"])){
+				$object_name = $_["name"];
+				$object_db = new Entity($object_name);
+				$nb_object = $object_db->rowCount();
+			//If Electronics was not setup
+				if($nb_object == 0){
+					$menu_name = Variable::object_menus_name($object_name);
+
+				if(isset($menu_name["gpios"])){ //Gpios needs to be configured?
+					redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
+				}
+				elseif(isset($menu_name["electronics"])){ //Definite numbers of Pins need to be configured
+					redirect("settings","?menu=objects&name=".$object_name."&tab=electronics");
+				}
+				else
+				{
+					//No Electronics
+					$actions_list = Functions::getdir(USER_OBJECTS."/".$object_name."/actions");
+					$nb_actions = count($actions_list);
+					if($nb_actions == 1){
+						redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$actions_list[0]);
+					}
+					else{
+						redirect("settings","?menu=objects&name=".$object_name."&tab=action");
+					}				
+				}
+			}
+			else
+			{
+					//No Electronics
+				$actions_list = Functions::getdir(USER_OBJECTS."/".$object_name."/actions");
+				$nb_actions = count($actions_list);
+				if($nb_actions == 1){
+					redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$actions_list[0]);
+				}
+				else{
+					redirect("settings","?menu=objects&name=".$object_name."&tab=action");
+				}	
+			}
 		}
-		//General item
-		else
-		{
-			$leftmenu_active = $_["menu"];
-			$filename = $_["menu"];
-		}
+
+
+
+
 	}
+		//General item
 	else
 	{
-		//Default active menu
-		$leftmenu_active = DEFAULT_MENU_SETTINGS;
-		$filename = $leftmenu_active;
+		$leftmenu_active = $_["menu"];
+		$filename = $_["menu"];
 	}
-
-
+}
+else
+{
+		//Default active menu
+	$leftmenu_active = DEFAULT_MENU_SETTINGS;
+	$filename = $leftmenu_active;
+}
 
 //Settings post
-	if(isset($_["submit"])){
-		$file = CORE_FORMS."/settings/".$filename.".post";
-		if(file_exists($file)){
+if(isset($_["submit"])){
+	$file = CORE_FORMS."/settings/".$filename.".post";
+	if(file_exists($file)){
 		include(CORE_FORMS."/settings/".$filename.".post");
-		}
 	}
+}
 //Settings form
-	else
-	{	
-		//Header
-		include(CORE_VIEWS."header/header.view");
-		include(CORE_VIEWS."menu/top.view");
-		include(CORE_VIEWS."menu/left/left.view");
-
-		//Form
-		include(CORE_VIEWS."forms/Form.class.php");
-		
-		//Page
-		$file = CORE_FORMS."/settings/".$filename.".form";
-		if(file_exists($file)){
-		include(CORE_FORMS."/settings/".$filename.".form");
-		}
-		
-		//Footer
-		include(CORE_VIEWS."footer/footer.view");
-	}
+else
+{	
+	include(CORE_FORMS."/settings.form");
+}
 }
 ?>

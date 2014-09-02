@@ -24,7 +24,7 @@ define('EXTERNAL_LIB',"core/libraries/dependancies/");
 
 //APP INFO
 define('APP_NAME',"KANA");
-define('VERSION',"0.01");
+define('VERSION',"0.30");
 define('APP_STATE',"ALPHA");
 define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
 

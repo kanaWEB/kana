@@ -3,7 +3,7 @@
  * Common loads all functions and global scope variables/constants (user/lang/theme)
  * 
 **/
-	session_start();
+session_start();
 require_once("constants.inc"); //Global Constants
 
 /*
@@ -34,7 +34,7 @@ global $currentUser,$_,$config;
 
 if(DB_EXISTS){
 /*
-Manage User Security (see User.class.php for more information and index.php for login/logout)
+Manage User Security (see schema/Users/User.class.php for more information and index.php for login/logout)
 */
 $currentUser = new User();
 //Check if an user is saved as a session
