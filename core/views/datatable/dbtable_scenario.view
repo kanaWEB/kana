@@ -1,0 +1,51 @@
+<?php
+//Table Header
+$table_headers[] = "Trigger";
+$table_headers[] = "Actions";
+$table_datas[] = "id_trigger";
+$table_datas[] = "action_tag";
+$action_name = $object_name."_actions";
+
+
+
+$tpl->draw(CORE_VIEWS."grids/container/open");
+include(CORE_VIEWS."table/header/header.view");
+
+//Link generator
+$link = $_SERVER['SCRIPT_NAME']."?menu=".$_["menu"]."&tab=".$_["tab"];
+$db_scenario = new Entity("Scenario");
+$objects = $db_scenario->populate();
+$db_triggers = new Entity("Triggers");
+
+//Table datas
+for($i=0;$i<count($objects);$i++){
+	$tpl->draw(CORE_VIEWS."table/row/open");
+	foreach($table_datas as $td){
+		$tpl->draw(CORE_VIEWS."table/cell/open");
+		if($td == "id_trigger"){
+			$triggers = $db_triggers->load([
+				"id" => $objects[$i][$td]
+				]);
+			echo $triggers["object_name"];
+		}
+		else{
+			echo html_entity_decode($objects[$i][$td]);
+		}
+		$tpl->draw(CORE_VIEWS."table/cell/close");
+	}
+	$tpl->draw(CORE_VIEWS."table/cell/open");
+
+	$buttons = [
+	"link" => $link,
+	"id" => $objects[$i]["id"]
+	];
+
+	$tpl->assign("buttons",$buttons);
+	$tpl->draw(CORE_VIEWS."table/buttons");
+	$tpl->draw(CORE_VIEWS."table/cell/close");
+	$tpl->draw(CORE_VIEWS."table/row/close");
+}
+
+$tpl->draw(CORE_VIEWS."table/close");
+$tpl->draw(CORE_VIEWS."grids/container/close");
+?>

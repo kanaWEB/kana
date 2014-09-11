@@ -24,7 +24,7 @@ if($currentUser->isadmin()){
 			//If Electronics was not setup
 				if($nb_object == 0){
 					$menu_name = Variable::object_menus_name($object_name);
-
+				
 				if(isset($menu_name["gpios"])){ //Gpios needs to be configured?
 					redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
 				}
@@ -36,12 +36,17 @@ if($currentUser->isadmin()){
 					//No Electronics
 					$actions_list = Functions::getdir(USER_OBJECTS."/".$object_name."/actions");
 					$nb_actions = count($actions_list);
-					if($nb_actions == 1){
-						redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$actions_list[0]);
+					if(!isset($menu_name["groups"])){
+						if($nb_actions == 1){
+							redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$actions_list[0]);
+						}
+						else{
+							redirect("settings","?menu=objects&name=".$object_name."&tab=action");
+						}	
 					}
 					else{
-						redirect("settings","?menu=objects&name=".$object_name."&tab=action");
-					}				
+						redirect("settings","?menu=objects&name=".$object_name."&tab=groups");
+					}		
 				}
 			}
 			else

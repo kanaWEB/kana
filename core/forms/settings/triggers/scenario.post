@@ -1,0 +1,39 @@
+<?php
+
+if(isset($_["del"])){
+	$db = new Entity("Scenario");
+	$db->delete(array('id'=>$_['id']));
+	redirect("settings","?menu=scenario&tab=scenario&error=".t("Group deleted"));
+}
+else{
+$fields = $_;
+
+unset($fields["submit"]);
+unset($fields["menu"]);
+unset($fields["tab"]);
+unset($fields["name"]);
+unset($fields["notice"]);
+unset($fields["error"]);
+unset($fields["nb_actions"]);
+$fields["object"] = $fields["plugin_actions0"];
+unset($fields["plugin_actions0"]);
+$fields["action_tag"] = $fields["objects_actions0"];
+unset($fields["objects_actions0"]);
+
+$db = new Entity("Scenario");
+
+	//Predefined fields
+	foreach($fields as $key => $field){
+		$setter = "set".$key;
+		$db->$setter($field);
+	}
+
+	if(isset($_["id"])){
+		$db->setId($_["id"]);
+	}
+
+	$db->save();
+	
+	redirect("settings","?menu=scenario&tab=scenario&notice=".t("Scenario saved"));
+}
+?>

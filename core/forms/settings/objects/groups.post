@@ -1,0 +1,67 @@
+<?php
+$fields = $_;
+unset($fields["submit"]);
+unset($fields["menu"]);
+unset($fields["tab"]);
+unset($fields["name"]);
+unset($fields["notice"]);
+unset($fields["error"]);
+
+$action_name = "actionsgroup"."_actions";
+
+if(isset($_["del"])){
+	$action_db = new Entity($action_name,Variable::actions_fields());
+	$action_db->delete(array('id'=>$_['id']));
+	redirect("settings","?menu=objects&name=actionsgroup&tab=groups&error=".t("Group deleted"));
+}
+else{
+	
+
+			//Get data from object (GPIO)
+			//$object_db = new Entity($object_name);
+			//$object_data = $object_db->getById($_["object_key"]);
+			//$gpio = $object_data["gpio"];
+
+			//Get Arguments
+
+	$fields = $_;
+	unset($fields["submit"]);
+	unset($fields["menu"]);
+	unset($fields["name"]);
+	unset($fields["tab"]);
+
+	$i = 0;
+	$array_keys = array_keys($fields);
+	//var_dump($array_keys);
+	$args["action"] = "";
+	for($i=0;$i <= $fields["nb_actions"];$i++){
+		$args["action"] .= '"'.$fields["objects_actions".$i].'" ';
+	}
+
+	$args = json_encode($args);
+	$fields["object_key"] = 0;
+	$fields["state"] = 0;
+	$fields["action"] = "launch";
+	$fields["object_description"] = "";
+	$db_fields = Variable::actions_fields();
+	$action_db = new Entity($action_name,$db_fields);
+
+	//Predefined fields
+	foreach($fields as $key => $field){
+		$setter = "set".$key;
+		$action_db->$setter($field);
+	}
+
+	//Args Fields
+
+	$action_db->setArgs($args);
+
+	if(isset($_["id"])){
+		$action_db->setId($_["id"]);
+	}
+
+	$action_db->save();
+	redirect("settings","?menu=objects&name=actionsgroup&tab=groups&notice=".t("Action saved"));
+
+}
+?>

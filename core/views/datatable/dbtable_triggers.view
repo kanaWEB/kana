@@ -4,18 +4,20 @@ if(!isset($table_headers)){
 	$table_headers[] = "Description";
 	$table_headers[] = "Object";
 	$table_headers[] = "Trigger";
+	$table_headers[] = "Code";
 	$table_datas[] = "object_name";
 	$table_datas[] = "object_description";
 	$table_datas[] = "trigger_object";
 	$table_datas[] = "trigger";
-	$action_name = $object_name."_actions";
+	$table_datas[] = "code";
+	//$action_name = $object_name."_actions";
 }
 
 if(isset($_["trigger"])){
-	$action_get = $_["trigger"];
+	$trigger_get = $_["trigger"];
 }
 
-$db = new Entity("triggers",Variable::scenario_triggers_fields());
+$db = new Entity("Triggers");
 $triggers = $db->populate();
 /*
 if(!isset($action_dir)){

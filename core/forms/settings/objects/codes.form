@@ -20,15 +20,33 @@ $form = new Form($form_name);
 
 //Custom Fields
 $inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."codes/");
+
+//@todo Data management in form should be managed inside Form.class.php
 foreach($inputs_file as $input_file){
 	$file = USER_OBJECTS.$object_name."/"."codes/".$input_file;
-	$input = Variable::md2var($file);
 	
+	//Get md2 of form from objects/object_name/codes/
+	$input = Variable::md2var($file);
 	$input["selected"] = $selected[$input["id"]];
 	if(isset($input["options"])){
 		$data_file = Variable::data_dir($input["options"]);
 		include($data_file);
 		$input["options"] = $data;
+	}
+
+
+	if(isset($input["selected_data"])){
+		$data_file = Variable::data_dir($input["selected_data"]);
+		if($data_file){
+		include($data_file);
+		}
+		else
+		{
+			echo "cannot found:".$input["selected_data"];
+		}
+		if(!isset($input["selected"])){
+		$input["selected"] = $data;
+		}
 	}
 
 	$form->input($input);

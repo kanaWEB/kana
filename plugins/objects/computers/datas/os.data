@@ -1,0 +1,12 @@
+<?php
+unset($data);
+$data[] = [
+"text" => "Windows",
+"value" => "1"
+];
+
+$data[] = [
+"text" => "Linux",
+"value" => "2"
+];
+?>

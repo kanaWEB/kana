@@ -1,8 +1,8 @@
 <?php
 if(isset($_["del"])){
-	$db = new Entity("Triggers",Variable::scenario_triggers_fields());
+	$db = new Entity("Triggers");
 	$db->delete(array('id'=>$_['id']));
-	redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$action."&error=".t("Action deleted"));
+	redirect("settings","?menu=scenario&tab=trigger&error=".t("Trigger deleted"));
 }
 else{
 	$fields = $_;
@@ -13,6 +13,8 @@ else{
 	unset($fields["name"]);
 	unset($fields["notice"]);
 	unset($fields["error"]);
+
+	var_dump($_);
 		//Get Arguments
 	$args = $fields;
 
@@ -20,40 +22,25 @@ else{
 	$fields["trigger"] = $_["trigger"];
 	$fields["trigger_type"] = "push";
 	$fields["trigger_name"] = $_["name"];
-	$fields["scenario_group"] = false;
+	$fields["id_object"] = $fields["code"];
+	$fields["timestamp"] = 0;
+	$fields["timeout"] = 1;
 
-		//var_dump($fields);
-
-
-
-	unset($args["object_name"]);
-	unset($args["object_description"]);
-	unset($args["trigger"]);
-	unset($args["object"]);
-
-	$args_key = array_keys($args);
-
-	foreach($args_key as $arg_key){
-		unset($fields[$arg_key]);
-	}
-	$args = json_encode($args);
-	$fields["args"] = $args;	
-	
+	$db_code = new Entity($_["name"]);
+	$code = $db_code->load([
+		"id" => $fields["code"]
+		]);
+	$fields["code"] = $code["code"];
+	$fields["modifier"] = "=";
 
 
-	$db_fields = Variable::scenario_triggers_fields();
-			//var_dump($db_fields);
-	$db = new Entity("triggers",$db_fields);
+	$db = new Entity("Triggers");
 			//var_dump($db);
 			//Predefined fields
 	foreach($fields as $key => $field){
 		$setter = "set".$key;
 		$db->$setter($field);
-				//var_dump("$key");
 	}
-
-			//Args Fields
-	$db->setArgs($args);
 
 	if(isset($_["id"])){
 		$db->setId($_["id"]);

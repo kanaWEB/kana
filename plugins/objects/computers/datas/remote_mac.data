@@ -1,0 +1,6 @@
+<?php
+$ipaddress = $_SERVER['REMOTE_ADDR'];
+//Get MAC address
+exec("arp -n|grep ".$ipaddress." |awk '{print $3}'",$macaddress);
+$data = isset($macaddress[0]) ? $macaddress[0] : false;
+?>

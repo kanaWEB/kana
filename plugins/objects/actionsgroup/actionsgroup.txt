@@ -1,2 +1,2 @@
 //Group Object 1.0
-action_uid:int
+action:int

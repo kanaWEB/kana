@@ -3,7 +3,7 @@
 
 include("core/common.inc");
 include(CORE_VIEWS."header/header.view");
-shell_exec('rrdtool xport -s now-64h -e now DEF:a=/etc/kana/datas/temp.rrd:temp:AVERAGE XPORT:a:"Chambre Remi" > /var/www/kana/data/temperature24h.xml');
+shell_exec('rrdtool xport -s now-24h -e now DEF:a=/etc/kana/datas/temp.rrd:temp:AVERAGE XPORT:a:"Chambre Remi" > /var/www/kana/data/temperature24h.xml');
 $actual_temp =  shell_exec('rrdtool lastupdate /etc/kana/datas/temp.rrd');
 $temp_data = explode(":",$actual_temp);
 //print_r($temp_data);

@@ -4,7 +4,6 @@ NavTab / Name
 */
 $menu = $_["menu"];
 $navtab_items[] = Variable::navtab_item($menu,"Triggers","trigger");
-$navtab_items[] = Variable::navtab_item($menu,"Actions","action");
 $navtab_items[] = Variable::navtab_item($menu,"Scenarios","scenario");
 
 if(isset($_["tab"])){

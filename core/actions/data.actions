@@ -1,6 +1,15 @@
 <?php
-//Get datas from core/datas plugins/views/datas plugins/objects/datas
+//Check where the data is (core/datas plugins/views/datas plugins/objects/datas)
+//See core/libraries/Variable.class.php
 $data_file = Variable::data_dir($_["data"]);
-include($data_file);
 
+//If a data file is found then include theses files to ouput data
+if($data_file){
+include($data_file);
+}
+else
+{
+	//If no data file is found then ouput a json formatted error.
+	echo json_encode(["error" => "no data found"]);
+}
 ?>

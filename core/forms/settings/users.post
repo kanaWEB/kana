@@ -2,21 +2,21 @@
 //Group Post
 
 if(isset($_["del"])){
-		if($_["id"] == 1){
-			redirect("settings","?menu=users&error=".t("You can't delete the admin!"));
-		}
-		else{
-			$object_db = new Entity("Users");
-			$object_db->delete(array('id'=>$_['id']));
-			
-			$group_right_db = new Entity("GroupRight");
-			$group_right_db->delete([
+	if($_["id"] == 1){
+		redirect("settings","?menu=users&error=".t("You can't delete the admin!"));
+	}
+	else{
+		$object_db = new Entity("Users");
+		$object_db->delete(array('id'=>$_['id']));
+
+		$group_right_db = new Entity("GroupRight");
+		$group_right_db->delete([
 			'id_user' => $_['id_user'],
 			'id_group' => $_['id_group']
 			]);
-			
-			redirect("settings","?menu=users&error=".t("User delete"));
-		}
+
+		redirect("settings","?menu=users&error=".t("User delete"));
+	}
 }
 else{
 	$fields = $_;
@@ -27,6 +27,14 @@ else{
 	$object_db = new Entity("Users");
 	if(isset($_["id"])){
 		$object_db->setId($_["id"]);
+		
+		if($_["id"] != 1){
+			$object_db->setState(2); //Set user as 2 (0 disable 1 admin 2 user)
+		}
+		else
+		{
+			$object_db->setState(1); //Set user as 2 (0 disable 1 admin 2 user)
+		}
 	}
 	else{
 		$object_db->create();
@@ -38,9 +46,12 @@ else{
 		$setter = "set".$key;
 		$object_db->$setter($field);
 	}
-	$object_db->setState(2);
+	
+	
 	$object_db->setCookie("");
 	$object_db->setToken("");
+	$object_db->setDefault_group("");
+	$object_db->setDefault_view("");
 	$object_db->save();
 
 	redirect("settings","?menu=users&notice=".t("User saved"));

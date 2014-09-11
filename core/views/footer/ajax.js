@@ -1,3 +1,5 @@
+//Deprecated
+
 disable_ajaxbuttons(false,false,true);
 function ajax_play(){
 	ajax_start()
@@ -33,15 +35,17 @@ function change_colorbuttons(id,oldclass,newclass){
 function ajax_start(){
 	ajax_update("progressbar",".progress-bar");
 	ajax_update("label","span");
+	ajax_update("label2","span");
 }
 
 
 function ajax_update(view_type,view_obj){
+	console.log("Search for" + "."+view_type+"-ajax");
 	$("."+view_type+"-ajax").each(function(){
 		data_link = $(this).attr("id");
 		data_id = $(view_obj,this);
 		data_id = $(data_id).attr("id");
-		console.log(data_id);		
+		console.log("ID:"+data_id);		
 		$.ajax({
 			url: "actions.php",
 			dataType: "json",
@@ -53,6 +57,10 @@ function ajax_update(view_type,view_obj){
 
 			if(view_type == "label"){
 				update_label(data);
+			}
+
+			if(view_type == "label2"){
+				update_2label(data);
 			}
 		});
 	});
@@ -74,5 +82,17 @@ function update_label(data){
 	label.removeClass();
 	label.addClass("label label-"+data.label);
 	label.html(data.data);
+}
+
+//Manage 1,n label / label color
+function update_label2(data){
+	console.log(data);
+	label1 = $("#" + data.data_id + "1");
+	label2 = $("#" + data.data_id + "2");
+	label1.removeClass();
+	label1.addClass("label label-"+data[0].label);
+	label2.addClass("label label-"+data[1].label);
+	label1.html(data[0].data);
+	label2.html(data[1].data);
 }
 

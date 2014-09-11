@@ -61,16 +61,16 @@ def check_lock(timeout,time_end):
 """
 Web Request
 """
-def send_data(response,path,dataname):
+def send_data(response,path,dataname,timestamp):
 	# Execute every action related to this trigger
-	cmd = "php-cgi "+path+"/data.php type="+dataname+" data="+response
+	cmd = "php-cgi "+path+"/data.php type="+dataname+" data="+response+" time="+str(timestamp)
 	#print "command"+str(cmd)
-	subprocess.call([cmd], shell=True)
+	os.system(cmd)
 
 """ Main Program """
 
 """
-Arguments Ex Serial_Listener.py "/dev/ttyAMA0" 9600 9060 "/var/www/kana" "radioDevices"
+Arguments Ex Serial_Listener.py "/dev/ttyAMA0" 9600 9060 "/var/www/kana" "radio"
 """
 serial_port = sys.argv[1] #Get Serial Port (ex:/dev/ttyAMA0)
 serial_speed = sys.argv[2] #Get Serial speed (ex:9600)
@@ -111,7 +111,7 @@ except:
 thread_socket = threading.Thread(target=listen_socket,args=(server_socket,ser))
 thread_socket.start()
 
-timeout = 1
+timeout = 3
 time_end = 0
 last_response = ""
 lock = False
@@ -129,15 +129,16 @@ try:
 				lock = check_lock(timeout,time_end)
 				time_end = lock[0]
 				lock = lock[1]
-			#print "LAST:"+ str(last_response)
-			#print "NEW:" + str(response)
+				print "LAST:"+ str(last_response)
+				print "NEW:" + str(response)
 			else:
 				lock = False
 			
 			if lock==False:
 				last_response = response
 				print "Serial:"+str(response)
-				thread_triggers = threading.Thread(target=send_data,args=(response,path,dataname))
+				timestamp = int(time.time())
+				thread_triggers = threading.Thread(target=send_data,args=(response,path,dataname,timestamp))
 				thread_triggers.start()
 
 except KeyboardInterrupt:

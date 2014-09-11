@@ -53,22 +53,26 @@ class Variable{
 		}
 
 //You can prioritize similar named datas here, this can be used to override how a data inside core works.
-		$data_files[] = USER_DATAS.$data_link.".data";
-		$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data";
-		$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data";
+		//$data_files[] = USER_DATAS.$data_link.".data"; //We first see if there is a 
+		$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data"; //We see if a view has datas
+		$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data"; //We see if objects has datas
 		$data_files[] = CORE_DATAS.$data_link.".data";
 
-	//var_dump($data_files);
+		if(DEBUG){
+			var_dump($data_files);
+		}
+	//
 
+		//Search for data files inside directories
 		foreach($data_files as $data_file){
 			if(file_exists($data_file)){
 				return $data_file;
 			}
 		}
 		//var_dump($data_link);
-		if($data_link == $plugin."list"){
-			echo "TEST";
-		}
+		//if($data_link == $plugin."list"){
+		//	echo "TEST";
+		//}
 
 	}
 
@@ -85,28 +89,6 @@ public function actions_fields(){
 	"args" => "text",
 	"object_key" => "int",
 	"group_key" => "int"
-	];
-	return $db_fields;
-}
-
-//Scenario Triggers Fields
-public function scenario_triggers_fields(){
-	$db_fields = [
-	"trigger_object"=>"text",
-	"trigger"=>"text",
-	"args"=>"text",
-	"trigger_type"=>"text",
-	"scenario_group"=>"int",
-	];
-	return $db_fields;
-}
-
-//Scenario Actions Fields
-public function scenario_actions_fields(){
-	$db_fields = [
-	"action" => "text",
-	"args" => "text",
-	"scenario_actions_group_key" => "int"
 	];
 	return $db_fields;
 }
@@ -222,6 +204,10 @@ public function object_menus_name($object_name){
 
 	if(file_exists($path."/electronics")){
 		$menu_name["electronics"] = True;
+	}
+
+	if(file_exists($path."/group")){
+		$menu_name["groups"] = True;
 	}
 	return $menu_name;
 }

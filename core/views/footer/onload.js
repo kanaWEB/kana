@@ -16,10 +16,13 @@ $(document).ready(function(){
 
 $('.selectpicker').selectpicker({
   width: '270px',
-  style: 'btn btn-xs btn-default'
+  style: 'label-info label'
  });
 
 });
+
+
+
 
 $(".ajaxswitch").bootstrapSwitch();
 

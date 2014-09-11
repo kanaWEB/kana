@@ -50,6 +50,7 @@ function change_colorbuttons(id,oldclass,newclass){
 function ajax_start(){
 	ajax_update("progressbar",".progress-bar");
 	ajax_update("label","span");
+	ajax_update("label2","span");
 }
 
 //Update ajax field only
@@ -80,6 +81,10 @@ function ajax_update(view_type,view_obj){
 			if(view_type == "label"){
 				update_label(data);
 			}
+
+			if(view_type == "label2"){
+				update_label2(data);
+			}
 		});
 	});
 }
@@ -102,6 +107,19 @@ function update_label(data){
 	change_label_color(label,data.label);
 
 	label.html(data.data);
+}
+
+//Manage 1,n label / label color
+function update_label2(data){
+	console.log(data);
+	label1 = $("#" + data.data_id);
+	label2 = $("#" + data.data_id + "2");
+	label1.removeClass();
+	label1.addClass("label label-"+data[0].label);
+	label2.removeClass();
+	label2.addClass("label label-"+data[1].label);
+	label1.html(data[0].data + " " + data[0].value);
+	label2.html(data[1].data + " " + data[1].value);
 }
 
 function change_label_color(label,color){

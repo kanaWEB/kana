@@ -15,11 +15,6 @@ $tab = $_["tab"];
 			include(CORE_FORMS."/settings/triggers/trigger.form");
 			break;
 
-			//Actions tabs
-			case "action": //If action object have same gpios
-			include(CORE_FORMS."/settings/triggers/action.form");
-			break;
-
 			//Scenario Tabs
 			case "scenario":
 				include(CORE_FORMS."/settings/triggers/scenario.form");
@@ -30,6 +25,6 @@ $tab = $_["tab"];
 			//break;
 		}
 	}
-	$tpl->draw(CORE_VIEWS."grids/container/close");
+
 $tpl->draw(CORE_VIEWS."grids/container/close");
 ?>

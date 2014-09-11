@@ -7,11 +7,18 @@ if(isset($_["name"])){
 if(!isset($object_name) || isset($list_all_objects)){
 	$objects_dir = Functions::getdir(USER_OBJECTS);
 	foreach($objects_dir as $object_dir){
+		$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
+		$actions = $actions_db->populate();
+		if($actions){
 		$data[] = [
 		"text" => Variable::objectname(USER_OBJECTS.$object_dir),
 		"value" => $object_dir,
 		"img" => "plugins/objects/".$object_dir."/icon.png"
 		];
+	}
+	}
+	if(!isset($data)){
+		$data = false;
 	}
 }
 else

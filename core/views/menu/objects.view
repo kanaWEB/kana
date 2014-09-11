@@ -5,6 +5,8 @@ NavTab / Name
 $menu = $_["menu"];
 $name = $_["name"];
 
+if(file_exists(USER_OBJECTS.$object_name)){
+
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
 	$navtab_items[] = Variable::navtab_item($menu,"Electronics","electronics",$name);
 }
@@ -14,6 +16,7 @@ if(file_exists(USER_OBJECTS.$object_name."/gpios")){
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/group")){
+
 	$navtab_items[] = Variable::navtab_item($menu,"Groups","groups",$name);
 }
 
@@ -22,12 +25,15 @@ if(file_exists(USER_OBJECTS.$object_name."/codes")){
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/actions")){
+	if(!file_exists(USER_OBJECTS.$object_name."/hideactions.txt")){
 	$navtab_items[] = Variable::navtab_item($menu,"Actions","action",$name);
+	}
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/help")){
 	$navtab_items[] = Variable::navtab_item($menu,"Help","help",$name);
 }
+
 
 if($tab){
 	$link_begin = "settings.php?menu=".$menu."&name=".$object_name."&tab=";
@@ -37,6 +43,7 @@ else{
 	//
 }
 
+
 if(!isset($navtab_item_selected)){
 	$navtab_item_selected = False;
 }
@@ -44,4 +51,10 @@ if(!isset($navtab_item_selected)){
 $tpl->assign("navtab_item_selected",$navtab_item_selected);
 $tpl->assign("navtab_items",$navtab_items);
 $tpl->draw(CORE_VIEWS."menu/navtab");
+}
+else
+{
+	echo "<code>CRITICAL ERROR:".USER_OBJECTS.$object_name." doesn't exists</code>";
+	exit();
+}
 ?>

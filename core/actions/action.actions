@@ -17,27 +17,37 @@ $action = $action_db->getById($id);
 
 
 if($action){
-	if($currentUser->GroupRight($action["group_key"])){ //Check User
+	if($currentUser->GroupRight($action["group_key"]) || !isset($_SERVER['REMOTE_ADDR'])){ //Check User
+		if(isset($_SERVER['SCRIPT_FILENAME'])){
+			$script_dir = $_SERVER['SCRIPT_FILENAME'];
+		}
+		else
+		{
+			$script_dir = $_REQUEST;
+			reset($script_dir);
+			$script_dir = key($script_dir)."/";
+		}
+
 
 $action = Variable::action_args($action); //Json to array for the arguments
 
 //Is this an GPIO object?
 if(file_exists(USER_OBJECTS.$object_name."/gpios")){
 	$object_db = new Entity($object_name);
-	$object = $object_db->getById($action["object_key"]);
+	$object = $object_db->getById($action["object_key"]); //Get object with foreign keys (object_key)
 }
 
 //Is this a remotely controllable Electronics Objects
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
 	$object_db = new Entity($object_name,"electronics");
-	$object = $object_db->getById(1);
+	$object = $object_db->getById(1); //Get first object (as there will always be one)
 }
 
 //Is this a program objects ?
-if(!isset($object)){
+//if(!isset($object)){
 	//$object_db = new Entity($object_name);
 	//exit();
-}
+//}
 
 //Get availables commands
 $command_file = file(USER_OBJECTS.$object_name."/actions/".$action_name."/"."commands.txt");
@@ -54,99 +64,110 @@ $user_command = USER_OBJECTS.$object_name."/actions/".$action_name."/".$commands
 
 if(file_exists($user_command));
 {
-	$commands[0] = dirname($_SERVER['SCRIPT_FILENAME'])."/".$user_command;
+	$commands[0] = dirname($script_dir)."/".$user_command;
 }
 			//Arguments (@todo improve when every plugin is finished)
 			array_shift($command_array); //Remove command
 			foreach($command_array as $key => $argument){
-				
-				switch(trim($argument)){
+
+				//REMOTE ARGUMENTS	
+				if($argument[0] == "@"){
+					if(!isset($object)){
+						$object_db = new Entity($object_name);
+						$object = $object_db->getById($action["object_key"]);
+					}
+					$argument = substr(trim($argument), 1, -1);
+					$commands[$key+1] = " ".$object[$argument]." ";
+				}
+				else{
+					switch(trim($argument)){
 					//GPIO
-					case "gpio]":
-					$commands[$key+1] = " ".$object["gpio"]." "; 
-					break;
+						case "gpio]":
+						$commands[$key+1] = " ".$object["gpio"]." "; 
+						break;
 
 					//GPIO TX
-					case "gpio_tx]":
-					$commands[$key+1] = " ".$object["gpio_tx"]." ";
-					break;
+						case "gpio_tx]":
+						$commands[$key+1] = " ".$object["gpio_tx"]." ";
+						break;
 
-					case "lang]":
-					$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
-					break;
+						case "lang]":
+						$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
+						break;
 
-					case "text]":
-					$argument = substr(trim($argument), 0, -1);
-					$commands[$key+1] = '"'.htmlspecialchars_decode($action[$argument], ENT_QUOTES).'"';
-					break;
+						case "text]":
+						$argument = substr(trim($argument), 0, -1);
+						$commands[$key+1] = '"'.htmlspecialchars_decode($action[$argument], ENT_QUOTES).'"';
+						break;
 
 					//Code
-					case "code]":
-					$state_code = trim($_["state"]);
-					$code_db = new Entity($object_name);
-					if($state_code == "change"){
-						$state = $action["state"] ? 0 : 1;
-						$state_code = $state ? "on" : "off";
-					}
-					else
-					{
-						if($state_code == "on"){
-							$state = 1;
-						}
-						if($state_code == "off"){
-							$state = 0;
-						}
-					}
-
-					$code = $code_db->getById($action["code_".$state_code]);
-					//echo $action["code_".$state];
-					//echo $code["code"];
-					$commands[$key+1] = " ".$code["code"];
-					break;
-
-					case "state]":
-					if(isset($_["state"])){
-						$state = trim($_["state"]);
-					}
-					else
-					{
-						$state = false;
-					}
-
-					switch($state){
-						case "on":
-						$state = 1;
-						break;
-
-						case "off":
-						$state = 0;
-						break;
-
-						case "change":
-						if(isset($object["gpio"])){
-							$gpio = $object["gpio"];
-							include(CORE_DATAS."gpio/pinstate.data");
-							$state = $data ? 0 : 1;
+						case "code]":
+						$state_code = trim($_["state"]);
+						$code_db = new Entity($object_name);
+						if($state_code == "change"){
+							$state = $action["state"] ? 0 : 1;
+							$state_code = $state ? "on" : "off";
 						}
 						else
 						{
-							$state = $action[state];
+							if($state_code == "on"){
+								$state = 1;
+							}
+							if($state_code == "off"){
+								$state = 0;
+							}
 						}
 
+						$code = $code_db->getById($action["code_".$state_code]);
+					//echo $action["code_".$state];
+					//echo $code["code"];
+						$commands[$key+1] = " ".$code["code"];
+						break;
+
+						case "state]":
+						if(isset($_["state"])){
+							$state = trim($_["state"]);
+						}
+						else
+						{
+							$state = false;
+						}
+
+						switch($state){
+							case "on":
+							$state = 1;
+							break;
+
+							case "off":
+							$state = 0;
+							break;
+
+							case "change":
+							if(isset($object["gpio"])){
+								$gpio = $object["gpio"];
+								include(CORE_DATAS."gpio/pinstate.data");
+								$state = $data ? 0 : 1;
+							}
+							else
+							{
+								$state = $action[state];
+							}
+
+							break;
+
+							default:
+							$state = false;
+							break;
+						}	
+						$commands[$key+1] = $state;
 						break;
 
 						default:
-						$state = false;
+						$argument = substr(trim($argument), 0, -1);
+						//echo $argument;
+						$commands[$key+1] = " ".$action[$argument]." "; 
 						break;
-					}	
-					$commands[$key+1] = $state;
-					break;
-
-					default:
-					$argument = substr(trim($argument), 0, -1);
-					//echo $argument;
-					$commands[$key+1] = " ".$action[$argument]." "; 
-					break;
+					}
 				}
 			}
 
@@ -156,42 +177,40 @@ if(file_exists($user_command));
 			foreach($commands as $command){
 				$final_command .= $command;
 			}
-			//var_dump($final_command);
-			//exec($final_command,$result,$out);
-			//var_dump($out);
-			Functions::launch_background($final_command);
-			$out = 0;
+			if(DEBUG){
+				echo $final_command;
+				exec($final_command,$result,$out);
+				var_dump($out);
+				if($out != 0){
+					switch ($out){
+						case 127:
+						$error = t("File not founded");
+						break;
+
+						case 1:
+						$error = t("Permissions not granted")." <h1><a href='http://pi/kana/settings.php?menu=pref'>".t("Fix this")."</a></h1>";
+						break;
+
+						default:
+						$error = t("Unknown Error: ").$out;
+						break;
+					}
+					echo Draw::ajax_notify(t("Error: ").$error,"error");
+					echo Draw::ajax_notify("<h1>DEBUG</h1>".$final_command." <br> EXIT CODE: ".$out,"warning");
+				}
+
+			}
+			else
+			{
+				Functions::launch_background($final_command);
+				$out = 0;
+			}
 
 			if(!isset($state)){
 				$state = 0;
 			}
 			
 			$action_db->change(array('state'=>$state),array('id'=>$action["id"]));
-			
-
-			if($out != 0){
-				switch ($out){
-					case 127:
-					$error = t("File not founded");
-					break;
-
-					case 1:
-					$error = t("Permissions not granted")." <h1><a href='http://pi/kana/settings.php?menu=pref'>".t("Fix this")."</a></h1>";
-					break;
-
-					default:
-					$error = t("Unknown Error: ").$out;
-					break;
-				}
-
-				if(!DEBUG){
-					Draw::ajax_notify(t("Error: ").$error,"error");
-				}
-
-			}
-			if(DEBUG){				
-				Draw::ajax_notify("<h1>DEBUG</h1>".$final_command." <br> EXIT CODE: ".$out,"warning");
-			}
 		}
 		else
 		{

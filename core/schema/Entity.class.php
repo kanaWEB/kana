@@ -60,10 +60,11 @@ class Entity extends SQLite3
 		}
 
 		if(!isset($notfound)){
-			$this->open($database);
+		$this->open($database);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
 		$this->create(); //Create the table of the entity if it doesn't exists 
+		
 		//@todo check performance issue from trying to regenerate table
 	}
 }
@@ -503,10 +504,15 @@ $this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 		$db_fields['object_description'] = "string";
 		}
 
-				//@todo remove dirty hack
+		//@todo remove dirty hack
 		if(!isset($db_fields["trigger"])){
 			$db_fields['state'] = "int";
 		}
+
+		if(isset($db_fields["data"])){
+			unset($db_fields["state"]);
+		}
+
 		//var_dump($db_fields);
 		$this->object_fields = $db_fields;
 
