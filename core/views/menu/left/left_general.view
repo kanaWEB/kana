@@ -29,6 +29,12 @@ $leftmenu[] = [
 "link" => "groups"
 ];
 
+$leftmenu[] = [
+"text" => "Scenario",
+"icon" => "glyphicon-random",
+"link" => "scenario"
+];
+
 $tpl->assign("leftmenu",$leftmenu);
 $tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
 unset($leftmenu);

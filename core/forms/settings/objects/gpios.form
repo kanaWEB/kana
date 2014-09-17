@@ -37,9 +37,9 @@ foreach($inputs_file as $input_file){
 }
 $form->display($tpl);
 
-$tpl->draw(CORE_VIEWS."grids/container/open");
+
 include(CORE_VIEWS."gpio/pins.view");
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 
 $object_db = new Entity($object_name);
 $objects = $object_db->populate();

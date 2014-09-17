@@ -27,7 +27,7 @@ if($actions){
 $actions = Variable::actions_args($actions);
 
 //Table Header
-	$tpl->draw(CORE_VIEWS."grids/container/open");
+	
 	include(CORE_VIEWS."table/header/header.view");
 
 //Table Datas
@@ -79,6 +79,6 @@ $actions = Variable::actions_args($actions);
 	}
 
 	$tpl->draw(CORE_VIEWS."table/close");
-	$tpl->draw(CORE_VIEWS."grids/container/close");
+	
 }
 ?>

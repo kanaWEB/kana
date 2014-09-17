@@ -1,5 +1,4 @@
 <?php
-echo "ACTIONS";
 $form = new Form("Actions Group");
 
 $data_file = Variable::data_dir("object");
@@ -30,6 +29,6 @@ $form->input([
 
 $form->display($tpl);
 
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 
 ?>

@@ -26,5 +26,5 @@ $tab = $_["tab"];
 		}
 	}
 
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 ?>

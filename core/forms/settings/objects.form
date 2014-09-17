@@ -13,7 +13,7 @@ if(isset($_["name"])){
 	$object_longname = Variable::ObjectName($object_dir); //Translatable name of object
 //////
 	
-	$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
+
 //Generating Header
 	$tpl->assign("text",$object_longname); 
 	$tpl->assign("image",$object_icon);
@@ -74,7 +74,7 @@ if(isset($_["name"])){
 			//break;
 		}
 	}
-	$tpl->draw(CORE_VIEWS."grids/container/close");
+
 }
 else{
 	?>

@@ -8,7 +8,7 @@ $action_name = $object_name."_actions";
 
 
 
-$tpl->draw(CORE_VIEWS."grids/container/open");
+
 include(CORE_VIEWS."table/header/header.view");
 
 //Link generator
@@ -47,5 +47,5 @@ for($i=0;$i<count($objects);$i++){
 }
 
 $tpl->draw(CORE_VIEWS."table/close");
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 ?>

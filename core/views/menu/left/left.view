@@ -16,13 +16,6 @@ include(CORE_VIEWS."menu/left/left_objects.view");
 Scenario
 
  */
-$category = [
-"text" => "Scenario",
-"link" => "scenario"
-];
 
-$tpl->assign("leftmenu",false);
-$tpl->assign("category",$category);
-$tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
-$tpl->draw(CORE_VIEWS."menu/left/close");
+
 ?>

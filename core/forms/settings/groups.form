@@ -20,7 +20,6 @@ else{
 	$form_name = "New";
 }
 
-$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
 $tpl->assign("text",$object_name);
 $tpl->draw(CORE_VIEWS."text/h1");
 
@@ -31,5 +30,5 @@ $form->display($tpl);
 if($objects){
 include(CORE_VIEWS."/"."datatable/dbtable.view");
 }
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 ?>

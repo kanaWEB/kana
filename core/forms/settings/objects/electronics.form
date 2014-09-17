@@ -42,8 +42,8 @@ foreach($inputs_file as $input_file){
 }
 $form->display($tpl);
 
-$tpl->draw(CORE_VIEWS."grids/container/open");
+
 include(CORE_VIEWS."gpio/pins.view");
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 
 ?>

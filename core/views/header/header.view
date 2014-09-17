@@ -15,5 +15,5 @@ $tpl->assign("lang",$lang); //Get internationalization
 $tpl->assign("APP_NAME",APP_NAME); //Application Name
 $tpl->assign("VERSION",VERSION); //Application Version
 $tpl->draw(CORE_VIEWS."header/header"); //Add header.html
-
+$tpl->draw(CORE_VIEWS."body/open");
 ?>

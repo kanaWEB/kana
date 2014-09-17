@@ -1,0 +1,2 @@
+bin/wgetlauncher [oncommand]
+bin/wgetlauncher [offcommand]

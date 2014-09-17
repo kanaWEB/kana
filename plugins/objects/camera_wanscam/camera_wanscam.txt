@@ -1,0 +1,4 @@
+//Camera Object 1.0
+cam_user:text
+cam_pass:text
+ipaddress:text

@@ -22,8 +22,6 @@ $('.selectpicker').selectpicker({
 });
 
 
-
-
 $(".ajaxswitch").bootstrapSwitch();
 
 //--> Move to default.js

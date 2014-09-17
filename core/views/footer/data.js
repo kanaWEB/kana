@@ -3,6 +3,7 @@
 @todo : Import only if use
 
 */
+ajax_refresh_speed = 10000;
 
 //Disable Stop button only
 disable_ajaxbuttons(false,false,true);

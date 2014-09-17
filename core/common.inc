@@ -17,6 +17,7 @@ include("libraries/Draw.class.php"); //Draw Functionnalities
 include("libraries/Variable.class.php");
 include("schema/Users/Users.class.php"); //User Class
 include("schema/Config/Theme.class.php"); //Theme Class
+include("libraries/Collector.class.php");
 include(EXTERNAL_LIB."Parsedown/Parsedown.php");
 
 include("libraries/Redirect.php"); //Redirection manager

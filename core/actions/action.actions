@@ -15,9 +15,10 @@ $id = $_["id"]; //Get ID of objects
 $action_db = new Entity($object_name."_actions",Variable::actions_fields());
 $action = $action_db->getById($id);
 
-
 if($action){
 	if($currentUser->GroupRight($action["group_key"]) || !isset($_SERVER['REMOTE_ADDR'])){ //Check User
+		
+		//If execute locally, get path with $_REQUEST
 		if(isset($_SERVER['SCRIPT_FILENAME'])){
 			$script_dir = $_SERVER['SCRIPT_FILENAME'];
 		}
@@ -69,7 +70,6 @@ if(file_exists($user_command));
 			//Arguments (@todo improve when every plugin is finished)
 			array_shift($command_array); //Remove command
 			foreach($command_array as $key => $argument){
-
 				//REMOTE ARGUMENTS	
 				if($argument[0] == "@"){
 					if(!isset($object)){
@@ -81,26 +81,11 @@ if(file_exists($user_command));
 				}
 				else{
 					switch(trim($argument)){
-					//GPIO
-						case "gpio]":
-						$commands[$key+1] = " ".$object["gpio"]." "; 
-						break;
-
-					//GPIO TX
-						case "gpio_tx]":
-						$commands[$key+1] = " ".$object["gpio_tx"]." ";
-						break;
-
 						case "lang]":
 						$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
 						break;
 
-						case "text]":
-						$argument = substr(trim($argument), 0, -1);
-						$commands[$key+1] = '"'.htmlspecialchars_decode($action[$argument], ENT_QUOTES).'"';
-						break;
-
-					//Code
+						//Code
 						case "code]":
 						$state_code = trim($_["state"]);
 						$code_db = new Entity($object_name);
@@ -128,8 +113,7 @@ if(file_exists($user_command));
 						if(isset($_["state"])){
 							$state = trim($_["state"]);
 						}
-						else
-						{
+						else{
 							$state = false;
 						}
 
@@ -156,7 +140,7 @@ if(file_exists($user_command));
 							break;
 
 							default:
-							$state = false;
+							//$state = false;
 							break;
 						}	
 						$commands[$key+1] = $state;
@@ -164,8 +148,7 @@ if(file_exists($user_command));
 
 						default:
 						$argument = substr(trim($argument), 0, -1);
-						//echo $argument;
-						$commands[$key+1] = " ".$action[$argument]." "; 
+						$commands[$key+1] = " ".htmlspecialchars_decode($action[$argument], ENT_QUOTES)." ";
 						break;
 					}
 				}
@@ -181,6 +164,7 @@ if(file_exists($user_command));
 				echo $final_command;
 				exec($final_command,$result,$out);
 				var_dump($out);
+				var_dump($result);
 				if($out != 0){
 					switch ($out){
 						case 127:
@@ -195,8 +179,6 @@ if(file_exists($user_command));
 						$error = t("Unknown Error: ").$out;
 						break;
 					}
-					echo Draw::ajax_notify(t("Error: ").$error,"error");
-					echo Draw::ajax_notify("<h1>DEBUG</h1>".$final_command." <br> EXIT CODE: ".$out,"warning");
 				}
 
 			}

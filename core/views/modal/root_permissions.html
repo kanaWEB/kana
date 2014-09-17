@@ -1,11 +1,14 @@
 <br>
 {loop="buttons"}
-<div class="container">
-  <button class="btn btn-danger btn-lg rootcommand" id="{$value.command}" data-toggle="modal" data-target="#rootModal">
-    {$value.text|t}
-  </button>
+
+<button class="btn btn-danger btn-lg rootcommand" id="{$value.command}" data-toggle="modal" data-target="#rootModal">
+  {$value.text|t}
+</button>
 </div>
 <br>
+<br>
+
+
 {/loop}
 
 <!-- Modal -->
@@ -22,16 +25,16 @@
           <span class="text-danger">{"Login with a user having root permission to perform this action"|t}</span><br><br>
           <fieldset>
             <label for="rootUser">{"SSH Username"|t}</label>
-              <input type="text" class="form-control" id="sshUser" name="sshUser" required>
-             <label for="rootPassword">{"SSH Password"|t}</label>
-             <input type="password" class="form-control" id="sshPassword" name="sshPassword" required>
+            <input type="text" class="form-control" id="sshUser" name="sshUser" required>
+            <label for="rootPassword">{"SSH Password"|t}</label>
+            <input type="password" class="form-control" id="sshPassword" name="sshPassword" required>
           </fieldset>
         </center>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">{"Close"|t}</button>
         <button type="button" onclick="rootAction(this)" class="btn btn-primary">{"Perfom Actions"|t}</button>
-         <img src="core/img/loading.gif" id="loading-indicator" style="display:none" />
+        <img src="core/img/loading.gif" id="loading-indicator" style="display:none" />
       </div>
 
     </div>

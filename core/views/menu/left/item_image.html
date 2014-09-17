@@ -1,11 +1,21 @@
-<!-- core/templates/left/item.html -->
+<!-- core/templates/menu/left/item_image.html -->
+<div class="navbar-header navbar-default">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#{$category.text}">
+				 <span class="icon-bar"></span>
+				 <span class="icon-bar"></span>
+				 <span class="icon-bar"></span>
+			</button>
+			<p class="navbar-brand visible-xs"> {$category.text|t}</p>
+</div>
+
+<div class="collapse navbar-collapse" id="{$category.text}">
 <legend>
 	{if="isset($category.link)"}<a href="settings.php?menu={$category.link}">{/if}
 	{$category.text|t}
 	{if="isset($category.link)"}</a>{/if}
 </legend>
 
-<ul class="nav nav-pills nav-stacked">
+<ul class="nav nav-pills">
 	{if="isset($leftmenu)"}
 	{loop="$leftmenu"}
 			<li {if="$leftmenu_active==$value.link"}class="active"{/if}>
@@ -18,3 +28,4 @@
 	{/loop}
 	{/if}
 </ul>
+</div>

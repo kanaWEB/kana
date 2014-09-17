@@ -1,5 +1,5 @@
 <?php
-$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
+
 $form = new Form("Preferences");
 
 
@@ -43,5 +43,5 @@ $buttons[] = [
 
 $tpl->assign("buttons",$buttons);
 $tpl->draw(CORE_VIEWS."modal/root_permissions");
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 ?>

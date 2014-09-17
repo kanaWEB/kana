@@ -1,0 +1,2 @@
+#!/bin/bash
+wget -qO- --user="$1" --password="$2" "http://$3:99/decoder_control.cgi?loginuse=$1&loginpas=$2&command=$4&onestep=0"

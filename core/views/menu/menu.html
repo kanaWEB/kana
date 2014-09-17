@@ -1,17 +1,23 @@
- <div class="container">
-
-  <div class="row">
-    {loop="menu_items"}
-    <button class="col-md-4 panel {if="$selected_menu_item == $value.dir"}panel-success{else}panel-primary{/if}" onclick="window.location = '{$value.link}';">
-
-        <div class="panel-heading">
-          <h2>{$value.text}</h2>
-        </div>
-        <div class="panel-body"> 
-            <i>{$value.description}</i>
-        </div>
-      
-    </button>
-
-    {/loop}
+<!-- core/templates/topmenu.html -->
+<div id="top-nav" class="navbar navbar-static-top navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse_menu">
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+     </button>
+   </div>
+   <div class="navbar-collapse collapse" id="collapse_menu">
+    <ul class="nav navbar-nav">
+      {loop="menu_items"}
+      <li class=" {if="$selected_menu_item == $value.dir"}active{/if} ">
+        <a href="{$value.link}" data-toggle="tooltip" title="{$value.description}">
+          <h4>{$value.text}</h4>
+        </a>
+      </li>
+      {/loop}
+    </ul>
   </div>
+</div>
+</div>

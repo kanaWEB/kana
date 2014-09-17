@@ -1,6 +1,6 @@
 <?php
 //Table Header
-$tpl->draw(CORE_VIEWS."grids/container/open");
+
 
 //Default Fields
 $table_headers[] = "Name";
@@ -52,5 +52,5 @@ for($i=0;$i<count($objects);$i++){
 }
 
 $tpl->draw(CORE_VIEWS."table/close");
-$tpl->draw(CORE_VIEWS."grids/container/close");
+
 ?>

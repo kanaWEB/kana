@@ -21,6 +21,24 @@ else
 	$notice = false;
 }
 
+if(!isset($objects_dir)){
+$objects_dir = Functions::getdir(USER_OBJECTS);
+}
+//var_dump(get_defined_vars());
+foreach($objects_dir as $dir){
+	if(file_exists(USER_OBJECTS.$dir."/".$dir.".collector")){
+		$collectors_name[] = Variable::objectName(USER_OBJECTS.$dir);
+	}
+}
+
+
+$tpl->assign("appname",APP_NAME);
+$tpl->assign("appversion",VERSION);
+$tpl->assign("appstate",APP_STATE);
+$tpl->assign("author",AUTHOR);
+$tpl->assign("collectors_name",$collectors_name);
+$tpl->draw(CORE_VIEWS."body/close");
+
 $tpl->assign("js",$theme->js()); //Theme JS
 $tpl->assign("error_message",$error); //ERROR MESSAGE (javascript)
 $tpl->assign("notice_message",$notice); //NOTICE MESSAGE (javascript)

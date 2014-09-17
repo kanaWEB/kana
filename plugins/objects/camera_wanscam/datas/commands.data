@@ -1,0 +1,22 @@
+<?php
+unset($data);
+$data[] = [
+"text" => "up",
+"value" => "0"
+];
+
+$data[] = [
+"text" => "stop",
+"value" => "2"
+];
+
+$data[] = [
+"text" => "down",
+"value" => "2"
+];
+
+$data[] = [
+"text" => "left",
+"value" => ""
+];
+?>
