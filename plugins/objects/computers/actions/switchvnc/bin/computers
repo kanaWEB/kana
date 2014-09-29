@@ -1,0 +1,55 @@
+#!/bin/bash
+ip="$1"
+mac="$2"
+password="$3"
+computer_type="$4"
+state="$5"
+
+echo "Computer Control"
+echo "-----------------"
+if  [[ $computer_type == "1" ]]
+	then
+		echo "Type:Windows"
+fi
+if  [[ $computer_type == "2" ]]
+	then
+		echo "Type:Linux"
+fi
+
+echo "IP: $ip"
+echo "MAC: $mac"
+echo "PASSWORD: $password"
+if [[ $state == "0" ]]
+	then
+	echo "State: OFF"
+fi
+if [[ $state == "1" ]]
+	then
+	echo "State: ON"
+fi
+echo "-----------------"
+echo ""
+
+
+if [[ $state == "1" ]]
+	then
+		echo "Turning on computer with MAC Address: $mac"
+		wakeonlan $mac
+fi
+
+if [[ $state == "0" ]]
+	then
+		echo "Turning off computer with IP Address: $ip"
+		if  [[ $computer_type == "1" ]]
+		then
+			echo "Sending windows requests"
+			net rpc shutdown -I $ip -C "Remote Shutdown" -t 1 -U "shutdown%$password";
+			
+		fi
+		if [[ $computer_type == "2" ]]
+		then
+			echo "Sending ssh shutdown requests on $ip"
+			sshpass -p $password ssh shutdown@$ip -oStrictHostKeyChecking=no
+
+		fi
+fi

@@ -1,0 +1,2 @@
+//Led Object 1.0
+gpio:int

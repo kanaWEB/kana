@@ -1,0 +1,14 @@
+<?php
+
+$id = $_["id"];
+$db_camera = new Entity("camera_wanscam");
+$camera_info = $db_camera->load([
+	"id" => $id
+	]);
+$remoteImage = "http://".$camera_info["ipaddress"].":99/snapshot.cgi?user=".$camera_info["cam_user"]."&pwd=".$camera_info["cam_pass"];
+$imginfo = getimagesize($remoteImage);
+$image_raw = file_get_contents($remoteImage);
+$image_base64 = base64_encode($image_raw);
+$data = $image_base64;
+echo $data;
+?>

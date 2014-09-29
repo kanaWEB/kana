@@ -1,0 +1,91 @@
+<?php
+
+
+$file ="/etc/lirc/lircd.conf";
+$new_remote = False;
+$new_button = False;
+$data = False;
+//@todo should be modifiable
+if(file_exists($file)){
+	$lines = file($file);
+	//$lines = explode("\n", $file);
+	//var_dump($lines);
+
+//Reading array line by line
+	foreach ($lines as $line_num => $line) {
+//Try to find a remote
+		$remote_detected = find_remote($line,True);
+  //If a remote is find we know the next name is a remote name
+		if($remote_detected){
+			$new_remote = True;
+		}
+		if($new_button){
+			$name_detected = find_name($line);
+			$end_remote_detected = find_remote($line,False);
+			if($name_detected){
+				$button_name = extract_name($line);
+				$button_name = trim($button_name);
+				$data[] = [
+				"text" => $remote_name." ".$button_name,
+				"value" => $remote_name." ".$button_name
+				];
+
+			}
+			if ($end_remote_detected){
+				$new_button = False;
+			}
+		}
+
+  //If a remote was found
+		if($new_remote){
+    //Try to find the remote's name
+			$remote_name_detected = find_name($line);
+    //If a remote's name is found
+			if ($remote_name_detected){
+				$remote_name = extract_name($line);
+				$remote_name = trim($remote_name);
+				$new_remote = False;
+				$new_button = True;
+			}
+		}
+	}
+	
+}
+else
+{
+	$data = t("Unable to find lircd.conf");
+}
+
+//var_dump($data);
+
+function extract_name($name){
+	$name = trim($name);
+	$name = substr($name,4);
+	return $name;
+}
+
+function find_name($line){
+	$button = trim($line);
+	$button = substr($button,0,4);
+	if ($button == "name"){
+		return True;
+	}
+	else{
+		return False;
+	}
+}
+
+function find_remote($line,$begin_end){
+	$remote = trim($line);
+	$search = $begin_end ? "begin remote" : "end remote";
+	if ($remote == $search){
+		return True;
+
+	}
+	else{
+		return False;
+	}
+}
+
+
+?>

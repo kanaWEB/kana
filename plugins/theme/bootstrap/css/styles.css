@@ -83,7 +83,12 @@ text-align: center;
   min-width: 20%
 }
 
-.sidebar{
+#widgets{
 
+}
 
+.widget{
+  width:20%;
+  min-width:300px;
+  padding:1px;
 }

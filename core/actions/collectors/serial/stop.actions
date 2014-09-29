@@ -1,9 +1,24 @@
 <?php
-	if(Functions::is_port_open($_["socket"])){
-		echo "Socket Stop";
-		Functions::sendto_socket($_["socket"],"stop");
-	}
-	else{
-		echo "Socket was already closed";
-	}
+//Verify if there isn't wrongly open socket
+$collector_program = "serial2php.py";
+
+//Construct args
+$collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/".$collector_program;
+
+$check_process_command = 'ps aux|grep "'.$collector_filename.'"|grep "'.$object.'"';
+exec($check_process_command,$processes,$exitcode);
+array_pop($processes); //Remove check_process_command from process list
+
+foreach($processes as $process){
+	$process = explode(" ",$process);
+	$socket = $process[count($process) -1];
+	Functions::sendto_socket($socket,"stop");
+		//echo "killing socket:".$socket;
+}
+
+echo json_encode([
+	"data_id" => $_["data_id"],
+	"state" => "OFF",
+	"label" => "danger"
+	]);
 ?>

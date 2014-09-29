@@ -3,13 +3,22 @@
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <div id="footer" class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="navbar-inner">
             <p class="text-muted credit"><a target="_blank" href="https://github.com/madnerds/kana">{$appname} {$appversion} {$appstate}</a> {"by"|t} {$author}</p>
-            {loop="$collectors_name"}
-            <h4> <span class="label label-primary">{$value}</span> <span class="label label-success">ON</span></h4>
-            {/loop}
+            
+            <h4>
+                {loop="$collectors_name"}
+                <span class="label label-primary">{$value.name}</span> <span id="c-{$value.dir}" onclick="collector_changestate(this,'{$value.dir}')" class="label label-warning">?</span>
+                {/loop}
+            </h4>
         </div>
     </nav>
 </div>

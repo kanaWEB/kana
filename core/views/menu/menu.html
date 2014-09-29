@@ -1,4 +1,4 @@
-<!-- core/templates/topmenu.html -->
+<!-- core/view/menu/menu.html -->
 <div id="top-nav" class="navbar navbar-static-top navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -12,7 +12,7 @@
     <ul class="nav navbar-nav">
       {loop="menu_items"}
       <li class=" {if="$selected_menu_item == $value.dir"}active{/if} ">
-        <a href="{$value.link}" data-toggle="tooltip" title="{$value.description}">
+        <a class="tooltip-js" href="{$value.link}" data-toggle="tooltip"  data-placement="bottom" title="{$value.description}">
           <h4>{$value.text}</h4>
         </a>
       </li>

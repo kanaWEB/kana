@@ -1,0 +1,9 @@
+<?php
+//You can add collectors here
+unset($data);
+$data[] = [
+	"text" => "Gpio",
+	"value" => "gpio"
+];
+
+?>

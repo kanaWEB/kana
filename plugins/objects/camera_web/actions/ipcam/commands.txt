@@ -1,0 +1,1 @@
+bin/wanscam_control [@cam_user] [@cam_pass] [@ipaddress] [state]

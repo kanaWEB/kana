@@ -1,0 +1,1 @@
+Allumer ou éteindre un appareil controlée par l'infrarouge

@@ -1,0 +1,35 @@
+<?php
+if(isset($_["object"])){
+	$object = $_["object"];
+if(file_exists(USER_OBJECTS.$object)) //We check the plugin exists before checking
+{
+	$check_process_command = 'ps aux|grep "/core/collectors/"|grep "'.$object.'"';
+	exec($check_process_command,$processes,$exitcode);
+	array_pop($processes); //Remove check_process_command from process list
+	
+	if(count($processes)){
+		$label_color = "success";
+		$data = "ON";
+	}
+	else
+	{
+		$label_color = "danger";
+		$data = "OFF";
+	}
+	//$data = count($processes);
+
+//AJAX DATA
+if(isset($_["data_id"])){
+	$data_json["data_id"] = $_["data_id"];
+	$data_json["data"] = $data;
+	$data_json["label"] = $label_color;
+	echo json_encode($data_json);
+}
+}
+else
+{
+	$data_json["error"] = "NO COLLECTOR";
+	echo json_encode($data_json);
+}
+}
+?>

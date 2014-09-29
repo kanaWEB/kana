@@ -1,0 +1,36 @@
+{$newgroup=0}
+<div class="widget ajax">
+	<div class="panel panel-{$webobject.state}">
+		<div class="panel-heading">
+			<h4 class="tooltip-js" data-toggle="tooltip" title="{$webobject.description}">
+			<img src="{$webobject.icon}">{$webobject.name}
+			</h4>
+
+
+		</div>
+		<div class="panel-body">
+		<img id="data" src="" alt="{$webobject.name}" width="256" height="192">
+
+			{loop="$webobject.actions"}
+				{if="$newgroup == 0"}
+					<div class="btn-group-justified">
+				{/if}
+				
+				<!--{$newgroup++}-->
+				
+				<button class="btn btn-xlg {if="isset($value.color)"}btn-{$value.color}{else}btn-primary{/if} " {if="!isset($value.data)"} onclick="webobject_switch(this,'{$webobject.type}','{$webobject.id}','{$webobject.widget}',{if="isset($value.action_nb)"}{$value.action_nb} {else} 0 {/if},'{$value.type}')"{else} onclick="webobject_data(this,'{$webobject.id}','{$value.data}')" {/if} >
+					{if="isset($value.icon)"}<i class="glyphicon glyphicon-{if="isset($value.icon)"}{$value.icon}{else}off{/if} "></i>{/if}
+					{if="isset($value.text)"}{$value.text}{/if}
+				</button>
+				
+				{if="$newgroup == 2"}
+					</div>
+					{$newgroup=0}
+				{/if}
+			{/loop}
+			{if="$newgroup != 0"}
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>

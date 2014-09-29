@@ -38,6 +38,7 @@ else{
 	}
 	else{
 		$object_db->create();
+		$object_db->setState(2);
 	}
 	foreach($fields as $key => $field){
 		if($key == "password"){

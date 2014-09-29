@@ -35,6 +35,12 @@ $leftmenu[] = [
 "link" => "scenario"
 ];
 
+$leftmenu[] = [
+"text" => "Yana client manager",
+"icon" => "glyphicon-random",
+"link" => "yanaclient"
+];
+
 $tpl->assign("leftmenu",$leftmenu);
 $tpl->draw(CORE_VIEWS."menu/left/item"); //Display core/templates/topmenu.html
 unset($leftmenu);

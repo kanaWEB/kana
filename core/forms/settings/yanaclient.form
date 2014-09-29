@@ -1,0 +1,13 @@
+<?php
+
+$form = new Form("Yana Client");
+
+
+//$users_db = new Entity("Users");
+//$users = $users_db->populate();
+echo "Pas validé";
+include(CORE_VIEWS."datatable/dbtable_tokenslog.view");
+echo "Validé";
+include(CORE_VIEWS."datatable/dbtable_tokens.view");
+
+?>

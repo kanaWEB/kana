@@ -1,0 +1,59 @@
+<?
+if($currentUser->isadmin()){
+	if(isset($_["action"])){
+		$action = $_["action"];
+		switch ($action) {
+
+			case "validate":
+			$tokenslog_db = new Entity("TokenLog");
+			$tokenslog = $tokenslog_db->load([
+				"id" => $_["id"]
+				]);
+
+			$tokenslog_todelete = $tokenslog_db->delete([
+				"ipaddress" => $tokenslog["ipaddress"]
+				]);
+
+			$tokens_db = new Entity("Tokens");
+			$tokens_db->setToken($tokenslog["token"]);
+			$tokens_db->setId_user(1);
+			$tokens_db->setState(1);
+			$tokens_db->save();
+			redirect("settings","?menu=yanaclient&notice=".t("Token has been validated"));
+			break;
+
+			case "ban":
+			$tokens_db = new Entity("Tokens");
+			$tokens_todelete = $tokens_db->delete([
+				"id" => $_["id"]
+				]);
+			redirect("settings","?menu=yanaclient&error=".t("Token has been banned"));
+			break;
+
+			case "user_change":
+			if($_["id_user"] != 0){
+				$tokens_db = new Entity("Tokens");
+				$tokens_db->change([
+					"id_user" => $_["id_user"]
+					],[
+					"id" => $_["id_token"]
+					]);
+				echo Draw::ajax_notify("Token associated","success");
+			}
+			else{
+				echo Draw::ajax_notify("Admin can't be associated with a token","error");
+			}
+			break;
+
+			default:
+			redirect("settings","?menu=yanaclient&error=".t("No actions founded"));
+			break;
+		}
+	}
+	else
+	{
+		redirect("settings","?menu=yanaclient&error=".t("You need to specify an action"));
+	}
+}
+
+?>

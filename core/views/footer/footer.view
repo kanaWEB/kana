@@ -4,6 +4,8 @@ Display footer (javascript include and notifications)
 */
 
 
+
+
 //Manage Error Message
 if(isset($_["error"])){
 	$error = t($_["error"]);
@@ -21,15 +23,27 @@ else
 	$notice = false;
 }
 
-if(!isset($objects_dir)){
-$objects_dir = Functions::getdir(USER_OBJECTS);
-}
+if($currentUser->isuser()){
+//Check for collectors
+	if(!isset($objects_dir)){
+		$objects_dir = Functions::getdir(USER_OBJECTS);
+	}
 //var_dump(get_defined_vars());
-foreach($objects_dir as $dir){
-	if(file_exists(USER_OBJECTS.$dir."/".$dir.".collector")){
-		$collectors_name[] = Variable::objectName(USER_OBJECTS.$dir);
+	foreach($objects_dir as $dir){
+		if(file_exists(USER_OBJECTS.$dir."/".$dir.".collector")){
+
+			$collectors_name[] = [
+			"name" => Variable::objectName(USER_OBJECTS.$dir),
+			"dir" => $dir
+			];
+		}
 	}
 }
+else{
+	$collectors_name = false;
+}
+
+
 
 
 $tpl->assign("appname",APP_NAME);

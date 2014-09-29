@@ -70,13 +70,13 @@ def send_data(response,path,dataname,timestamp):
 """ Main Program """
 
 """
-Arguments Ex Serial_Listener.py "/dev/ttyAMA0" 9600 9060 "/var/www/kana" "radio"
+Arguments Ex Serial_Listener.py "/dev/ttyAMA0" 9600 "/var/www/kana" "radio" 9060
 """
-serial_port = sys.argv[1] #Get Serial Port (ex:/dev/ttyAMA0)
-serial_speed = sys.argv[2] #Get Serial speed (ex:9600)
-socket_port = sys.argv[3] #Get Socket port (ex:9060)
-path = sys.argv[4] #Get the path of yana (ex /var/www/yana)
-dataname = sys.argv[5]  #Get the path of database (ex /etc/yana/database.db)
+serial_speed = sys.argv[1] #Get Serial speed (ex:9600)
+serial_port = sys.argv[2] #Get Serial Port (ex:/dev/ttyAMA0)
+path = sys.argv[3] #Get the path of yana (ex /var/www/yana)
+dataname = sys.argv[4]  #Get the path of database (ex /etc/yana/database.db)
+socket_port = sys.argv[5] #Get Socket port (ex:9060)
 
 """
 Serial
@@ -85,6 +85,9 @@ try:
 	ser = serial.Serial(serial_port,serial_speed,timeout=1)
 except:
 	print "Serial connection failed"
+	print "speed:" + serial_speed
+	print "port:" + serial_port
+	
 	os._exit(12)
 #Flush Buffer
 ser.flushInput()

@@ -1,0 +1,5 @@
+//Computer Object 1.0
+ipaddress:text
+macaddress:text
+password:text
+type:int

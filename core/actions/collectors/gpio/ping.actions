@@ -1,0 +1,10 @@
+<?php
+	if(Functions::is_port_open($_["socket"])){
+		echo "SOCKET OPEN";
+	}
+	else
+	{
+		echo "SOCKET NOT OPEN";
+	}
+
+?>

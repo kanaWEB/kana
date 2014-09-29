@@ -1,6 +1,6 @@
 <?php
 /**
-* Functions classes stored basic functionalities of YANA
+* Functions classes stored basic functionalities of KANA
 * @todo dispatch between new classes
 * @author Valentin CARRUESCO
 **/
@@ -465,11 +465,17 @@ public static function sendandreceive_socket($port,$command){
 
 //Verify if a port is open
 public static function is_port_open($port){
-	$connection = @fsockopen("127.0.0.1",$port);
-	
-	if (is_resource($connection)){
-		fclose($connection);
-		return true;
+	if($port){
+		$connection = @fsockopen("127.0.0.1",$port);
+		
+		if (is_resource($connection)){
+			fclose($connection);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{

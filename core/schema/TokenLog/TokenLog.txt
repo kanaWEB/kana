@@ -1,0 +1,5 @@
+//Token Log Object : 1.0
+ipaddress:text
+timestamp:text
+token:text
+nbrequest:int

@@ -52,6 +52,19 @@ function webobject_switch(button,object,id,action,action_nb,state){
 	});
 }
 
+function webobject_data(button,id,data){
+	console.log($(button));
+	data_id = $(button).parent().parent().find("#data");
+	$.ajax({
+			url: "actions.php",
+			data: {type: "data", id: id , data: data}
+		}).done(function ( data ) {
+			data_id.attr('src',"data:image/jpeg;base64,"+data);
+		});
+}
+
+
+
 function change_gpio(button,gpio){
 	
 	if($(button).hasClass("label-success")){

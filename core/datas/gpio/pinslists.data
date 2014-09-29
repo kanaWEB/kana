@@ -1,4 +1,6 @@
 <?php
+unset($datas);
+
 for ($i=0; $i <= 14 ;$i++) { 
 $data[] = [
 "value" => $i,

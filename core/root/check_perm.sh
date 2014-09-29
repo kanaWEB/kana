@@ -11,8 +11,15 @@ while IFS= read -r -d $'\0' file; do
 done < <(find /var/www -name *.cpp -type f -print0)
 
 while IFS= read -r -d $'\0' file; do
-	file=$(echo $file |sed 's/.cpp//')
+	file=$(echo $file |sed 's/.c//')
 	echo "$file"
 	chown root:www-data $file
 	chmod +sx $file
 done < <(find /var/www -name *.c -type f -print0)
+
+while IFS= read -r -d $'\0' file; do
+        echo "$file"
+        chown root:www-data $file
+        chmod +sx $file
+done < <(find /var/www -name *.py -type f -print0)
+

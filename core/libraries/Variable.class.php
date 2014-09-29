@@ -1,6 +1,11 @@
 <?php
 class Variable{
 
+	public static function collector_socket($dir){
+		
+	}
+
+
 //Make a leftmenu item for objects (icon/text/link/label)
 	public static function leftmenu_item($menu_name,$object_dir,$object){
 		$leftmenu_item = [

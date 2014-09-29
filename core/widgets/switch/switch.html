@@ -1,11 +1,11 @@
 
-<div class="col-md-3 col-sm-6 col-xs-12 centered ajax">
+<div class="widget ajax">
 	<div class="panel panel-{$webobject.state}">
 		<div class="panel-heading" >
-			<h3 data-toggle="tooltip" title="{$webobject.description}">
+			<h4 class="tooltip-js" data-toggle="tooltip" title="{$webobject.description}">
 				<img src="{$webobject.icon}">
 				{$webobject.name}
-			</h3>
+			</h4>
 		</div>
 		<div class="panel-body">
 			{loop="$webobject.actions"}

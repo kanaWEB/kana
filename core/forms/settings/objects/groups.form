@@ -27,7 +27,7 @@ foreach($objects_dir as $object_dir){
 			$selected = $selected_db->getById($_["id"]);
 			$selected = Variable::action_args($selected);
 			$selected_actions = explode(" ",$selected["action"]);
-			var_dump($selected_actions);
+			//var_dump($selected_actions);
 	//Hack for empty array item
 			array_pop($selected_actions);
 

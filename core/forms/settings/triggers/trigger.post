@@ -27,10 +27,18 @@ else{
 	$fields["timeout"] = 1;
 
 	$db_code = new Entity($_["name"]);
+	
+
 	$code = $db_code->load([
 		"id" => $fields["code"]
 		]);
+
+	if(isset($code["code"])){
 	$fields["code"] = $code["code"];
+	}
+	elseif(isset($code["gpio"])){
+	$fields["code"] = $code["gpio"];
+	}
 	$fields["modifier"] = "=";
 
 
@@ -47,6 +55,7 @@ else{
 	}
 
 	$db->save();
+
 	redirect("settings","?menu=scenario&tab=trigger&notice=".t("Trigger saved"));
 
 }

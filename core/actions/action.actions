@@ -3,6 +3,8 @@
 This file manages object's actions
 */
 
+
+
 if(isset($_["action"]) && isset($_["object"]) && isset($_["action_nb"])){
 
 //Object Actions
@@ -83,6 +85,12 @@ if(file_exists($user_command));
 					switch(trim($argument)){
 						case "lang]":
 						$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
+						break;
+
+						//Protected text value with quotes
+						case "text]":
+						$argument = substr(trim($argument), 0, -1);
+						$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
 						break;
 
 						//Code
@@ -193,10 +201,49 @@ if(file_exists($user_command));
 			}
 			
 			$action_db->change(array('state'=>$state),array('id'=>$action["id"]));
+		
+			if(isset($_["token"])){
+					$affirmations = array(	'A vos ordres!',
+								'Bien!',
+								'Oui commandant!',
+								'Avec plaisir!',
+								'J\'aime vous obéir!',
+								'Avec plaisir!',
+								'Certainement!',
+								'Je fais ça sans tarder!',
+								'Avec plaisir!',
+								'Oui chef!');
+							$affirmation = $affirmations[rand(0,count($affirmations)-1)];
+							$response = array('responses'=>array(
+								array('type'=>'talk','sentence'=>$affirmation)
+								)
+							);
+
+							$json = json_encode($response);
+							echo $json;
+			}
+
+
+
 		}
 		else
 		{
+
+			if(isset($_["token"])){
+				
+							$affirmation = "Non";
+							$response = array('responses'=>array(
+								array('type'=>'talk','sentence'=>$affirmation)
+								)
+							);
+
+							$json = json_encode($response);
+							echo $json;
+			}
+			else{
+
 			echo Draw::ajax_notify("Permissions denied by Administrator","error");
+		}
 		}
 		} //actions
 	} //isset

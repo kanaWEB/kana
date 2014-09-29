@@ -8,7 +8,7 @@ $lang["Settings"] = "Configuration";
 //Install
 $lang["Installation"] = "Installation";
 $lang["Create an admin account"] = "Créer un compte administrateur";
-$lang["Define your language"] = "Choissisez la langue";
+$lang["Define your language"] = "Choisissez la langue";
 $lang["Login"] = "Identifiant";
 $lang["Password"] = "Mot de passe";
 $lang["Language"] = "Langue";
@@ -113,6 +113,9 @@ $lang["second"] = "seconde";
 
 //Electronics Terms
 $lang["Pin"] = "Broche";
+$lang["9600 (default)"] = "9600 (par défaut)";
+$lang["Collector"] = "Collecteur";
+$lang["Serial speed"] = "Vitesse (port série)";
 
 //Views
 $lang["Make as default view"] = "Vue par défaut";
@@ -123,4 +126,16 @@ $lang["Ask your administrator to enable your account"] = "Demandez à l'administ
 $lang["Log out"] = "Déconnexion";
 $lang["View set as default"] = "Cette vue est maintenant votre vue par défaut";
 $lang["Group set as default"] = "Ce groupe est maintenant le groupe par défaut";
+
+//Useful terms
+$lang["Launch"] = "Lance";
+$lang["Turn on"] = "Allume";
+$lang["Shut off"] = "Eteint";
+$lang["Stop"] = "Arrête";
+$lang["Left"] = "Gauche";
+$lang["Right"] = "Droite";
+$lang["Up"] = "Haut";
+$lang["Down"] = "Bas";
+$lang["Play"] = "Jouer";
+
 ?>

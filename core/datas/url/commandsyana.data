@@ -1,0 +1,52 @@
+<?php
+	$objects_dir = Functions::getdir(USER_OBJECTS);
+	$key = 0;
+	foreach($objects_dir as $object_dir){
+		//Get actions from objects	
+		$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
+		$actions_db = $actions_db->populate();
+
+	//If objects has actions
+		if($actions_db){
+			foreach($actions_db as $action){
+				if($currentUser->GroupRight($action["group_key"])){
+					$md_actions_dir = (USER_OBJECTS.$object_dir."/actions/".$action["action"]."/actions/");
+					$actions_array = Functions::getdir($md_actions_dir);
+					foreach($actions_array as $actions){
+						$action_datas[$key] = Variable::md2var($md_actions_dir."/".$actions);				
+
+						if(!isset($action_datas[$key]["action_nb"])){
+							$action_datas[$key]["action_nb"] = 0;
+						}
+
+						$action_datas[$key]["object_dir"] = $object_dir;
+						$action_datas[$key]["object_name"] = $action["object_name"];
+						$action_datas[$key]["id"] = $action["id"];
+						$action_datas[$key]["action"] = $action["action"];
+						$action_datas[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
+						
+						$key++;
+					}
+				}
+			}
+		}
+	}
+	
+	//var_dump($data);
+$host = $_SERVER['SERVER_ADDR'];
+$path = dirname($_SERVER['REQUEST_URI']);
+
+$begin_url = 'http://'.$host.':'.$_SERVER['SERVER_PORT']."/".$path."/";
+foreach($action_datas as $key => $action_data){
+	$vocalcommand = "kana ".t($action_data["name"])." ".$action_data["object_name"];
+	$url = "actions.php?type=action&object=".$action_data["object_dir"]."&id=".$action_data["id"]."&action=".$action_data["action"]."&action_nb=".$action_data["action_nb"]."&state=".$action_data["type"];
+	
+	$data["commands"][] = [
+	"command" => $vocalcommand,
+	"url" => $begin_url.$url,
+	"confidence" => "0.99"
+	];
+}
+
+
+?>

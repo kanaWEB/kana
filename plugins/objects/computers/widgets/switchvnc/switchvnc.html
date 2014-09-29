@@ -1,0 +1,19 @@
+<div class="widget ajax">
+	<div class="panel panel-{$webobject.state}">
+		<div class="panel-heading" >
+			<h4 data-toggle="tooltip" title="{$webobject.description}">
+				<img src="{$webobject.icon}">
+				{$webobject.name}
+			</h4>
+		</div>
+		<div class="panel-body">
+			{loop="$webobject.actions"}
+			<button class="btn btn-xlg {if="isset($value.color)"}btn-{$value.color}{else}btn-primary{/if} " onclick="webobject_switch(this,'{$webobject.type}','{$webobject.id}','{$webobject.widget}',{if="isset($value.action_nb)"}{$value.action_nb} {else} 0 {/if},'{$value.type}')" >
+				{if="isset($value.icon)"}<i class="glyphicon glyphicon-{if="isset($value.icon)"}{$value.icon}{else}off{/if} "></i>{/if}
+				{if="isset($value.text)"}{$value.text}{/if}
+			</button>
+			{/loop}
+			<a class="btn btn-xlg btn-danger" href="actions.php?type=htmlviews&plugin_name=computers&action_name=switchvnc&page=noVNC/novnc&id={$webobject.id}">VNC</a>
+		</div>
+	</div>
+</div>

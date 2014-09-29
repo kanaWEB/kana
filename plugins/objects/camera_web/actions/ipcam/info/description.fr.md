@@ -1,0 +1,1 @@
+Contrôle la caméra et capture des images

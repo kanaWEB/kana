@@ -1,0 +1,1 @@
+Control motor and take snapshot

@@ -5,13 +5,36 @@ When a data is collected it is send with a php script request
 */
 
 //Collector Control redirectors
-if(isset($_["collector"])){
-	$collector = $_["collector"];
+if(isset($_["object"])){
 	$command = $_["command"];
+	$object = $_["object"];
+	//If not GPIOS 
+	if(file_exists(USER_OBJECTS.$object."/".$object."_electronics.txt")){
+		$collector_args = new Entity($object,"electronics");
+		$collector_args = $collector_args->load(["id" => 1]);
+		$collector = $collector_args["collector"];
+	}
+	//If GPIOS
+	else{
+		if(file_exists(USER_OBJECTS.$object."/gpios")){	
+			
+			$collector_args = new Entity($object);
+			$collector_args = $collector_args->populate();
+			$collector = "gpio";
+		}
+		else
+		{
+			echo "Can't find collector";
+			exit();
+		}
+	}
+	
+	
 
 	$path = "core/actions/collectors/".$collector."/".$command.".actions";
+
 	if(file_exists($path)){
-	include($path);
+		include($path);
 	}
 	else
 	{

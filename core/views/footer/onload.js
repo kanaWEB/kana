@@ -21,6 +21,16 @@ $('.selectpicker').selectpicker({
 
 });
 
+// Masonry
+$('#widgets').masonry({
+  columnWidth: 200,
+  itemSelector: '.item'
+});
+
+$('.tooltip-js').tooltip();
+
+
+
 
 $(".ajaxswitch").bootstrapSwitch();
 

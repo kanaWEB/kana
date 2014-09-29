@@ -1,0 +1,59 @@
+<?php
+
+$object = $_["object"];
+if(DEBUG){
+var_dump($collector_args);
+}
+foreach($collector_args as $key => $arg){
+	if($key == 0){
+		$gpio = $arg["gpio"];
+	}
+	else
+	{
+	$gpio .= ";".$arg["gpio"];
+	}
+}
+
+$socket = rand(9060,9120);
+
+$collector_program = "gpio2php.py";
+$collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/".$collector_program;
+
+$args = " '".$gpio."' '".dirname($_SERVER['SCRIPT_FILENAME'])."' '".$object."' ".$socket;
+
+
+//Verify if there isn't wrongly open socket
+$check_process_command = 'ps aux|grep "'.$collector_filename.'"|grep "'.$object.'"';
+exec($check_process_command,$processes,$exitcode);
+array_pop($processes); //Remove check_process_command from process list
+foreach($processes as $process){
+		$process = explode(" ",$process);
+		$socket = $process[count($process) -1];
+		Functions::sendto_socket($socket,"stop");
+		echo "killing socket:".$socket;
+}
+
+
+if(DEBUG){
+	echo $collector_filename.$args;
+	//echo shell_exec($collector_filename.$args." >/tmp/log");
+}
+
+Functions::launch_background($collector_filename.$args);
+sleep(3);
+if(Functions::is_port_open($socket)){
+	echo json_encode([
+		"data_id" => $_["data_id"],
+		"state" => "ON",
+		"label" => "success"
+		]);
+}
+else
+{
+	echo json_encode([
+		"data_id" => $_["data_id"],
+		"state" => "FAIL",
+		"label" => "danger"
+		]);
+}
+?>

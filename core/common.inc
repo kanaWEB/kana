@@ -3,6 +3,7 @@
  * Common loads all functions and global scope variables/constants (user/lang/theme)
  * 
 **/
+session_name("KANA");
 session_start();
 require_once("constants.inc"); //Global Constants
 

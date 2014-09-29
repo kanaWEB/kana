@@ -114,6 +114,26 @@ class User {
 		}
 	}
 
+	function check_token($token){
+		$tokens_db = new Entity("Tokens");
+		$tokens = $tokens_db->load([
+			"token" => $token
+			]);
+		if($tokens){
+			$user = new Entity("Users");
+			$user = $user->load([
+				"id" => $tokens["id_user"]
+				]);
+			if($user){
+			$this->right = $user["state"];
+			$this->name = $user["name"];
+			$this->id = $user["id"];
+			$this->default_view = $user["default_view"];
+			$this->default_group = $user["default_group"];
+			}
+		}
+	}
+
 	function isuser(){
 		if($this->right > 0){
 			return true;

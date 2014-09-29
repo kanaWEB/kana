@@ -63,6 +63,9 @@ class Entity extends SQLite3
 		$this->open($database);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
+		
+		//This methods can be dangerous and is highly not optimized.
+		//But it automates table creation
 		$this->create(); //Create the table of the entity if it doesn't exists 
 		
 		//@todo check performance issue from trying to regenerate table
