@@ -3,19 +3,18 @@
 
 if(isset($_["del"])){
 	if($_["id"] == 1){
-		redirect("settings","?menu=users&error=".t("You can't delete the admin!"));
+		Draw::ajax_notify(t("You can't delete the admin!"),"error");
 	}
 	else{
 		$object_db = new Entity("Users");
 		$object_db->delete(array('id'=>$_['id']));
 
 		$group_right_db = new Entity("GroupRight");
-		$group_right_db->delete([
+		@$group_right_db->delete([
 			'id_user' => $_['id_user'],
 			'id_group' => $_['id_group']
 			]);
-
-		redirect("settings","?menu=users&error=".t("User delete"));
+		Draw::ajax_notify(t("User delete"),"error",$_["id"]);
 	}
 }
 else{

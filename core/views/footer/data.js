@@ -159,5 +159,34 @@ function norotate(deg){
 	$(".no-rotate").css("transform","rotate("+deg+"deg)");
 }
 
+function refresh_datalist(){
+	$("#button_datalist").removeClass();
+	$("#button_datalist").addClass("btn btn-danger");
 
+	$(".datafile_td").remove();
+
+	//AJAX	
+	$.ajax({
+		url: "actions.php",
+		dataType: "json",
+		data: {type: "data", data: "datas/datafile" , display: "json"}
+	}).done(function ( datafiles ) {
+		table = $("#datafile_table");
+		for (var datafile in datafiles) {
+			if (datafiles.hasOwnProperty(datafile)) {
+				if(datafiles[datafile].icon != undefined){
+					icon_html = '<img src="'+datafiles[datafile].icon+'">';
+				}
+				else{
+					icon_html = '';
+				}
+				table.append("<tr class='datafile_td'><td>"+icon_html+"</td><td>"+datafiles[datafile].name+"</td><td>"+datafiles[datafile].exemple+'</td><td><label class="label label-success">{"data":"'+datafile+'"}</label></td></tr>');
+			}
+		}
+		$("#button_datalist").removeClass();
+		$("#button_datalist").addClass("btn btn-warning");
+		
+
+	});
+}
 

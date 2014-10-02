@@ -18,7 +18,7 @@ def start_socket(port):
 	#  Create and open the socket
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #Avoid Address is already used error
-	server_socket.bind(("0.0.0.0",int(port))) #The socket is only accessible from localhost
+	server_socket.bind(("127.0.0.1",int(port))) #The socket is only accessible from localhost
 	server_socket.listen(4) #Only one connection is possible to the socket
 	return server_socket
 
@@ -63,7 +63,7 @@ Web Request
 """
 def send_data(response,path,dataname,timestamp):
 	# Execute every action related to this trigger
-	cmd = "php-cgi "+path+"/data.php type="+dataname+" data="+str(response)+" time="+str(timestamp)
+	cmd = path+"/core/collectors/phpboost "+path+"/data.php type="+dataname+" data="+str(response)+" time="+str(timestamp)
 	#print "command"+str(cmd)
 	os.system(cmd)
 
@@ -126,13 +126,15 @@ lock = False
 response = False
 try:
 	while True:
+		
 		for button in buttons:
 			gpio_cmd = "/usr/local/bin/gpio read "+ str(button)
 			result = subprocess.check_output(gpio_cmd, shell=True)
+			#result = "0"
 			result = result.strip()
 			if(result)=="0":
 				response = button
-				time.sleep(0.5)
+				#time.sleep(0.5)
 				
 		if response:
 			if response == last_response:

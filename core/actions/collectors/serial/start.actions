@@ -17,23 +17,14 @@ $collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/".
 
 $args = " ".$port." ".$speed." ".dirname($_SERVER['SCRIPT_FILENAME'])." '".$object."'"." ".$socket;
 
-//Verify if there isn't wrongly open socket
-$check_process_command = 'ps aux|grep "'.$collector_filename.'"|grep "'.$object.'"';
-exec($check_process_command,$processes,$exitcode);
-array_pop($processes); //Remove check_process_command from process list
+Functions::stop_process_with_socket($collector_program,$object);
 
-foreach($processes as $process){
-		$process = explode(" ",$process);
-		$socket = $process[count($process) -1];
-		Functions::sendto_socket($socket,"stop");
-		//echo "killing socket:".$socket;
-}
 
 if(DEBUG){
 	echo $collector_filename.$args;
 	echo shell_exec($collector_filename.$args); //Unless the collector doesn't works this should result in an infinite loop
 }
-Functions::launch_background($collector_filename.$args);
+Functions::launch_background($collector_filename.$args,0);
 sleep(3);
 if(Functions::is_port_open($socket)){
 	echo json_encode([

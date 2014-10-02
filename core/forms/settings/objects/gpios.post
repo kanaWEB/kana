@@ -5,11 +5,11 @@ if(isset($_["del"])){
 	$action_db = new Entity($object_name."_actions",Variable::actions_fields());
 	$linked_actions = $action_db->rowCount(array('object_key'=>$_['id']));
 	if($linked_actions != 0){
-		redirect("settings","?menu=objects&name=".$object_name."&tab=".$_["tab"]."&error=".t("You can't delete an used object"));
+		Draw::ajax_notify(t("You can't delete an used object"),"error");
 	}
 	else{
 	$object_db->delete(array('id'=>$_['id']));
-	redirect("settings","?menu=objects&name=".$object_name."&tab=".$_["tab"]."&error=".t("Component removed"));
+	Draw::ajax_notify(t("Component removed"),"success",$_["id"]);
 	}
 
 }

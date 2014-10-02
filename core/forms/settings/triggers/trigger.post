@@ -2,7 +2,7 @@
 if(isset($_["del"])){
 	$db = new Entity("Triggers");
 	$db->delete(array('id'=>$_['id']));
-	redirect("settings","?menu=scenario&tab=trigger&error=".t("Trigger deleted"));
+	Draw::ajax_notify(t("Trigger delete"),"success",$_["id"]);
 }
 else{
 	$fields = $_;

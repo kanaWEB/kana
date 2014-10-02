@@ -5,6 +5,7 @@ include("core/schema/Entity.class.php"); //SQL manager
 
 //@todo: Only local script should be able to send data this way
 
+if(!isset($_SERVER['REMOTE_ADDR'])){
 $collected = $_GET["data"];
 $type = $_GET["type"];
 
@@ -16,5 +17,10 @@ include("plugins/objects/".$type."/".$type.".collector");
 else
 {
 	echo "No collector available inside ".$collector_file;
+}
+}
+else
+{
+	echo "nope";
 }
 ?>

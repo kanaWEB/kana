@@ -19,12 +19,15 @@ if($currentUser->isadmin()){
 			
 			if(!isset($_["tab"])){
 				$object_name = $_["name"];
-				$object_db = new Entity($object_name);
-				$nb_object = $object_db->rowCount();
+				if(file_exists(USER_OBJECTS.$object_name."/".$object_name.".txt")){
+
+					
+					$object_db = new Entity($object_name);
+					$nb_object = $object_db->rowCount();
 			//If Electronics was not setup
-				if($nb_object == 0){
-					$menu_name = Variable::object_menus_name($object_name);
-				
+					if($nb_object == 0){
+						$menu_name = Variable::object_menus_name($object_name);
+
 				if(isset($menu_name["gpios"])){ //Gpios needs to be configured?
 					redirect("settings","?menu=objects&name=".$object_name."&tab=gpios");
 				}
@@ -62,17 +65,22 @@ if($currentUser->isadmin()){
 				}	
 			}
 		}
-
-
-
-
+		else
+		{	//No objects only actions
+			redirect("settings","?menu=objects&name=".$object_name."&tab=action");
+		}
 	}
+
+
+
+
+}
 		//General item
-	else
-	{
-		$leftmenu_active = $_["menu"];
-		$filename = $_["menu"];
-	}
+else
+{
+	$leftmenu_active = $_["menu"];
+	$filename = $_["menu"];
+}
 }
 else
 {

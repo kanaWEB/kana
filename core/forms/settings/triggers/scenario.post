@@ -3,7 +3,7 @@
 if(isset($_["del"])){
 	$db = new Entity("Scenario");
 	$db->delete(array('id'=>$_['id']));
-	redirect("settings","?menu=scenario&tab=scenario&error=".t("Group deleted"));
+	Draw::ajax_notify(t("Scenario delete"),"success",$_["id"]);
 }
 else{
 $fields = $_;

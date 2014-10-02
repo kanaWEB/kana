@@ -1,4 +1,5 @@
 <?php
+#@# name:Your ip address | exemple:ON / OFF
 if(isset($_["object"])){
 	$object = $_["object"];
 if(file_exists(USER_OBJECTS.$object)) //We check the plugin exists before checking

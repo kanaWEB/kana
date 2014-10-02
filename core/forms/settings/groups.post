@@ -17,16 +17,16 @@ if(isset($_["del"])){
 	}
 	if($linked_count == 0){
 		if($object_count == 1){
-			redirect("settings","?menu=groups&error=".t("You can't delete the last group!"));
+			Draw::ajax_notify(t("You can't delete the last group!"),"error");
 		}
 		else{
 			$object_db->delete(array('id'=>$_['id']));
-			redirect("settings","?menu=groups&error=".t("Group delete"));
+			Draw::ajax_notify(t("Group deleted"),"success",$_["id"]);
 		}
 	}
 	else
 	{
-			redirect("settings","?menu=groups&error=".t("This group is not empty!"));
+			Draw::ajax_notify(t("This group is not empty!"),"error");
 	}
 }
 else{

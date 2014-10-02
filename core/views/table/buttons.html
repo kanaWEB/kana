@@ -1,3 +1,3 @@
 <!-- core/views/table/buttons.html -->
 <a href="{$buttons.link}&id={$buttons.id}" class="btn btn-xlg btn-warning"><i class="glyphicon glyphicon-wrench"></i></a>
-<a href="{$buttons.link}&submit&del&id={$buttons.id}" class="btn btn-xlg btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+<span id="del{$buttons.id}" onclick="ajax_delete(this,'{$buttons.link}&submit&del&id={$buttons.id}')" class="btn btn-xlg btn-danger"><i class="glyphicon glyphicon-remove"></i></a>

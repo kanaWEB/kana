@@ -1,0 +1,10 @@
+<?php
+$datas[] = [
+			"text" => "google",
+			"value" => "google"
+			];
+$datas[] = [
+			"text" => "espeak",
+			"value" => "espeak"
+			];
+?>

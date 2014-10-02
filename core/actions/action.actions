@@ -81,19 +81,48 @@ if(file_exists($user_command));
 					$argument = substr(trim($argument), 1, -1);
 					$commands[$key+1] = " ".$object[$argument]." ";
 				}
+				//String arguments
+				elseif($argument[0] == '"'){
+					$argument = substr(trim($argument), 1, -1);
+					$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
+				}
+				//Data argumets
+				elseif($argument[0] == '%'){
+					$argument = substr(trim($argument), 1, -1);
+					//$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
+					//echo $action[$argument];
+					$string = $action[$argument];
+					if(preg_match_all('/\{(.*?)\}/',$string,$match)) {     
+						foreach($match[0] as $data_link){
+							
+							$data_link_json = html_entity_decode($data_link);
+							$data_link_json = json_decode($data_link_json);
+							
+							$data_file = Variable::data_dir($data_link_json->data);
+							if(file_exists($data_file)){
+								include($data_file);
+								$string = str_replace($data_link,$data,$string);
+							}
+
+						}
+					}
+					$commands[$key+1] = " '".htmlspecialchars_decode($string, ENT_QUOTES)."' ";
+				}
 				else{
+					//Special arguments 
 					switch(trim($argument)){
+						//Language 
 						case "lang]":
 						$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
 						break;
 
-						//Protected text value with quotes
+						//Protected text value with quotes (deprecated)
 						case "text]":
 						$argument = substr(trim($argument), 0, -1);
 						$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
 						break;
 
-						//Code
+						//Code get state from objects
 						case "code]":
 						$state_code = trim($_["state"]);
 						$code_db = new Entity($object_name);
@@ -117,6 +146,7 @@ if(file_exists($user_command));
 						$commands[$key+1] = " ".$code["code"];
 						break;
 
+						//get state from commands
 						case "state]":
 						if(isset($_["state"])){
 							$state = trim($_["state"]);
@@ -154,6 +184,7 @@ if(file_exists($user_command));
 						$commands[$key+1] = $state;
 						break;
 
+						//Default arguments
 						default:
 						$argument = substr(trim($argument), 0, -1);
 						$commands[$key+1] = " ".htmlspecialchars_decode($action[$argument], ENT_QUOTES)." ";
@@ -168,9 +199,14 @@ if(file_exists($user_command));
 			foreach($commands as $command){
 				$final_command .= $command;
 			}
+
+			//echo $final_command;
+			Functions::launch_background($final_command);
+			//exec($final_command,$result,$out);
 			if(DEBUG){
-				echo $final_command;
-				exec($final_command,$result,$out);
+				
+				//
+				/*
 				var_dump($out);
 				var_dump($result);
 				if($out != 0){
@@ -188,11 +224,12 @@ if(file_exists($user_command));
 						break;
 					}
 				}
+				*/
 
 			}
 			else
 			{
-				Functions::launch_background($final_command);
+				
 				$out = 0;
 			}
 
@@ -201,26 +238,26 @@ if(file_exists($user_command));
 			}
 			
 			$action_db->change(array('state'=>$state),array('id'=>$action["id"]));
-		
-			if(isset($_["token"])){
-					$affirmations = array(	'A vos ordres!',
-								'Bien!',
-								'Oui commandant!',
-								'Avec plaisir!',
-								'J\'aime vous obéir!',
-								'Avec plaisir!',
-								'Certainement!',
-								'Je fais ça sans tarder!',
-								'Avec plaisir!',
-								'Oui chef!');
-							$affirmation = $affirmations[rand(0,count($affirmations)-1)];
-							$response = array('responses'=>array(
-								array('type'=>'talk','sentence'=>$affirmation)
-								)
-							);
 
-							$json = json_encode($response);
-							echo $json;
+			if(isset($_["token"])){
+				$affirmations = array(	'A vos ordres!',
+					'Bien!',
+					'Oui commandant!',
+					'Avec plaisir!',
+					'J\'aime vous obéir!',
+					'Avec plaisir!',
+					'Certainement!',
+					'Je fais ça sans tarder!',
+					'Avec plaisir!',
+					'Oui chef!');
+				$affirmation = $affirmations[rand(0,count($affirmations)-1)];
+				$response = array('responses'=>array(
+					array('type'=>'talk','sentence'=>$affirmation)
+					)
+				);
+
+				$json = json_encode($response);
+				echo $json;
 			}
 
 
@@ -231,19 +268,19 @@ if(file_exists($user_command));
 
 			if(isset($_["token"])){
 				
-							$affirmation = "Non";
-							$response = array('responses'=>array(
-								array('type'=>'talk','sentence'=>$affirmation)
-								)
-							);
+				$affirmation = "Non";
+				$response = array('responses'=>array(
+					array('type'=>'talk','sentence'=>$affirmation)
+					)
+				);
 
-							$json = json_encode($response);
-							echo $json;
+				$json = json_encode($response);
+				echo $json;
 			}
 			else{
 
-			echo Draw::ajax_notify("Permissions denied by Administrator","error");
-		}
+				echo Draw::ajax_notify("Permissions denied by Administrator","error");
+			}
 		}
 		} //actions
 	} //isset

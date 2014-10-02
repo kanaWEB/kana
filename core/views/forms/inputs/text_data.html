@@ -1,0 +1,6 @@
+<!-- core/views/forms/inputs/text.html -->
+
+<div class="form-group">
+    <label for="{$input.id}">{$input.name|t}</label> <span class="btn btn-danger btn-lg" data-toggle="modal" data-target="#dataModal"></span>
+    <input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"}required{/if}>
+</div>

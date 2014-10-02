@@ -1,3 +1,10 @@
 <?php
+#@# name:Your ip address | exemple:192.168.0.12 | plugin:computers
+if(isset($_SERVER['REMOTE_ADDR'])){
 $data = $_SERVER['REMOTE_ADDR'];
+}
+else
+{
+$data = t("Unknown");
+}
 ?>

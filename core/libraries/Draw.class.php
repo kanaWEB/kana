@@ -8,8 +8,14 @@ class Draw
 
 //Ajax Notification
 //If a PHP file is called in ajax, you can make it return a notification
-public static function ajax_notify($text,$type){
-	echo $type." !::! ".t($text);
+public static function ajax_notify($text,$type,$data = False){
+	$message = [
+	"text" => t($text),
+	"type" => $type,
+	"data" => $data
+	];
+	echo json_encode($message);
+	//echo $type." !::! ".t($text);
 }
 
 

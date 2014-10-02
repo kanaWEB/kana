@@ -16,10 +16,3 @@ while IFS= read -r -d $'\0' file; do
 	chown root:www-data $file
 	chmod +sx $file
 done < <(find /var/www -name *.c -type f -print0)
-
-while IFS= read -r -d $'\0' file; do
-        echo "$file"
-        chown root:www-data $file
-        chmod +sx $file
-done < <(find /var/www -name *.py -type f -print0)
-

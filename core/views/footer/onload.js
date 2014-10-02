@@ -13,7 +13,7 @@ $(document).ready(function(){
 
 //http://www.bootply.com/110686# by twlaam
 //Image inside Select field 
-
+//Used mainly for actions groups and scenario
 $('.selectpicker').selectpicker({
   width: '270px',
   style: 'label-info label'
@@ -21,7 +21,7 @@ $('.selectpicker').selectpicker({
 
 });
 
-// Masonry
+// Masonry manages widgets so it occupied the entire screen
 $('#widgets').masonry({
   columnWidth: 200,
   itemSelector: '.item'
@@ -31,10 +31,12 @@ $('.tooltip-js').tooltip();
 
 
 
-
+//Manage ajaxswitch (used mainly for permissions)
 $(".ajaxswitch").bootstrapSwitch();
 
+
 //--> Move to default.js
+//Make a view a default view for user
 function makeasdefault_view(button,id_view,id_user){
 $(button).removeClass("btn-primary");
 $(button).addClass("btn-success");
@@ -47,6 +49,7 @@ $(button).attr("disabled",true);
 		});
 }
 
+//Make a group a default group for user
 function makeasdefault_group(button,id_group,id_user){
 $(button).removeClass("btn-primary");
 $(button).addClass("btn-success");
@@ -59,4 +62,20 @@ $(button).attr("disabled",true);
 		});
 }
 
+//Delete a field with ajax
+function ajax_delete(button,url){
+	console.log($(button));
+	$(button).attr("disabled",true);
+	$.ajax({
+		url: url
+	}).done(function(data){
+		console.log(data);
+		json = ajax_notify(data);
+		console.log(json.data);
+		if(json.data != false){
+			console.log($("#del"+json.data))
+			$("#del"+json.data).parent().parent().fadeOut( "slow");
+		} 
+	});
 
+}

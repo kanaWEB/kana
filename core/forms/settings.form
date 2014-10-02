@@ -14,6 +14,7 @@ if(file_exists($file)){
 	include(CORE_FORMS."/settings/".$filename.".form");
 }
 
+$tpl->draw(CORE_VIEWS."modal/data");
 //Footer
 include(CORE_VIEWS."footer/footer.view");
 ?>

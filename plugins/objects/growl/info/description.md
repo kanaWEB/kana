@@ -1,0 +1,1 @@
+Growl can send desktop notification

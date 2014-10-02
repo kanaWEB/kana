@@ -1,1 +1,0 @@
-Lancer une commande sur le web pour éteindre/allumer

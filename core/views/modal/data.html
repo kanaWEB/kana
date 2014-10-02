@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+     
+      <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+       <h4 class="modal-title" id="dataLabel">{"Data formatter"|t}</h4>
+     </div>
+
+     <div class="modal-body">
+      <center>
+       <span class="text-success">{"In order to write datas inside your message, you need to have the magickey of the data, here is a wizard to make it"|t}</span><br><br>
+         <span id="button_datalist" onclick="refresh_datalist()" class="btn btn-warning"><i class="glyphicon glyphicon-refresh"></i>{"Refresh data"|t}</span>
+         <br>
+         <table class="table table-bordered">
+          <tbody id="datafile_table">
+          <tr>
+            <th>{"Icon"|t}</th>
+            <th>{"Name"|t}</th>
+            <th>{"Exemple"|t}</th>
+            <th>{"Magic Key"|t}</th>
+          </tr>
+          </tbody>
+        </table>
+      </center>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">{"Close"|t}</button>
+      <img src="core/img/loading.gif" id="loading-indicator" style="display:none" />
+    </div>
+
+  </div>
+</div>
+</div>

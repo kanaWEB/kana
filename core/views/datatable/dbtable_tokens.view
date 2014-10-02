@@ -7,6 +7,7 @@ if($tokens){
 
 	$users = new Entity("Users");
 	$users_all = $users->populate();
+	var_dump($users_all);
 	foreach($users_all as $user){
 		if($user["id"] != 1){
 			$options[] = [
@@ -15,8 +16,6 @@ if($tokens){
 			];
 		}
 	}
-
-
 
 
 	unset($table_headers);
@@ -37,6 +36,7 @@ if($tokens){
 		foreach($table_datas as $td){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			if($td == "id_user"){
+				if(isset($options)){
 				$user_selected = $users->load([
 					"id" => $tokens[$i][$td]
 					]);
@@ -47,8 +47,14 @@ if($tokens){
 				"options" => $options
 				];
 
+
 				$tpl->assign("input",$input);
 				$tpl->draw(CORE_VIEWS."forms/inputs/select");
+				}
+				else
+				{
+					echo t("No users");
+				}
 			}
 			else{
 				echo html_entity_decode($tokens[$i][$td]);

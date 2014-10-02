@@ -15,7 +15,7 @@ for arg in sys.argv:
 		action = php_args[2]
 		action_nb = php_args[3]
 		state = php_args[4]
-		print "php-cgi "+ "/var/www/kana/actions.php type=action object="+object+" id="+id+" action="+action+" action_nb="+action_nb+" state="+state
+		print "php-cgi "+ "actions.php type=action object="+object+" id="+id+" action="+action+" action_nb="+action_nb+" state="+state
 		cmd = "php-cgi "+ "actions.php type=action object="+object+" id="+id+" action="+action+" action_nb="+action_nb+" state="+state
 		#cmd_debug = "php-cgi "+path+"/action.php action="+radiocode[2]
 		subprocess.call([cmd], shell=True)

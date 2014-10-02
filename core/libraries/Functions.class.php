@@ -188,8 +188,10 @@ class Functions
 	}
 
 	//Launch a terminal command in background
-	public static function launch_background($cmd)
+	public static function launch_background($cmd,$nice=-20)
 	{
+		//Hack to speed up command (need nice in sudoers)
+		//$cmd = "sudo nice -n ".$nice." ".$cmd;
 		shell_exec(sprintf('%s > /dev/null 2>&1 &', $cmd));
 	}
 
@@ -199,6 +201,17 @@ class Functions
 	public static function is_running($name){
 		exec("pgrep ".$name,$output,$result);
 		return $output;
+	}
+
+	public static function stop_process_with_socket($process_name,$object_name){
+		$check_process_command = 'ps aux|grep "'.$process_name.'"|grep "'.$object_name.'"'."| grep -v grep";
+		exec($check_process_command,$processes,$exitcode);
+		foreach($processes as $process){
+			$process = explode(" ",$process);	
+			$socket = $process[count($process) -1];
+			Functions::sendto_socket($socket,"stop");
+			//echo "killing socket:".$socket;
+		}
 	}
 
 
@@ -581,6 +594,17 @@ public static function getdir($dir){
 	return $dir;
 }
 
+public static function getdir_r($dir){
+while($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
+  $dir .= '/*';
+  if(!isset($d)) {
+     $d=$dirs;
+   } else {
+      $d=array_merge($d,$dirs);
+   }
+}
+return $d;
+}
 
 
 //Strip all accentuate characters

@@ -1,9 +1,20 @@
 <?php
 //Table Header
-$table_headers[] = "Trigger";
+
+//Reset default headers
+$table_headers[0] = "When";
+$table_datas[0] = "id_trigger";
+
+$table_headers[1] = "Do";
+$table_datas[1] = "object_name";
+
+$table_headers[] = "Description";
+$table_datas[] = "object_description";
+
 $table_headers[] = "Actions";
-$table_datas[] = "id_trigger";
 $table_datas[] = "action_tag";
+
+
 $action_name = $object_name."_actions";
 
 

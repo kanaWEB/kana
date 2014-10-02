@@ -1,0 +1,68 @@
+<?php
+
+//Get core datas
+$core_datas_dir = Functions::getdir(CORE_DATAS);
+foreach($core_datas_dir as $file){
+	if(is_file(CORE_DATAS.$file)){
+		$magickey = pathinfo($file,PATHINFO_FILENAME);
+		$datafiles[$magickey] = CORE_DATAS.$file;
+	}
+}
+
+//Get core datas subdirectories
+$core_datas_subdirs = Functions::getdir_r("core/datas");
+foreach($core_datas_subdirs as $dir){
+	$files = Functions::getdir($dir);
+	foreach($files as $file){
+		$magickey = basename($dir)."/".pathinfo($file,PATHINFO_FILENAME);
+		$datafiles[$magickey] = $dir."/".$file;
+	}
+}
+
+
+$user_objects = Functions::getdir(USER_OBJECTS);
+foreach($user_objects as $user_object){
+	if(file_exists(USER_OBJECTS.$user_object."/datas")){
+		$files = Functions::getdir(USER_OBJECTS.$user_object."/datas");
+		foreach($files as $file){
+			$magickey = $user_object."/".pathinfo($file,PATHINFO_FILENAME);
+			$datafiles[$magickey] = USER_OBJECTS.$user_object."/datas/".$file;
+		}
+	}
+}
+
+foreach($datafiles as $key => $datafile){
+	$code = file($datafile);
+	$info = substr(@$code[1],4);
+	$tags = substr(@$code[1],0,3);
+	if($tags == "#@#"){
+		//args_block [0]NAME:TEST[1]DESCRIPTION:TEST2
+		$args_block = explode("|",$info);
+		$data[$key]["file"] = $datafile;
+		foreach($args_block as $arg){
+			$exploded_arg = explode(":",$arg);
+			$data[$key][trim($exploded_arg[0])] = trim($exploded_arg[1]);
+			if(isset($data[$key]["plugin"])){
+				$data[$key]["icon"] = USER_OBJECTS.$data[$key]["plugin"]."/icon.png";
+			}
+
+		}
+		//arg_block [0]NAME[1]ARGS
+		//foreach($args_block as $arg_block){
+		//$arg_block_array = explode(":",$arg_block);
+		//$args[]
+
+
+		//}
+	}
+}
+//Get Users datas
+if(isset($_["display"])){
+	switch($_["display"]){
+		case "json":	
+		echo json_encode($data);
+		break;
+	}
+}
+
+?>

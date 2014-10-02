@@ -13,7 +13,9 @@ if(isset($_["action"])){
 	$action_get = $_["action"];
 }
 
+if(file_exists(USER_OBJECTS.$object_name."/".$object_name.".txt")){
 $object_db = new Entity($object_name);
+}
 $group_db = new Entity("Group");
 $action_db = new Entity($action_name,Variable::actions_fields());
 if(!isset($action_dir)){
