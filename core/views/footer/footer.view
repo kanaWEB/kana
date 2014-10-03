@@ -24,20 +24,8 @@ else
 }
 
 if($currentUser->isuser()){
-//Check for collectors
-	if(!isset($objects_dir)){
-		$objects_dir = Functions::getdir(USER_OBJECTS);
-	}
-//var_dump(get_defined_vars());
-	foreach($objects_dir as $dir){
-		if(file_exists(USER_OBJECTS.$dir."/".$dir.".collector")){
-
-			$collectors_name[] = [
-			"name" => Variable::objectName(USER_OBJECTS.$dir),
-			"dir" => $dir
-			];
-		}
-	}
+include(CORE_DATAS."collectors/list.data");
+$collectors_name = $data;
 }
 else{
 	$collectors_name = false;

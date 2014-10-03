@@ -99,6 +99,7 @@ foreach($objects_dir as $object_dir){
 			"type" => "newactions",
 			]);
 
+	
 		if($nb_actions != 0){
 			for($i=1;$i<count($selected_groups);$i++){
 				$form->input([
@@ -115,6 +116,7 @@ foreach($objects_dir as $object_dir){
 					]);
 			}
 		}
+		
 
 		$form->input([
 			"type" => "divclose",

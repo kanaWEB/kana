@@ -35,16 +35,46 @@ foreach($datafiles as $key => $datafile){
 	$code = file($datafile);
 	$info = substr(@$code[1],4);
 	$tags = substr(@$code[1],0,3);
+	$args_nb = 0;
 	if($tags == "#@#"){
 		//args_block [0]NAME:TEST[1]DESCRIPTION:TEST2
 		$args_block = explode("|",$info);
 		$data[$key]["file"] = $datafile;
 		foreach($args_block as $arg){
+			//exploded_arg[0] : arg name exploded_arg[1] : arg value
 			$exploded_arg = explode(":",$arg);
-			$data[$key][trim($exploded_arg[0])] = trim($exploded_arg[1]);
-			if(isset($data[$key]["plugin"])){
-				$data[$key]["icon"] = USER_OBJECTS.$data[$key]["plugin"]."/icon.png";
+			$arg_name = trim($exploded_arg[0]);
+			$arg_value = trim($exploded_arg[1]);
+
+
+			//If arg is an modifier for the data
+			if(($arg_name != "name") && ($arg_name !="exemple") && ($arg_name !="plugin")){
+				$args_nb++;
+				$data[$key]["args"][$args_nb]["id"] = $arg_name;
+				$arg_value = explode(";",$arg_value);
+				$data[$key]["args"][$args_nb]["name"] = $arg_value[0];
+				$data[$key]["args"][$args_nb]["type"] = $arg_value[1];
+				//Generate datas to make a selected fields
+				switch($arg_value[1]){
+					case "select":
+						$data[$key]["args"][$args_nb]["selected"] = false;
+						$options = Variable::get_data($arg_value[2]);
+						$data[$key]["args"][$args_nb]["options"] = $options;
+					}
 			}
+			else
+			{
+
+				$data[$key][$arg_name] = $arg_value;
+				if(isset($data[$key]["plugin"])){
+					$data[$key]["icon"] = USER_OBJECTS.$data[$key]["plugin"]."/icon.png";
+				}
+				else
+				{
+					$data[$key]["icon"] = "core/img/core.png";
+				}
+			}
+
 
 		}
 		//arg_block [0]NAME[1]ARGS
@@ -54,6 +84,7 @@ foreach($datafiles as $key => $datafile){
 
 
 		//}
+	$data[$key]["args_nb"] = $args_nb;
 	}
 }
 //Get Users datas
@@ -61,6 +92,10 @@ if(isset($_["display"])){
 	switch($_["display"]){
 		case "json":	
 		echo json_encode($data);
+		break;
+
+		case "vardump":
+		var_dump($data);
 		break;
 	}
 }

@@ -16,11 +16,10 @@
             
             <h4>
                 {loop="$collectors_name"}
-                <span class="label label-primary">{$value.name}</span> <span id="c-{$value.dir}" onclick="collector_changestate(this,'{$value.dir}')" class="label label-warning">?</span>
+                <span class="label label-primary">{$value.text}</span> <span id="c-{$value.value}" onclick="collector_changestate(this,'{$value.value}')" class="label label-warning">?</span>
                 {/loop}
             </h4>
         </div>
     </nav>
 </div>
-
 </body>

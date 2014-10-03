@@ -1,5 +1,6 @@
 <?php
 unset($data);
+$_ = array_map('Functions::secure',array_merge($_POST,$_GET));
 if(isset($_["name"])){
 	$object_name = $_["name"];
 }

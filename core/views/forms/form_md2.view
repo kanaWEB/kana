@@ -16,18 +16,7 @@ if(file_exists($form_file_dir)){
 		}
 
 		if(isset($input["options"])){
-			$data_file = Variable::data_dir($input["options"]);
-			include($data_file);
-
-		//@todo Should be remove
-			if(isset($data)){
-				$input["options"] = $data;
-				unset($data);
-			}
-			elseif(isset($datas)){
-				$input["options"] = $datas;
-				unset($datas);
-			}	
+			$input["options"] = Variable::get_data($input["options"]);
 		}
 
 		$form->input($input);

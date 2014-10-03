@@ -79,7 +79,6 @@ else{
 
 //Secure GET/POST
 $_ = array_map('Functions::secure',array_merge($_POST,$_GET));
-
 //We need the configuration to manage local
 include("libraries/Locale.php"); //Load internationalization
 

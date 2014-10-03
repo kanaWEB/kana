@@ -1,0 +1,19 @@
+<?php
+if(isset($_["input"])){
+	//var_dump($_["input"]);
+	$input = html_entity_decode($_["input"],ENT_QUOTES);
+	//var_dump($input);
+	$input = json_decode($input,true);
+	//var_dump($input);
+	
+	include(CORE_VIEWS."header/min_header.view");
+	$inputs_path = CORE_VIEWS."forms/inputs/";
+	$input["onchange"] = "change_magickey(".$_["row_id"].",this)";
+	$tpl->assign("input",$input);
+	$data["html"] = $tpl->draw($inputs_path.$input["type"], $return_string=true);
+	$data["data_id"] = $_["data_id"];
+	$data["row_id"] = $_["row_id"];
+	echo json_encode($data);
+
+}
+?>

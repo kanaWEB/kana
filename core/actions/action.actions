@@ -97,8 +97,8 @@ if(file_exists($user_command));
 							
 							$data_link_json = html_entity_decode($data_link);
 							$data_link_json = json_decode($data_link_json);
-							
 							$data_file = Variable::data_dir($data_link_json->data);
+							
 							if(file_exists($data_file)){
 								include($data_file);
 								$string = str_replace($data_link,$data,$string);

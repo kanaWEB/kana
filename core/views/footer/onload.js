@@ -62,6 +62,7 @@ $(button).attr("disabled",true);
 		});
 }
 
+//@todo move elsewhere
 //Delete a field with ajax
 function ajax_delete(button,url){
 	console.log($(button));

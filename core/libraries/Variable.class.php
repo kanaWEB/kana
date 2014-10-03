@@ -74,12 +74,29 @@ class Variable{
 				return $data_file;
 			}
 		}
-		//var_dump($data_link);
-		//if($data_link == $plugin."list"){
-		//	echo "TEST";
-		//}
-
 	}
+
+//Get a data from a data file
+//@todo verify it is use everyway
+	public static function get_data($data_link){
+		$data_file = Variable::data_dir($data_link);
+		//@todo Security test needed
+		include($data_file);
+
+		//@todo Should be remove $data should be inforce
+			if(isset($data)){
+				return $data;
+
+			}
+			elseif(isset($datas)){
+				return $datas;
+			}
+			else
+			{
+				return False;
+			}
+	}
+
 
 /*
 

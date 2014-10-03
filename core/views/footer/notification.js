@@ -13,39 +13,7 @@ function ajax_notify(data){
 	}
 
 	last_alert = notification(text,type);
-	/*
-	text = data.split("!::!");
-
-	//If there is no data
-	if (text.length == 1){
-		last_alert = notification(text[0],"error");
-	}
-	else
-	{
-		color = text[0].trim();
-		switch(color){
-			case "success":
-			last_alert = notification(text[1],"success")
-			break;
-
-			case "warning":
-			last_alert = notification(text[1],"warning")
-			break;
-
-			case "error":
-			last_alert = notification(text[1],"error")
-			break;
-
-			case "info":
-			last_alert = notification(text[1],"information")
-			
-			default:
-			last_alert = notification(text[0],"alert")
-			break;
-		}
-		
-	}
-	*/
+	
 
 	tab_notification.push(last_alert);
 	//console.log("ADD ITEM INTO ARRAY");

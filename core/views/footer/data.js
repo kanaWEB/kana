@@ -162,7 +162,7 @@ function norotate(deg){
 function refresh_datalist(){
 	$("#button_datalist").removeClass();
 	$("#button_datalist").addClass("btn btn-danger");
-
+	$("#button_datalist").attr("disabled",true);
 	$(".datafile_td").remove();
 
 	//AJAX	
@@ -171,22 +171,106 @@ function refresh_datalist(){
 		dataType: "json",
 		data: {type: "data", data: "datas/datafile" , display: "json"}
 	}).done(function ( datafiles ) {
+		//console.log(datafiles);
 		table = $("#datafile_table");
+		total_args = 0;
+		row_id = 0;
 		for (var datafile in datafiles) {
 			if (datafiles.hasOwnProperty(datafile)) {
+				row_id++;
+				html_code = "";
+				
+				//Icons
 				if(datafiles[datafile].icon != undefined){
 					icon_html = '<img src="'+datafiles[datafile].icon+'">';
 				}
 				else{
 					icon_html = '';
 				}
-				table.append("<tr class='datafile_td'><td>"+icon_html+"</td><td>"+datafiles[datafile].name+"</td><td>"+datafiles[datafile].exemple+'</td><td><label class="label label-success">{"data":"'+datafile+'"}</label></td></tr>');
-			}
-		}
-		$("#button_datalist").removeClass();
-		$("#button_datalist").addClass("btn btn-warning");
-		
 
+				html_code = html_code + add_data_tr_open();
+				html_code = html_code + add_data_td(icon_html);
+				html_code = html_code + add_data_td(datafiles[datafile].name);
+				html_code = html_code + add_data_td(datafiles[datafile].exemple);
+				
+				//Arguments
+				args_nb = datafiles[datafile].args_nb
+				max_args = 2;
+				//if there is argument
+				if(args_nb != 0){
+					args = datafiles[datafile].args
+					for(i = 1; i <= args_nb;i++){
+					max_args = max_args - 1;
+					//console.log(args);
+					arg_obj = JSON.stringify(args[i]);
+					html_code = html_code + add_modifier_td(i,row_id);
+					inputs_html_parser(arg_obj,row_id,i);
+				}
+
+			}
+
+			//Populate empty arguments
+			for(i = 0; i < max_args; i++){
+				html_code = html_code + add_data_td("");
+			}
+
+			html_code = html_code + add_magickey_td(datafile,row_id);
+			html_code = html_code + add_data_tr_close();
+			table.append(html_code);
+		}
+	}
+	$("#button_datalist").removeClass();
+	$("#button_datalist").addClass("btn btn-warning");
+	$("#button_datalist").attr("disabled",false);
+});
+
+}
+
+function add_data_td(html_code){
+	return '<td>'+html_code+'</td>';
+}
+
+function add_modifier_td(id,row_id){
+	return '<td id="row'+row_id+'_arg_data_ajax'+id+'"></td>';
+}
+
+function add_magickey_td(html_code,row_id){
+	return '<td><label id="magickey_'+row_id+'" class="label label-success">{"data":"'+html_code+'"}</td>'
+}
+
+function add_data_tr_open(){
+	return '<tr class="datafile_td">';
+}
+
+function add_data_tr_close(){
+	return '</tr>';
+}
+
+function inputs_html_parser(input,row_id,id){
+	
+	$.ajax({
+		url: "actions.php",
+		dataType: "json",
+		data: {type: "data", data: "html/input", input: input,row_id:row_id,data_id: id}
+	}).done(function ( json ) {
+		console.log(json);
+		id = "#row"+json.row_id+"_arg_data_ajax"+json.data_id
+		$(id).html(json.html);
 	});
 }
 
+function change_magickey(row_id,input){
+	magickey = $("#magickey_"+row_id);
+	magickey_json = magickey.html();
+	magickey_obj = $.parseJSON(magickey_json);
+
+	input = $(input);
+	input_name = input.attr("name"); 
+	input_val = input.val();
+
+	magickey_obj[input_name] = input_val;
+	console.log(magickey_obj);
+	magickey.html(JSON.stringify(magickey_obj));
+
+
+}

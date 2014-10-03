@@ -12,7 +12,7 @@ $action_name = "actionsgroup"."_actions";
 if(isset($_["del"])){
 	$action_db = new Entity($action_name,Variable::actions_fields());
 	$action_db->delete(array('id'=>$_['id']));
-	redirect("settings","?menu=objects&name=actionsgroup&tab=groups&error=".t("Group deleted"));
+	Draw::ajax_notify(t("Group deleted"),"success",$_["id"]);
 }
 else{
 	
