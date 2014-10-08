@@ -1,5 +1,7 @@
 cache/
-plugins/objects/
-plugins/views/
 
-!.notempty
+plugins/objects/*
+!plugins/objects/.notempty
+
+plugins/views/*
+!plugins/views/.notempty
