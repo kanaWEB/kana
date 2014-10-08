@@ -1,1 +1,0 @@
-Infrarouge (lirc)

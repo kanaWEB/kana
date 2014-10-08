@@ -40,8 +40,9 @@ $fields = $_;
 			foreach($args_key as $arg_key){
 				unset($fields[$arg_key]);
 			}
-			$args = json_encode($args);
-
+			//var_dump($args);
+			$args = json_encode($args,JSON_HEX_AMP);
+			
 
 			$db_fields = Variable::actions_fields();
 			$action_db = new Entity($action_name,$db_fields);
@@ -51,6 +52,8 @@ $fields = $_;
 				$setter = "set".$key;
 				$action_db->$setter($field);
 			}
+
+			
 
 			//Args Fields
 			$action_db->setArgs($args);

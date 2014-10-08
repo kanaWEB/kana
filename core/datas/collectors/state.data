@@ -8,30 +8,28 @@ if(isset($data_link_json->object)){
 	$object = $data_link_json->object;
 }
 
-if(file_exists(USER_OBJECTS.$object)) //We check the plugin exists before checking
-{
+if(file_exists(USER_OBJECTS.$object)){ //We check if the plugin exists before checking
 	$check_process_command = 'ps aux|grep "/core/collectors/"|grep "'.$object.'"'."| grep -v grep";
 	//echo $check_process_command;
 	exec($check_process_command,$processes,$exitcode);
 
 	if(count($processes)){
 		$label_color = "success";
-		$data = "ON";
+		$data = t("ON");
 	}
-	else
-	{
+	else{
 		$label_color = "danger";
-		$data = "OFF";
+		$data = t("OFF");
 	}
 	//$data = count($processes);
 
 //AJAX DATA
-if(isset($_["data_id"])){
-	$data_json["data_id"] = $_["data_id"];
-	$data_json["data"] = $data;
-	$data_json["label"] = $label_color;
-	echo json_encode($data_json);
-}
+	if(isset($_["data_id"])){
+		$data_json["data_id"] = $_["data_id"];
+		$data_json["data"] = $data;
+		$data_json["label"] = $label_color;
+		echo json_encode($data_json);
+	}
 }
 else
 {

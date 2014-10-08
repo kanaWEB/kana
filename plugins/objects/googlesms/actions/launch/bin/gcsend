@@ -1,1 +1,0 @@
-/usr/local/bin/gcsms -c "/etc/kana/gcsms" send $1 "$2"

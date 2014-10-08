@@ -1,1 +1,0 @@
-Contrôler l'infrarouge avec Lirc

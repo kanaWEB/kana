@@ -20,27 +20,39 @@ else{
 
 	$fields["trigger_object"] = $_["name"];
 	$fields["trigger"] = $_["trigger"];
-	$fields["trigger_type"] = "push";
-	$fields["trigger_name"] = $_["name"];
-	$fields["id_object"] = $fields["code"];
 	$fields["timestamp"] = 0;
 	$fields["timeout"] = 1;
-
-	$db_code = new Entity($_["name"]);
-	
-
-	$code = $db_code->load([
-		"id" => $fields["code"]
-		]);
-
-	if(isset($code["code"])){
-	$fields["code"] = $code["code"];
-	}
-	elseif(isset($code["gpio"])){
-	$fields["code"] = $code["gpio"];
-	}
+	$fields["trigger_type"] = "push";
 	$fields["modifier"] = "=";
+	$fields["trigger_name"] = $_["name"];
 
+	switch($fields["trigger"]){
+		case "one":
+		//Get code
+		$fields["id_object"] = $fields["code"];
+		$db_code = new Entity($_["name"]);
+		$code = $db_code->load([
+			"id" => $fields["code"]
+			]);
+
+		if(isset($code["code"])){
+			$fields["code"] = $code["code"];
+		}
+		elseif(isset($code["gpio"])){
+			$fields["code"] = $code["gpio"];
+		}
+		
+		break;
+
+		case "all":
+		//Set code as undefined
+		$fields["code"] = "";
+		$fields["id_object"] = "";
+		break;
+	}
+
+
+	
 
 	$db = new Entity("Triggers");
 			//var_dump($db);
@@ -56,7 +68,7 @@ else{
 
 	$db->save();
 
-	redirect("settings","?menu=scenario&tab=trigger&notice=".t("Trigger saved"));
+	//redirect("settings","?menu=scenario&tab=trigger&notice=".t("Trigger saved"));
 
 }
 

@@ -4,8 +4,6 @@ Display footer (javascript include and notifications)
 */
 
 
-
-
 //Manage Error Message
 if(isset($_["error"])){
 	$error = t($_["error"]);
@@ -41,7 +39,13 @@ $tpl->assign("author",AUTHOR);
 $tpl->assign("collectors_name",$collectors_name);
 $tpl->draw(CORE_VIEWS."body/close");
 
-$tpl->assign("js",$theme->js()); //Theme JS
+
+$tpl->assign("theme_js",$theme->js()); //Theme JS
+
+if(isset($dynamic_js)){
+$tpl->assign("dynamic_js",$dynamic_js);
+}
+
 $tpl->assign("error_message",$error); //ERROR MESSAGE (javascript)
 $tpl->assign("notice_message",$notice); //NOTICE MESSAGE (javascript)
 $tpl->draw(CORE_VIEWS."footer/footer"); //load core/templates/footer.html

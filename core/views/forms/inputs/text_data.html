@@ -1,6 +1,6 @@
-<!-- core/views/forms/inputs/text.html -->
+<!-- core/views/forms/inputs/text_data.html -->
 
 <div class="form-group">
     <label for="{$input.id}">{$input.name|t}</label> <span class="btn btn-primary btn-md" data-toggle="modal" data-target="#dataModal">DATA</span>
-    <input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"}required{/if}>
+    <input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"}data-bv-message="{'This field is required'|t}" required{/if}>
 </div>

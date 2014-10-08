@@ -1,1 +1,0 @@
-Turn on/off computers and control them with VNC

@@ -5,7 +5,7 @@
 <div class="form-group">
 	{if="isset($input.name)"} <label for="{$input.id}">{$input.name|t}</label>{/if}
 	{if="isset($input.img)"} <br> {/if}
-	<select name="{$input.id}" {if="isset($input.onchange)"} onchange="{$input.onchange}" {/if} id="{$input.id}" class='form-control {if="isset($input.img)"}selectpicker{/if}'>
+	<select name="{$input.id}" {if="isset($input.onclick)"} onclick="{$input.onclick}" {/if} {if="isset($input.onchange)"} onchange="{$input.onchange}" {/if} id="{$input.id}" class='form-control {if="isset($input.img)"}selectpicker{/if}'>
 		{loop="$input.options"}
 		<option {if="isset($value.img)"}data-content="<img src='{$value.img}' <span>     {$value.text|t}</span>"{/if} {if="$input.selected==$value.value"} selected {/if} value="{$value.value}">{$value.text|t} {if="isset($value.class)"} {$value.class} {/if}</option>
 		{/loop}

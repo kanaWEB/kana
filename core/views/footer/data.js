@@ -222,6 +222,13 @@ function refresh_datalist(){
 	$("#button_datalist").removeClass();
 	$("#button_datalist").addClass("btn btn-warning");
 	$("#button_datalist").attr("disabled",false);
+
+})
+.fail(function(){
+	$("#button_datalist").removeClass();
+	$("#button_datalist").addClass("btn");
+	$("#button_datalist").attr("disabled",false);
+	alert("ERROR DATA");
 });
 
 }

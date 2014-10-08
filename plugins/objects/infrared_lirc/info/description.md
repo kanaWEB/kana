@@ -1,1 +1,0 @@
-Control infrared with LIRC

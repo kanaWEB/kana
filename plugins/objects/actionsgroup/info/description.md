@@ -1,1 +1,0 @@
-Manage a group of actions

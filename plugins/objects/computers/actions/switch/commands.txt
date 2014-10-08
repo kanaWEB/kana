@@ -1,1 +1,0 @@
-bin/computers [@ipaddress] [@macaddress] [@password] [@type] [state]

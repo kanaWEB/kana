@@ -1,3 +1,0 @@
-//Basic 433Mhz Radio Object 1.0
-calendar:text
-text:text

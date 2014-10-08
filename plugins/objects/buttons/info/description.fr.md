@@ -1,1 +1,0 @@
-Les boutons permettent de déclencher des événements

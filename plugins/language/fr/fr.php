@@ -28,6 +28,7 @@ $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 //Form
 $lang["Send"] = "Envoyer";
 $lang["Go back"] = "Retour";
+$lang["This field is required"] = "Ce champ est obligatoire";
 
 //Users
 $lang["Nickname"] = "Pseudonyme";
@@ -90,6 +91,8 @@ $lang["Objects"] = "Objets";
 $lang["Component added"] = "Composant ajouté";
 $lang["Component removed"] = "Composant enlevé";
 $lang["Wiring"] = "Branchement";
+$lang["ON"] = "activé";
+$lang["OFF"] = "désactivé";
 
 //Codes
 $lang["Autodetect"] = "Détection Automatique";

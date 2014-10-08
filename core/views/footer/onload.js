@@ -7,6 +7,7 @@ $(document).ready(function(){
 	if (typeof notice !== 'undefined') {
 		notification(notice,"success");
 	}
+});
 
 
 //@todo Move elsewhere form.js
@@ -19,7 +20,8 @@ $('.selectpicker').selectpicker({
   style: 'label-info label'
  });
 
-});
+
+
 
 // Masonry manages widgets so it occupied the entire screen
 $('#widgets').masonry({

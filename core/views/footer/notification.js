@@ -27,6 +27,9 @@ function ajax_notify(data){
 		tab_notification.pop();
 		//console.log(tab_notification.length);
 	}, notify_time);
+if (typeof json === 'undefined') {
+json = false;
+}
 return json
 }
 

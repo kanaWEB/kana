@@ -1,2 +1,0 @@
-//Group Object 1.0
-action:int

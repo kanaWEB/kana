@@ -1,1 +1,0 @@
-Gérer un groupe d'actions

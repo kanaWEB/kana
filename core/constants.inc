@@ -42,6 +42,7 @@ define('COOKIE_NAME','KANA');
 
 //DEBUG
 define('DEBUG',FALSE);
+define('DEVMODE',TRUE);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
 

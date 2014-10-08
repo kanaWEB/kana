@@ -1,0 +1,16 @@
+<?php
+if(DEVMODE){
+	if(isset($_["entity"])){
+		$db_text = file(USER_OBJECTS.$_["entity"]."/".$_["entity"].".txt");
+		array_shift($db_text);
+		foreach($db_text as $field){
+			$field_info = explode(":",$field);
+			$db_fields[] = $field_info[0];
+		}
+		$tpl->assign("id_fields",$db_fields);
+	}
+
+	$tpl->draw(CORE_VIEWS."dev/plugin");
+	$dynamic_js[] = CORE_VIEWS."footer/dev.js";
+}
+?>

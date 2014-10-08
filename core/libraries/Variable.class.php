@@ -1,9 +1,8 @@
 <?php
 class Variable{
 
-	public static function collector_socket($dir){
-		
-	}
+
+
 
 
 //Make a leftmenu item for objects (icon/text/link/label)
@@ -46,11 +45,15 @@ class Variable{
 
 //Searching a data everywhere we can
 	public static function data_dir($data_link){
+		
 		$data_link_array = explode("/",$data_link);
 
 		if(count($data_link_array) != 1){
 			$plugin = $data_link_array[0];
 			$file = $data_link_array[1];
+			if($plugin == "object"){
+				return $file;
+			}
 		}
 		else{
 			$plugin = $data_link;
@@ -58,15 +61,15 @@ class Variable{
 		}
 
 //You can prioritize similar named datas here, this can be used to override how a data inside core works.
-		//$data_files[] = USER_DATAS.$data_link.".data"; //We first see if there is a 
-		$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data"; //We see if a view has datas
-		$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data"; //We see if objects has datas
-		$data_files[] = CORE_DATAS.$data_link.".data";
+//@todo data is invariable (unlike donnee in french)
+		$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data"; //We see if a view has data
+		$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data"; //We see if objects has data
+		$data_files[] = CORE_DATAS.$data_link.".data"; //Finally we check if core has data
 
 		if(DEBUG){
 			var_dump($data_files);
 		}
-	//
+	
 
 		//Search for data files inside directories
 		foreach($data_files as $data_file){
@@ -80,10 +83,20 @@ class Variable{
 //@todo verify it is use everyway
 	public static function get_data($data_link){
 		$data_file = Variable::data_dir($data_link);
-		//@todo Security test needed
-		include($data_file);
 
-		//@todo Should be remove $data should be inforce
+		//@todo Security test needed
+		if(file_exists($data_file)){
+		include($data_file);
+		}
+		else
+		{
+			if(file_exists(USER_OBJECTS."/".$data_file)){
+				$object_name = $data_file;
+				include(CORE_DATAS."object.data");
+			}
+		}
+
+		//@todo Should be remove use $data only
 			if(isset($data)){
 				return $data;
 

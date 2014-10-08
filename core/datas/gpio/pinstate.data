@@ -1,36 +1,23 @@
 <?php
+#@# name:GPIO state | exemple:1/0 | gpio:gpio;select;gpio/pinslists
+if(isset($data_link_json->gpio)){
+	$gpio = $data_link_json->gpio;
+}
+
 if(isset($_["gpio"])){
 	$gpio = $_["gpio"];
-	$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
-	$data = trim(shell_exec($pinstate_command));
-	//echo $data;
-}
-else
-{
-	if (!isset($gpio)){
-		echo "UNSPECIFIED";
-	}
-	else{
-		$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
-		$data = trim(shell_exec($pinstate_command));
-	}
 }
 
-if(isset($_["voice"])){
+$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
+$data = trim(shell_exec($pinstate_command));
 
+if(isset($data_link_json)){
 	if($data){
-		//$data = "on";
-		$data = "Allumée";
- 	}
- 	else
- 	{
- 		$data = "Eteinte";
- 		//$data = "off";
- 	}
- 	//$text = "Pin ".$gpio." is ".$data;
-  	$text = "La broche ".$gpio." est ".$data;
- 	$tts = $text;
- 	Functions::launch_background("/usr/local/bin/tts -l ".$_SESSION["LANGUAGE"]." ".$tts);
- }
-
+		$data = t("ON");
+	}
+	else
+	{
+		$data = t("OFF");
+	}
+}
 ?>

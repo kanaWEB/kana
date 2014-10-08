@@ -1,1 +1,0 @@
-bin/growl.py [@ipaddress] [@password] ["title] [%message]

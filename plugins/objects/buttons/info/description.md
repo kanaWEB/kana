@@ -1,1 +1,0 @@
-Buttons can be used to trigger events

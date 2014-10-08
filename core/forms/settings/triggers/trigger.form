@@ -1,14 +1,15 @@
 <?php
 if(!isset($_["trigger"])){ //Available actions
 	foreach($objects as $object_name){
+		//var_dump($object_name);
 		$dir = USER_OBJECTS.$object_name."/triggers";
 
 		if(file_exists($dir)){
 			$dir_list = Functions::getdir($dir);
+
 			if($dir_list > 0){
 				//@todo If only one action redirect
 				include(CORE_VIEWS."menu/menu_md.view");
-				
 			}
 		}
 	}
