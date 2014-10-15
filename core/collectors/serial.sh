@@ -1,1 +1,1 @@
-./serial2php.py "/dev/ttyUSB0" 9600 "/var/www/kana/" "radio" 9060
+./serial2php.py "/dev/ttyUSB0" 9600 "/var/www/" "radio" 9060

@@ -1,0 +1,8 @@
+<?php
+exec("/usr/local/bin/gpio -v",$result,$exitcode);
+$model = $result[6];
+$model = explode(":",$model);
+$model = explode(",",$model[1]);
+$model = trim($model[0]);
+$data = $model;
+?>

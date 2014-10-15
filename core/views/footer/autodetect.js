@@ -5,9 +5,11 @@ $(button).addClass("btn-danger");
 input = $(button).next().next().next();
 input.val("");
 
+data=object+"/lastcode";
+
 $.ajax({
 			url: "actions.php",
-			data: {type: "collectors", object:object, collector:collector, command: "get"}
+			data: {type: "data", data:data, data_id:"true"}
 		}).done(function ( data ) {
 			input.val(data);
 			$(button).attr("disabled",false);

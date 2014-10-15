@@ -106,6 +106,7 @@ if(file_exists($user_command));
 						}
 					}
 					$commands[$key+1] = ' "'.htmlspecialchars_decode($string, ENT_QUOTES).'" ';
+					//$commands[$key+1] = ' "'.utf8_encode($string).'" ';
 				}
 				else{
 					//Special arguments 
@@ -116,10 +117,10 @@ if(file_exists($user_command));
 						break;
 
 						//Protected text value with quotes (deprecated)
-						case "text]":
-						$argument = substr(trim($argument), 0, -1);
-						$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
-						break;
+						//case "text]":
+						//$argument = substr(trim($argument), 0, -1);
+						//$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
+						//break;
 
 						//Code get state from objects
 						case "code]":
@@ -199,7 +200,11 @@ if(file_exists($user_command));
 				$final_command .= $command;
 			}
 
+			//Display command if you are root
+			if($currentUser->isadmin()){
+				var_dump($currentUser);
 			//echo $final_command;
+			}
 			Functions::launch_background($final_command);
 			//exec($final_command,$result,$out);
 			//var_dump($out);
@@ -241,16 +246,11 @@ if(file_exists($user_command));
 			$action_db->change(array('state'=>$state),array('id'=>$action["id"]));
 
 			if(isset($_["token"])){
-				$affirmations = array(	'A vos ordres!',
-					'Bien!',
-					'Oui commandant!',
-					'Avec plaisir!',
-					'J\'aime vous obéir!',
-					'Avec plaisir!',
-					'Certainement!',
-					'Je fais ça sans tarder!',
-					'Avec plaisir!',
-					'Oui chef!');
+				$affirmations = array(
+					'OK!',
+					'Certainly!',
+					'I\'m doing this right now!',
+					'Yes sir!');
 				$affirmation = $affirmations[rand(0,count($affirmations)-1)];
 				$response = array('responses'=>array(
 					array('type'=>'talk','sentence'=>$affirmation)

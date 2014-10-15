@@ -7,7 +7,7 @@ if($tokens){
 
 	$users = new Entity("Users");
 	$users_all = $users->populate();
-	var_dump($users_all);
+	//var_dump($users_all);
 	foreach($users_all as $user){
 		if($user["id"] != 1){
 			$options[] = [
@@ -42,7 +42,7 @@ if($tokens){
 					]);
 				$input = [
 				"id" =>  $tokens[$i]["id"],
-				"onchange" => "token_user_change(this,".$tokens[$i]["id"].")",
+				"onclick" => "token_user_change(this,".$tokens[$i]["id"].")",
 				"selected" => $tokens[$i]["id_user"],
 				"options" => $options
 				];

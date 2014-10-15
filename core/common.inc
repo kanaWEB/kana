@@ -15,6 +15,7 @@ require_once("schema/Entity.class.php"); //SQL manager
 
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY @todo remove unused functions and refactor
 include("libraries/Draw.class.php"); //Draw Functionnalities
+include("libraries/Data.class.php"); //Data
 include("libraries/Variable.class.php");
 include("schema/Users/Users.class.php"); //User Class
 include("schema/Config/Theme.class.php"); //Theme Class

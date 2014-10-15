@@ -1,13 +1,27 @@
 <?php
-unset($datas);
+unset($data);
 
-for ($i=0; $i <= 14 ;$i++) { 
-$data[] = [
-"value" => $i,
-"text" => $i
-];
+include(CORE_DATAS."/gpio/model.data");
+$model = $data;
+unset($data);
+
+if($model == "Model B+"){
+	for ($i=0; $i <= 31 ;$i++) { 
+		$data[] = [
+		"value" => $i,
+		"text" => $i
+		];
+	}
 }
-
-//Manage JSON
+else //Support all models
+{
+	for ($i=0; $i <= 14 ;$i++) { 
+		$data[] = [
+		"value" => $i,
+		"text" => $i
+		];
+	}
+}
+//todo Manage JSON
 
 ?>

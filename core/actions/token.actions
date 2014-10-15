@@ -16,7 +16,7 @@ if($currentUser->isadmin()){
 
 			$tokens_db = new Entity("Tokens");
 			$tokens_db->setToken($tokenslog["token"]);
-			$tokens_db->setId_user(1);
+			$tokens_db->setId_user(2);
 			$tokens_db->setState(1);
 			$tokens_db->save();
 			redirect("settings","?menu=yanaclient&notice=".t("Token has been validated"));

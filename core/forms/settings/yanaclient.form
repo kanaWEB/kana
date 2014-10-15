@@ -5,9 +5,9 @@ $form = new Form("Yana Client");
 
 //$users_db = new Entity("Users");
 //$users = $users_db->populate();
-echo "Pas validé";
+echo "<h1>Not validated</h1>"."<br>";
 include(CORE_VIEWS."datatable/dbtable_tokenslog.view");
-echo "Validé";
+echo "<h1>Validated</h1>";
 include(CORE_VIEWS."datatable/dbtable_tokens.view");
 
 ?>

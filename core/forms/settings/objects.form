@@ -79,9 +79,17 @@ if(isset($_["name"])){
 else{
 	?>
 	<h1>Add Objects</h1>
-	REPO MADNERDS
-	<input type='text' id="searchterms">
-	<button onclick="getplugins(this,'madnerds')">Search for plugins</button>
+	<div class="form-group">
+
+
+		<input class="form-control" type='text' id="searchterms">
+		<br>
+
+			<button class="btn btn-info" id="searchbuttons" onclick="getplugins(this,'madnerds')">Search for plugins</button>
+
+</div>
+	</div>
+	<span id="search_info" class="label label-info">Waiting for input</span>
 	<span id="plugin_list"></span>
 
 	<?php

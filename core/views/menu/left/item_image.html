@@ -11,7 +11,9 @@
 <div class="collapse navbar-collapse" id="{$category.text}">
 <legend>
 	{if="isset($category.link)"}<a href="settings.php?menu={$category.link}">{/if}
+	{if="isset($category.icon)"}<i class="glyphicon {$category.icon}"></i>{/if}
 	{$category.text|t}
+
 	{if="isset($category.link)"}</a>{/if}
 </legend>
 

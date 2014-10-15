@@ -1,6 +1,7 @@
 <?php
 //Add all languages files
 $objects_dir = Functions::getdir(USER_OBJECTS);
+$lang_view = "";
 foreach($objects_dir as $object_dir){
 	$lang_object = add_language(USER_OBJECTS.$object_dir);
 	if(is_array($lang) && is_array($lang_view)){

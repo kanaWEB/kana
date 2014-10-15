@@ -39,8 +39,24 @@ else{
 			}
 		}
 	}
+	if(isset($action_datas)){
 	$data = $action_datas;
+	}
+	else
+	{
+		$action_datas[$key]["object_dir"] = false;
+		$action_datas[$key]["object_name"] = "Nothing";
+		$action_datas[$key]["id"] = false;
+		$action_datas[$key]["action"] = false;
+		$action_datas[$key]["icon"] = false;
+		$action_datas[$key]["action_nb"] = false;
+		$action_datas[$key]["type"] = false;
+		$action_datas[$key]["name"] = false;
+		$data = $action_datas;
+	}
+
 }
+
 /*
 
 	echo "<a href='../log.php'>LOG</a><br>";

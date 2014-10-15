@@ -30,8 +30,11 @@ define('AUTHOR',"Rémi Sarrailh");
 define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
 
 
-//DATABASE
+//DATABASE DATA
 define('DATABASE','/etc/kana/kana.db');
+define('DATA_DIR',"/etc/kana/data");
+define('MAXDATA',10);
+define('DATA_REMOTE',true);
 define('SQL_PREFIX','');
 define('DB_EXISTS',file_exists(DATABASE));
 
@@ -52,5 +55,6 @@ define('DEFAULT_MENU_SETTINGS',"pref");
 //GPIO : wPi / BCM / Name
 //define('DEFAULT_GPIO',"wPi");
 define('DEFAULT_GPIO',"wPi");
+
 
 ?>

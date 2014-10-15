@@ -1,10 +1,11 @@
  <?php
- unset($datas);
+ unset($data);
+
  $gpios_unsorted = array();
  $gpios_unsorted = shell_exec("/usr/local/bin/gpio readall");
 
  $gpios_unsorted = explode("\n",$gpios_unsorted);
-$model = explode("+",$gpios_unsorted[0])[6];
+ $model = explode("+",$gpios_unsorted[0])[6];
 
 
  array_shift($gpios_unsorted);
@@ -13,91 +14,90 @@ $model = explode("+",$gpios_unsorted[0])[6];
  array_pop($gpios_unsorted);
  array_pop($gpios_unsorted);
 
-$gpio_key = 0;
+ $gpio_key = 0;
  foreach($gpios_unsorted as $key => $gpio_unsorted){
  	$gpios_item = explode("|",$gpio_unsorted);
  	if(count($gpios_item) == 15){
- 	
- 	$Name1 = trim($gpios_item[3]);
- 	if($Name1 == "0v"){$Name1 = "GND";}
- 	$bcm1 = intval(trim($gpios_item[1]));
- 	$wPi1 = intval(trim($gpios_item[2]));
- 	$Mode1 = trim($gpios_item[4]);
- 	$V1 = (bool)(trim($gpios_item[5]));
- 	$Physical1 = trim($gpios_item[6]);
- 	$label1 = $V1 ? "success" : "warning";
- 	$Value1 = $V1 ? "High" : "Low";
-	
-	if($Mode1 == ""){
-		$bcm1 = $Name1;
-		$wPi1 = $Name1;
-		if($Name1 == "3.3v" || $Name1 == "5v" || $Name1 == "5V"){
-		$label1 = "danger";
-		$Value1 = "&nbsp&nbsp+&nbsp&nbsp&nbsp&nbsp";
-		}
+ 		$Name1 = trim($gpios_item[3]);
+ 		if($Name1 == "0v"){$Name1 = "GND";}
+ 		$bcm1 = intval(trim($gpios_item[1]));
+ 		$wPi1 = intval(trim($gpios_item[2]));
+ 		$Mode1 = trim($gpios_item[4]);
+ 		$V1 = (bool)(trim($gpios_item[5]));
+ 		$Physical1 = trim($gpios_item[6]);
+ 		$label1 = $V1 ? "success" : "warning";
+ 		$Value1 = $V1 ? "High" : "Low";
 
-		if($Name1 == "GND"){
-		$label1 = "default";
-		$Value1 = "&nbsp&nbsp-&nbsp&nbsp&nbsp&nbsp&nbsp";
-		}
-	}
+ 		if($Mode1 == ""){
+ 			$bcm1 = $Name1;
+ 			$wPi1 = $Name1;
+ 			if($Name1 == "3.3v" || $Name1 == "5v" || $Name1 == "5V"){
+ 				$label1 = "danger";
+ 				$Value1 = "&nbsp&nbsp+&nbsp&nbsp&nbsp&nbsp";
+ 			}
 
-	$Name2 = trim($gpios_item[11]);
-	if($Name2 == "0v"){$Name2 = "GND";}
- 	$bcm2 = intval(trim($gpios_item[13]));
- 	$wPi2 = intval(trim($gpios_item[12]));
- 	$Mode2 = trim($gpios_item[10]);
- 	$V2 = (bool)(trim($gpios_item[9]));
- 	$Physical2 = trim($gpios_item[8]);
- 	$label2 = $V2 ? "success" : "warning";
- 	$Value2 = $V2 ? "High" : "Low";
+ 			if($Name1 == "GND"){
+ 				$label1 = "default";
+ 				$Value1 = "&nbsp&nbsp-&nbsp&nbsp&nbsp&nbsp&nbsp";
+ 			}
+ 		}
 
- 	if($Mode2 == ""){
-		$bcm2 = $Name2;
-		$wPi2 = $Name2;
-		if($Name2 == "3.3v" || $Name2 == "5v" || $Name2 == "5V"){
-		$label2 = "danger";
-		$Value2 = "&nbsp&nbsp+&nbsp&nbsp&nbsp&nbsp";
-		}
-		if($Name2 == "GND"){
-		$label2 = "default";
-		$Value2 = "&nbsp&nbsp-&nbsp&nbsp&nbsp&nbsp&nbsp";
-		}
-	}
+ 		$Name2 = trim($gpios_item[11]);
+ 		if($Name2 == "0v"){$Name2 = "GND";}
+ 		$bcm2 = intval(trim($gpios_item[13]));
+ 		$wPi2 = intval(trim($gpios_item[12]));
+ 		$Mode2 = trim($gpios_item[10]);
+ 		$V2 = (bool)(trim($gpios_item[9]));
+ 		$Physical2 = trim($gpios_item[8]);
+ 		$label2 = $V2 ? "success" : "warning";
+ 		$Value2 = $V2 ? "High" : "Low";
 
- 	$datas[$gpio_key] = [
- 	"BCM" => $bcm1,
- 	"wPi" => $wPi1,
- 	"Name" => $Name1,
- 	"Mode" => $Mode1,
- 	"V" => $V1,
- 	"Value" => $Value1,
- 	"Physical" => $Physical1,
- 	"label" => $label1
- 	];
+ 		if($Mode2 == ""){
+ 			$bcm2 = $Name2;
+ 			$wPi2 = $Name2;
+ 			if($Name2 == "3.3v" || $Name2 == "5v" || $Name2 == "5V"){
+ 				$label2 = "danger";
+ 				$Value2 = "&nbsp&nbsp+&nbsp&nbsp&nbsp&nbsp";
+ 			}
+ 			if($Name2 == "GND"){
+ 				$label2 = "default";
+ 				$Value2 = "&nbsp&nbsp-&nbsp&nbsp&nbsp&nbsp&nbsp";
+ 			}
+ 		}
 
- 	$gpio_key++;
+ 		$data[$gpio_key] = [
+ 		"BCM" => $bcm1,
+ 		"wPi" => $wPi1,
+ 		"Name" => $Name1,
+ 		"Mode" => $Mode1,
+ 		"V" => $V1,
+ 		"Value" => $Value1,
+ 		"Physical" => $Physical1,
+ 		"label" => $label1
+ 		];
 
- 	$datas[$gpio_key] = [
- 	"BCM" => $bcm2,
- 	"wPi" => $wPi2,
- 	"Name" => $Name2,
- 	"Mode" => $Mode2,
- 	"V" => $V2,
- 	"Value" => $Value2,
- 	"Physical" => $Physical2,
- 	"label" => $label2
- 	];
+ 		$gpio_key++;
 
- 	$gpio_key++;
+ 		$data[$gpio_key] = [
+ 		"BCM" => $bcm2,
+ 		"wPi" => $wPi2,
+ 		"Name" => $Name2,
+ 		"Mode" => $Mode2,
+ 		"V" => $V2,
+ 		"Value" => $Value2,
+ 		"Physical" => $Physical2,
+ 		"label" => $label2
+ 		];
+
+ 		$gpio_key++;
  	}
-}
+ }
 
 //AJAX DATA
  if(isset($_["data_id"])){
  	$data_json["data_id"] = $_["data_id"];
- 	$datas["model"] = $model;
- 	$data_json["data"] = $datas;
+ 	$data["model"] = $model;
+ 	$data_json["data"] = $data;
  	echo json_encode($data_json);
  }
 

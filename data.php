@@ -4,10 +4,12 @@ include("core/constants.inc"); //Global Constants
 include("core/schema/Entity.class.php"); //SQL manager
 
 //@todo: Only local script should be able to send data this way
+if(!isset($data) && !isset($type)){
+if(!isset($_SERVER['REMOTE_ADDR']) || DATA_REMOTE){
 
-if(!isset($_SERVER['REMOTE_ADDR'])){
 $collected = $_GET["data"];
 $type = $_GET["type"];
+
 
 $collector_file = "plugins/objects/".$type."/".$type.".collector";
 if(file_exists($collector_file)){
@@ -22,5 +24,11 @@ else
 else
 {
 	echo "nope";
+}
+
+}
+else
+{
+	echo "data/type not set, exemple:&data=1234&type=radio";
 }
 ?>

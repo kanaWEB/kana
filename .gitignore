@@ -1,7 +1,3 @@
-cache/
-
-plugins/objects/*
-!plugins/objects/.notempty
-
-plugins/views/*
-!plugins/views/.notempty
+./cache/
+./plugins/objects/
+./plugins/views/
