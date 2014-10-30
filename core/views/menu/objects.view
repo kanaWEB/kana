@@ -25,8 +25,13 @@ if(file_exists(USER_OBJECTS.$object_name."/codes")){
 }
 
 if(file_exists(USER_OBJECTS.$object_name."/actions")){
+	//@todo remove this dirty hack
 	if(!file_exists(USER_OBJECTS.$object_name."/hideactions.txt")){
 	$navtab_items[] = Variable::navtab_item($menu,"Actions","action",$name);
+	}
+	else
+	{
+	$navtab_items[] = Variable::navtab_item($menu,"Groups","groups",$name);
 	}
 }
 

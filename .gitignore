@@ -1,3 +1,4 @@
-./cache/
-./plugins/objects/
-./plugins/views/
+cache/
+plugins/objects
+plugins/views
+plugins/data

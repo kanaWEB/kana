@@ -44,8 +44,8 @@ class User {
 	function check_password($login,$password,$cookie=false){
 		$user = new Entity("Users");
 		$user = $user->load([
-			'name'=>$login//,
-			//'password'=>sha1(md5($password))
+			'name'=>$login,
+			'password'=>sha1(md5($password))
 			]);
 		if(DEBUG){
 		var_dump($user);

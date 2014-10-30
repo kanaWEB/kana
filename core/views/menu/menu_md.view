@@ -25,7 +25,7 @@ $selected_menu_item = false;
 }
 
 
-
+$tpl->assign("id",$object_name);
 $tpl->assign("selected_menu_item",$selected_menu_item);
 $tpl->assign("menu_items",$menu_items);
 $tpl->draw(CORE_VIEWS."menu/menu");

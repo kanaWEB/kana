@@ -1,0 +1,50 @@
+<?php
+	$data = array();
+	
+	//List serial port (TODO:)
+	exec("ls /dev/ttyAMA* /dev/ttyUSB* /dev/ttyACM* /dev/ttyS* 2>/dev/null",$results,$out);
+	
+	foreach($results as $result){
+		$serial_device = str_replace("/dev/tty", "", $result);
+		$serial_name =  substr($serial_device,0,-1);
+		$serial_id = substr($serial_device,-1);
+		switch($serial_name){
+			//GPIO
+			case "AMA":
+			$data[] = [
+			"text" => "GPIO",
+			"value" => $result 
+			];
+			break;
+			//MODEMUSB
+			case "ACM":
+			$data[] = [
+			"text" => "ARDUINO:".$serial_id,
+			"value" => $result 
+			];
+
+			break;
+			//USB
+			case "USB":
+			$data[] = [
+			"text" => "USB:".$serial_id,
+			"value" => $result 
+			];
+			break;
+
+			//UART SERIAL
+			case "S":
+			$data[] = [
+			"text" => "SERIAL:".$serial_id,
+			"value" => $result 
+			];
+			break;
+			default:
+			$data[] = [
+			"text" => "UNKNOWN: /dev/tty".$serial_name.$serial_id,
+			"value" => $result
+			];
+			break;
+		}
+	}
+?>

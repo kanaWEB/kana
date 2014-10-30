@@ -8,18 +8,18 @@ if($tokenslog){
 	$table_headers[] = "Timestamp";
 	$table_headers[] = "Requests";
 	$table_headers[] = "Validate";
-	$table_datas[] = "ipaddress";
-	$table_datas[] = "token";
-	$table_datas[] = "timestamp";
-	$table_datas[] = "nbrequest";
+	$table_data[] = "ipaddress";
+	$table_data[] = "token";
+	$table_data[] = "timestamp";
+	$table_data[] = "nbrequest";
 
 	include(CORE_VIEWS."table/header/header.view");
 
-//Table datas
+//Table data
 
 	for($i=0;$i<count($tokenslog);$i++){
 		$tpl->draw(CORE_VIEWS."table/row/open");
-		foreach($table_datas as $td){
+		foreach($table_data as $td){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			if($td == "timestamp"){
 				echo date("G:i:s d-m-Y",$tokenslog[$i][$td]);

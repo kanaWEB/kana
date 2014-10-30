@@ -90,10 +90,12 @@ else{
 </div>
 	</div>
 	<span id="search_info" class="label label-info">Waiting for input</span>
-	<span id="plugin_list"></span>
+	<ul id="plugin_list" class="nav nav-pills">
+
+	</ul>
 
 	<?php
-	//include(CORE_DATAS."remoteplugins.data");
+	//include(CORE_DATA."remoteplugins.data");
 }
 
 

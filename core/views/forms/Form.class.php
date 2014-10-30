@@ -21,7 +21,7 @@ class form{
 
 //Display a form
 	function display($tpl){
-		//Get datas		
+		//Get data		
 		$tpl->assign("form_name",$this->form_name);
 		$tpl->assign("help_array",$this->help_array);
 		

@@ -6,5 +6,7 @@ trigger_object:string
 id_object:int
 trigger:string
 modifier:string
+schedule:string
+state:string
 timestamp:int
 timeout:int

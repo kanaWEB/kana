@@ -3,16 +3,16 @@
 
 //Reset default headers
 $table_headers[0] = "When";
-$table_datas[0] = "id_trigger";
+$table_data[0] = "id_trigger";
 
 $table_headers[1] = "Do";
-$table_datas[1] = "object_name";
+$table_data[1] = "object_name";
 
 $table_headers[] = "Description";
-$table_datas[] = "object_description";
+$table_data[] = "object_description";
 
 $table_headers[] = "Actions";
-$table_datas[] = "action_tag";
+$table_data[] = "action_tag";
 
 
 $action_name = $object_name."_actions";
@@ -28,19 +28,26 @@ $db_scenario = new Entity("Scenario");
 $objects = $db_scenario->populate();
 $db_triggers = new Entity("Triggers");
 
-//Table datas
+//Table data
 for($i=0;$i<count($objects);$i++){
 	$tpl->draw(CORE_VIEWS."table/row/open");
-	foreach($table_datas as $td){
+	foreach($table_data as $td){
 		$tpl->draw(CORE_VIEWS."table/cell/open");
-		if($td == "id_trigger"){
+		switch($td){
+			case "id_trigger":
 			$triggers = $db_triggers->load([
 				"id" => $objects[$i][$td]
 				]);
-			echo $triggers["object_name"];
-		}
-		else{
+			echo html_entity_decode($triggers["object_name"]);
+			break;
+
+			case "action_tag":
+			echo "<code>".html_entity_decode($objects[$i][$td])."</code>";
+			break;
+
+			default:
 			echo html_entity_decode($objects[$i][$td]);
+			break;
 		}
 		$tpl->draw(CORE_VIEWS."table/cell/close");
 	}

@@ -1,0 +1,47 @@
+<?php
+$repo["repo"] = $_["plugin_repo"];
+$repo["name"] = $_["plugin_name"];
+$repo["type"] = $_["plugin_type"];
+
+$path = "plugins/".$repo["type"]."/".$repo["name"];
+clearstatcache();
+$plugin["state"] = file_exists("plugins/".$repo["type"]."/".$repo["name"]);
+
+
+$name_url = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/name.md";
+$description_url = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/description.md";
+
+$plugin["name"] = file_get_contents($name_url);
+$plugin["description"] = file_get_contents($description_url);
+if($repo["type"] == "views"){
+	$image = Variable::md2var("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/menu.md");
+	$plugin["image"] = '&nbsp<span class="glyphicon '.$image["icon"].'"></span>';
+
+}
+else
+{
+	$image = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/icon.png";
+	$plugin["image"] = '<img src="'.$image.'">';
+}
+
+#@todo: move to views
+?>
+<li class="bordered" style="padding:10px; background-color:grey;">
+	<h2 title="<?php echo $plugin["description"] ?>">
+		<?php echo $plugin["image"] ?>
+		<span class="text"><?php echo $plugin["name"] ?></span>
+	</h2>
+	<?php if($plugin["state"]){
+		?>
+		<button class="btn btn-danger" onclick="uninstallplugin(this,'<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Uninstall</button>
+		<button class="btn btn-danger" onclick="updateplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["type"] ?>','<?php echo $repo["name"] ?>')">Update</button>
+		<?php
+	}
+	else
+	{
+		?>
+		<button class="btn btn-primary" onclick="installplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Install</button>
+		<?php
+	}
+	?>
+</li>

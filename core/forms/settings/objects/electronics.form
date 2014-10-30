@@ -30,15 +30,12 @@ foreach($inputs_file as $input_file){
 		if(isset($data)){
 		$input["options"] = $data;
 		}
-		if(isset($datas)){
-		$input["options"] = $datas;	
-		}
 		unset($data);
 	}
 
 	$form->input($input);
 	$table_headers[] = $input["name"];
-	$table_datas[] = $input["id"];
+	$table_data[] = $input["id"];
 }
 $form->display($tpl);
 

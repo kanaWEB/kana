@@ -1,15 +1,19 @@
 <?php
 if(!isset($table_headers)){
+	$table_headers[] = "";
+	$table_headers[] = "Type";
 	$table_headers[] = "Name";
 	$table_headers[] = "Description";
-	$table_headers[] = "Object";
-	$table_headers[] = "Trigger";
 	$table_headers[] = "Code";
-	$table_datas[] = "object_name";
-	$table_datas[] = "object_description";
-	$table_datas[] = "trigger_object";
-	$table_datas[] = "trigger";
-	$table_datas[] = "code";
+	$table_headers[] = "State";
+
+	$table_data[] = "trigger_object";
+	$table_data[] = "trigger";
+	$table_data[] = "object_name";
+	$table_data[] = "object_description";
+	
+	$table_data[] = "code";
+	$table_data[] = "state";
 	//$action_name = $object_name."_actions";
 }
 
@@ -35,10 +39,10 @@ if($triggers){
 	
 	include(CORE_VIEWS."table/header/header.view");
 //var_dump($triggers);
-//Table Datas
+//Table Data
 	for($i=0;$i<count($triggers);$i++){
 		$tpl->draw(CORE_VIEWS."table/row/open");
-		foreach($table_datas as $td){
+		foreach($table_data as $td){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			switch($td){ 
 				case "object_name":
@@ -46,13 +50,34 @@ if($triggers){
 				echo $name;
 				break;
 
+				case "object_description":
+				$description = html_entity_decode($triggers[$i][$td]);
+				echo $description;
+				break;
+
 				case "trigger":
 				$trigger_get = $triggers[$i][$td];
-				echo $trigger_get;
+					switch($trigger_get){
+						case "all":
+						echo "<label class='label label-danger'>".t($trigger_get)."</label>";
+						break;
+						default:
+						echo "<label class='label label-success'>".t($trigger_get)."</label>";
+						break;
+					}
+			
+				break;
+
+				case "trigger_object":
+				echo "<img src='".USER_OBJECTS.$triggers[$i][$td]."/icon.png'>";
+				break;
+
+				case "state":
+				echo t($triggers[$i][$td]);
 				break;
 
 				default:
-				echo $triggers[$i][$td];
+				echo "<code>".$triggers[$i]["code"]."</code>";
 				break;
 			}
 			$tpl->draw(CORE_VIEWS."table/cell/close");

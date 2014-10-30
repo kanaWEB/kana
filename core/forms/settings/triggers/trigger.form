@@ -9,7 +9,7 @@ if(!isset($_["trigger"])){ //Available actions
 
 			if($dir_list > 0){
 				//@todo If only one action redirect
-				include(CORE_VIEWS."menu/menu_md.view");
+				include(CORE_VIEWS."menu/menu_md_triggers.view");
 			}
 		}
 	}

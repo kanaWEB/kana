@@ -3,41 +3,46 @@
  * Global Constant file
  * You shouldn't need to modify theses
 */
-//APP PATH
+//CORE PATH
 define('CORE_VIEWS',"core/views/");
 define('CORE_SCHEMA',"core/schema/");
-define('CORE_DATAS',"core/datas/");
+define('CORE_DATA',"core/data/");
 define('CORE_WIDGETS',"core/widgets/");
 define('CORE_FORMS',"core/forms/");
 
+//DATABASE PATH
+define('DATABASE','/etc/kana/kana.db');
+define('DATA_DIR',"/etc/kana/data");
+define('CONFIG_DIR',"/etc/kana");
+
+//RAINTPL
+define('CACHE_DIR',"cache/");
+
+//EXTERNAL DEPENDENCIES
+define('EXTERNAL_LIB',"core/libraries/dependancies/");
+
+//USER PATH
 define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views/");
-define('USER_DATAS',"plugins/datas/");
+define('USER_DATA',"plugins/data/");
 define('USER_ACTIONS',"plugins/actions/");
 define('USER_OBJECTS',"plugins/objects/");
 define('USER_ELEC',"plugins/electronics/");
 define('LANGUAGE',"plugins/language/");
 
-//RAINTPL
-define('CACHE_DIR',"cache/");
-define('EXTERNAL_LIB',"core/libraries/dependancies/");
-
 //APP INFO
 define('APP_NAME',"KANA");
-define('VERSION',"0.35");
+define('VERSION',"0.40");
 define('APP_STATE',"ALPHA");
-define('AUTHOR',"Rémi Sarrailh");
+define('AUTHOR',"MadNerds");
 define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
 
 
-//DATABASE DATA
-define('DATABASE','/etc/kana/kana.db');
-define('DATA_DIR',"/etc/kana/data");
+//DATA
 define('MAXDATA',10);
 define('DATA_REMOTE',true);
 define('SQL_PREFIX','');
 define('DB_EXISTS',file_exists(DATABASE));
-
 
 //COOKIE
 define('COOKIE_LIFE','355');
@@ -45,7 +50,7 @@ define('COOKIE_NAME','KANA');
 
 //DEBUG
 define('DEBUG',FALSE);
-define('DEVMODE',TRUE);
+define('DEVMODE',FALSE);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
 

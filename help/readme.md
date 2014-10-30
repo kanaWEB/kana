@@ -5,7 +5,7 @@ How plugins works
 * Language : Global translation
 * Objects  : Objects you can controlled
 * Theme    : Modification of the original Bootstrap 3 theme
-* Views    : Page where are display datas or/and objects
+* Views    : Page where are display data or/and objects
 
 Each plugins works based on directory and files.
 
@@ -50,7 +50,7 @@ speed |Speed in ms    |text|Times before the led blink again|true    |
 * datatype : Type of data (number/text ?)
 
 ### Select
-* options : Choice are loaded from a data file, for example : gpio/pinslists will load core/datas/gpio/pinslists.data or views/pluginname/datas/gpio/pinslists.data or objects/pluginname/datas/gpio/pinslists.data
+* options : Choice are loaded from a data file, for example : gpio/pinslists will load core/data/gpio/pinslists.data or views/pluginname/data/gpio/pinslists.data or objects/pluginname/data/gpio/pinslists.data
 
 ### Text
 * placeholder

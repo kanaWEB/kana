@@ -15,10 +15,10 @@ foreach($objects_dir as $object_dir){
 		}
 
 		$list_all_objects = True;
-		include(CORE_DATAS."object.data");
+		include(CORE_DATA."object.data");
 		$object_data = $data;
 
-		include(CORE_DATAS."url/commands.data");
+		include(CORE_DATA."url/commands.data");
 		$action_data = $data;
 //var_dump($data);
 
@@ -127,8 +127,8 @@ foreach($objects_dir as $object_dir){
 
 		$table_headers[] = "Name";
 		$table_headers[] = "Action";
-		$table_datas[] = "object_name";
-		$table_datas[] = "action";
+		$table_data[] = "object_name";
+		$table_data[] = "action";
 		$action_name = $object_name."_actions";
 
 

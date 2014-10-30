@@ -21,10 +21,10 @@ $electronics_form->input([
 
 $electronics_form->display($tpl);
 */
-include(CORE_DATAS."gpio/pins.data");
-$tpl->assign("gpios",$datas);
+include(CORE_DATA."gpio/pins.data");
+$tpl->assign("gpios",$data);
 $tpl->assign("gpios_type",DEFAULT_GPIO);
-$tpl->draw(CORE_DATAS."gpio/pins");
+$tpl->draw(CORE_DATA."gpio/pins");
 
 
 

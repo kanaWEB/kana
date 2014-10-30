@@ -39,7 +39,7 @@ public static function md2datatable($filename,$datadir){
 		}
 		else{
 			if($isdata){
-				//@todo choose between views/datas
+				//@todo choose between views/data
 				
 				$line_array = explode("|",$line);
 				
@@ -52,7 +52,7 @@ public static function md2datatable($filename,$datadir){
 				}
 				else{
 					$data_file = trim($line_array[1]);
-					include(USER_VIEWS.$plugin."/datas/".$data_file.".view");
+					include(USER_VIEWS.$plugin."/data/".$data_file.".view");
 					$tr++;
 				}
 			}

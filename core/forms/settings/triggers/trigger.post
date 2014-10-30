@@ -7,6 +7,7 @@ if(isset($_["del"])){
 else{
 	$fields = $_;
 	$trigger = $_["trigger"];
+
 	unset($fields["submit"]);
 	unset($fields["menu"]);
 	unset($fields["tab"]);
@@ -14,9 +15,11 @@ else{
 	unset($fields["notice"]);
 	unset($fields["error"]);
 
-	var_dump($_);
+	//var_dump($_);
 		//Get Arguments
 	$args = $fields;
+	$custom_field = $args;
+
 
 	$fields["trigger_object"] = $_["name"];
 	$fields["trigger"] = $_["trigger"];
@@ -25,23 +28,37 @@ else{
 	$fields["trigger_type"] = "push";
 	$fields["modifier"] = "=";
 	$fields["trigger_name"] = $_["name"];
+	$fields["schedule"] = "*";
+
+	if(isset($_["state"])){
+		$fields["state"] = $_["state"];
+	}
+	else
+	{
+		$fields["state"] = "";	
+	}
 
 	switch($fields["trigger"]){
 		case "one":
+		//Custom Fields
+		unset($custom_field["trigger_object"]);
+		unset($custom_field["trigger"]);
+		unset($custom_field["id"]);
+		unset($custom_field["object_name"]);
+		unset($custom_field["object_description"]);
+		unset($custom_field["state"]);
+		$custom_key = key($custom_field);
+		$custom_value = $custom_field[$custom_key];
+		//echo $custom_key;
+
+
 		//Get code
-		$fields["id_object"] = $fields["code"];
+		$fields["id_object"] = $custom_value;
 		$db_code = new Entity($_["name"]);
 		$code = $db_code->load([
-			"id" => $fields["code"]
+			"id" => $fields[$custom_key]
 			]);
-
-		if(isset($code["code"])){
-			$fields["code"] = $code["code"];
-		}
-		elseif(isset($code["gpio"])){
-			$fields["code"] = $code["gpio"];
-		}
-		
+		$fields["code"] = $code[$custom_key];
 		break;
 
 		case "all":
@@ -50,9 +67,6 @@ else{
 		$fields["id_object"] = "";
 		break;
 	}
-
-
-	
 
 	$db = new Entity("Triggers");
 			//var_dump($db);

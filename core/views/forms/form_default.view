@@ -3,8 +3,8 @@
 //@todo move to another file
 $table_headers[] = "Name";
 $table_headers[] = "Description";
-$table_datas[] = "object_name";
-$table_datas[] = "object_description";
+$table_data[] = "object_name";
+$table_data[] = "object_description";
 
 if(isset($hidden_input)){
 	$form->input($hidden_input);

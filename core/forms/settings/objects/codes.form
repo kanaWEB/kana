@@ -51,7 +51,7 @@ foreach($inputs_file as $input_file){
 
 	$form->input($input);
 	$table_headers[] = $input["name"];
-	$table_datas[] = $input["id"];
+	$table_data[] = $input["id"];
 }
 $form->display($tpl);
 

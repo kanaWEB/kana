@@ -3,9 +3,9 @@ if(!isset($table_headers)){
 	$table_headers[] = "Name";
 	$table_headers[] = "Description";
 	$table_headers[] = "Action";
-	$table_datas[] = "object_name";
-	$table_datas[] = "object_description";
-	$table_datas[] = "action";
+	$table_data[] = "object_name";
+	$table_data[] = "object_description";
+	$table_data[] = "action";
 	$action_name = $object_name."_actions";
 }
 
@@ -30,10 +30,10 @@ $actions = Variable::actions_args($actions);
 	
 	include(CORE_VIEWS."table/header/header.view");
 
-//Table Datas
+//Table Data
 	for($i=0;$i<count($actions);$i++){
 		$tpl->draw(CORE_VIEWS."table/row/open");
-		foreach($table_datas as $td){
+		foreach($table_data as $td){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			switch($td){
 				case "object_key":
@@ -57,7 +57,7 @@ $actions = Variable::actions_args($actions);
 					echo $name["object_name"];
 				}
 				else{
-				echo $actions[$i][$td];
+				echo html_entity_decode($actions[$i][$td]);
 				}
 				break;
 			}

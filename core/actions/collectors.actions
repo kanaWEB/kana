@@ -1,6 +1,6 @@
 <?php
 /*
-Redirect to collectors (collectors get datas from external sources and works as background mini python server)
+Redirect to collectors (collectors get data from external sources and works as background mini python server)
 When a data is collected it is send with a php script request
 */
 
@@ -8,7 +8,8 @@ When a data is collected it is send with a php script request
 if(isset($_["object"])){
 	$command = $_["command"];
 	$object = $_["object"];
-	//If not GPIOS 
+	//@todo Simplify collector
+	//If not GPIOS (Custom variable collector)
 	if(file_exists(USER_OBJECTS.$object."/".$object."_electronics.txt")){
 		$collector_args = new Entity($object,"electronics");
 		$collector_args = $collector_args->load(["id" => 1]);
@@ -24,8 +25,16 @@ if(isset($_["object"])){
 		}
 		else
 		{
-			echo "Can't find collector";
-			exit();
+			//Custom fixed Collector
+			if(file_exists(USER_OBJECTS.$object."/collector")){
+				$collector_args = new Entity($object);
+				$collector_args = $collector_args->populate();
+				$collector = file_get_contents(USER_OBJECTS.$object."/collector");
+			}
+			else{
+				echo "Can't find collector";
+				exit();
+			}
 		}
 	}
 	

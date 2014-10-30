@@ -10,13 +10,20 @@ if(isset($_["tab"]))
 	$link .= "&name=".$object_name."&tab=".$_["tab"];
 }
 
-//Table datas
+//Table data
 for($i=0;$i<count($objects);$i++){
 	$tpl->draw(CORE_VIEWS."table/row/open");
-	foreach($table_datas as $td){
+	foreach($table_data as $td){
+		
 		$tpl->draw(CORE_VIEWS."table/cell/open");
+		if($td !="password"){
 		echo html_entity_decode($objects[$i][$td]);
+		}
+		else{
+			echo '<label class="label label-danger">'.t("Hidden")."</label>";
+		}
 		$tpl->draw(CORE_VIEWS."table/cell/close");
+
 	}
 	$tpl->draw(CORE_VIEWS."table/cell/open");
 

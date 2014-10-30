@@ -1,0 +1,102 @@
+<?php
+/*
+Auto Redirector for objects
+@todo Refactor!
+
+--> SPECIAL GROUPS OBJECT: (example:actiongroups)
+--> GPIOS only collector: (example:buttons)
+
+--> GPIOS/ACTIONS (example:led)
+--> CODES/ACTIONS (example:camera_wanscam,camera_web,email,computers,growl)
+--> ACTIONS ONLY (example:ttsespeak,ttsgoogle,googlesms,sounds)
+--> ELECTRONICS/CODES/ACTIONS (example:infrared_lirc/radio)
+
+*/
+
+$menu_name = Variable::object_menus_name($object_name);
+
+//GPIOS only collector
+if(isset($menu_name["gpios"]) && !isset($menu_name["actions"])){
+	$object_redirect = "gpios";
+}
+
+///GPIOS/ACTIONS
+if(isset($menu_name["gpios"]) && isset($menu_name["actions"])){
+	$object_db = new Entity($object_name);
+	$nb_object = $object_db->rowCount();
+	
+	//If no gpios object is set
+	if($nb_object == 0){
+		$object_redirect = "gpios";
+	}
+	else
+	//else go to actions by default
+	{
+		$object_redirect = "actions";
+	}
+}
+
+//CODES/ACTIONS
+if(isset($menu_name["codes"]) && isset($menu_name["actions"]) && !isset($menu_name["electronics"])){
+	$object_db = new Entity($object_name);
+	$nb_object = $object_db->rowCount();
+	
+	//If no gpios object is set
+	if($nb_object == 0){
+		$object_redirect = "codes";
+	}
+	else
+	//else go to actions by default
+	{
+		$object_redirect = "actions";
+	}
+}
+
+//ACTIONS ONLY
+if(isset($menu_name["actions"]) && !isset($menu_name["codes"]) && !isset($menu_name["gpios"])){
+	$object_redirect = "actions";
+}
+
+//ELECTRONICS/CODES/ACTIONS
+if(isset($menu_name["codes"]) && isset($menu_name["actions"]) && isset($menu_name["electronics"])){
+	//Check electronics configuration
+	$electronics_db = new Entity($object_name,"electronics");
+	$electronics = $electronics_db->rowCount();
+	if($electronics == 0){
+		$object_redirect = "electronics";
+	}
+	//If electronics is set check codes configurations
+	else{
+		$object_db = new Entity($object_name);
+		$nb_object = $object_db->rowCount();
+		if($nb_object == 0){
+			$object_redirect = "codes";
+		}
+	}
+}
+
+if(file_exists(USER_OBJECTS.$object_name."/hideactions.txt")){
+	$object_redirect = "groups";
+} 
+
+echo $object_redirect;
+if($object_redirect == "actions"){
+
+	//Get actions list and count it
+	$actions_list = Functions::getdir(USER_OBJECTS."/".$object_name."/actions");
+	$nb_actions = count($actions_list);
+
+	//If there is only 1 action directly go to this actions
+	if($nb_actions == 1){
+		redirect("settings","?menu=objects&name=".$object_name."&tab=action&action=".$actions_list[0]);
+	}
+	else{
+		//Else show a list of actions
+		redirect("settings","?menu=objects&name=".$object_name."&tab=action");
+	}	
+}
+else
+{
+	redirect("settings","?menu=objects&name=".$object_name."&tab=".$object_redirect);
+}
+?>

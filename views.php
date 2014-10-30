@@ -1,18 +1,23 @@
 <?php
 include("core/common.inc"); //Common libraries
 
-//@todo verify user right for each views
+//If the user is set
 if(isset($currentUser)){
+
+//If the user is not disable
 if($currentUser->isuser()){
 	include(CORE_VIEWS."/header/header.view");
 
+	//If a view is set
 	if(isset($_["view"])){
 		$view_name = $_["view"];
 		$view_right = $currentUser->ViewRight($view_name);
+		
+
 		if($view_right){
 			$view_dir = USER_VIEWS."/".$view_name."/";
 			$view_file = $view_dir.$view_name.".view";
-			$data_path = USER_DATAS.$view_name."/";
+			$data_path = USER_DATA.$view_name."/";
 			$md_file = $view_dir.$view_name.".md";
 
 
@@ -30,14 +35,14 @@ if($currentUser->isuser()){
 			}
 			
 
-		//VIEW FILE
+		//VIEW FILE (php code mode)
 			if(file_exists($view_file)){
 				include(CORE_VIEWS."/menu/top/top.view");
 				if($default_view_button != False) {$tpl->draw(CORE_VIEWS."buttons/default_view");}
 				include($view_file);
 
 			}
-		//VIEW MD TABLE
+		//VIEW MD TABLE (markdown mode)
 			elseif(file_exists($md_file)){
 				include(CORE_VIEWS."/menu/top/top.view");
 				if($default_view_button != False) {$tpl->draw(CORE_VIEWS."buttons/default_view");}
@@ -47,29 +52,28 @@ if($currentUser->isuser()){
 			}
 		}
 		else{
-			$views_right = $currentUser->ViewsRight();
-			if($views_right){
-				redirect("views","?view=".$views_right[1]."&error=".t("Permissions denied by Administrator"));
-			}
-			else
-			{
-				if($currentUser->right() == 1){
-					redirect("settings");
+				//Root hasn't got any access to the views?, show the admin user page
+				if($currentUser->isadmin()){
+					redirect("settings","?menu=users&id=1");
 				}
+				//Else if it's an user, tell them to ask the admin to give him right
+				else
+				{
 				$tpl->draw(CORE_VIEWS."modal/permissions_denied");
-
 				}
 
 			}
 		}
+		//If no view is set
 		else{
-			//Default view
+			//Redirect to first view
 			if($currentUser->default_view() == ""){
 				$view_list = Functions::getdir(USER_VIEWS);
 				redirect("views","?view=".$view_list[0]);
 			}
 			else
 			{
+				//Redirect to 
 				redirect("views","?view=".$currentUser->default_view());
 			}
 		}
@@ -80,6 +84,7 @@ if($currentUser->isuser()){
 		redirect("index","?error=".t("You need to be logged to see this page") );
 	}
 }
+//If no user is set, we assume nothing was installed
 else
 {
 	redirect("install");

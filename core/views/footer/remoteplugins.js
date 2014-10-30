@@ -26,6 +26,7 @@ data_id = "plugins";
 			dataType: "json",
 			data: {type: "data", data: data_link , data_id: data_id,searchterms : searchterms}
 		}).done(function ( data ) {
+			button.removeClass();
 			button.addClass("btn btn-primary");
 			button.attr("disabled",false);	
 			console.log("Searching...")
@@ -60,12 +61,13 @@ data_id = "plugins";
 }
 
 function installplugin(button,plugin_repo,plugin_name,plugin_type){
+	$("#search_info").html("Downloading plugin "+plugin_repo+"/"+plugin_name);
 	console.log("Install plugin: "+plugin_repo + plugin_name + plugin_type)
 	$.ajax({
 			url: "actions.php",
 			data: {type: "installplugin", plugin_repo: plugin_repo, plugin_name: plugin_name, plugin_type: plugin_type}
 		}).done(function ( data ) {
-			$("#search_info").html("Downloading plugin"+plugin_repo+" "+plugin_name);
+			$("#search_info").html("Download finish");
 			console.log(data);
 		});
 }
@@ -76,7 +78,7 @@ function uninstallplugin(button,plugin_name,plugin_type){
 			url: "actions.php",
 			data: {type: "uninstallplugin", plugin_repo: plugin_repo, plugin_name: plugin_name, plugin_type: plugin_type}
 		}).done(function ( data ) {
-			$("#search_info").html("Removing plugin"+plugin_repo+" "+plugin_name);
+			$("#search_info").html("Removing plugin: "+plugin_repo+"/"+plugin_name);
 			console.log(data);
 		});
 } 

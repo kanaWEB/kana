@@ -1,5 +1,5 @@
 <?php
-include(CORE_DATAS."object.data");
+include(CORE_DATA."object.data");
 $form->input([
 	"type" => "select",
 	"id" => "object_key",
@@ -10,5 +10,5 @@ $form->input([
 
 //Default Headers
 $table_headers[] = $object_name;
-$table_datas[] = "object_key";
+$table_data[] = "object_key";
 ?>

@@ -51,7 +51,7 @@ if(isset($_["action"])){
 		//If token is associated with an user display list of commands
 		else
 		{
-			include(CORE_DATAS."url/commandsyana.data");
+			include(CORE_DATA."url/commandsyana.data");
 			echo json_encode($data);
 		}
 	}

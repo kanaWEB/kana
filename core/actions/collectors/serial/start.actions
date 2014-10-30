@@ -1,8 +1,8 @@
 <?php
 //Args passed
  	
-$speed = $collector_args["serial_rx"];
-$port = $collector_args["serial_speed"];
+$port = $collector_args["serial_rx"];
+$speed = $collector_args["serial_speed"];
 
 if(DEBUG){
 var_dump($collector_args);
@@ -19,10 +19,9 @@ $args = " ".$port." ".$speed." ".dirname($_SERVER['SCRIPT_FILENAME'])." '".$obje
 
 Functions::stop_process_with_socket($collector_program,$object);
 
-
 if(DEBUG){
 	echo $collector_filename.$args;
-	echo shell_exec($collector_filename.$args); //Unless the collector doesn't works this should result in an infinite loop
+	//echo shell_exec($collector_filename.$args); //WARNING : Unless the collector doesn't works this should result in an infinite loop
 }
 Functions::launch_background($collector_filename.$args,0);
 sleep(3);

@@ -6,14 +6,24 @@ if(file_exists($form_file_dir)){
 	foreach($inputs_file as $input_file){
 		$file = $form_file_dir.$input_file;
 		$input = Variable::md2var($file);
+		
+		//@todo Remove dirty hacks
 
-		$input["selected"] = $selected[$input["id"]];
+		//Custom field inside triggers
+		if(($_["menu"] == "scenario") && (!isset($selected[$input["id"]]))){
+			$input["selected"] = $selected["id_object"];
 
-		//@todo Remove dirty hack
-		//We get the code_id
-		if(($_["menu"] == "scenario") && ($input["id"] == "code")){
+		}
+		//Code field inside scenario
+		elseif(($_["menu"] == "scenario") && ($input["id"] == "code")){
 			$input["selected"] = $selected["id_object"];
 		}
+		else
+		{
+			$input["selected"] = $selected[$input["id"]];
+		}
+
+
 
 		if(isset($input["options"])){
 			$input["options"] = Variable::get_data($input["options"]);
@@ -21,7 +31,7 @@ if(file_exists($form_file_dir)){
 
 		$form->input($input);
 		$table_headers[] = $input["name"];
-		$table_datas[] = $input["id"];
+		$table_data[] = $input["id"];
 	}
 }
 

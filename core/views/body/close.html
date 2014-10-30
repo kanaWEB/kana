@@ -12,7 +12,10 @@
 <div id="footer" class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="navbar-inner">
-            <p class="text-muted credit"><a target="_blank" href="https://github.com/madnerds/kana">{$appname} {$appversion} {$appstate}</a> {"by"|t} {$author}</p>
+            <p class="text-muted credit">
+            <a target="_blank" href="https://github.com/madnerds/kana">{$appname} {$appversion} {$appstate}</a> {"by"|t} {$author} 
+            {if="$admin_warning"}<span class="label label-danger">Maintenance mode</span>{/if}
+            </p>
             
             <h4>
                 {loop="$collectors_name"}

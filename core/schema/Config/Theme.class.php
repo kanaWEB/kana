@@ -5,7 +5,7 @@ class Theme{
 	private $theme_name,$theme_js,$theme_css;
 	function __construct($theme_name=false){
 		
-		//Get datas needed for a theme
+		//Get data needed for a theme
 		$template_path = USER_THEME.$theme_name;
 
 		$this->theme_name = $theme_name;

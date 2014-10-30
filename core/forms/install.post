@@ -17,6 +17,9 @@ $config->setLanguage($config_language);
 $config->setTheme($config_theme);
 $config->save();
 
+//Generate secret key
+Functions::generate_secretkey(CONFIG_DIR."/secretkey");
+
 //Save First User
 $name = $_["admin_name"];
 $password = $_["admin_pass"];

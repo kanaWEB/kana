@@ -4,5 +4,5 @@
 
 <div class="form-group">
     <label for="{$input.id}">{$input.name|t}</label>
-    <input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"} data-bv-message="{'This field is required'|t}"required{/if}>
+    <input type="text" {if="isset($input.onkeyup)"}onkeyup="{$input.onkeyup}" {/if}value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"} data-bv-message="{'This field is required'|t}"required{/if}>
 </div>

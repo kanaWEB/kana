@@ -54,10 +54,10 @@ $form->input([
 
 //Actions
 $list_all_objects = True;
-include(CORE_DATAS."object.data");
+include(CORE_DATA."object.data");
 $object_data = $data;
 
-include(CORE_DATAS."url/commands.data");
+include(CORE_DATA."url/commands.data");
 $action_data = $data;
 
 $form->input([

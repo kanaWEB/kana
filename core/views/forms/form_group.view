@@ -1,5 +1,5 @@
 <?php
-include(CORE_DATAS."group.data");
+include(CORE_DATA."group.data");
 $form->input([
 	"type" => "select",
 	"id" => "group_key",
@@ -9,5 +9,5 @@ $form->input([
 	]);
 
 $table_headers[] = "Group";
-$table_datas[] = "group_key";
+$table_data[] = "group_key";
 ?>

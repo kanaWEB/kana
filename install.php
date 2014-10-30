@@ -1,12 +1,13 @@
 <?php
 include("core/common.inc"); //Common libraries
 
+//If the database doesn't exists
 if(!DB_EXISTS){
-//POST INSTALL
+//If the user has submit root account information
 	if(isset($_["submit"])){
 		include("core/forms/install.post");
 	}
-//INSTALLATION FORM
+//Show Installation form
 	else
 	{
 		include("core/forms/install.form");
@@ -14,6 +15,7 @@ if(!DB_EXISTS){
 }
 else
 {
+	//If database exists we forbid to run install
 	echo "<h1>".t("Installation is already done!")."</h1>";
 	echo "<legend>".t("Change this constant to reinstall:")."<legend><br>";
 	echo "<b>core/constant.inc</b><br>";

@@ -19,21 +19,21 @@ if($tokens){
 
 
 	unset($table_headers);
-	unset($table_datas);
+	unset($table_data);
 	$table_headers[] = "Token";
 	$table_headers[] = "User";
 	$table_headers[] = "Ban";
 
-	$table_datas[] = "token";
-	$table_datas[] = "id_user";
+	$table_data[] = "token";
+	$table_data[] = "id_user";
 
 
 	include(CORE_VIEWS."table/header/header.view");
 
-//Table datas
+//Table data
 	for($i=0;$i<count($tokens);$i++){
 		$tpl->draw(CORE_VIEWS."table/row/open");
-		foreach($table_datas as $td){
+		foreach($table_data as $td){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			if($td == "id_user"){
 				if(isset($options)){

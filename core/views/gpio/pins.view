@@ -1,5 +1,5 @@
 <?php
-include(CORE_DATAS."gpio/pins.data");
+include(CORE_DATA."gpio/pins.data");
 $tpl->assign("gpios",$data);
 $tpl->assign("model",$model);
 $tpl->assign("gpios_type",DEFAULT_GPIO);

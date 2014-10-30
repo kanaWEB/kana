@@ -29,6 +29,6 @@ else
 }
 else
 {
-	echo "data/type not set, exemple:&data=1234&type=radio";
+	echo "data/type not set, example:&data=1234&type=radio";
 }
 ?>

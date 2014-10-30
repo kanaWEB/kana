@@ -25,5 +25,10 @@ $tab = $_["tab"];
 			//break;
 		}
 	}
+else
+{
+	//@todo load help
+	echo "Display help here";
+}
 
 ?>

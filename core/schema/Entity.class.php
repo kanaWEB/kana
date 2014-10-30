@@ -51,26 +51,28 @@ class Entity extends SQLite3
 				}
 			}
 			else{
+				//if (DEBUG == true){
 				var_dump($table_name." NOT FOUNDED");
 				var_dump($user_dir);
 				var_dump($core_dir);
 				var_dump($dbfields);
-				exit();
+				//}
+				$donotcreate = True;
 			}
 		}
 
-		if(!isset($notfound)){
 		$this->open($database);
 		$this->busyTimeout(5000); //Wait 5 seconds (avoid multiples connection to fail)
 		if (DEBUG == true) {$this->debug = true;} //See if DEBUG in constant.php is set.
 		
 		//This methods can be dangerous and is highly not optimized.
 		//But it automates table creation
+		if(!isset($donotcreate)){
 		$this->create(); //Create the table of the entity if it doesn't exists 
-		
+		}
 		//@todo check performance issue from trying to regenerate table
 	}
-}
+
 
 	/**
 	 * Auto Generate Get and Set as explains in http://blog.idleman.fr/snippet-24-php-allegez-vos-classes-avec-des-getset-automatiques/

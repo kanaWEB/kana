@@ -1,10 +1,12 @@
 <?php
 /**
-* Functions classes stored basic functionalities of KANA
-* @todo dispatch between new classes
+* Functions classes stored basic functionalities of KANA, it is largely forked from YANA project
+* https://github.com/ldleman/yana-server
+* A lot of functions aren't used anymore and are only kept for legacy reasons
+* I will probably remove them whenever I can
+* @todo dispatch between new classes / remove unused functions
 * @author Valentin CARRUESCO
 **/
-
 
 class Functions
 {
@@ -137,6 +139,52 @@ class Functions
 		setcookie($name, "", time()-3600,"/");
 	}
 
+
+
+	/*
+		Secret Key Manager
+		As we need to store password inside the database and decrypt it whenever we want to trigger actions
+		We need a secretkey that we will stored inside CONFIG_DIR (default: /etc/kana/secretkey)
+		This methods is a lot more unsecure then using hash but hash require user interaction which
+		is not what we want.
+		
+		This is based on this post on stackoverflow:
+		http://stackoverflow.com/questions/16600708/how-do-you-encrypt-and-decrypt-a-php-string
+	*/
+
+	/**
+	 * Returns an encrypted & utf8-encoded
+ 	*/
+	public static function encrypt($pure_string, $encryption_key) {
+		$iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
+		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+		$encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, $encryption_key, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
+		return $encrypted_string;
+	}
+
+	/**
+	 * Returns decrypted original string
+ 	*/
+	public static function decrypt($encrypted_string, $encryption_key) {
+		$iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
+		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+		$decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $encryption_key, $encrypted_string, MCRYPT_MODE_ECB, $iv);
+		return $decrypted_string;
+	}
+
+	//Generate a secret key to a file
+	public static function generate_secretkey($file){
+		$iv = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
+		file_put_contents($file,$iv);
+	}
+
+	//Get a secret key from a file
+	public static function get_secretkey($file){
+		$key = file_get_contents($file);
+		return $key;
+	}
+
+
 	/**
 	* Convert a file size 
 	**/
@@ -209,7 +257,7 @@ class Functions
 		foreach($processes as $process){
 			$process = explode(" ",$process);	
 			$socket = $process[count($process) -1];
-			Functions::sendto_socket($socket,"stop");
+			Functions::sendto_socket($socket,"stop\n");
 			//echo "killing socket:".$socket;
 		}
 	}
@@ -290,7 +338,7 @@ public static function receive_serial($port,$timeout=5,$baudrate=DEFAULT_SERIAL_
     return $response;
 }
 
-//Get a list of all Serial Port
+//Get a list of all Serial Port 
 //The list is then convert into an human readable list
 public static function get_serial(){
 	$serial_port = array();
@@ -595,15 +643,15 @@ public static function getdir($dir){
 }
 
 public static function getdir_r($dir){
-while($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
-  $dir .= '/*';
-  if(!isset($d)) {
-     $d=$dirs;
-   } else {
-      $d=array_merge($d,$dirs);
-   }
-}
-return $d;
+	while($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
+		$dir .= '/*';
+		if(!isset($d)) {
+			$d=$dirs;
+		} else {
+			$d=array_merge($d,$dirs);
+		}
+	}
+	return $d;
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 $object = $_["object"];
-$path_to_db = "/etc/kana/datas/".$object.".db";
+$path_to_db = "/etc/kana/data/".$object.".db";
 $last_modified_time = filemtime($path_to_db);
 $new_modified_time = $last_modified_time;
 
@@ -17,7 +17,7 @@ $db_fields = array(
 		"timestamp" => "int"
 		);
 
-	$table = "/etc/kana/datas/".$object.".db";
+	$table = "/etc/kana/data/".$object.".db";
 	$data_db = new Entity($object,$db_fields,$table,false);
 	$row = $data_db->rowCount();
 	$data_db = $data_db->getById($row);

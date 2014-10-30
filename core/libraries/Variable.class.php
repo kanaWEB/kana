@@ -60,17 +60,18 @@ class Variable{
 			$file = $data_link;
 		}
 
-//You can prioritize similar named datas here, this can be used to override how a data inside core works.
+//You can prioritize similar named data here, this can be used to override how a data inside core works.
 //@todo data is invariable (unlike donnee in french)
-		$data_files[] = USER_VIEWS.$plugin."/datas/".$file.".data"; //We see if a view has data
-		$data_files[] = USER_OBJECTS.$plugin."/datas/".$file.".data"; //We see if objects has data
-		$data_files[] = CORE_DATAS.$data_link.".data"; //Finally we check if core has data
+		$data_files[] = USER_DATA.$data_link.".data"; //We see if there are user defined data
+		$data_files[] = USER_VIEWS.$plugin."/data/".$file.".data"; //We see if a view has data
+		$data_files[] = USER_OBJECTS.$plugin."/data/".$file.".data"; //We see if objects has data
+		$data_files[] = CORE_DATA.$data_link.".data"; //Finally we check if core has data
 
+		//If we are in debug mode dump file path array
 		if(DEBUG){
 			var_dump($data_files);
 		}
 	
-
 		//Search for data files inside directories
 		foreach($data_files as $data_file){
 			if(file_exists($data_file)){
@@ -80,34 +81,31 @@ class Variable{
 	}
 
 //Get a data from a data file
-//@todo verify it is use everyway
+//@todo verify if it is use everywhere
+//
 	public static function get_data($data_link){
+		//We search every data directory
 		$data_file = Variable::data_dir($data_link);
 
 		//@todo Security test needed
+		//If a file is founded include it
 		if(file_exists($data_file)){
 		include($data_file);
 		}
-		else
+		else //If a file is not founded 
 		{
 			if(file_exists(USER_OBJECTS."/".$data_file)){
 				$object_name = $data_file;
-				include(CORE_DATAS."object.data");
+				include(CORE_DATA."object.data");
 			}
 		}
 
-		//@todo Should be remove use $data only
-			if(isset($data)){
-				return $data;
-
-			}
-			elseif(isset($datas)){
-				return $datas;
-			}
-			else
-			{
-				return False;
-			}
+		if(isset($data)){
+			return $data;
+		}
+		else{
+			return False;
+		}
 	}
 
 
@@ -241,9 +239,6 @@ public function object_menus_name($object_name){
 		$menu_name["electronics"] = True;
 	}
 
-	if(file_exists($path."/group")){
-		$menu_name["groups"] = True;
-	}
 	return $menu_name;
 }
 

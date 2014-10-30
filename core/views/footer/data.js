@@ -169,7 +169,7 @@ function refresh_datalist(){
 	$.ajax({
 		url: "actions.php",
 		dataType: "json",
-		data: {type: "data", data: "datas/datafile" , display: "json"}
+		data: {type: "data", data: "data/datafile" , display: "json"}
 	}).done(function ( datafiles ) {
 		//console.log(datafiles);
 		table = $("#datafile_table");
@@ -191,7 +191,7 @@ function refresh_datalist(){
 				html_code = html_code + add_data_tr_open();
 				html_code = html_code + add_data_td(icon_html);
 				html_code = html_code + add_data_td(datafiles[datafile].name);
-				html_code = html_code + add_data_td(datafiles[datafile].exemple);
+				html_code = html_code + add_data_td(datafiles[datafile].example);
 				
 				//Arguments
 				args_nb = datafiles[datafile].args_nb
