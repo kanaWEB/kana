@@ -1,10 +1,11 @@
 <?php
 class form{
 	//Get Form name, initialize array
-	function __construct($name=false){
+	function __construct($name=False){
 		$this->input_array = [];
 		$this->help_array = [];
 		$this->form_name = $name;
+	
 	}
 
 //Add an error message box with a list of translatables text
@@ -17,10 +18,10 @@ class form{
 //Add an input into the form
 	function input($input){
 		$this->input_array[] = $input;
-}
+	}
 
 //Display a form
-	function display($tpl){
+	function display($tpl,$buttons=True){
 		//Get data		
 		$tpl->assign("form_name",$this->form_name);
 		$tpl->assign("help_array",$this->help_array);
@@ -36,9 +37,13 @@ class form{
 		}
 
 		//Form Footer
-		$tpl->draw(CORE_VIEWS."forms/form_footer");
+		if($buttons){
+			$tpl->draw(CORE_VIEWS."forms/form_footer");
+		}
+		else{
+			$tpl->draw(CORE_VIEWS."forms/form_footer_nobuttons");
+		}
 	}
-
 }
 
 ?>

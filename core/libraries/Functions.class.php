@@ -262,6 +262,22 @@ class Functions
 		}
 	}
 
+	public static function get_socket($process_name,$object_name){
+		$check_process_command = 'ps aux|grep "'.$process_name.'"|grep "'.$object_name.'"'."| grep -v grep";
+		exec($check_process_command,$processes,$exitcode);
+		foreach($processes as $process){
+		$process = explode(" ",$process);	
+		$socket[] = $process[count($process) -1];
+	}
+		if(isset($socket)){
+		return $socket[0];
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 /*
 
@@ -471,6 +487,7 @@ public static function sendto_socket($port,$command){
 }
 
 public static function receivefrom_socket($port){
+
 	$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
 //Error message if socket cannot be opened
 	if (($socket == false) && (DEBUG)){
@@ -485,6 +502,7 @@ public static function receivefrom_socket($port){
 
 	while (($currentByte = socket_read($socket, 1)) != "\n") {
 		$out .= $currentByte;
+		
 	}
 
 	//@todo Error on the server socket (broken pipe/connection reset by peer should be investigate)

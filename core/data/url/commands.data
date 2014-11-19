@@ -7,11 +7,12 @@ if(isset($_["action_name"]) && isset($_["object_name"])){
 	}
 }
 else{
+
 	$objects_dir = Functions::getdir(USER_OBJECTS);
 	$key = 0;
 	foreach($objects_dir as $object_dir){
 		//Get actions from objects	
-		$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
+		$actions_db = new Entity("actions",$object_dir);
 		$actions_db = $actions_db->populate();
 
 	//If objects has actions
@@ -28,11 +29,11 @@ else{
 						}
 
 						$action_data[$key]["object_dir"] = $object_dir;
-						$action_data[$key]["object_name"] = $action["object_name"];
+						$action_data[$key]["entity_name"] = $action["entity_name"];
 						$action_data[$key]["id"] = $action["id"];
 						$action_data[$key]["action"] = $action["action"];
 						$action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
-						
+
 						$key++;
 					}
 				}
@@ -42,10 +43,9 @@ else{
 	if(isset($action_data)){
 	$data = $action_data;
 	}
-	else
-	{
+	else{
 		$action_data[$key]["object_dir"] = false;
-		$action_data[$key]["object_name"] = "Nothing";
+		$action_data[$key]["entity_name"] = "Nothing";
 		$action_data[$key]["id"] = false;
 		$action_data[$key]["action"] = false;
 		$action_data[$key]["icon"] = false;
@@ -65,7 +65,7 @@ foreach($action_data as $key => $action_datum){
 	
 	
 	echo "Object Type:".$action_datum["object_dir"]."<br>";
-	echo "Object Name:".$action_datum["object_name"]."<br>";
+	echo "Object Name:".$action_datum["entity_name"]."<br>";
 	echo "Action:".$action_datum["name"]."<br>";
 
 	echo "<a href='";
@@ -76,7 +76,7 @@ foreach($action_data as $key => $action_datum){
 
 	
 	$data[$key]["object_type"] =  $action__datum["object_dir"];
-	$data[$key]["object_name"] = $action__datum["object_name"];
+	$data[$key]["entity_name"] = $action__datum["entity_name"];
 	$data[$key]["object_action"] = $action__datum["name"];
 	$data[$key]["url"] = "actions.php?type=action&object=".$action__datum["object_dir"]."&id=".$action__datum["id"]."&action=".$action_datum["action"]."&action_nb=".$action_datum["action_nb"]."&state=".$action_datum["type"];
 }

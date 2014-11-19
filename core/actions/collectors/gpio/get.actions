@@ -18,7 +18,7 @@ $db_fields = array(
 		);
 
 	$table = "/etc/kana/data/".$object.".db";
-	$data_db = new Entity($object,$db_fields,$table,false);
+	$data_db = new Entity("data",$object);
 	$row = $data_db->rowCount();
 	$data_db = $data_db->getById($row);
 	echo $data_db["data"];

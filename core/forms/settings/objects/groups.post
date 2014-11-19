@@ -7,10 +7,10 @@ unset($fields["name"]);
 unset($fields["notice"]);
 unset($fields["error"]);
 
-$action_name = "actionsgroup"."_actions";
+$action_name = "actionsgroup";
 
 if(isset($_["del"])){
-	$action_db = new Entity($action_name,Variable::actions_fields());
+	$action_db = new Entity("actions",$action_name);
 	$action_db->delete(array('id'=>$_['id']));
 	Draw::ajax_notify(t("Group deleted"),"success",$_["id"]);
 }
@@ -18,7 +18,7 @@ else{
 	
 
 			//Get data from object (GPIO)
-			//$object_db = new Entity($object_name);
+			//$object_db = new Entity("config",$object_name);
 			//$object_data = $object_db->getById($_["object_key"]);
 			//$gpio = $object_data["gpio"];
 
@@ -42,9 +42,8 @@ else{
 	$fields["object_key"] = 0;
 	$fields["state"] = 0;
 	$fields["action"] = "launch";
-	$fields["object_description"] = "";
-	$db_fields = Variable::actions_fields();
-	$action_db = new Entity($action_name,$db_fields);
+	$fields["entity_description"] = "";
+	$action_db = new Entity("actions",$action_name);
 
 	//Predefined fields
 	foreach($fields as $key => $field){

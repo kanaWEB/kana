@@ -1,16 +1,17 @@
 <?php
-$object_name = $_["name"];
-$object_db = new Entity($object_name,"electronics");
+$object_name = $menu_selected;
+$object_db = new Entity("electronics",$object_name);
 
 $fields = $_;
+//var_dump($fields);
 unset($fields["submit"]);
 unset($fields["menu"]);
+unset($fields["category"]);
 unset($fields["tab"]);
-unset($fields["name"]);
 unset($fields["notice"]);
 
 $object_exists = $object_db->getById(1);
-var_dump($object_exists);
+//var_dump($object_exists);
 if($object_exists){
  $object_db->setId(1);
 }
@@ -22,5 +23,5 @@ foreach($fields as $key => $field){
 }
 //var_dump($object_db);
 $object_db->save();
-redirect("settings","?menu=objects&name=".$object_name."&tab=".$_["tab"]."&notice=".t("Component added"));
+redirect("settings","?category=".$category_selected."&menu=".$object_name."&tab=".$_["tab"]."&notice=".t("Component added"));
 ?>

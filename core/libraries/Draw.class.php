@@ -4,8 +4,6 @@
 class Draw
 {
 
-
-
 //Ajax Notification
 //If a PHP file is called in ajax, you can make it return a notification
 public static function ajax_notify($text,$type,$data = False){
@@ -27,15 +25,18 @@ public static function md2datatable($filename,$datadir){
 	$isdata = false;
 	$isblock = true;
 	$nb = 0;
-	$tr = 0;
 	foreach($file_array as $key => $line){
 		if($isblock){
-			$line_array = explode("|",$line);
-			$blocks[$nb] = [
-			"name" => trim($line_array[0]),
-			"icon" => trim($line_array[1])
-			];
-			$isblock = false;
+			$tr = 0;
+			if(trim($line) != ""){
+				$line_array = explode("|",$line);
+			
+				$blocks[$nb] = [
+					"name" => trim($line_array[0]),
+					"icon" => trim($line_array[1])
+				];
+				$isblock = false;
+			}
 		}
 		else{
 			if($isdata){
@@ -52,7 +53,23 @@ public static function md2datatable($filename,$datadir){
 				}
 				else{
 					$data_file = trim($line_array[1]);
-					include(USER_VIEWS.$plugin."/data/".$data_file.".view");
+					$user_file = USER_VIEWS.$plugin."/data/".$data_file.".view";
+					$core_file = CORE_VIEWS.$plugin."/".$data_file.".view";
+					
+					if(file_exists($user_file)){
+						include($user_file);
+					}
+					elseif(file_exists($core_file)){
+						$blocks[$nb]["row"][$tr]["custom"] = [
+							"link" => $core_file
+						];
+						//include($core_file);
+					}
+					else{
+						echo "I can't find ".$user_file." or ".$core_file." !";
+						exit();
+					}
+
 					$tr++;
 				}
 			}
@@ -62,6 +79,7 @@ public static function md2datatable($filename,$datadir){
 		}
 		
 	}
+	if(DEBUG){Functions::pretty_debug($blocks);}
 	return $blocks;
 
 }

@@ -6,16 +6,16 @@ $table_headers[0] = "When";
 $table_data[0] = "id_trigger";
 
 $table_headers[1] = "Do";
-$table_data[1] = "object_name";
+$table_data[1] = "entity_name";
 
 $table_headers[] = "Description";
-$table_data[] = "object_description";
+$table_data[] = "entity_description";
 
 $table_headers[] = "Actions";
 $table_data[] = "action_tag";
 
 
-$action_name = $object_name."_actions";
+//$action_name = $object_name;
 
 
 
@@ -23,10 +23,10 @@ $action_name = $object_name."_actions";
 include(CORE_VIEWS."table/header/header.view");
 
 //Link generator
-$link = $_SERVER['SCRIPT_NAME']."?menu=".$_["menu"]."&tab=".$_["tab"];
-$db_scenario = new Entity("Scenario");
+$link = $_SERVER['SCRIPT_NAME']."?category=scenario&menu=".$menu_selected;
+$db_scenario = new Entity("core","Scenario");
 $objects = $db_scenario->populate();
-$db_triggers = new Entity("Triggers");
+$db_triggers = new Entity("core","Triggers");
 
 //Table data
 for($i=0;$i<count($objects);$i++){
@@ -38,7 +38,7 @@ for($i=0;$i<count($objects);$i++){
 			$triggers = $db_triggers->load([
 				"id" => $objects[$i][$td]
 				]);
-			echo html_entity_decode($triggers["object_name"]);
+			echo html_entity_decode($triggers["entity_name"]);
 			break;
 
 			case "action_tag":

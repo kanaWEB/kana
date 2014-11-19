@@ -1,17 +1,16 @@
-<?php
+*<?php
 //Table Header
-$tokens_db = new Entity("Tokens");
+$tokens_db = new Entity("core","Tokens");
 $tokens = $tokens_db->populate();
 
 if($tokens){
-
-	$users = new Entity("Users");
+	$users = new Entity("core","Users");
 	$users_all = $users->populate();
 	//var_dump($users_all);
 	foreach($users_all as $user){
 		if($user["id"] != 1){
 			$options[] = [
-			"text" => $user["name"],
+			"text" => $user["nickname"],
 			"value" => $user["id"]
 			];
 		}
@@ -37,19 +36,19 @@ if($tokens){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			if($td == "id_user"){
 				if(isset($options)){
-				$user_selected = $users->load([
-					"id" => $tokens[$i][$td]
-					]);
-				$input = [
-				"id" =>  $tokens[$i]["id"],
-				"onclick" => "token_user_change(this,".$tokens[$i]["id"].")",
-				"selected" => $tokens[$i]["id_user"],
-				"options" => $options
-				];
+					$user_selected = $users->load([
+						"id" => $tokens[$i][$td]
+						]);
+					$input = [
+					"id" =>  $tokens[$i]["id"],
+					"onclick" => "token_user_change(this,".$tokens[$i]["id"].")",
+					"selected" => $tokens[$i]["id_user"],
+					"options" => $options
+					];
 
 
-				$tpl->assign("input",$input);
-				$tpl->draw(CORE_VIEWS."forms/inputs/select");
+					$tpl->assign("input",$input);
+					$tpl->draw(CORE_VIEWS."forms/inputs/select");
 				}
 				else
 				{

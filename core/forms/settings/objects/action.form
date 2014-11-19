@@ -1,9 +1,7 @@
 <?php
-$action_name = $_["name"]."_actions";
-$action_dir = $_["action"];
 //If an action is choosen
 if(isset($_["id"])){
-	$selected_db = new Entity($object_name."_actions",Variable::actions_fields());
+	$selected_db = new Entity("actions",$menu_selected);
 	$selected = $selected_db->getById($_["id"]);
 	$selected = Variable::action_args($selected);
 	$form_name = "ID:".$_["id"];
@@ -24,7 +22,7 @@ $form = new Form($form_name);
 	}
 
 //Custom Fields
-$form_file_dir = USER_OBJECTS.$object_name."/"."actions/".$action_dir."/form/";
+$form_file_dir = USER_OBJECTS.$object_name."/actions/".$action_selected."/form/";
 include(CORE_VIEWS."forms/form_md2.view");
 
 include(CORE_VIEWS."datatable/dbtable_actions.view");

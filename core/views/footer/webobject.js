@@ -46,7 +46,7 @@ function webobject_switch(button,object,id,action,action_nb,state){
 		}
 		else
 		{ 
-			ajax_notify(data);
+			ajax_notify(data,"top");
 		}
 		$(button).attr("disabled",false);
 	});

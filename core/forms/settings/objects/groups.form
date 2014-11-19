@@ -23,7 +23,7 @@ foreach($objects_dir as $object_dir){
 //var_dump($data);
 
 		if(isset($_["id"])){
-			$selected_db = new Entity($object_name."_actions",Variable::actions_fields());
+			$selected_db = new Entity("actions",$object_name);
 			$selected = $selected_db->getById($_["id"]);
 			$selected = Variable::action_args($selected);
 			$selected_actions = explode(" ",$selected["action"]);
@@ -59,21 +59,23 @@ foreach($objects_dir as $object_dir){
 
 		$form->input([
 			"type" => "text",
-			"id" => "object_name",
+			"id" => "entity_name",
 			"name" => "Name",
 			"placeholder" => "name",
-			"selected" => $selected["object_name"],
+			"selected" => $selected["entity_name"],
 			"required" => true
 			]);
 
 		include(CORE_VIEWS."forms/form_group.view");
 
+//List of actions Select
 		$form->input([
 			"type" => "hidden",
 			"id" => "nb_actions",
 			"value" => $nb_actions
 			]);
 
+//List of actions Add/Remove
 		$form->input([
 			"type" => "chainedselect_buttons",
 			"id" => "actions"
@@ -84,6 +86,8 @@ foreach($objects_dir as $object_dir){
 			"id" => "actions",
 			"nb" => 0
 			]);
+
+
 
 		$form->input([
 			"type" => "chainedselect_actions",
@@ -99,7 +103,7 @@ foreach($objects_dir as $object_dir){
 			"type" => "newactions",
 			]);
 
-	
+
 		if($nb_actions != 0){
 			for($i=1;$i<count($selected_groups);$i++){
 				$form->input([
@@ -127,7 +131,7 @@ foreach($objects_dir as $object_dir){
 
 		$table_headers[] = "Name";
 		$table_headers[] = "Action";
-		$table_data[] = "object_name";
+		$table_data[] = "entity_name";
 		$table_data[] = "action";
 		$action_name = $object_name."_actions";
 

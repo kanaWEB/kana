@@ -12,7 +12,7 @@ $action_nb = $_["action_nb"]; //Get Action nb
 $id = $_["id"]; //Get ID of objects
 
 //Open Action table
-$action_db = new Entity($object_name."_actions",Variable::actions_fields());
+$action_db = new Entity("actions",$object_name);
 $action = $action_db->getById($id);
 
 if($action){
@@ -34,19 +34,19 @@ $action = Variable::action_args($action); //Json to array for the arguments
 
 //Is this an GPIO object?
 if(file_exists(USER_OBJECTS.$object_name."/gpios")){
-	$object_db = new Entity($object_name);
+	$object_db = new Entity("config",$object_name);
 	$object_db_load = $object_db->getById($action["object_key"]); //Get object with foreign keys (object_key)
 }
 
 //Is this a remotely controllable Electronics Objects
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
-	$object_db = new Entity($object_name,"electronics");
+	$object_db = new Entity("electronics",$object_name);
 	$object_db_load = $object_db->getById(1); //Get first object (as there will always be one)
 }
 
 //Is this a program objects ?
 //if(!isset($object)){
-	//$object_db = new Entity($object_name);
+	//$object_db = new Entity("config",$object_name);
 	//exit();
 //}
 
@@ -70,11 +70,11 @@ if(file_exists($user_command));
 			//Arguments (@todo improve when every plugin is finished)
 			array_shift($command_array); //Remove command
 			foreach($command_array as $key => $argument){
-						
+				
 				//REMOTE ARGUMENTS	(arguments is stored inside codes/gpios/electronics)
 				if($argument[0] == "@"){
 					if(!isset($object_db_load)){
-						$object_db = new Entity($object_name);
+						$object_db = new Entity("config",$object_name);
 						$object_db_load = $object_db->getById($action["object_key"]);
 					}
 					$argument = substr(trim($argument), 1, -1);	
@@ -124,7 +124,7 @@ if(file_exists($user_command));
 						//Code get state from objects
 						case "code]":
 						$state_code = trim($_["state"]);
-						$code_db = new Entity($object_name);
+						$code_db = new Entity("config",$object_name);
 						if($state_code == "change"){
 							$state = $action["state"] ? 0 : 1;
 							$state_code = $state ? "on" : "off";
@@ -171,7 +171,7 @@ if(file_exists($user_command));
 							}
 							else
 							{
-									$state = $action["state"];
+								$state = $action["state"];
 							}
 
 							break;
@@ -202,10 +202,16 @@ if(file_exists($user_command));
 			//Display command if you are root
 			if($currentUser->isadmin()){
 				//var_dump($currentUser);
-				echo $final_command;
+				if(SHOWCOMMANDS){
+					echo $final_command;
+				}
 			}
 			Functions::launch_background($final_command);
-			
+			//exec($final_command,$out,$exitcode);
+			//var_dump($out);
+			//var_dump($exitcode);
+
+
 			if(!isset($state)){
 				$state = 0;
 			}

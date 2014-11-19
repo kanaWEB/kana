@@ -10,22 +10,32 @@ foreach($blocks as $key => $block){
 	$tpl->draw(CORE_VIEWS."table/open");
 
 	foreach($block["row"] as $row){
-		$tpl->draw(CORE_VIEWS."table/row/open");
+		//var_dump($block);
+		if(isset($row["custom"])){
+			//var_dump($row);
+			$tpl->draw(CORE_VIEWS."table/row/open");
+				$tpl->draw(CORE_VIEWS."table/cell/open");
+					$tpl->draw(CORE_VIEWS."grids/center/open");
+						include($row["custom"]["link"]);
+					$tpl->draw(CORE_VIEWS."grids/center/close");
+				$tpl->draw(CORE_VIEWS."table/cell/close");
+			$tpl->draw(CORE_VIEWS."table/row/close");
+		}
+		else{
+			$tpl->draw(CORE_VIEWS."table/row/open");
+				$tpl->draw(CORE_VIEWS."table/cell/open");
+					$tpl->assign("text",$row["name"]);
+					$tpl->draw(CORE_VIEWS.$row["name"]["type"]);
+				$tpl->draw(CORE_VIEWS."table/cell/close");
 
-		$tpl->draw(CORE_VIEWS."table/cell/open");
-		
-		$tpl->assign("text",$row["name"]);
-		$tpl->draw(CORE_VIEWS.$row["name"]["type"]);
-
-		$tpl->draw(CORE_VIEWS."table/cell/close");
-
-		$tpl->draw(CORE_VIEWS."table/cell/open");
-		$tpl->draw(CORE_VIEWS."grids/center/open");
-		$tpl->assign("text",$row["data"]);
-		$tpl->draw(CORE_VIEWS.$row["data"]["type"]);
-		$tpl->draw(CORE_VIEWS."grids/center/close");
-		$tpl->draw(CORE_VIEWS."table/cell/close");
-		$tpl->draw(CORE_VIEWS."table/row/close");
+				$tpl->draw(CORE_VIEWS."table/cell/open");
+					$tpl->draw(CORE_VIEWS."grids/center/open");
+					$tpl->assign("text",$row["data"]);
+					$tpl->draw(CORE_VIEWS.$row["data"]["type"]);
+					$tpl->draw(CORE_VIEWS."grids/center/close");
+				$tpl->draw(CORE_VIEWS."table/cell/close");
+			$tpl->draw(CORE_VIEWS."table/row/close");
+		}
 	}
 
 	$tpl->draw(CORE_VIEWS."table/close");

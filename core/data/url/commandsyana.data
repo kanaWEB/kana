@@ -3,7 +3,7 @@
 	$key = 0;
 	foreach($objects_dir as $object_dir){
 		//Get actions from objects	
-		$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
+		$actions_db = new Entity("actions",$object_dir);
 		$actions_db = $actions_db->populate();
 
 	//If objects has actions
@@ -20,7 +20,7 @@
 						}
 
 						$action_data[$key]["object_dir"] = $object_dir;
-						$action_data[$key]["object_name"] = $action["object_name"];
+						$action_data[$key]["entity_name"] = $action["entity_name"];
 						$action_data[$key]["id"] = $action["id"];
 						$action_data[$key]["action"] = $action["action"];
 						$action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
@@ -38,7 +38,7 @@ $path = dirname($_SERVER['REQUEST_URI']);
 
 $begin_url = 'http://'.$host.':'.$_SERVER['SERVER_PORT']."/".$path."/";
 foreach($action_data as $key => $action_datum){
-	$vocalcommand = "kana ".t($action_datum["name"])." ".$action_datum["object_name"];
+	$vocalcommand = "kana ".t($action_datum["name"])." ".$action_datum["entity_name"];
 	$url = "actions.php?type=action&object=".$action_datum["object_dir"]."&id=".$action_datum["id"]."&action=".$action_datum["action"]."&action_nb=".$action_datum["action_nb"]."&state=".$action_datum["type"];
 	
 	$data["commands"][] = [

@@ -1,0 +1,7 @@
+<?php
+//Settings menu is only visible inside settings.php (and list.view)
+$tpl->assign("settingsmenu_active",$settingsmenu_active); //As set inside settings.php
+include(CORE_VIEWS."menu/settings/".$category_selected."/".$menu_selected."/".$name_selected.".view");
+var_dump(CORE_VIEWS."menu/settings/".$category_selected."/".$menu_selected."/".$name_selected.".view");
+exit();
+?>

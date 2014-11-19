@@ -1,0 +1,53 @@
+<?php
+if(!isset($_["trigger"])){ //Available actions
+	
+	include(CORE_VIEWS."menu/settings/scenario/triggers_default.view");
+
+	$objects = Functions::getdir(USER_OBJECTS);
+
+	foreach($objects as $object_name){
+		//var_dump($object_name);
+		$dir = USER_OBJECTS.$object_name."/triggers";
+
+		if(file_exists($dir)){
+			$dir_list = Functions::getdir($dir);
+
+			if($dir_list > 0){
+				//@todo If only one action redirect
+				include(CORE_VIEWS."menu/settings/scenario/triggers_md.view");
+			}
+		}
+	}
+
+	include(CORE_VIEWS."datatable/dbtable_triggers.view");
+}
+
+else{
+	$object_name = $tab_selected;
+	$trigger_dir = $tab_selected;
+//If an action is choosen
+	if(isset($_["id"])){
+		$selected_db = new Entity("core","Triggers");
+		$selected = $selected_db->getById($_["id"]);
+	//$selected = Variable::action_args($selected);
+		$form_name = "ID:".$_["id"];
+		$hidden_input = [
+		"type" => "hidden",
+		"value" => $_["id"]
+		];
+	}
+	else{
+		$selected = false;
+		$form_name = "New";
+	}
+
+	$form = new Form($form_name);
+	include(CORE_VIEWS."forms/form_trigger.view");
+
+//Custom Fields
+	$form_file_dir = USER_OBJECTS.$object_name."/triggers/".$trigger_dir."/form/";
+	include(CORE_VIEWS."forms/form_md2.view");
+
+	include(CORE_VIEWS."datatable/dbtable_triggers.view");
+}
+?>

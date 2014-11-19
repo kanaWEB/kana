@@ -2,8 +2,8 @@
 //Default Fields
 $table_headers[] = "Name";
 $table_headers[] = "Description";
-$table_data[] = "object_name";
-$table_data[] = "object_description";
+$table_data[] = "entity_name";
+$table_data[] = "entity_description";
 
 if(isset($hidden_input)){
 	$form->input($hidden_input);
@@ -11,18 +11,18 @@ if(isset($hidden_input)){
 
 $form->input([
 	"type" => "text",
-	"id" => "object_name",
+	"id" => "entity_name",
 	"name" => "Name",
 	"placeholder" => "name",
-	"selected" => $selected["object_name"],
+	"selected" => $selected["entity_name"],
 	"required" => true
 	]);
 
 $form->input([
 	"type" => "text",
-	"id" => "object_description",
+	"id" => "entity_description",
 	"name" => "Description",
 	"placeholder" => "description",
-	"selected" => $selected["object_description"]
+	"selected" => $selected["entity_description"]
 	]);
 ?>

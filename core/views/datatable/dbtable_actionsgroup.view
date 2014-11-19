@@ -3,19 +3,19 @@ if(!isset($table_headers)){
 	$table_headers[] = "Name";
 	$table_headers[] = "Description";
 	$table_headers[] = "Action";
-	$table_data[] = "object_name";
-	$table_data[] = "object_description";
+	$table_data[] = "entity_name";
+	$table_data[] = "entity_description";
 	$table_data[] = "action";
-	$action_name = $object_name."_actions";
+	$action_name = $object_name;
 }
 
 if(isset($_["action"])){
 	$action_get = $_["action"];
 }
 
-$object_db = new Entity($object_name);
-$group_db = new Entity("Group");
-$action_db = new Entity($action_name,Variable::actions_fields());
+$object_db = new Entity("config",$object_name);
+$group_db = new Entity("core","Group");
+$action_db = new Entity("actions",$action_name);
 if(!isset($action_dir)){
 $actions = $action_db->populate();
 }
@@ -38,12 +38,12 @@ $actions = Variable::actions_args($actions);
 			switch($td){
 				case "object_key":
 				$name = $object_db->getById($actions[$i][$td]);
-				echo $name["object_name"];
+				echo $name["entity_name"];
 				break;
 
 				case "group_key":
 				$name = $group_db->getById($actions[$i][$td]);
-				echo $name["object_name"];
+				echo $name["entity_name"];
 				break;
 
 				case "action":
@@ -54,7 +54,7 @@ $actions = Variable::actions_args($actions);
 				default:
 				if(substr($td,0,4) == "code"){
 					$name = $object_db->getById($actions[$i][$td]);
-					echo $name["object_name"];
+					echo $name["entity_name"];
 				}
 				else{
 				echo html_entity_decode($actions[$i][$td]);

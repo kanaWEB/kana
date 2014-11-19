@@ -1,53 +1,66 @@
 <?php
 include("core/common.inc"); //Common libraries
-
 // If user is an admin
 if($currentUser->isadmin()){
 
-//Show selected menu or default menu
-	if(isset($_["menu"])){
-		
-		//Objects Redirector (menu is objects and name is set)
-		if( ($_["menu"] == "objects") && isset($_["name"])){
-			$object_name = $_["name"];
-			$leftmenu_active = "objects&name=".$object_name;
-			$filename = "objects";
-			//If no tab is set then redirect
-			if(!isset($_["tab"])){
-				include(CORE_FORMS."settings/objects/objects.redirect");
-			}
-		}
-	//General item
-		else
-		{
-			$leftmenu_active = $_["menu"];
-			$filename = $_["menu"];
-		}
+	//Category (First level menu)
+	if(isset($_["category"])){
+		$category_selected = $_["category"];
 	}
-//Menu is not set
-	else
-	{
-	//Default active menu
-		$leftmenu_active = DEFAULT_MENU_SETTINGS;
-		$filename = $leftmenu_active;
+	else{
+		$category_selected = DEFAULT_CATEGORY_SETTINGS;
+	}
+	//Menu (Second level menu)
+	if(isset($_["menu"])){
+		$menu_selected = $_["menu"];
+	}
+	else{
+		//Default menu for each tab
+		switch($category_selected){
+			case 'configuration':
+				$menu_selected = "pref";
+			break;
+
+			case "scenario":
+				$menu_selected = "triggers";
+			break;
+
+			case "objects":
+				$menu_selected = "allobjects";
+			break;
+		}
 	}
 
-//Settings post
-	if(isset($_["submit"])){
-		$file = CORE_FORMS."/settings/".$filename.".post";
-		if(file_exists($file)){
-			include(CORE_FORMS."/settings/".$filename.".post");
-		}
+	//Tab (Third level menu)
+	if(isset($_["tab"])){
+		$tab_selected = $_["tab"];
 	}
-//Settings form
 	else
-	{	
-		include(CORE_FORMS."/settings.form");
+	{
+		$tab_selected = false;
+	}
+
+	if(isset($_["action"])){
+		$action_selected = $_["action"];
+	}
+	else
+	{
+		$action_selected = false;
+	}
+
+
+
+
+
+	if(isset($_["submit"])){
+		include(CORE_FORMS."settings.post");
+	}
+	else{
+		include(CORE_FORMS."settings.form");
 	}
 }
 //if user is not admin
-else
-{
+else{
 	include(CORE_VIEWS."header/min_header.view");
 	$tpl->draw(CORE_VIEWS."modal/permissions_denied");
 }

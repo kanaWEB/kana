@@ -18,8 +18,9 @@
 }
 		//Log Out
 		$topmenu[] = [
-		"text" => t("Logout")." (".$currentUser->name().")",
+		"text" => t("Logout")." (".$currentUser->nickname().")",
 		"icon" => "glyphicon-user",
 		"link" => "index.php?logout"
 		];
+
 ?>

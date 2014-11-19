@@ -1,6 +1,0 @@
-<?php
-if(isset($_["tab"])){
-	include(CORE_FORMS."settings/objects/".$_["tab"].".post");
-}
-
-?>

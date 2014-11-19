@@ -1,6 +1,9 @@
 //Action schema (not used for now)
-state:int
+id:key
+entity_name:text
+entity_description:text
 action:text
 args:text
 object_key:int
 group_key:int
+state:int

@@ -21,7 +21,7 @@ if(isset($_["action"])){
 
 		//If token is associated to no user, log it
 			if(!$currentUser->id()){
-				$tokenlog_db = new Entity("TokenLog");
+				$tokenlog_db = new Entity("core","TokenLog");
 				$ip_selected = $tokenlog_db->load([
 					"ipaddress" => $_SERVER['REMOTE_ADDR'],
 					"token" => $_["token"]

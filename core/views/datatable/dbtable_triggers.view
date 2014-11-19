@@ -9,19 +9,19 @@ if(!isset($table_headers)){
 
 	$table_data[] = "trigger_object";
 	$table_data[] = "trigger";
-	$table_data[] = "object_name";
-	$table_data[] = "object_description";
+	$table_data[] = "entity_name";
+	$table_data[] = "entity_description";
 	
 	$table_data[] = "code";
 	$table_data[] = "state";
-	//$action_name = $object_name."_actions";
+
 }
 
 if(isset($_["trigger"])){
 	$trigger_get = $_["trigger"];
 }
 
-$db = new Entity("Triggers");
+$db = new Entity("core","Triggers");
 $triggers = $db->populate();
 /*
 if(!isset($action_dir)){
@@ -45,12 +45,12 @@ if($triggers){
 		foreach($table_data as $td){
 			$tpl->draw(CORE_VIEWS."table/cell/open");
 			switch($td){ 
-				case "object_name":
+				case "entity_name":
 				$name = html_entity_decode($triggers[$i][$td]);
 				echo $name;
 				break;
 
-				case "object_description":
+				case "entity_description":
 				$description = html_entity_decode($triggers[$i][$td]);
 				echo $description;
 				break;
@@ -86,7 +86,7 @@ if($triggers){
 		$tpl->draw(CORE_VIEWS."table/cell/open");
 
 		$buttons = [
-		"link" => $_SERVER['SCRIPT_NAME']."?menu=scenario&name=".$triggers[$i]["trigger_object"]."&tab=trigger&trigger=".$trigger_get,
+		"link" => $_SERVER['SCRIPT_NAME']."?category=scenario&menu=triggers&object=".$triggers[$i]["trigger_object"]."&trigger=".$trigger_get,
 		"id" => $triggers[$i]["id"]
 		];
 		$tpl->assign("buttons",$buttons);

@@ -5,6 +5,8 @@
 */
 ajax_refresh_speed = 10000;
 
+
+
 //Disable Stop button only
 disable_ajaxbuttons(false,false,true);
 
@@ -141,23 +143,7 @@ function change_td_color(id,color){
 	td.addClass("bg-"+color);
 }
 
-function rotate(deg){
-	$(".rotable").css("-ms-transform","rotate("+deg+"deg)");
-	$(".rotable").css("-webkit-transform","rotate("+deg+"deg)");
-	$(".rotable").css("transform","rotate("+deg+"deg)");
-	if(deg == 180){
-		norotate(deg);
-	}
-	if(deg == 0){
-		norotate(deg);
-	}
-}
 
-function norotate(deg){
-	$(".no-rotate").css("-ms-transform","rotate("+deg+"deg)");
-	$(".no-rotate").css("-webkit-transform","rotate("+deg+"deg)");
-	$(".no-rotate").css("transform","rotate("+deg+"deg)");
-}
 
 function refresh_datalist(){
 	$("#button_datalist").removeClass();
@@ -200,7 +186,7 @@ function refresh_datalist(){
 				if(args_nb != 0){
 					args = datafiles[datafile].args
 					for(i = 1; i <= args_nb;i++){
-					max_args = max_args - 1;
+						max_args = max_args - 1;
 					//console.log(args);
 					arg_obj = JSON.stringify(args[i]);
 					html_code = html_code + add_modifier_td(i,row_id);

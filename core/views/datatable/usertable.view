@@ -7,7 +7,7 @@ $table_headers[] = "Name";
 $table_headers[] = "Last name";
 $table_headers[] = "First name";
 $table_headers[] = "Email";
-$table_data[] = "name";
+$table_data[] = "nickname";
 $table_data[] = "lastname";
 $table_data[] = "firstname";
 $table_data[] = "email";
@@ -19,7 +19,7 @@ if(isset($hidden_input)){
 include(CORE_VIEWS."table/header/header.view");
 
 //Link generator
-$link = $_SERVER['SCRIPT_NAME']."?menu=".$_["menu"];
+$link = $_SERVER['SCRIPT_NAME']."?category=configuration&menu=users";
 
 //Table data
 for($i=0;$i<count($objects);$i++){

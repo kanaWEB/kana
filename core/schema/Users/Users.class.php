@@ -2,11 +2,11 @@
 
 class User {
 
-	protected $id,$name,$right,$cookie,$default_view,$default_group;
+	protected $id,$nickname,$right,$cookie,$default_view,$default_group;
 	function __construct(){
 		$this->right = false;
 		$this->id = false;
-		$this->name = false;
+		$this->nickname = false;
 		$this->cookie = false;
 		$this->default_view = false;
 		$this->default_group = false;
@@ -16,8 +16,8 @@ class User {
 		return $this->right;
 	}
 
-	function name(){
-		return $this->name;
+	function nickname(){
+		return $this->nickname;
 	}
 
 	function id(){
@@ -42,9 +42,9 @@ class User {
 
 	//Verify if a account exists (returns false if not)
 	function check_password($login,$password,$cookie=false){
-		$user = new Entity("Users");
+		$user = new Entity("core","Users");
 		$user = $user->load([
-			'name'=>$login,
+			'nickname'=>$login,
 			'password'=>sha1(md5($password))
 			]);
 		if(DEBUG){
@@ -52,7 +52,7 @@ class User {
 	}
 		if($user){	
 			$this->right = $user["state"];
-			$this->name = $user["name"];
+			$this->nickname = $user["nickname"];
 			$this->id = $user["id"];
 			$this->default_view = $user["default_view"];
 			$this->default_group = $user["default_group"];
@@ -65,8 +65,8 @@ class User {
 
 				if ($actual_cookie == ""){
 					$cookie_token = sha1(time().rand(0,1000));
-					var_dump($user);
-					$user_modified = new Entity("Users");
+					//var_dump($user);
+					$user_modified = new Entity("core","Users");
 					$user_modified = Entity::data2object($user,$user_modified);
 					$user_modified->Setcookie($cookie_token);
 					$user_modified->save();
@@ -85,7 +85,7 @@ class User {
 		if(isset($currentUser)){
 			$session = unserialize($currentUser);
 			$this->right = $session->right();
-			$this->name = $session->name();
+			$this->nickname = $session->nickname();
 			$this->id = $session->id();
 			$this->default_view = $session->default_view();
 			$this->default_group = $session->default_group();
@@ -98,8 +98,8 @@ class User {
 	//Check cookie
 	function check_cookie($cookie){
 		if(isset($cookie)){
-			$user = new Entity("Users");
-			
+			$user = new Entity("core","Users");
+			//var_dump($user);
 			$user = $user->load([
 				"cookie" => $cookie
 				]);
@@ -107,7 +107,7 @@ class User {
 
 		if($user){
 			$this->right = $user["state"];
-			$this->name = $user["name"];
+			$this->nickname = $user["nickname"];
 			$this->id = $user["id"];
 			$this->default_view = $user["default_view"];
 			$this->default_group = $user["default_group"];
@@ -115,18 +115,18 @@ class User {
 	}
 
 	function check_token($token){
-		$tokens_db = new Entity("Tokens");
+		$tokens_db = new Entity("core","Tokens");
 		$tokens = $tokens_db->load([
 			"token" => $token
 			]);
 		if($tokens){
-			$user = new Entity("Users");
+			$user = new Entity("core","Users");
 			$user = $user->load([
 				"id" => $tokens["id_user"]
 				]);
 			if($user){
 			$this->right = $user["state"];
-			$this->name = $user["name"];
+			$this->nickname = $user["nickname"];
 			$this->id = $user["id"];
 			$this->default_view = $user["default_view"];
 			$this->default_group = $user["default_group"];
@@ -152,7 +152,7 @@ class User {
 
 	function viewsRight(){
 		$views = Functions::getdir(USER_VIEWS);
-		$view_right_db = new Entity("ViewRight");
+		$view_right_db = new Entity("core","ViewRight");;
 		foreach($views as $key => $view){
 			$view_right = $view_right_db->load([
 			'id_user'=>$this->id,
@@ -166,7 +166,7 @@ class User {
 	}
 
 	function viewRight($view_name){
-		$view_right_db = new Entity("ViewRight");
+		$view_right_db = new Entity("core","ViewRight");;
 			$view_right = $view_right_db->load([
 			'id_user'=>$this->id,
 			'id_view'=>$view_name
@@ -175,7 +175,7 @@ class User {
 	}
 
 	function groupRight($group_id){
-		$group_right_db = new Entity("GroupRight");
+		$group_right_db = new Entity("core","GroupRight");;
 			$group_right = $group_right_db->load([
 			'id_user'=>$this->id,
 			'id_group'=>$group_id

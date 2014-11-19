@@ -11,7 +11,7 @@ if(DEBUG){
 //Save Configuration
 $config_language = $_["lang"];
 $config_theme = "bootstrap";
-$config = new Entity("Config");
+$config = new Entity("core","Config");
 $config->create();
 $config->setLanguage($config_language);
 $config->setTheme($config_theme);
@@ -23,9 +23,9 @@ Functions::generate_secretkey(CONFIG_DIR."/secretkey");
 //Save First User
 $name = $_["admin_name"];
 $password = $_["admin_pass"];
-$user_db = new Entity("Users");
+$user_db = new Entity("core","Users");
 $user_db->create();
-$user_db->setName($name);
+$user_db->setNickName($name);
 $user_db->setLastName("");
 $user_db->setFirstName("");
 $user_db->setEmail("");
@@ -33,16 +33,21 @@ $user_db->setState("1");
 $user_db->setCookie("");
 $user_db->setToken("");
 $user_db->setPassword(sha1(md5($password)));
+$user_db->setDefault_group(1);
+$user_db->setDefault_view(false);
 $user_db->save();
 
+
 //Generate Group
-$group_db = new Entity("Group");
-$group_db->setObject_name(t("Default Group"));
-$group_db->setObject_description(t("Auto-generated group"));
+//Generate default group
+$group_db = new Entity("core","Group");
+$group_db->create();
+$group_db->setEntity_name(t("Default Group"));
+$group_db->setEntity_description(t("Auto-generated group"));
 $group_db->save();
 
-$group_db = new Entity("GroupRight");
-$group_db = new Entity("ViewRight");
+$group_db = new Entity("core","GroupRight");
+$group_db = new Entity("core","ViewRight");
 
 unset($_SESSION);
 //Redirect to index

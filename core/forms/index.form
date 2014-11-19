@@ -21,7 +21,7 @@ if(!$currentUser->isuser()){
 	"text" => "Identification",
 	"icon" => "glyphicon-credit-card"
 	];
-	include(CORE_VIEWS."menu/top/top.view");
+	include(CORE_VIEWS."menu/top.view");
 
 	//Form
 	include(CORE_VIEWS."forms/Form.class.php");

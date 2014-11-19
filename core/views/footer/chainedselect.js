@@ -2,7 +2,7 @@
 del_inprogress = false;
 add_inprogress = false;
 id_actions = parseInt($("#nb_actions").val());
-
+//console.log(id_actions);
 //Jquery Chained
 
 /*
@@ -17,6 +17,7 @@ objects_html = $("#objects_actions0").html();
 //Actions
 for(i = 0;i <= id_actions;i++ ){
 	$("#objects_actions"+i).chained("#plugin_actions"+i);
+	console.log("#objects_actions"+i);
 }
 
 
@@ -128,4 +129,11 @@ function modify_allid($clone,id){
  function refresh_input(name,oldid,newid){
  	$("#"+name+oldid).attr("name",name+newid)
  	$("#"+name+oldid).attr("id",name+newid)
+ }
+
+ function showurl(){
+ 	value = $("#objects_actions0").val()
+ 	value = value + $("#tokens").val() + '"'
+ 	$("#urltext").val(value)
+
  }

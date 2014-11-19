@@ -5,6 +5,7 @@ function collector_changestate(button,object){
 	$(button).html("?");
 
 	switch(button_class){
+		//Check state
 		case "label label-warning":
 		$.ajax({
 			url: "actions.php",
@@ -18,6 +19,7 @@ function collector_changestate(button,object){
 		});
 		break;
 
+		//Off
 		case "label label-success":
 		$.ajax({
 			url: "actions.php",
@@ -36,6 +38,7 @@ function collector_changestate(button,object){
 		});
 		break;
 
+		//On
 		case "label label-danger":
 		$.ajax({
 			url: "actions.php",
@@ -46,7 +49,6 @@ function collector_changestate(button,object){
 			label = $("#" + data.data_id);
 			label.html(data.state);
 			change_label_color(label,data.label);
-
 			console.log(label);
 			//label = $("#" + data.data_id);
 			//label.html(data.data);

@@ -18,25 +18,37 @@ if(isset($_["notice"])){
 }
 else
 {
+	if(!isset($notice)){
 	$notice = false;
+	}
 }
 
-if($currentUser->isuser()){
-include(CORE_DATA."collectors/list.data");
-$collectors_name = $data;
+if(isset($currentUser)){
+	if($currentUser->isuser()){
+		include(CORE_DATA."collectors/list.data");
+		$collectors_name = $data;
+	}
+	else{
+		$collectors_name = false;
+	}
+
+	if($currentUser->isadmin()){
+		$admin_warning = true;
+	}
+	else{
+		$admin_warning = false;
+	}
+$tpl->assign("collectors_name",$collectors_name);
+$tpl->assign("admin_warning",$admin_warning);
+if(PUSH){
+$dynamic_js[] = CORE_VIEWS."/footer/push.js";
+}
 }
 else{
-	$collectors_name = false;
-}
+$tpl->assign("collectors_name",false);
+$tpl->assign("admin_warning",false);
 
-if($currentUser->isadmin()){
-	$admin_warning = true;
 }
-else
-{
-	$admin_warning = false;
-}
-
 
 
 //Footer Bar
@@ -44,8 +56,6 @@ $tpl->assign("appname",APP_NAME);
 $tpl->assign("appversion",VERSION);
 $tpl->assign("appstate",APP_STATE);
 $tpl->assign("author",AUTHOR);
-$tpl->assign("collectors_name",$collectors_name);
-$tpl->assign("admin_warning",$admin_warning);
 $tpl->draw(CORE_VIEWS."body/close");
 
 
@@ -53,7 +63,7 @@ $tpl->assign("theme_js",$theme->js()); //Theme JS
 
 //@todo load only js that are useful for the current page
 if(isset($dynamic_js)){
-$tpl->assign("dynamic_js",$dynamic_js);
+	$tpl->assign("dynamic_js",$dynamic_js);
 }
 
 $tpl->assign("error_message",$error); //ERROR MESSAGE (javascript)

@@ -5,7 +5,7 @@ if($currentUser->isadmin()){
 		switch ($action) {
 
 			case "validate":
-			$tokenslog_db = new Entity("TokenLog");
+			$tokenslog_db = new Entity("core","TokenLog");
 			$tokenslog = $tokenslog_db->load([
 				"id" => $_["id"]
 				]);
@@ -14,25 +14,25 @@ if($currentUser->isadmin()){
 				"ipaddress" => $tokenslog["ipaddress"]
 				]);
 
-			$tokens_db = new Entity("Tokens");
+			$tokens_db = new Entity("core","Tokens");
 			$tokens_db->setToken($tokenslog["token"]);
 			$tokens_db->setId_user(2);
 			$tokens_db->setState(1);
 			$tokens_db->save();
-			redirect("settings","?menu=yanaclient&notice=".t("Token has been validated"));
+			redirect("settings","?menu=token&notice=".t("Token has been validated"));
 			break;
 
 			case "ban":
-			$tokens_db = new Entity("Tokens");
+			$tokens_db = new Entity("core","Tokens");
 			$tokens_todelete = $tokens_db->delete([
 				"id" => $_["id"]
 				]);
-			redirect("settings","?menu=yanaclient&error=".t("Token has been banned"));
+			redirect("settings","?menu=token&error=".t("Token has been banned"));
 			break;
 
 			case "user_change":
 			if($_["id_user"] != 0){
-				$tokens_db = new Entity("Tokens");
+				$tokens_db = new Entity("core","Tokens");
 				$tokens_db->change([
 					"id_user" => $_["id_user"]
 					],[
@@ -46,13 +46,13 @@ if($currentUser->isadmin()){
 			break;
 
 			default:
-			redirect("settings","?menu=yanaclient&error=".t("No actions founded"));
+			redirect("settings","?menu=token&error=".t("No actions founded"));
 			break;
 		}
 	}
 	else
 	{
-		redirect("settings","?menu=yanaclient&error=".t("You need to specify an action"));
+		redirect("settings","?menu=token&error=".t("You need to specify an action"));
 	}
 }
 

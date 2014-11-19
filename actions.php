@@ -7,7 +7,7 @@ if(isset($_["token"])){
 	if(!$currentUser->id()){
 		$affirmation = "Token invalid";
 		
-		$tokenlog_db = new Entity("TokenLog");
+		$tokenlog_db = new Entity("core","TokenLog");
 		$ip_selected = $tokenlog_db->load([
 			"ipaddress" => $_SERVER['REMOTE_ADDR'],
 			"token" => $_["token"]

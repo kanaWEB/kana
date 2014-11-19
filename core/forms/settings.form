@@ -1,20 +1,64 @@
 <?php
 //Settings default form
-		//Header
+//Header
 include(CORE_VIEWS."header/header.view");
-include(CORE_VIEWS."menu/top/top.view");
-include(CORE_VIEWS."menu/left/left.view");
 
+//Top and Settings Menu
+include(CORE_VIEWS."menu/top.view");
+
+//Category items
+include(CORE_VIEWS."menu/settings/settings.view");
+
+//Items
+include(CORE_VIEWS."menu/settings/".$category_selected."/".$category_selected.".view");
 //Form generator
 include(CORE_VIEWS."forms/Form.class.php");
 
-//Page
-$file = CORE_FORMS."/settings/".$filename.".form";
+//Redirect to correct forms
+$file = CORE_FORMS."settings/".$category_selected."/".$menu_selected.".form";
 if(file_exists($file)){
-	include(CORE_FORMS."/settings/".$filename.".form");
+	include($file);
+}
+else{
+	if($category_selected == "objects"){
+		$file = CORE_FORMS."settings/".$category_selected."/objects.form";
+		
+		include($file);
+	}
+	else{
+	echo $file." do not exist";
+	}
 }
 
 $tpl->draw(CORE_VIEWS."modal/data");
 //Footer
 include(CORE_VIEWS."footer/footer.view");
-?>
+
+
+/*
+	//Settings Menu Generator
+if(isset($menu_selected)){
+		//Objects Redirector (menu is objects and name is set)
+		if( ($menu_selected == "objects") && isset($name_selected)){
+			$object_name = $name_selected;
+			$settingsmenu_active = "objects&name=".$object_name;
+			$filename = "objects";
+			//If no tab is set then redirect
+			if(!isset($tab_selected)){
+				//include(CORE_FORMS."settings/plugins/objects.redirect");
+			}
+		}
+	//General item
+		else{
+			$settingsmenu_active = $menu_selected;
+			$filename = $menu_selected;
+		}
+	}
+//Menu is not set
+	else{
+	//Default active menu
+		$settingsmenu_active = DEFAULT_MENU_SETTINGS;
+		$filename = $settingsmenu_active;
+	}
+*/
+	?>

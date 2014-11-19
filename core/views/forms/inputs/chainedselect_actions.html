@@ -52,7 +52,7 @@
 	{/if}
 		{loop="$input.options"}
 		<option {if="$input.selected.action==$value.object_dir.';'.$value.id.';'.$value.action.';'.$value1['action_nb'].';'.$value.type"}selected{/if} class="{$value.object_dir}" value="{$value.object_dir};{$value.id};{$value.action};{$value.action_nb};{$value.type}">
-			{$value.name|t} {$value.object_name}
+			{$value.name|t} {$value.entity_name}
 		</option>
 		{/loop}
 	</select>

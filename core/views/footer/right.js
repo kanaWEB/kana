@@ -6,7 +6,7 @@ state = $(ajaxswitch).is(':checked');
 			url: "actions.php",
 			data: {type: "groupright", id_user: id_user, id_group: id_group, state: state}
 		}).done(function ( data ) {
-			ajax_notify(data);
+			ajax_notify(data,"top");
 		});
 }
 
@@ -18,6 +18,6 @@ state = $(ajaxswitch).is(':checked');
 			url: "actions.php",
 			data: {type: "viewright", id_user: id_user, id_view: id_view, state: state}
 		}).done(function ( data ) {
-			ajax_notify(data);
+			ajax_notify(data,"top");
 		});
 }

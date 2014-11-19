@@ -1,0 +1,36 @@
+<?php
+unset($data);
+
+if(file_exists("/dev/i2c-0")){
+	$port = "0";
+}
+elseif(file_exists("/dev/i2c-1")){
+	$port = "1";
+}
+
+exec("i2cdetect -y 1",$result,$exit_code);
+if($exit_code == 0){
+	array_shift($result);
+	//var_dump($exit_code);
+	foreach($result as $portlines){
+		$portline = explode(" ",$portlines);
+		array_shift($portline);
+		foreach($portline as $port){
+			if(is_numeric($port)){
+				if(isset($data)){
+				$data .= " - ".$port;
+				}
+				else{
+				$data = $port;
+				}
+			}
+		}
+	}
+}
+else{
+	$data =  "Permission denied (  chmod a+rw /dev/i2c-*  )";
+}
+
+//echo $data;
+
+?>

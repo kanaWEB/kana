@@ -1,0 +1,3 @@
+//Sensor Object : 1.0
+sensor_id:string
+sensor_type:string

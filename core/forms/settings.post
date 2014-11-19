@@ -1,0 +1,35 @@
+<?php
+/*
+if(isset($name_selected) && $menu_selected != "triggers"){
+	$menu_selected = $menu_selected."/".$name_selected;
+}
+else
+{
+	$menu_selected = "triggers";
+}
+*/
+
+$file = CORE_FORMS."settings/".$category_selected."/".$menu_selected.".post";
+
+
+
+if(file_exists($file)){
+	include($file);
+}
+else{
+	if($category_selected == "objects"){
+
+		include(CORE_FORMS."settings/objects/objects.redirect");
+
+		//var_dump($category_selected);
+		//var_dump($action_selected);
+
+		$file = CORE_FORMS."settings/".$category_selected."/".$tab_selected.".post";
+		
+		include($file);
+	}
+	else{
+	echo $file." do no exists";
+	}
+}
+?>

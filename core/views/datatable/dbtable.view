@@ -4,15 +4,14 @@
 include(CORE_VIEWS."table/header/header.view");
 
 //Link generator
-$link = $_SERVER['SCRIPT_NAME']."?menu=".$_["menu"];
-if(isset($_["tab"]))
-{
-	$link .= "&name=".$object_name."&tab=".$_["tab"];
-}
+$link = $_SERVER['SCRIPT_NAME'];
+$link .= "?category=".$category_selected."&menu=".$object_name."&tab=".$tab_selected;
+
 
 //Table data
 for($i=0;$i<count($objects);$i++){
 	$tpl->draw(CORE_VIEWS."table/row/open");
+	//var_dump($objects);
 	foreach($table_data as $td){
 		
 		$tpl->draw(CORE_VIEWS."table/cell/open");

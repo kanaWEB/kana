@@ -12,8 +12,8 @@ define('CORE_FORMS',"core/forms/");
 
 //DATABASE PATH
 define('DATABASE','/etc/kana/kana.db');
-define('DATA_DIR',"/etc/kana/data");
-define('CONFIG_DIR',"/etc/kana");
+define('DATA_DIR',"/etc/kana/data/");
+define('CONFIG_DIR',"/etc/kana/config/");
 
 //RAINTPL
 define('CACHE_DIR',"cache/");
@@ -27,7 +27,7 @@ define('USER_VIEWS',"plugins/views/");
 define('USER_DATA',"plugins/data/");
 define('USER_ACTIONS',"plugins/actions/");
 define('USER_OBJECTS',"plugins/objects/");
-define('USER_ELEC',"plugins/electronics/");
+
 define('LANGUAGE',"plugins/language/");
 
 //APP INFO
@@ -40,6 +40,8 @@ define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
 
 //DATA
 define('MAXDATA',10);
+
+//Very insecure!!
 define('DATA_REMOTE',true);
 define('SQL_PREFIX','');
 define('DB_EXISTS',file_exists(DATABASE));
@@ -49,13 +51,17 @@ define('COOKIE_LIFE','355');
 define('COOKIE_NAME','KANA');
 
 //DEBUG
-define('DEBUG',FALSE);
-define('DEVMODE',FALSE);
+define('DEBUG',false);
+define('PUSH',true);
+define('SHOWCOMMANDS',false);
+define('DEVMODE',true);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
 
 //MENU
-define('DEFAULT_MENU_SETTINGS',"pref");
+define('DEFAULT_CATEGORY_SETTINGS',"objects");
+define('DEFAULT_MENU_SETTINGS',"allobjects");
+
 
 //GPIO : wPi / BCM / Name
 //define('DEFAULT_GPIO',"wPi");

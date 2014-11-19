@@ -14,7 +14,7 @@ function rootAction(button){
 	}).done(function ( data ) {
 		$(button).attr("disabled",false);
 		$('#loading-indicator').hide();
-		ajax_notify(data);
+		ajax_notify(data,"top");
 	});
 }
 

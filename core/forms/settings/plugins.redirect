@@ -1,0 +1,25 @@
+<?php
+if(isset($menu_selected)){
+		//Objects Redirector (menu is objects and name is set)
+		if( ($menu_selected == "objects") && isset($name_selected)){
+			$object_name = $name_selected;
+			$settingsmenu_active = "objects&name=".$object_name;
+			$filename = "objects";
+			//If no tab is set then redirect
+			if(!isset($tab_selected)){
+				include(CORE_FORMS."settings/objects/objects.redirect");
+			}
+		}
+	//General item
+		else{
+			$settingsmenu_active = $menu_selected;
+			$filename = $menu_selected;
+		}
+	}
+//Menu is not set
+	else{
+	//Default active menu
+		$settingsmenu_active = DEFAULT_MENU_SETTINGS;
+		$filename = $settingsmenu_active;
+	}
+?>

@@ -1,0 +1,11 @@
+<?php
+$db_sensors = new Entity("core","Sensors");
+$sensors_list = $db_sensors->populate();
+foreach($sensors_list as $sensor){
+	$data = [
+	"text" => $sensor["sensor_id"],
+	"value" => $sensor["sensor_id"]
+	];
+}
+
+?>

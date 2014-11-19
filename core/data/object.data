@@ -1,14 +1,16 @@
 <?php
 unset($data);
 $_ = array_map('Functions::secure',array_merge($_POST,$_GET));
-if(isset($_["name"])){
-	$object_name = $_["name"];
+if(isset($_["category"])){
+	if($_["category"] == "objects"){
+	$object_name = $_["menu"];
+	}
 }
 
 if(!isset($object_name) || isset($list_all_objects)){
 	$objects_dir = Functions::getdir(USER_OBJECTS);
 	foreach($objects_dir as $object_dir){
-		$actions_db = new Entity($object_dir."_actions",Variable::actions_fields());
+		$actions_db = new Entity("actions",$object_dir);
 		$actions = $actions_db->populate();
 		if($actions){
 		$data[] = [
@@ -25,12 +27,12 @@ if(!isset($object_name) || isset($list_all_objects)){
 else
 {
 
-	$object_db = new Entity($object_name);
+	$object_db = new Entity("config",$object_name);
 	$objects = $object_db->populate();
 	if($objects){
 		foreach($objects as $object){
 			$data[] = [
-			"text" => $object["object_name"],
+			"text" => $object["entity_name"],
 			"value" => $object["id"]
 			];
 		}

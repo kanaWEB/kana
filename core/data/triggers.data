@@ -1,11 +1,11 @@
 <?php
-$triggers_db = new Entity("Triggers");
+$triggers_db = new Entity("core","Triggers");
 $triggers = $triggers_db->populate();
 
 if($triggers){
 foreach($triggers as $trigger){
 	$data[] = [
-	"text" => html_entity_decode($trigger["object_name"]),
+	"text" => html_entity_decode($trigger["entity_name"]),
 	"value" => $trigger["id"]
 	 ];
 }

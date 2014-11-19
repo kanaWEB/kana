@@ -1,19 +1,15 @@
 <?php
 class Variable{
 
-
-
-
-
-//Make a leftmenu item for objects (icon/text/link/label)
-	public static function leftmenu_item($menu_name,$object_dir,$object){
-		$leftmenu_item = [
+//Make a settingsmenu item for objects (icon/text/link/label)
+	public static function settingsmenu_item($menu_name,$object_dir,$object){
+		$settingsmenu_item = [
 		"text" => $menu_name,
 		"icon" => $object_dir."/icon.png",
-		"link" => "objects&name=".$object,
+		"link" => $object,
 		"label" => "label-danger",
 		];
-		return $leftmenu_item;
+		return $settingsmenu_item;
 	}
 
 	public static function object_html($object_dir){
@@ -26,13 +22,13 @@ class Variable{
 		return $object_html;
 	}
 
-	public static function navtab_item($menu,$text,$link,$name=false){
-		if($name){
-			$link_begin = "settings.php?menu=".$menu."&name=".$name."&tab=";
+	public static function navtab_item($category,$text,$link,$menu=false){
+		if($menu){
+			$link_begin = "settings.php?category=".$category."&menu=".$menu."&tab=";
 		}
 		else
 		{
-			$link_begin = "settings.php?menu=".$menu."&tab=";
+			$link_begin = "settings.php?category=".$category."&tab=";
 		}
 
 		$navtab_item = [
@@ -69,6 +65,7 @@ class Variable{
 
 		//If we are in debug mode dump file path array
 		if(DEBUG){
+			echo "Searching Data files...";
 			var_dump($data_files);
 		}
 	
@@ -123,6 +120,29 @@ public function actions_fields(){
 	"object_key" => "int",
 	"group_key" => "int"
 	];
+	$db_fields['id'] = "key";
+
+		//Default fields (name/description/uid)
+		if($this->default){
+			$db_fields['uid'] = "int";
+		//@todo Rename Entity_name / Entity description
+			$db_fields['entity_name'] = "string";
+			$db_fields['entity_description'] = "string";
+		}
+
+		//@todo remove dirty hack
+		if(!isset($db_fields["trigger"])){
+			$db_fields['state'] = "int";
+		}
+
+		if(isset($db_fields["data"])){
+			unset($db_fields["state"]);
+		}
+
+		//var_dump($db_fields);
+		$this->object_fields = $db_fields;
+
+		$this->TABLE_NAME = $table_name;
 	return $db_fields;
 }
 
@@ -176,10 +196,20 @@ public function md2vars($file){
 	return $inputs;
 }
 
-//Availables Actions menu item
-public function md2menuitem($menu,$tab,$object_name,$available_md_item){
-	$dir_tab = $tab."s";
-	$md_dir = USER_OBJECTS.$object_name."/".$dir_tab."/".$available_md_item."/info/";
+//Availables Actions menu item (Triggers)
+public function md2menuitem($category,$object_name,$available_md_item){
+
+	if($category == "scenario"){
+		$link =  $_SERVER['SCRIPT_NAME']."?category=".$category."&menu=triggers&tab=".$object_name."&trigger=".$available_md_item;
+		$dir = "triggers";
+	}
+	else
+	{
+		$link =  $_SERVER['SCRIPT_NAME']."?category=".$category."&menu=triggers&tab=".$object_name."&tab=action&action=".$available_md_item;
+		$dir = "actions";
+	}
+
+	$md_dir = USER_OBJECTS.$object_name."/".$dir."/".$available_md_item."/info/";
 
 
 		//Get name of actions/triggers (internationalized)
@@ -214,7 +244,7 @@ public function md2menuitem($menu,$tab,$object_name,$available_md_item){
 	$menu_item = [
 	"text" => $text,
 	"description" => $description,
-	"link" =>  $_SERVER['SCRIPT_NAME']."?menu=".$menu."&name=".$object_name."&tab=".$tab."&".$tab."=".$available_md_item,
+	"link" =>  $link,
 	"dir" => $available_md_item
 	];
 
@@ -237,6 +267,14 @@ public function object_menus_name($object_name){
 
 	if(file_exists($path."/electronics")){
 		$menu_name["electronics"] = True;
+	}
+
+	if(file_exists($path."/codes")){
+		$menu_name["codes"] = True;
+	}
+
+	if(!isset($menu_name)){
+		$menu_name = false;
 	}
 
 	return $menu_name;
@@ -270,5 +308,36 @@ public function objectName($object_dir){
 		return false;
 	}
 }
+
+//Markdown to Name of an objects
+public function objecttags($object_dir){
+	//Check if objects directory exists
+	if(is_dir($object_dir)){
+		//Check for menu translation
+		$translated_menu_dir = $object_dir."/info/tags.".$_SESSION["LANGUAGE"].".md";
+
+		if(file_exists($translated_menu_dir)){
+			$menu_filepath = $translated_menu_dir;
+		}
+		else{
+		//If no translation check for menu 
+			if(file_exists($object_dir."/info/tags.md")){
+				$menu_filepath = $object_dir."/info/tags.md";
+			}
+		}
+	}
+
+
+	if(isset($menu_filepath)){
+		$menu_name = file_get_contents($menu_filepath);
+		return $menu_name;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 }
 ?>

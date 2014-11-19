@@ -1,6 +1,6 @@
 //Trigger Object : 1.0
-object_name:string
-object_description:string
+entity_name:string
+entity_description:string
 code:int
 trigger_object:string
 id_object:int

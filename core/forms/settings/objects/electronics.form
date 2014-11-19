@@ -2,7 +2,7 @@
 //If an object is selected
 
 
-$selected_db = new Entity($object_name,"electronics");
+$selected_db = new Entity("electronics",$object_name);
 $selected = $selected_db->getById(1);
 
 if($selected){
@@ -31,6 +31,20 @@ foreach($inputs_file as $input_file){
 		$input["options"] = $data;
 		}
 		unset($data);
+	}
+
+	if(isset($input["selected_data"])){
+		$data_file = Variable::data_dir($input["selected_data"]);
+		if($data_file){
+		include($data_file);
+		}
+		else
+		{
+			echo "cannot found:".$input["selected_data"];
+		}
+		if(!isset($input["selected"])){
+		$input["selected"] = $data;
+		}
 	}
 
 	$form->input($input);

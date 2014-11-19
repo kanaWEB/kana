@@ -1,6 +1,6 @@
 <?php
 //Table Header
-$tokenslog_db = new Entity("TokenLog");
+$tokenslog_db = new Entity("core","TokenLog");
 $tokenslog = $tokenslog_db->populate();
 if($tokenslog){
 	$table_headers[] = "IP Address";

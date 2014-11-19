@@ -1,0 +1,62 @@
+<?php
+if(isset($_["action_name"]) && isset($_["object_name"])){
+	$md_actions_dir = (USER_OBJECTS.$_["object_name"]."/actions/".$_["action_name"]."/actions/");
+	$actions_array = Functions::getdir($md_actions_dir);
+	foreach($actions_array as $actions){
+		$data = Variable::md2var($md_actions_dir."/".$actions);
+	}
+}
+else{
+
+	$objects_dir = Functions::getdir(USER_OBJECTS);
+	$key = 0;
+	foreach($objects_dir as $object_dir){
+		//Get actions from objects	
+		$actions_db = new Entity("actions",$object_dir);
+		$actions_db = $actions_db->populate();
+		
+	//If objects has actions
+		if($actions_db){
+			foreach($actions_db as $action){
+				if($currentUser->GroupRight($action["group_key"])){
+					$md_actions_dir = (USER_OBJECTS.$object_dir."/actions/".$action["action"]."/actions/");
+					$actions_array = Functions::getdir($md_actions_dir);
+					foreach($actions_array as $actions){
+						$action_data[$key] = Variable::md2var($md_actions_dir."/".$actions);				
+
+						if(!isset($action_data[$key]["action_nb"])){
+							$action_data[$key]["action_nb"] = 0;
+						}
+
+						$action_data[$key]["object_dir"] = $object_dir;
+						$action_data[$key]["entity_name"] = $action["entity_name"];
+						$action_data[$key]["id"] = $action["id"];
+						$action_data[$key]["action"] = $action["action"];
+						$action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
+						$action_data[$key]["url"] = 'scripts/action.py &quot;http://'.$_SERVER["HTTP_HOST"].'/actions.php?type=action&object='.$object_dir.'&id='.$action["id"].'&action='.$action["action"].'&action_nb='.$action_data[$key]["action_nb"].'&state='.$action_data[$key]["type"].'&token=';
+						
+						$key++;
+					}
+				}
+			}
+		}
+	}
+	if(isset($action_data)){
+	$data = $action_data;
+	}
+	else
+	{
+		$action_data[$key]["object_dir"] = false;
+		$action_data[$key]["entity_name"] = "Nothing";
+		$action_data[$key]["id"] = false;
+		$action_data[$key]["action"] = false;
+		$action_data[$key]["icon"] = false;
+		$action_data[$key]["action_nb"] = false;
+		$action_data[$key]["type"] = false;
+		$action_data[$key]["name"] = false;
+		$data = $action_data;
+	}
+
+}
+?>
+

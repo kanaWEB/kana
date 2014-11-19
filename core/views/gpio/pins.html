@@ -4,7 +4,7 @@
 
 
 <!-- core/views/gpio/pins.html -->
-
+<center>
 	<table class="rotable">
 	<?php if($model == "-Model B2-") $gpios_count = 26 ?>
 	<?php if($model == "--B Plus--") $gpios_count = 40 ?>
@@ -18,7 +18,7 @@
  				</strong>
  			</td>
 
- 			<td onclick="change_gpio(this,'<?php echo $gpios[$i]['wPi'] ?>')" class="label label-<?php echo $gpios[$i]['label'] ?>">
+ 			<td id="gpio_<?php echo $gpios[$i]["wPi"] ?>" onclick="change_gpio(this,'<?php echo $gpios[$i]['wPi'] ?>')" class="gpio_items label label-<?php echo $gpios[$i]['label'] ?>">
  				<?php echo $gpios[$i]["Value"] ?>
  			</td>
  			
@@ -26,7 +26,7 @@
  			
  			<td></td>
  			
- 			<td onclick="change_gpio(this,'<?php echo $gpios[$i]['wPi'] ?>')" class="label label-<?php echo $gpios[$i]['label'] ?>">
+ 			<td id="gpio_<?php echo $gpios[$i]["wPi"] ?>" onclick="change_gpio(this,'<?php echo $gpios[$i]['wPi'] ?>')" class="label label-<?php echo $gpios[$i]['label'] ?>">
  				<?php echo $gpios[$i]["Value"] ?></td>
  			<td>
  				<strong>
@@ -42,7 +42,9 @@
  	<br>
  	 {$model}
  	 <br>
- 	<button onclick="rotate(0)">{"0°"|t}</button>
- 	<button onclick="rotate(90)">{"90°"|t}</button>
- 	<button onclick="rotate(180)">{"180°"|t}</button>
- 	<button onclick="rotate(270)">{"270°"|t}</button>
+ 	<button class="btn" onclick="rotate(0)">{"0°"|t}</button>
+ 	<button class="btn" onclick="rotate(90)">{"90°"|t}</button>
+ 	<button class="btn" onclick="rotate(180)">{"180°"|t}</button>
+ 	<button class="btn" onclick="rotate(270)">{"270°"|t}</button>
+ 	<button class="btn btn-success fa fa-play-circle-o" onclick="checkloopgpio(this)"></button>
+ 	<center>

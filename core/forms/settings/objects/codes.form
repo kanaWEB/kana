@@ -1,7 +1,7 @@
 <?php
 //If an object is selected
 if(isset($_["id"])){
-	$selected_db = new Entity($object_name);
+	$selected_db = new Entity("config",$object_name);
 	$selected = $selected_db->getById($_["id"]);
 	$form_name = "ID:".$_["id"];
 	$hidden_input = [
@@ -40,8 +40,7 @@ foreach($inputs_file as $input_file){
 		if($data_file){
 		include($data_file);
 		}
-		else
-		{
+		else{
 			echo "cannot found:".$input["selected_data"];
 		}
 		if(!isset($input["selected"])){
@@ -55,7 +54,7 @@ foreach($inputs_file as $input_file){
 }
 $form->display($tpl);
 
-$object_db = new Entity($object_name);
+$object_db = new Entity("config",$object_name);
 $objects = $object_db->populate();
 if($objects){
 	include(CORE_VIEWS."/"."datatable/dbtable.view");

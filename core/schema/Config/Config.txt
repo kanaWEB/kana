@@ -1,4 +1,3 @@
 //Config Object : 1.0
 language:string
 theme:string
-salt:string

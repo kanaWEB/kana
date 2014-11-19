@@ -1,8 +1,9 @@
 <?php
-$object_name = $_["name"];
-$object_db = new Entity($object_name);
+
+$object_name = $menu_selected;
+$object_db = new Entity("config",$object_name);
 if(isset($_["del"])){
-	$action_db = new Entity($object_name."_actions",Variable::actions_fields());
+	$action_db = new Entity("actions",$object_name);
 	$linked_actions = $action_db->rowCount(array('object_key'=>$_['id']));
 	if($linked_actions != 0){
 		Draw::ajax_notify(t("You can't delete an used object"),"error");
@@ -19,7 +20,7 @@ else{
 	unset($fields["submit"]);
 	unset($fields["menu"]);
 	unset($fields["tab"]);
-	unset($fields["name"]);
+	unset($args["category"]);
 
 	if(isset($_["id"])){
 		$object_db->setId($_["id"]);
@@ -35,6 +36,6 @@ else{
 	}
 	//var_dump($object_db);
 	$object_db->save();
-	redirect("settings","?menu=objects&name=".$object_name."&tab=".$_["tab"]."&notice=".t("Code added"));
+	redirect("settings","?category=objects&menu=".$object_name."&tab=".$tab_selected."&notice=".t("Code added"));
 }
 ?>

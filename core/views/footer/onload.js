@@ -1,6 +1,5 @@
 //check for notification and ajax request
 $(document).ready(function(){
-	//maj();
 	if (typeof error !== 'undefined') {
 		notification(error,"error");
 	}
@@ -9,21 +8,20 @@ $(document).ready(function(){
 	}
 });
 
-
-//@todo Move elsewhere form.js
+//@todo Move elsewhere then onload.js
 
 //http://www.bootply.com/110686# by twlaam
 //Image inside Select field 
 //Used mainly for actions groups and scenario
+//@todo --> selectpicker.js should be only load when there is a selectpicker
 $('.selectpicker').selectpicker({
   width: '270px',
   style: 'label-info label'
  });
 
 
-
-
 // Masonry manages widgets so it occupied the entire screen
+//@todo --> auto_organize.js should be load only when there are widgets (views?)
 $('#widgets').masonry({
   columnWidth: 200,
   itemSelector: '.item'
@@ -31,13 +29,10 @@ $('#widgets').masonry({
 
 $('.tooltip-js').tooltip();
 
-
-
 //Manage ajaxswitch (used mainly for permissions)
 $(".ajaxswitch").bootstrapSwitch();
 
-
-//--> Move to default.js
+//--> Move to view.js Should be only load when views
 //Make a view a default view for user
 function makeasdefault_view(button,id_view,id_user){
 $(button).removeClass("btn-primary");
@@ -47,7 +42,7 @@ $(button).attr("disabled",true);
 			url: "actions.php",
 			data: {type: "defaultview", id_user: id_user, id_view: id_view}
 		}).done(function ( data ) {
-			ajax_notify(data);
+			ajax_notify(data,"top");
 		});
 }
 
@@ -60,12 +55,12 @@ $(button).attr("disabled",true);
 			url: "actions.php",
 			data: {type: "defaultgroup", id_user: id_user, id_group: id_group}
 		}).done(function ( data ) {
-			ajax_notify(data);
+			ajax_notify(data,"top");
 		});
 }
 
-//@todo move elsewhere
 //Delete a field with ajax
+//@todo move elsewhere , Should only be load when a dbtable is load
 function ajax_delete(button,url){
 	console.log($(button));
 	$(button).attr("disabled",true);
@@ -73,7 +68,7 @@ function ajax_delete(button,url){
 		url: url
 	}).done(function(data){
 		console.log(data);
-		json = ajax_notify(data);
+		json = ajax_notify(data,"top");
 		console.log(json.data);
 		if(json.data != false){
 			console.log($("#del"+json.data))

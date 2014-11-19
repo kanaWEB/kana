@@ -1,0 +1,17 @@
+<!-- core/views/menu/settings/items/item.html -->
+	<a href="settings.php?category=objects&menu=addobjects" class="btn btn-danger"><i class="glyphicon glyphicon-plus"></i>{"Add"|t}</a>
+	<a href="settings.php?category=objects&menu=allobjects" class="btn btn-warning"><i class="fa fa-align-justify"></i>{" All"|t}</a>
+	<input onkeyup="search_ajax_objects(this)" type="text">
+	<ul class="nav nav-pills">
+	{if="isset($settingsmenu)"}
+	{loop="$settingsmenu"}
+			<li id="{$value.link}_item" class="{if="isset($hide)"}hide{/if} objects_items {if="$settingsmenu_active==$value.link"} active{/if}">
+				<a href="settings.php?category={$category_selected.id}&menu={$value.link}">
+					<img src="{$value.icon}">  {$value.text|t}   		
+					{if="isset($value.state)"}<span class="label {$value.label}"><i class="glyphicon {$value.state}"></i></span>{/if}
+				</a>
+			</li>
+	{/loop}
+	{/if}
+</ul>
+</div>

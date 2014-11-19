@@ -11,6 +11,7 @@ require_once("constants.inc"); //Global Constants
 LOAD FUNCTIONS
 */
 //Add core functionalities
+require_once("schema/SQLKana.class.php");
 require_once("schema/Entity.class.php"); //SQL manager
 
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY @todo remove unused functions and refactor
@@ -57,7 +58,7 @@ Manage General Configuration
 */
 //Load configuration (theme/lang/)
 if(!isset($_SESSION['config'])){
-	$config = new Entity("Config");
+	$config = new Entity("core","Config");
 	$config = $config->load(0);
 	
 	$_SESSION["config"] = serialize($config);

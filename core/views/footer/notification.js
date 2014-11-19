@@ -31,11 +31,13 @@ $.noty.defaults = {
 };
 
 //AJAX Notification
-function ajax_notify(data){
+function ajax_notify(data,position){
 	try{
+		//console.log("Parsing JSON");
 		json = $.parseJSON(data);
 		text = json.text;
 		type = json.type;
+		//console.log(json);
 	} catch(exception){
 		console.log(data);
 		data = data.replace(/'/g, "&#39;");
@@ -45,7 +47,7 @@ function ajax_notify(data){
 		notify_closeWith = 'button';
 	}
 
-	last_alert = notification(text,type);
+	last_alert = notification(text,type,position);
 	
 
 	//tab_notification.push(last_alert);
@@ -66,8 +68,9 @@ json = false;
 return json
 }
 
-function notification(text,type){
+function notification(text,type,position){
 	var n = noty({
+		layout: position,
 		text: text.trim(),
 		type: type,
 		timeout: notify_time,

@@ -1,32 +1,45 @@
 <?php
+
+if(isset($display_allactions)){
+	$table_headers[] = "Object";
+	$table_data[] = "plugin_name";
+	$table_headers[] = "Name";
+	$table_headers[] = "Description";
+	$table_headers[] = "Action";
+	$table_data[] = "entity_name";
+	$table_data[] = "entity_description";
+	$table_data[] = "action";
+	$action_name = $object_name;
+}
+
 if(!isset($table_headers)){
 	$table_headers[] = "Name";
 	$table_headers[] = "Description";
 	$table_headers[] = "Action";
-	$table_data[] = "object_name";
-	$table_data[] = "object_description";
+	$table_data[] = "entity_name";
+	$table_data[] = "entity_description";
 	$table_data[] = "action";
-	$action_name = $object_name."_actions";
+	$action_name = $object_name;
 }
 
-if(isset($_["action"])){
-	$action_get = $_["action"];
-}
+
+$action_get = $action_selected;
 
 if(file_exists(USER_OBJECTS.$object_name."/".$object_name.".txt")){
-$object_db = new Entity($object_name);
+	$object_db = new Entity("config",$object_name);
 }
-$group_db = new Entity("Group");
-$action_db = new Entity($action_name,Variable::actions_fields());
-if(!isset($action_dir)){
-$actions = $action_db->populate();
+$group_db = new Entity("core","Group");
+$action_db = new Entity("actions",$object_name);
+//var_dump($action_name);
+if(isset($display_allactions)){
+	$actions = $action_db->populate();
 }
 else{
-$actions = $action_db->loadAll(["action" => $action_dir]);
+	$actions = $action_db->loadAll(["action" => $action_selected]);
 }
 
 if($actions){
-$actions = Variable::actions_args($actions);
+	$actions = Variable::actions_args($actions);
 
 //Table Header
 	
@@ -40,12 +53,12 @@ $actions = Variable::actions_args($actions);
 			switch($td){
 				case "object_key":
 				$name = $object_db->getById($actions[$i][$td]);
-				echo $name["object_name"];
+				echo $name["entity_name"];
 				break;
 
 				case "group_key":
 				$name = $group_db->getById($actions[$i][$td]);
-				echo $name["object_name"];
+				echo $name["entity_name"];
 				break;
 
 				case "action":
@@ -53,13 +66,17 @@ $actions = Variable::actions_args($actions);
 				echo $action_get;
 				break;
 
+				case "plugin_name":
+				echo '<img src="'.USER_OBJECTS.$object_name.'/icon.png">'.Variable::Objectname(USER_OBJECTS.$object_name);
+				break;
+
 				default:
 				if(substr($td,0,4) == "code"){
 					$name = $object_db->getById($actions[$i][$td]);
-					echo $name["object_name"];
+					echo $name["entity_name"];
 				}
 				else{
-				echo $actions[$i][$td];
+					echo $actions[$i][$td];
 				}
 				break;
 			}
@@ -69,7 +86,7 @@ $actions = Variable::actions_args($actions);
 		$tpl->draw(CORE_VIEWS."table/cell/open");
 
 		$buttons = [
-		"link" => $_SERVER['SCRIPT_NAME']."?menu=objects&name=".$object_name."&tab=action&action=".$action_get,
+		"link" => $_SERVER['SCRIPT_NAME']."?category=".$category_selected."&menu=".$object_name."&tab=action&action=".$action_get,
 		"id" => $actions[$i]["id"]
 		];
 		$tpl->assign("buttons",$buttons);

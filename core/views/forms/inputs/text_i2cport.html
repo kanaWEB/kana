@@ -1,0 +1,8 @@
+
+
+<!-- core/views/forms/inputs/text.html -->
+
+<div class="form-group">
+    <label for="{$input.id}">{$input.name|t}</label><span class="btn btn-primary" onclick="getdata('i2c/port'">I2C Port</span>
+    <input type="text" {if="isset($input.onkeyup)"}onkeyup="{$input.onkeyup}" {/if}value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"} data-bv-message="{'This field is required'|t}"required{/if}>
+</div>

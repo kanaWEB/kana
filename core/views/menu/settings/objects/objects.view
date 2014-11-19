@@ -1,0 +1,32 @@
+<?php
+/*
+Objects
+*/
+
+$objects = Functions::getdir(USER_OBJECTS);
+//@todo check if there is a projects
+
+if($menu_selected != "allobjects"){
+$tpl->assign("hide",true);
+}
+	foreach($objects as $object){
+		$object_dir = USER_OBJECTS.$object;
+		$menu_name = Variable::objectName($object_dir);
+		//If the menu exists generate it
+		if($menu_name){
+			$settingsmenu[] = Variable::settingsmenu_item($menu_name,$object_dir,$object);
+		}
+	}
+
+
+if(!isset($settingsmenu)){
+	$settingsmenu = false;
+}
+
+
+$tpl->assign("category_selected",$category);
+$tpl->assign("settingsmenu_active",$menu_selected); //As set inside settings.php
+$tpl->assign("settingsmenu",$settingsmenu);
+$tpl->draw(CORE_VIEWS."menu/items/item_icons");
+$dynamic_js[] = CORE_VIEWS."footer/searchobjects.js";
+?>
