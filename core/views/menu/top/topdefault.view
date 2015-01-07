@@ -3,7 +3,7 @@
 		if(PHP_PAGE == "settings.php"){
 			$topmenu_selected = [
 			"text" => "Settings",
-			"icon" => "glyphicon-wrench"
+			"icon" => "glyphicon glyphicon-wrench"
 			];
 		}
 
@@ -12,14 +12,14 @@
 		//Settings
 		$topmenu[] = [
 		"text" => "Settings",
-		"icon" => "glyphicon-wrench",
+		"icon" => "glyphicon glyphicon-wrench",
 		"link" => "settings.php"
 		];
 }
 		//Log Out
 		$topmenu[] = [
 		"text" => t("Logout")." (".$currentUser->nickname().")",
-		"icon" => "glyphicon-user",
+		"icon" => "glyphicon glyphicon-user",
 		"link" => "index.php?logout"
 		];
 

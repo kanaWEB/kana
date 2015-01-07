@@ -1,4 +1,5 @@
 <?php
+//All triggers
 if(!isset($_["trigger"])){ //Available actions
 	
 	include(CORE_VIEWS."menu/settings/scenario/triggers_default.view");
@@ -21,15 +22,30 @@ if(!isset($_["trigger"])){ //Available actions
 
 	include(CORE_VIEWS."datatable/dbtable_triggers.view");
 }
-
+//Specific trigger
 else{
 	$object_name = $tab_selected;
-	$trigger_dir = $tab_selected;
+	$trigger_dir = $_["trigger"];
+
+
+	if($tab_selected == "sensors"){
+		$object_nameicon = '<h1><img src="core/img/'.$tab_selected.'.png "> '.t("Sensors").'</h1>';
+		$form_file_dir = "core/triggers/".$object_name."/".$trigger_dir."/form/";
+	}
+	else{
+		$object_nameicon = Variable::object_nameicon($tab_selected);
+		$form_file_dir = USER_OBJECTS.$object_name."/triggers/".$trigger_dir."/form/";
+	}
+
+	
+	$tpl->assign("text",$object_nameicon);
+	$tpl->draw(CORE_VIEWS."text/h1");
+
 //If an action is choosen
 	if(isset($_["id"])){
 		$selected_db = new Entity("core","Triggers");
 		$selected = $selected_db->getById($_["id"]);
-	//$selected = Variable::action_args($selected);
+		//$selected = Variable::action_args($selected);
 		$form_name = "ID:".$_["id"];
 		$hidden_input = [
 		"type" => "hidden",
@@ -45,9 +61,9 @@ else{
 	include(CORE_VIEWS."forms/form_trigger.view");
 
 //Custom Fields
-	$form_file_dir = USER_OBJECTS.$object_name."/triggers/".$trigger_dir."/form/";
 	include(CORE_VIEWS."forms/form_md2.view");
 
 	include(CORE_VIEWS."datatable/dbtable_triggers.view");
 }
+
 ?>

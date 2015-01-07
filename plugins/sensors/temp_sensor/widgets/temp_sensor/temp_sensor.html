@@ -1,0 +1,25 @@
+<!-- /plugins/sensors/temp_sensor/widgets/temp_sensor/temp_sensor.html -->
+
+<div class="border-circled">
+<div class="bg-success text-center nopadding border-circled">
+  <h5 class="nopadding"><img src="{$websensor.icon}">{$websensor.sensor_name}</h5>
+</div>
+
+<div class="text-center nopadding border-circled">
+  <h3 class="nopadding">
+     {$websensor.sensor_lastvalue}
+     
+ </h3>
+</div>
+
+{if="$websensor.sensor_battery != 'ON'"}
+<div class="progress nopadding">
+    <div class="progress-bar {$websensor.sensor_battery_class}" role="progressbar" aria-valuenow="{$websensor.sensor_battery}" aria-valuemin="0" aria-valuemax="100" style="width: {$websensor.sensor_battery}%;">
+    <span>{$websensor.sensor_battery}%</span>
+    </div>
+</div>  
+{/if}  
+</div>
+
+<br>
+

@@ -1,0 +1,21 @@
+<?php
+require_once("core/schema/RRDKana.class.php");
+if(isset($_["data_id"])){
+$id = $_["data_id"];
+$type = $_["data_type"];
+}
+elseif(isset($data_id)){
+	$id = $data_id;
+	$type = $data_type;
+}
+else{
+	$id = "no id";
+	$type = "no type";
+}
+
+$rrd = new RRDKana($type,$id);
+echo $rrd->lastupdate();
+
+
+
+?>

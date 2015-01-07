@@ -1,3 +1,7 @@
 //Sensor Object : 1.0
-sensor_id:string
 sensor_type:string
+sensor_id:string
+sensor_name:string
+sensor_save:int
+sensor_battery:int
+sensor_lastvalue:string

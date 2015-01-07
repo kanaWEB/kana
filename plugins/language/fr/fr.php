@@ -141,4 +141,12 @@ $lang["Up"] = "Haut";
 $lang["Down"] = "Bas";
 $lang["Play"] = "Jouer";
 
+//Sensors
+$lang["Last value"] = "Dernière valeur";
+$lang["Battery"] = "Batterie";
+$lang["Sensors"] = "Capteurs";
+
+//Footer
+$lang["Maintenance mode"] = "Mode maintenance";
+$lang["by"] = "par";
 ?>

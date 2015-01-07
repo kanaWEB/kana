@@ -1,0 +1,19 @@
+<?php
+$db_sensors = new Entity("core","Sensors");
+$sensor_list = $db_sensors->populate();
+if($sensor_list){
+	foreach($sensor_list as $sensor){
+		$data[] = [
+		"text" => $sensor["sensor_id"],
+		"value" => $sensor["sensor_id"]
+		];
+	}
+}
+else{
+	$data[] = [
+	"text" => "No sensor available",
+	"value" => "No sensor available"
+	];
+}
+
+?>

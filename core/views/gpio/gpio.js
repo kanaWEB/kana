@@ -58,6 +58,7 @@ function checkgpio(){
 }
 
 function checkloopgpio(button){
+	console.log("AJAX TIMER : Gpio checker (core/views/gpio/gpio.js)")
 	button = $(button);
 	if(button.hasClass("btn-success")){
 		console.log("Play gpio");

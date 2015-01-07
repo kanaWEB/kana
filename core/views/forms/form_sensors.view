@@ -1,0 +1,21 @@
+<?php
+//Get sensors list
+$modifiers["sensor_type"] = $menu_selected;
+$sensors_list = Variable::get_data("sensors/info",$modifiers);
+foreach($sensors_list as $sensor){
+	$options[] = [
+		"text" => $sensor["sensor_name"],
+		"value" => $sensor["sensor_id"]
+	];
+}
+//var_dump($data);
+$form->input([
+	"type" => "select",
+	"id" => "sensor_id",
+	"name" => "Sensor ID",
+	"options" => $options,
+	"selected" => $selected["sensor_id"]
+]);
+
+
+?>

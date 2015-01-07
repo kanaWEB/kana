@@ -3,7 +3,41 @@
 @todo : Import only if use
 
 */
-ajax_refresh_speed = 10000;
+ajax_refresh_speed = 5000;
+
+
+if($(".ajax-sensor").length){
+	console.log("Detected sensors");
+	console.log("AJAX TIMER: Sensors core/views/footer/data.js");
+	ajax_refresh_sensor_timer = setInterval(function(){
+		ajax_refresh_sensor();
+	},ajax_refresh_speed);
+}
+
+function ajax_refresh_sensor(){
+	$(".ajax-sensor").each(function(){
+		data_id = $(this).attr("id");
+		data_link = "sensors/dbdata";
+	});
+
+	$.ajax({
+		url: "actions.php",
+		dataType: "json",
+		data: {type: "data", data: data_link , data_id: data_id}
+	}).done(function ( data ) {
+		widget = $("#" + data.data_id);
+
+		if(data.data == 0){
+			$(widget).children().removeClass();
+			$(widget).children().addClass("panel panel-success");
+		}
+		if(data.data == 1){
+			$(widget).children().removeClass();
+			$(widget).children().addClass("panel panel-danger");
+		}
+	});
+}
+
 
 
 
@@ -18,11 +52,12 @@ function ajax_play(){
 
 //Refresh ajax every 5 seconds @todo timer should be modifiable
 function ajax_refresh(){
+	console.log("AJAX TIMER : Data checker (core/views/footer/data.js)");
 	ajax_start();
 	//Start timer
 	ajax_refresh_timer = setInterval(function(){
 		ajax_start();
-	},5000);
+	},ajax_refresh_speed);
 
 	//Change buttons
 	disable_ajaxbuttons(true,true,false);
@@ -143,8 +178,6 @@ function change_td_color(id,color){
 	td.addClass("bg-"+color);
 }
 
-
-
 function refresh_datalist(){
 	$("#button_datalist").removeClass();
 	$("#button_datalist").addClass("btn btn-danger");
@@ -264,6 +297,74 @@ function change_magickey(row_id,input){
 	magickey_obj[input_name] = input_val;
 	console.log(magickey_obj);
 	magickey.html(JSON.stringify(magickey_obj));
-
-
 }
+
+/* Weather data from yahoo */
+//@todo Move to his own file
+
+//Query woeid on yahoo api
+function query_woeid(button){
+	weather_place = $(button).prev().val();
+
+
+	button_class = $(".weather_query");
+	button_class.addClass("btn-warning");
+
+	//weather_place = $("input:text[name=weather_place]").val();
+	url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22" + encodeURI(weather_place) + "%22&format=json" ;
+	$.getJSON( url, {
+		tags: "woeid",
+		tagmode: "any",
+		format: "json"
+	})
+	.done(function( data ) {
+		button_class = $(".weather_query");
+		button_class.removeClass("btn-warning btn-danger");
+		if (data["query"]["results"] != undefined){
+			console.log("Woeid founded");
+
+			button_class.addClass("btn-success");
+			//console.log(data);
+			
+			var place = data["query"]["results"]["place"][0];
+			if(place == undefined){
+				var place = data["query"]["results"]["place"];
+			}
+			woeid = place["woeid"];
+			town = place["name"];
+
+			if(place["country"]["content"] != undefined){
+			country = place["country"]["content"];
+			}
+			else
+			{
+				country = "";
+			}
+
+			if(place["admin1"] != undefined){
+				region = place["admin1"]["content"];
+			}
+			else
+			{
+				region = "";
+			}
+
+			$("input[name=weather_place]").val(town + " " + region + " " + country);
+			$("input[name=woeid]").val(woeid);
+			//console.log($("input[name=woeid]"));
+		}
+		else{
+			button_class.addClass("btn-danger");
+			$("input[name=woeid]").val("??");
+		}
+	})
+	.fail(function(){
+		console.log("I can't retrieve woeid!")
+		button_class = $(".weather_query");
+		button_class.removeClass("btn-warning");
+		button_class.addClass("btn-danger");
+		$("input[name=woeid]").val("??");
+
+	});
+}
+

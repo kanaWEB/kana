@@ -1,11 +1,13 @@
 <?php
 /**
- * Class Entity
- * @name: Entity
+ * Class SQLKana
+ * @name: SQLKana
  * @author: Idleman <idleman@idleman.fr>
  * @description: Manage SQLite table
  * Based on Yana Server Entity class
  */
+//@todo Manages database locked error if another software uses the database
+
 class SQLKana extends SQLite3
 {
     /**
@@ -215,9 +217,23 @@ class SQLKana extends SQLite3
 			echo $this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
 		}
 
-		if(!$this->exec($query)) echo $this->lastErrorMsg().'</i>';
+
+		if(!$this->exec($query)) echo $this->lastErrorMsg();
+		
+		$this->check_database_locked();
+		
+		//echo $this->lastErrorCode();
+
 
 		$this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
+	}
+
+	//Check database locked and exit with error if database is locked (worked only with ajax_notify notification)
+	public function check_database_locked(){
+		if($this->lastErrorCode() == 5){
+			Draw::ajax_notify("Database is locked by another Software","error","@BADJSON@");
+			exit();
+		}
 	}
 
 	/**
@@ -412,6 +428,10 @@ class SQLKana extends SQLite3
 		$query = 'DELETE FROM `'.SQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' '.(isset($limit)?'LIMIT '.$limit:'').';';
 		if($this->debug)echo '<h1>SQL DELETE TABLE</h1><hr>'.$this->TABLE_NAME.' ('.__METHOD__ .') : Requete --> '.$query;
 		if(!$this->exec($query)) echo $this->lastErrorMsg();
+
+		$this->check_database_locked();
+
+
 	}
 	
 	public function customExecute($request){

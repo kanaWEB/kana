@@ -1,0 +1,21 @@
+<?php
+$db_sensors = new Entity("core","Sensors");
+
+if(isset($sensor_type)){
+	$sensor_list = $db_sensors->loadAll([
+		"sensor_type" => $sensor_type 
+		]);
+}
+else{
+	$sensor_list = $db_sensors->populate();
+}
+
+if($sensor_list){
+	$data = $sensor_list;
+}
+else
+{
+	$data = false;
+}
+
+?>

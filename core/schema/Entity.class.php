@@ -13,12 +13,12 @@ class Entity extends SQLKana
 	function __construct($type,$entity){
 		
 		//var_dump($type);
-		//var_dump($entity);	
+		//var_dump($entity);
+		
 		switch($type){
 			case 'core':
 			$this->database = DATABASE;
 			$this->setCoreTable($entity);
-			
 			break;
 
 			case 'data':
@@ -27,23 +27,24 @@ class Entity extends SQLKana
 			break;
 
 			case 'config':
-			$this->database = CONFIG_DIR.$entity.".db";
-			$this->setConfigTable($entity);
+			$dir = Variable::sensors_or_objects_dir($entity);
+			$this->database = CONFIG_DIR.$dir.$entity.".db";
+			$this->setConfigTable($entity,$dir);
 			break;
 
 			case 'electronics':
-			$this->database = CONFIG_DIR.$entity.".db";
+			$this->database = CONFIG_DIR."objects/".$entity.".db";
 			$this->setElectronicTable($entity);
 			break;
 
 			case 'actions':
-			$this->database = CONFIG_DIR.$entity.".db";
+			$this->database = CONFIG_DIR."objects/".$entity.".db";
 			$this->setActionTable($entity);
 			break;
 		}
 
 		//var_dump($this->database);
-			
+
 		$this->open($this->database);
 		$this->busyTimeout(5000);
 		$this->create();
@@ -51,9 +52,14 @@ class Entity extends SQLKana
 
 	//Set Table fields with CORE SCHEMA file
 	function setCoreTable($table_name){
-		//
 		
 		$core_dir = CORE_SCHEMA.$table_name."/".$table_name.".txt";
+
+		if(!file_exists($core_dir)){
+			echo "Schema ".$core_dir." doesn't exists!";
+			exit();
+		}
+
 		$db_text = file($core_dir);
 		array_shift($db_text); //Remove first line (description of schema)
 
@@ -79,7 +85,7 @@ class Entity extends SQLKana
 
 	//Set Table fields with electronics or gpios MD forms
 	//You can set the db fields type directly insinde md forms
-	function setConfigTable($object_name){
+	function setConfigTable($object_name,$master_dir){
 		$db_fields['id'] = "key";
 		$db_fields['uid'] = "int";
 		$db_fields['entity_name'] = "string";
@@ -97,11 +103,18 @@ class Entity extends SQLKana
 			$inputs_file = false;
 		}
 
-		$this->md2fields($dir,$db_fields,$inputs_file);
+		if($inputs_file){
+			$this->md2fields($dir,$db_fields,$inputs_file);
+		}
+		else{
+			$db_fields['sensor_id'] = "string";
+			$db_fields['group_key'] = "string";
+			$this->object_fields = $db_fields;
+		}
 
 		if(DEBUG){
 			echo "Generating table";
-			var_dump("CONFIG Table :".$object_name." --> ".CONFIG_DIR.$object_name.".db");
+			var_dump("CONFIG Table :".$object_name." --> ".CONFIG_DIR.$master_dir.$object_name.".db");
 			echo "Table fields";
 			var_dump($db_fields);
 		}
@@ -118,13 +131,17 @@ class Entity extends SQLKana
 		$db_fields['uid'] = "int";
 
 		$this->md2fields($dir,$db_fields,$inputs_file);
-		if(DEBUG){var_dump($this->getObject_fields());}
-	
+		if(DEBUG){
+			echo "Generating table";
+			var_dump("CONFIG Table :".$object_name." --> ".CONFIG_DIR."objects/".$object_name.".db");
+			echo "Table fields";
+			var_dump($db_fields);
+		}
+
 		$this->TABLE_NAME = "Electronics";
 	}
 
 	function setActionTable($object_name){
-		//var_dump("ACTIONS Table :".$object_name." --> ".CONFIG_DIR.$object_name.".db");
 		$core_dir = CORE_SCHEMA."Actions/Actions.txt";
 		$db_text = file($core_dir);
 		array_shift($db_text); //Remove first line (description of schema)
@@ -139,7 +156,12 @@ class Entity extends SQLKana
 			$db_fields[$field_info[0]] = trim($field_info[1]);
 		}
 
-		if(DEBUG){var_dump($db_fields);}
+		if(DEBUG){
+			echo "Generating table";
+			var_dump("ACTIONS Table : Actions --> ".CONFIG_DIR."objects/".$object_name.".db");
+			echo "Table fields";
+			var_dump($db_fields);
+		}
 
 		$this->object_fields = $db_fields;
 		$this->TABLE_NAME = "Actions";
@@ -148,6 +170,7 @@ class Entity extends SQLKana
 	function setDataTable($db_name){
 		$db_fields = array(
 			"id"   => "key",
+			"data_id" => "text",
 			"data" => "text",
 			"timestamp" => "int",
 			"state" => "text"
@@ -166,16 +189,17 @@ class Entity extends SQLKana
 
 	function md2fields($dir,$db_fields,$inputs_file){
 		foreach($inputs_file as $input_file){
-				$input = Variable::md2var($dir.$input_file);
-				if(isset($input["dbtype"])){
-					$db_fields[$input["id"]] = $input["dbtype"];
-				}
-				else{
+			$input = Variable::md2var($dir.$input_file);
+			if(isset($input["dbtype"])){
+				$db_fields[$input["id"]] = $input["dbtype"];
+			}
+			else{
 				$db_fields[$input["id"]] = "TEXT";
-				}
+			}
 
 		}
 		$this->object_fields = $db_fields;
 	}
+
 }
 ?>

@@ -1,10 +1,14 @@
 <?php
 unset($data);
-$_ = array_map('Functions::secure',array_merge($_POST,$_GET));
+$_ = Functions::secure($_POST,$_GET);
 if(isset($_["category"])){
+
 	if($_["category"] == "objects"){
 	$object_name = $_["menu"];
 	}
+	if($_["menu"] == "triggers"){
+	$object_name = $_["tab"];
+}
 }
 
 if(!isset($object_name) || isset($list_all_objects)){
@@ -13,13 +17,14 @@ if(!isset($object_name) || isset($list_all_objects)){
 		$actions_db = new Entity("actions",$object_dir);
 		$actions = $actions_db->populate();
 		if($actions){
-		$data[] = [
-		"text" => Variable::objectname(USER_OBJECTS.$object_dir),
-		"value" => $object_dir,
-		"img" => "plugins/objects/".$object_dir."/icon.png"
-		];
+			$data[] = [
+				"text" => Variable::objectname(USER_OBJECTS.$object_dir),
+				"value" => $object_dir,
+				"img" => "plugins/objects/".$object_dir."/icon.png"
+			];
+		}
 	}
-	}
+	
 	if(!isset($data)){
 		$data = false;
 	}
@@ -29,6 +34,8 @@ else
 
 	$object_db = new Entity("config",$object_name);
 	$objects = $object_db->populate();
+
+
 	if($objects){
 		foreach($objects as $object){
 			$data[] = [
@@ -48,4 +55,5 @@ if(isset($_["data_id"])){
 	$data_json["data"] = $data;
 	echo json_encode($data_json);
 }
+
 ?>

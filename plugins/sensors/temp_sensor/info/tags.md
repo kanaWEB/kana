@@ -1,0 +1,1 @@
+sensors,door,reed,reed switch

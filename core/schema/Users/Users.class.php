@@ -152,7 +152,7 @@ class User {
 
 	function viewsRight(){
 		$views = Functions::getdir(USER_VIEWS);
-		$view_right_db = new Entity("core","ViewRight");;
+		$view_right_db = new Entity("core","ViewRight");
 		foreach($views as $key => $view){
 			$view_right = $view_right_db->load([
 			'id_user'=>$this->id,
@@ -166,7 +166,7 @@ class User {
 	}
 
 	function viewRight($view_name){
-		$view_right_db = new Entity("core","ViewRight");;
+		$view_right_db = new Entity("core","ViewRight");
 			$view_right = $view_right_db->load([
 			'id_user'=>$this->id,
 			'id_view'=>$view_name
@@ -175,11 +175,12 @@ class User {
 	}
 
 	function groupRight($group_id){
-		$group_right_db = new Entity("core","GroupRight");;
+		$group_right_db = new Entity("core","GroupRight");
 			$group_right = $group_right_db->load([
 			'id_user'=>$this->id,
 			'id_group'=>$group_id
 			]);
+		
 		return $group_right;
 	}
 

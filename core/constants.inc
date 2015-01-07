@@ -14,6 +14,7 @@ define('CORE_FORMS',"core/forms/");
 define('DATABASE','/etc/kana/kana.db');
 define('DATA_DIR',"/etc/kana/data/");
 define('CONFIG_DIR',"/etc/kana/config/");
+define('KANA_DIR',"/etc/kana/");
 
 //RAINTPL
 define('CACHE_DIR',"cache/");
@@ -27,16 +28,16 @@ define('USER_VIEWS',"plugins/views/");
 define('USER_DATA',"plugins/data/");
 define('USER_ACTIONS',"plugins/actions/");
 define('USER_OBJECTS',"plugins/objects/");
+define('USER_SENSORS',"plugins/sensors/");
 
 define('LANGUAGE',"plugins/language/");
 
 //APP INFO
 define('APP_NAME',"KANA");
-define('VERSION',"0.40");
+define('VERSION',"0.42");
 define('APP_STATE',"ALPHA");
 define('AUTHOR',"MadNerds");
 define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
-
 
 //DATA
 define('MAXDATA',10);
@@ -53,7 +54,7 @@ define('COOKIE_NAME','KANA');
 //DEBUG
 define('DEBUG',false);
 define('PUSH',true);
-define('SHOWCOMMANDS',false);
+define('SHOWCOMMANDS',true);
 define('DEVMODE',true);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");

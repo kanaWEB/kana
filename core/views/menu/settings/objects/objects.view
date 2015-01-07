@@ -6,15 +6,23 @@ Objects
 $objects = Functions::getdir(USER_OBJECTS);
 //@todo check if there is a projects
 
+if(!isset($menu_selected)){
+	$menu_selected = "allobjects";
+	$category = [
+	"id" => "objects"
+	];
+}
+
 if($menu_selected != "allobjects"){
 $tpl->assign("hide",true);
 }
 	foreach($objects as $object){
 		$object_dir = USER_OBJECTS.$object;
 		$menu_name = Variable::objectName($object_dir);
+		$menu_description = Variable::objectDescription($object_dir);
 		//If the menu exists generate it
 		if($menu_name){
-			$settingsmenu[] = Variable::settingsmenu_item($menu_name,$object_dir,$object);
+			$settingsmenu[] = Variable::settingsmenu_item($menu_name,$menu_description,$object_dir,$object);
 		}
 	}
 

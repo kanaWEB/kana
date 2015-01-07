@@ -2,9 +2,10 @@
 class Variable{
 
 //Make a settingsmenu item for objects (icon/text/link/label)
-	public static function settingsmenu_item($menu_name,$object_dir,$object){
+	public static function settingsmenu_item($menu_name,$menu_description,$object_dir,$object){
 		$settingsmenu_item = [
 		"text" => $menu_name,
+		"description" => $menu_description,
 		"icon" => $object_dir."/icon.png",
 		"link" => $object,
 		"label" => "label-danger",
@@ -22,12 +23,25 @@ class Variable{
 		return $object_html;
 	}
 
+	public static function object_nameicon($entity){
+		$dir = Variable::sensors_or_objects_dir($entity);
+		$object_name = self::objectName("plugins/".$dir.$entity);
+		$object_html = '<h1><img src="plugins/'.$dir.'/'.$entity.'/icon.png"> '.$object_name.'</h1>';
+		return $object_html;
+	}
+
+	public static function sensors_or_objects_dir($entity){
+		if (file_exists(USER_OBJECTS.$entity)){$dir = "objects/";}
+		if (file_exists(USER_SENSORS.$entity)){$dir = "sensors/";}
+		//if (!isset($dir)){$dir = false;};
+		return $dir;
+	}
+
 	public static function navtab_item($category,$text,$link,$menu=false){
 		if($menu){
 			$link_begin = "settings.php?category=".$category."&menu=".$menu."&tab=";
 		}
-		else
-		{
+		else{
 			$link_begin = "settings.php?category=".$category."&tab=";
 		}
 
@@ -68,7 +82,7 @@ class Variable{
 			echo "Searching Data files...";
 			var_dump($data_files);
 		}
-	
+
 		//Search for data files inside directories
 		foreach($data_files as $data_file){
 			if(file_exists($data_file)){
@@ -77,17 +91,30 @@ class Variable{
 		}
 	}
 
-//Get a data from a data file
+//Get a data from a data file, you can use a modifiers array to add variables to the data
 //@todo verify if it is use everywhere
-//
-	public static function get_data($data_link){
+//For now most data works with global variable and generate a lot of variables that is not required by the application
+	public static function get_data($data_link,$modifiers=false){
 		//We search every data directory
 		$data_file = Variable::data_dir($data_link);
+
+		//If a modifier is set we convert it into a variable for the data
+		if($modifiers){
+			$variable_name = array_keys($modifiers);
+			foreach($modifiers as $key => $modifier){
+				//var_dump($key);
+				//var_dump($modifier);
+				$$key = $modifier;
+				//var_dump($sensor_type);
+			}
+		}
+
+		//var_dump($data_file);
 
 		//@todo Security test needed
 		//If a file is founded include it
 		if(file_exists($data_file)){
-		include($data_file);
+			include($data_file);
 		}
 		else //If a file is not founded 
 		{
@@ -112,40 +139,6 @@ Fields
 
  */
 
-//Actions fields
-public function actions_fields(){
-	$db_fields = [
-	"action" => "text",
-	"args" => "text",
-	"object_key" => "int",
-	"group_key" => "int"
-	];
-	$db_fields['id'] = "key";
-
-		//Default fields (name/description/uid)
-		if($this->default){
-			$db_fields['uid'] = "int";
-		//@todo Rename Entity_name / Entity description
-			$db_fields['entity_name'] = "string";
-			$db_fields['entity_description'] = "string";
-		}
-
-		//@todo remove dirty hack
-		if(!isset($db_fields["trigger"])){
-			$db_fields['state'] = "int";
-		}
-
-		if(isset($db_fields["data"])){
-			unset($db_fields["state"]);
-		}
-
-		//var_dump($db_fields);
-		$this->object_fields = $db_fields;
-
-		$this->TABLE_NAME = $table_name;
-	return $db_fields;
-}
-
 //Get all actions arguments from json
 public function actions_args($actions){
 	foreach($actions as $key_action => $action){
@@ -169,7 +162,7 @@ public function action_args($action){
 }
 
 //Markdown to inputs
-public function md2var($file){
+public static function md2var($file){
 	$input_data = file($file);
 	$variables = explode("|",$input_data[0]);
 	$variables = array_map('trim',$variables);
@@ -203,20 +196,19 @@ public function md2menuitem($category,$object_name,$available_md_item){
 		$link =  $_SERVER['SCRIPT_NAME']."?category=".$category."&menu=triggers&tab=".$object_name."&trigger=".$available_md_item;
 		$dir = "triggers";
 	}
-	else
-	{
-		$link =  $_SERVER['SCRIPT_NAME']."?category=".$category."&menu=triggers&tab=".$object_name."&tab=action&action=".$available_md_item;
+	else{
+		$link =  $_SERVER['SCRIPT_NAME']."?category=".$category."&menu=".$object_name."&tab=action&action=".$available_md_item;
 		$dir = "actions";
 	}
 
 	$md_dir = USER_OBJECTS.$object_name."/".$dir."/".$available_md_item."/info/";
 
 
-		//Get name of actions/triggers (internationalized)
+	//Get name of actions/triggers (internationalized)
 	$mdfile_name = $md_dir."text.md";
 	$mdfile_name_translated = $md_dir."text.".$_SESSION["LANGUAGE"].".md";
 
-//Get Description file (internationalized)
+	//Get Description file (internationalized)
 	$mdfile_description = $md_dir."description.md";
 	$mdfile_description_translated = $md_dir."description.".$_SESSION["LANGUAGE"].".md";
 
@@ -228,15 +220,13 @@ public function md2menuitem($category,$object_name,$available_md_item){
 		if(file_exists($mdfile_name)){
 			$text = file_get_contents($mdfile_name);
 		}
-		else
-		{
+		else{
 			$text = $mdfile_name;
 		}
 		if(file_exists($mdfile_description)){
 			$description = file_get_contents($mdfile_description);
 		}
-		else
-		{
+		else{
 			$description = $mdfile_description;
 		}
 	}
@@ -282,6 +272,7 @@ public function object_menus_name($object_name){
 
 //Markdown to Name of an objects
 public function objectName($object_dir){
+	//var_dump("objectName Path:".$object_dir);
 	//Check if objects directory exists
 	if(is_dir($object_dir)){
 		//Check for menu translation
@@ -308,6 +299,35 @@ public function objectName($object_dir){
 		return false;
 	}
 }
+
+public function objectDescription($object_dir){
+	//Check if objects directory exists
+	if(is_dir($object_dir)){
+		//Check for menu translation
+		$translated_menu_dir = $object_dir."/info/description.".$_SESSION["LANGUAGE"].".md";
+
+		if(file_exists($translated_menu_dir)){
+			$menu_filepath = $translated_menu_dir;
+		}
+		else{
+		//If no translation check for menu 
+			if(file_exists($object_dir."/info/description.md")){
+				$menu_filepath = $object_dir."/info/description.md";
+			}
+		}
+	}
+
+
+	if(isset($menu_filepath)){
+		$menu_name = file_get_contents($menu_filepath);
+		return $menu_name;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 //Markdown to Name of an objects
 public function objecttags($object_dir){
@@ -338,6 +358,107 @@ public function objecttags($object_dir){
 	}
 }
 
+public function objects_to_webobjects($current_group){
+	$objects = Functions::getdir(USER_OBJECTS);
+	
+	$key = 0;
+		//For each objects
+	foreach($objects as $object){
+
+		//Get actions from objects	
+		$actions_db = new Entity("actions",$object);
+		$actions_list = $actions_db->loadAll([
+			"group_key" => $current_group
+			]);
+
+		//If there are actions
+		if($actions_list){
+			foreach($actions_list as $action){
+
+				$webobjects[$key]["id"] = $action["id"];
+				$webobjects[$key]["widget"] = $action["action"];
+				$webobjects[$key]["type"] = $object;
+
+				$webobjects[$key]["name"] = htmlspecialchars_decode($action["entity_name"]);
+				$webobjects[$key]["description"] = htmlspecialchars_decode($action["entity_description"]);
+				$webobjects[$key]["icon"] = USER_OBJECTS.$object."/icon.png";
+
+				if(file_exists(USER_OBJECTS.$object."/gpios")){
+					$object_db = new Entity("config",$object);
+					$object_db = $object_db->getById($action["object_key"]);
+				}
+				else{
+					$object_db = false;
+				}
+
+				$md_actions_dir = (USER_OBJECTS.$object."/actions/".$action["action"]."/actions/");
+				$actions_array = Functions::getdir($md_actions_dir);
+
+				foreach($actions_array as $actions){
+					$webobjects[$key]["actions"][] = Variable::md2var($md_actions_dir."/".$actions);
+				}
+
+					//Get GPIO state (if objects have 1,n GPIO)
+				if(isset($object_db["gpio"])){
+					$gpio = $object_db["gpio"];
+					include(CORE_DATA."gpio/pinstate.data");
+					$webobjects[$key]["state"] = $data ? "success" : "danger";
+				}
+				else{
+					//Else get state from database
+					$webobjects[$key]["state"] = $action["state"] ? "success" : "danger";
+				}
+				//}
+				$key++;
+			}
+		}
+	}
+	//var_dump($webobjects);
+	return $webobjects;
+}
+
+public function sensors_to_websensors($current_group){
+	$sensors_type = Functions::getdir(USER_SENSORS);
+	$key = 0;
+	foreach($sensors_type as $sensor_type){
+		$sensors_objects_db = new Entity("config",$sensor_type);
+		$sensors_list = $sensors_objects_db->loadAll([
+			"group_key" => $current_group
+			]);
+		//var_dump($sensors_list);
+
+		if($sensors_list){
+			$sensors_db = new Entity("core","Sensors"); 
+			foreach($sensors_list as $sensor_object){
+				$websensors[$key] = $sensors_db->load([
+					"sensor_id" => $sensor_object["sensor_id"]
+					]);	
+				$websensors[$key]["name"] = $sensor_object["entity_name"];
+				$websensors[$key]["description"] = $sensor_object["entity_description"];
+				$websensors[$key]["icon"] = USER_SENSORS.$websensors[$key]["sensor_type"]."/icon.png";
+				if($websensors[$key]["sensor_battery"] != "ON"){
+					$battery_level = intval($websensors[$key]["sensor_battery"]);
+					if($battery_level < 30){
+						$websensors[$key]["sensor_battery_class"] = "progress-bar-danger";
+					}
+
+					if($battery_level > 30 && $battery_level < 60){
+						$websensors[$key]["sensor_battery_class"] = "progress-bar-warning";
+					}
+
+					if($battery_level > 60){
+
+						$websensors[$key]["sensor_battery_class"] = "progress-bar-success";
+					}
+					//var_dump($battery_level);
+				}
+				$key++;
+			}
+		}
+	}
+	//var_dump($websensors);
+	return $websensors;
+}
 
 }
 ?>

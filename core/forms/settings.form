@@ -21,8 +21,11 @@ if(file_exists($file)){
 }
 else{
 	if($category_selected == "objects"){
-		$file = CORE_FORMS."settings/".$category_selected."/objects.form";
-		
+		$file = CORE_FORMS."settings/objects/objects.form";
+		include($file);
+	}
+	elseif($category_selected == "sensors"){
+		$file = CORE_FORMS."settings/sensors/sensors.form";
 		include($file);
 	}
 	else{

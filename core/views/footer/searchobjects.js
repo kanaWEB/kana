@@ -1,5 +1,7 @@
 function search_ajax_objects(search_input){
 	search = $(search_input).val();
+	string_length = search.length;
+	if (string_length > 2){
 	//console.log(search);
 	$.ajax({
 			url: "actions.php",
@@ -18,6 +20,7 @@ function search_ajax_objects(search_input){
 				$(".objects_items").show();
 			}
 		});
+	}
 }
 
 function show_all_objects(){

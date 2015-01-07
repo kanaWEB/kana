@@ -1,0 +1,54 @@
+<?php
+
+$table_headers[] = "Sensor link";
+$table_data[] = "sensor_name";
+
+$group_db = new Entity("core","Group");
+$sensors_db = new Entity("config",$menu_selected);
+$sensors = $sensors_db->populate();
+
+if($sensors){
+	include(CORE_VIEWS."table/header/header.view");
+
+//Table Data
+	for($i=0;$i<count($sensors);$i++){
+		$tpl->draw(CORE_VIEWS."table/row/open");
+		foreach($table_data as $td){
+			$tpl->draw(CORE_VIEWS."table/cell/open");
+			switch($td){
+				
+				case "group_key":
+					$name = $group_db->getById($sensors[$i][$td]);
+					echo $name["entity_name"];
+				break;
+
+				case "sensor_name":
+					$modifiers["sensor_id"] = $sensors[$i]["sensor_id"];
+					$sensor_name = Variable::get_data("sensors/name",$modifiers);
+					echo $sensor_name;
+				break;
+
+				default:
+					echo Functions::convert_quotes($sensors[$i][$td]);
+				break;
+			}
+			$tpl->draw(CORE_VIEWS."table/cell/close");
+		}
+
+		$tpl->draw(CORE_VIEWS."table/cell/open");
+
+		$buttons = [
+		"link" => $_SERVER['SCRIPT_NAME']."?category=".$category_selected."&menu=".$menu_selected,
+		"id" => $sensors[$i]["id"]
+		];
+		$tpl->assign("buttons",$buttons);
+		$tpl->draw(CORE_VIEWS."table/buttons");
+		$tpl->draw(CORE_VIEWS."table/cell/close");
+
+		$tpl->draw(CORE_VIEWS."table/row/close");
+	}
+
+	$tpl->draw(CORE_VIEWS."table/close");
+	
+}
+?>

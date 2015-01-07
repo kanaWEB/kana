@@ -1,4 +1,4 @@
-var push_notification_speed = 2000;
+var push_notification_speed = 3000;
 var push_notifications_state = true;
 var desktop_notification_state = false;
 var Notification = window.Notification || window.mozNotification || window.webkitNotification;
@@ -21,7 +21,7 @@ Notification.requestPermission(function (permission) {
 }
 
 function waitfor_notifications(){
-	console.log("Starting notifications check");
+	console.log("AJAX TIMER : Push notifications (core/views/footer/push.js)");
 	pushnotification_timer = setInterval(function(){
 		check_notifications();
 	},push_notification_speed);
@@ -37,6 +37,7 @@ function check_notifications(){
 		});
 
 	request.done(function ( data ) {
+		
 			//We check if data is an object so we avoid spamming debug
 			isdata_object = isObject(data);
 		

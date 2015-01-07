@@ -1,19 +1,31 @@
+<!-- /core/widgets/switch/switch.html -->
 
-<div class="widget ajax">
-	<div class="panel panel-{$webobject.state}">
-		<div class="panel-heading" >
-			<h4 class="tooltip-js" data-toggle="tooltip" title="{$webobject.description}">
-				<img src="{$webobject.icon}">
-				{$webobject.name}
-			</h4>
-		</div>
-		<div class="panel-body">
-			{loop="$webobject.actions"}
-			<button class="btn btn-xlg {if="isset($value.color)"}btn-{$value.color}{else}btn-primary{/if} " onclick="webobject_switch(this,'{$webobject.type}','{$webobject.id}','{$webobject.widget}',{if="isset($value.action_nb)"}{$value.action_nb} {else} 0 {/if},'{$value.type}')" >
-				{if="isset($value.icon)"}<i class="glyphicon glyphicon-{if="isset($value.icon)"}{$value.icon}{else}off{/if} "></i>{/if}
-				{if="isset($value.text)"}{$value.text}{/if}
-			</button>
-			{/loop}
+<div id="widget-{$webobject.widget_id}" class="widget">
+	<div class="{$webobject.type} widget-sm ajax">
+
+		<div class="hide widget_id"></div>
+
+
+		<div class="panel panel-{$webobject.state}">
+			<div class="panel-heading" >
+	
+				<h4 class="text-center tooltip-js" data-toggle="tooltip" title="{$webobject.description}">
+				
+					<img src="{$webobject.icon}">
+					{$webobject.widget_id} {$webobject.name}
+					<button id="{$webobject.widget_id}" onclick="switch_widget_clicked(this)"class="btn btn-xs btn-primary"><i class="fa fa-arrows"></i></button>
+				</h4>
+
+
+			</div>
+			<div class="panel-body text-center">
+				{loop="$webobject.actions"}
+				<button class="btn btn-xlg {if="isset($value.color)"}btn-{$value.color}{else}btn-primary{/if} " onclick="webobject_switch(this,'{$webobject.type}','{$webobject.id}','{$webobject.widget}',{if="isset($value.action_nb)"}{$value.action_nb} {else} 0 {/if},'{$value.type}')" >
+					{if="isset($value.icon)"}<i class="glyphicon glyphicon-{if="isset($value.icon)"}{$value.icon}{else}off{/if} "></i>{/if}
+					{if="isset($value.text)"}{$value.text}{/if}
+				</button>
+				{/loop}
+			</div>
 		</div>
 	</div>
 </div>

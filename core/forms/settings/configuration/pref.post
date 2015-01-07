@@ -23,5 +23,5 @@ unset($_SESSION["LANGUAGE"]);
 unset($_SESSION['config']);
 unset($_SESSION["theme"]);
 //Redirect to index
-redirect("settings","?menu=pref&notice=".t("Preferences saved"));
+redirect("settings","?category=configuration&menu=pref&notice=".t("Preferences saved"));
 ?>

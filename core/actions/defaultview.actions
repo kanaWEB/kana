@@ -4,7 +4,7 @@ if($currentUser->id() == $_["id_user"]){
 	$id_user = $_["id_user"];
 	$id_view = $_["id_view"];
 
-	$user_db = new entity("Users");
+	$user_db = new entity("core","Users");
 	$user_db->update($id_user,"default_view",$id_view);
 
 	//Refresh current default view

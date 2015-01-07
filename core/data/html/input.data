@@ -9,12 +9,18 @@ if(isset($_["input"])){
 	include(CORE_VIEWS."header/min_header.view");
 	$inputs_path = CORE_VIEWS."forms/inputs/";
 	
-	if($input["type"] == "select"){
-	$input["onclick"] = "change_magickey(".$_["row_id"].",this)";
-	}
+	switch($input["type"]){
+		case "select":
+		$input["onclick"] = "change_magickey(".$_["row_id"].",this)";
+		break;
 
-	if($input["type"] == "text"){
-	$input["onkeyup"] = "change_magickey(".$_["row_id"].",this)";	
+		case "text":
+		$input["onkeyup"] = "change_magickey(".$_["row_id"].",this)";	
+		break;
+
+		default:
+		$input["onclick"] = "change_magickey(".$_["row_id"].",this)";
+		break;
 	}
 
 	$tpl->assign("input",$input);

@@ -5,7 +5,7 @@
 //If an object is selected
 if(isset($menu_selected)){
 	$object_name = $menu_selected; //Get object directory name
-	
+	$object_nameicon = Variable::object_nameicon($menu_selected);
 
 //Variables
 	$object_dir = USER_OBJECTS.$object_name; //Directory of object
@@ -51,7 +51,7 @@ if(isset($menu_selected)){
 			}
 			else
 			{
-				echo "No actions";
+				echo t("No actions");
 			}
 			break;
 

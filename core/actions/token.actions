@@ -33,11 +33,7 @@ if($currentUser->isadmin()){
 			case "user_change":
 			if($_["id_user"] != 0){
 				$tokens_db = new Entity("core","Tokens");
-				$tokens_db->change([
-					"id_user" => $_["id_user"]
-					],[
-					"id" => $_["id_token"]
-					]);
+				$tokens_db->change(["id_user" => $_["id_user"]],["id" => $_["id_token"]]);
 				echo Draw::ajax_notify("Token associated","success");
 			}
 			else{

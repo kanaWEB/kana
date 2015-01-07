@@ -1,18 +1,6 @@
 <?php
-/*
-if(isset($name_selected) && $menu_selected != "triggers"){
-	$menu_selected = $menu_selected."/".$name_selected;
-}
-else
-{
-	$menu_selected = "triggers";
-}
-*/
-
 $file = CORE_FORMS."settings/".$category_selected."/".$menu_selected.".post";
-
-
-
+//echo $file;	
 if(file_exists($file)){
 	include($file);
 }
@@ -27,6 +15,9 @@ else{
 		$file = CORE_FORMS."settings/".$category_selected."/".$tab_selected.".post";
 		
 		include($file);
+	}
+	elseif($category_selected == "sensors"){
+		include(CORE_FORMS."settings/sensors/sensors.post");
 	}
 	else{
 	echo $file." do no exists";

@@ -10,6 +10,13 @@ if(!isset($_SERVER['REMOTE_ADDR']) || DATA_REMOTE){
 	if(isset($_GET["data"]) && isset($_GET["db"])){
 		$data = $_GET["data"];
 		$db = $_GET["db"];
+		if(isset($_GET["state"])){
+			$state = $_GET["state"];
+		}
+		else
+		{
+			$state = "";
+		}
 		$path = DATA_DIR.dirname($db);
 		//echo $path;
 		if(!is_dir($path)){
@@ -32,7 +39,7 @@ if(!isset($_SERVER['REMOTE_ADDR']) || DATA_REMOTE){
 			//echo $data.";".$db.";".$time."\n\r<br>";
 			if($db)
 				//echo $db;
-				Data::save_data($data,$db,$time);
+				Data::save_data("",$data,$db,$time,$state);
 	}
 	else{
 		echo "?db=database&data=data";

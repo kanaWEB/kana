@@ -14,7 +14,9 @@ LOAD FUNCTIONS
 require_once("schema/SQLKana.class.php");
 require_once("schema/Entity.class.php"); //SQL manager
 
+include(EXTERNAL_LIB."Inspekt/Inspekt.php");
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY @todo remove unused functions and refactor
+
 include("libraries/Draw.class.php"); //Draw Functionnalities
 include("libraries/Data.class.php"); //Data
 include("libraries/Variable.class.php");
@@ -80,7 +82,7 @@ else{
 }
 
 //Secure GET/POST
-$_ = array_map('Functions::secure',array_merge($_POST,$_GET));
+$_ = Functions::secure($_POST,$_GET);
 //We need the configuration to manage local
 include("libraries/Locale.php"); //Load internationalization
 

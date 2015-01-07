@@ -2,6 +2,7 @@
 
 if(file_exists($form_file_dir)){
 	$inputs_file = Functions::getdir($form_file_dir);
+
 	
 	foreach($inputs_file as $input_file){
 		$file = $form_file_dir.$input_file;
@@ -21,6 +22,7 @@ if(file_exists($form_file_dir)){
 		}
 
 		if(isset($input["options"])){
+
 			$input["options"] = Variable::get_data($input["options"]);
 		}
 

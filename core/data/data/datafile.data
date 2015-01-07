@@ -102,6 +102,9 @@ foreach($datafiles as $key => $datafile){
 					$data[$key]["args"][$args_nb]["selected"] = false;
 					$data[$key]["args"][$args_nb]["placeholder"] = $arg_value[2];
 
+					default:
+					$data[$key]["args"][$args_nb]["selected"] = false;
+					$data[$key]["args"][$args_nb]["placeholder"] = $arg_value[2];
 				}
 			}
 			else

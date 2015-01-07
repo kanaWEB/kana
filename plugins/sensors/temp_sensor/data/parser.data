@@ -1,0 +1,9 @@
+<?php
+unset($data);
+if($data_unparsed == 1){
+	$data =  t("Open");
+}
+elseif($data_unparsed == 0){
+	$data = t("Close");
+}
+?>

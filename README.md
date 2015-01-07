@@ -1,26 +1,25 @@
 kana
 ====
 
-An Raspberry Pi Projects Manager
+An Raspberry Pi Project Manager
 
-This program is provide "as is" without warranty of any kind.
-The creator of this program could not be liable of any issues, you could encounter.
-
+This program is provide "as is" without warranty of any kind.   
+The creator of this program could not be liable of any issues, you could encounter.   
 
 General Licence
 ===
 Kana is proudly licenced as GPLv3 by MadNerds
 
 
-Other products licences
+Other codes licences
 ===
 I will tried to add all licence of the code used inside Kana, if you doesn't want your code to be used inside Kana or your code hasn't been credited, please advice me!
 
 
 Yana Server
 ====
-This project is based on Yana server, an home automation project by Valentin Carruesco
-Some code has been forked from this project
+This project is heavily based on Yana server, an home automation project by Valentin Carruesco   
+Some code has been forked from this project and this project wouldn't have be possible without the awesome community of Idleman.fr   
 
 * Creator : Valentin Carruesco (Idleman)
 * Contributors
@@ -28,7 +27,7 @@ Some code has been forked from this project
 	* Darkpisto
 	* Squernion
 	* Krotof1a
-	* ...
+	* ... (if I forgot someone please contact me!)
 
 * Licence CC by nc sa
 * Project Page : https://github.com/ldleman/yana-server
@@ -51,6 +50,16 @@ Bootstrap Switch
 * Licence : Apache License 2
 * Creator : Mattia Larentis / Emanuele Marchi
 * Project Page : http://www.bootstrap-switch.org/
+
+Bootstrap-select
+====
+To be filled
+
+Font-Awesome
+===
+
+
+
 
 Jquery / Jquery UI
 ====

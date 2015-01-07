@@ -1,0 +1,1 @@
+sensors,light,lumens,photo resistor

@@ -1,9 +1,7 @@
 <?php
 //To do insert inside kana
 
-include("core/common.inc");
-include(CORE_VIEWS."header/header.view");
-shell_exec('rrdtool xport -s now-24h -e now DEF:a=/etc/kana/data/temp.rrd:temp:AVERAGE XPORT:a:"Chambre Remi" > /var/www/kana/data/temperature24h.xml');
+shell_exec('rrdtool xport -s now-24h -e now DEF:a=/etc/kana/data/temp/temp1.rrd:temp:AVERAGE XPORT:a:"Chambre Remi" > /var/www/kana/data/temperature24h.xml');
 $actual_temp =  shell_exec('rrdtool lastupdate /etc/kana/data/temp.rrd');
 $temp_data = explode(":",$actual_temp);
 //print_r($temp_data);
@@ -13,6 +11,7 @@ $time = $time[2];
 $time = date('H:i:s d-m-Y ',$time);
 
 $temp = $temp_data[1];
+
 ?>
 <div id="content" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 

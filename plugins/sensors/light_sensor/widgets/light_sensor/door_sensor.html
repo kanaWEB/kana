@@ -1,0 +1,15 @@
+<div id="{$websensor.datalink}" class="widget ajax-sensor">
+	<div class="panel panel-{$websensor.state}">
+		<div class="panel-heading" >
+			<h4 class="tooltip-js" data-toggle="tooltip" title="{$websensor.description}">
+				<img src="{$websensor.icon}">
+				{$websensor.name}
+				<button class="btn btn-success glyphicon glyphicon-refresh" onclick="refresh_sensor()">
+			</h4>
+		</div>
+		<div class="panel-body">
+		{$websensor.value}
+
+		</div>
+	</div>
+</div>

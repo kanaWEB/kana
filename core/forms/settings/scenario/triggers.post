@@ -21,14 +21,16 @@ else{
 	$custom_field = $args;
 
 
-	$fields["trigger_object"] = $_["tab"];
+	$fields["trigger_object"] = $_["tab"]; 
 	$fields["trigger"] = $_["trigger"];
-	$fields["timestamp"] = 0;
-	$fields["timeout"] = 1;
-	$fields["trigger_type"] = "push";
-	$fields["modifier"] = "=";
 	$fields["trigger_name"] = $_["tab"];
-	$fields["schedule"] = "*";
+	$fields["timestamp"] = 0; //Modify when trigger is triggered to manage the timeout
+	$fields["trigger_state"] = true;
+
+	$fields["trigger_type"] = "push"; //Not implemented
+	$fields["timeout"] = 1; //Not implemented (Manage higher/lower timeout)
+	$fields["modifier"] = "="; //Not implemented (manage trigger advanced condition with x=;x<;x>;x<=;x>=;between x and y)
+	$fields["schedule"] = "*"; //Not Implemented (block trigger if out of schedule)
 
 	if(isset($_["state"])){
 		$fields["state"] = $_["state"];
@@ -54,11 +56,13 @@ else{
 
 		//Get code
 		$fields["id_object"] = $custom_value;
-		$db_code = new Entity("config",$_["menu"]);
+		if(file_exists(USER_OBJECTS.$_["tab"])){
+		$db_code = new Entity("config",$_["tab"]);
 		$code = $db_code->load([
 			"id" => $fields[$custom_key]
 		]);
 		$fields["code"] = $code[$custom_key];
+		}
 		break;
 
 		case "all":
@@ -69,8 +73,9 @@ else{
 	}
 
 	$db = new Entity("core","Triggers");
-			//var_dump($db);
-			//Predefined fields
+	//var_dump($db);
+	
+	//Predefined fields
 	foreach($fields as $key => $field){
 		$setter = "set".$key;
 		$db->$setter($field);
@@ -82,7 +87,7 @@ else{
 
 	$db->save();
 
-	redirect("settings","?category=scenario&menu=triggers&notice=".t("Trigger saved"));
+	//redirect("settings","?category=scenario&menu=triggers&notice=".t("Trigger saved"));
 
 }
 

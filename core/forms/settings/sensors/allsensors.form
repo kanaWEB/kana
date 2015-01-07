@@ -1,0 +1,110 @@
+<?php
+//This form is a bit special as this is a table which can be directly modified with AJAX
+
+$sensors_detected_list = Variable::get_data("sensors/info");
+//var_dump($sensors_detected_list);
+$dir_sensors = Functions::getdir(USER_SENSORS);
+foreach($dir_sensors as $dir){
+	$sensors_type[] = $dir;
+	$sensors_plugins[] = [
+	"text" => Variable::objectname(USER_SENSORS.$dir),
+	"value" => $dir,
+	"img" => "plugins/sensors/".$dir."/icon.png"
+	];
+}
+
+//var_dump($sensors_detected_list);
+//var_dump($sensors_type);
+
+$table_headers[] = "Name";
+$table_data[] = "sensor_name";
+$table_headers[] = "Info";
+$table_data[] = "sensor_info";
+$table_headers[] = "";
+$table_data[] = "sensor_type";
+$table_headers[] = "";
+$table_data[] = "confirm";
+
+
+$dynamic_js[] = CORE_VIEWS."footer/db_sensors.js";
+
+if($sensors_detected_list){
+	include(CORE_VIEWS."table/header/header.view");
+	for($i=0;$i<count($sensors_detected_list);$i++){
+
+		$db_available = Data::db_available($sensors_detected_list[$i]["sensor_type"]);
+		$tpl->draw(CORE_VIEWS."table/row/open");
+
+		foreach($table_data as $td){
+			$tpl->draw(CORE_VIEWS."table/cell/open");
+			switch($td){
+
+				case "sensor_type":	
+					//Type
+					$input_sensor_type = [
+						"id" => $sensors_detected_list[$i]["sensor_id"],
+						"sensors" => $sensors_plugins,
+						"unknown" => true,
+						"selected" => $sensors_detected_list[$i]["sensor_type"],
+						"onclick" => "sensor_change_type(this)"
+					];
+
+					$tpl->assign("input",$input_sensor_type);
+					$tpl->draw(CORE_VIEWS."forms/inputs/select_sensorimg");
+				
+					//Save DB?
+					if($db_available){
+						$db_sensor_save = [
+							"id" => "db_save",
+							"text" => "Save",
+							"checked" => $sensors_detected_list[$i]["sensor_save"],
+							"args" => "rrd",
+							"onclick" => "sensor_change_save(this)",
+							"class" => "fa fa-2x fa-save",
+							"disabled" => false
+						];
+
+					$tpl->assign("input",$db_sensor_save);
+					$tpl->draw(CORE_VIEWS."forms/inputs/ajaxswitch_one");
+					}
+				break;
+
+				case "sensor_name":
+					$input_sensor_name = [
+						"type" => "text",
+						"onkeyup" => "resizeInput(this)",
+						"minwidth" => strlen($sensors_detected_list[$i]["sensor_name"]) * 15,
+						"id" => "name_".$sensors_detected_list[$i]["sensor_id"],
+						"placeholder" => "Living Room Temp",
+						"selected" => $sensors_detected_list[$i]["sensor_name"]
+					];
+
+					$tpl->assign("input",$input_sensor_name);
+					$tpl->draw(CORE_VIEWS."forms/inputs/text");
+
+					$input_sensor_name_button = [
+						"id" => $sensors_detected_list[$i]["sensor_id"],
+						"type" => "button",
+						"color" => "btn-warning",
+						"text" => "OK",
+						"onclick" => "sensor_change_name(this)"
+					];
+
+					$tpl->assign("input",$input_sensor_name_button);
+					$tpl->draw(CORE_VIEWS."forms/inputs/button");
+				break;
+
+				case "sensor_info":
+					echo "<label class='label label-success'>ID:</label> ".$sensors_detected_list[$i]["sensor_id"];
+					echo "<br><label class='label label-success'>".t("Last value").":</label> ".$sensors_detected_list[$i]["sensor_lastvalue"];
+					echo "<br><label class='label label-success'>".t("Battery").":</label> ".$sensors_detected_list[$i]["sensor_battery"];
+				break;
+			}
+			$tpl->draw(CORE_VIEWS."table/cell/close");
+		}
+		$tpl->draw(CORE_VIEWS."table/row/close");
+	}
+	$tpl->draw(CORE_VIEWS."table/close");
+}
+
+?>

@@ -14,20 +14,25 @@ class Functions
 	public $debug=0;
 
 	/**
-	 * Secure user variable enter as parameters
-	 * @param String variables to secure
-	 * @param Integer security's level
-	 * @return String  secured variable
-	 */
-
-	public static function secure($var){
-		return addslashes(htmlspecialchars($var, ENT_QUOTES, "UTF-8"));
-	}
-
-	/**
 	 * Return Current IP
 	 * @return String User's IP
 	 */
+
+	public static function secure($post,$get){
+		//@todo add inspekt and refactor everywhere
+		if(is_array($post) && is_array($get)){
+			$_ = array_merge($post,$get);
+		}
+		else{
+			if(is_array($post)){
+				$_ = $post;
+			}
+			if(is_array($get)){
+				$_ = $get;
+			}
+		}
+		return $_;
+	}
 
 	public static function getIP(){
 		if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
@@ -266,11 +271,11 @@ class Functions
 		$check_process_command = 'ps aux|grep "'.$process_name.'"|grep "'.$object_name.'"'."| grep -v grep";
 		exec($check_process_command,$processes,$exitcode);
 		foreach($processes as $process){
-		$process = explode(" ",$process);	
-		$socket[] = $process[count($process) -1];
-	}
+			$process = explode(" ",$process);	
+			$socket[] = $process[count($process) -1];
+		}
 		if(isset($socket)){
-		return $socket[0];
+			return $socket[0];
 		}
 		else
 		{
@@ -660,6 +665,7 @@ public static function getdir($dir){
 	return $dir;
 }
 
+//Get recursive directory in an array without . and ..
 public static function getdir_r($dir){
 	while($dirs = glob($dir . '/*', GLOB_ONLYDIR)) {
 		$dir .= '/*';
@@ -685,6 +691,11 @@ public static function remove_accents($str, $charset='utf-8')
     return $str;
 }
 
+public static function convert_quotes($str){
+	$str = str_replace('&amp;amp;#039;',"'",$str);
+	return $str;
+}
+
 public static function loadUrl($url){
 	if(function_exists('curl_init')){
 		$curl = curl_init();
@@ -700,7 +711,7 @@ public static function loadUrl($url){
 	}
 }
 
-
+//Convert timestamp to nearest minutes
 public static function timestamp_nearest_minutes($nearminutes){
 	$time = time();
 	$minutes = date("i");
@@ -716,6 +727,7 @@ public static function timestamp_nearest_minutes($nearminutes){
 	return $time_new;
 }
 
+//Display readable time
 public static function readableTime($seconds) {
 	$y = floor($seconds / 60/60/24/365);
 	$d = floor($seconds / 60/60/24) % 365;
@@ -762,6 +774,10 @@ public static function readableTime($seconds) {
 
 	return preg_replace('/\s+/', ' ', $string);
 }
+
+
+
+
 }
 
 ?>

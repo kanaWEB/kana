@@ -28,6 +28,10 @@ if($currentUser->isadmin()){
 			case "objects":
 				$menu_selected = "allobjects";
 			break;
+
+			case "sensors":
+				$menu_selected = "allsensors";
+			break;
 		}
 	}
 
@@ -48,14 +52,11 @@ if($currentUser->isadmin()){
 		$action_selected = false;
 	}
 
-
-
-
-
 	if(isset($_["submit"])){
 		include(CORE_FORMS."settings.post");
 	}
 	else{
+
 		include(CORE_FORMS."settings.form");
 	}
 }
