@@ -1,1 +1,0 @@
-Get light from a photo resistor

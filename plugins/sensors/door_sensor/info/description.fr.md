@@ -1,1 +1,0 @@
-Récupère la valeur d'un interrupteur Reed (reed switch) si une porte est fermé ou ouverte

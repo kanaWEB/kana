@@ -1,1 +1,0 @@
-Récupère la luminosité à partir d'une résistance photovoltaique

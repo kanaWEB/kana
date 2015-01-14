@@ -1,1 +1,0 @@
-Get the value of a reed switch to know if a door is closed or open

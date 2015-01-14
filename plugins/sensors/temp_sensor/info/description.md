@@ -1,1 +1,0 @@
-Get temperature in celsius
