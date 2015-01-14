@@ -87,7 +87,7 @@ else{
 
 	$db->save();
 
-	//redirect("settings","?category=scenario&menu=triggers&notice=".t("Trigger saved"));
+	redirect("settings","?category=scenario&menu=triggers&notice=".t("Trigger saved"));
 
 }
 

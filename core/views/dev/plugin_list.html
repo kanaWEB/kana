@@ -1,0 +1,20 @@
+<h1>Text input</h1>
+<table class="table table-bordered">
+	<tr>
+	{loop="fields"}
+		<th>{$value.name}</th>
+	{/loop}
+	</tr>
+	<tr>
+	{loop="fields"}
+		<td>
+			<input onchange="change_result_text()" class="dev-text-input" id="dev-text-input-{$value.id}" placeholder="{$value.description}" type="{$value.type}">
+		</td>
+	{/loop}
+	</tr>
+
+</table>
+<h3>Result</h3>
+
+<pre id="dev-text-markdown">                          
+</pre>

@@ -175,17 +175,23 @@ public static function md2var($file){
 //Markdown to array
 public function md2vars($file){
 	$input_data = file($file);
-		//var_dump($input_data);
 	foreach($input_data as $key => $data){
 		$variables = explode("|",$input_data[$key]);
 		$variables = array_map('trim',$variables);
-		if($variables[0] == "repo"){
-			$values = explode("|",$input_data[$key+2]);
-			$values = array_map('trim',$values);
-			$inputs[] = array_combine($variables,$values);
+		if(count($variables) > 1 ){
+			if($variables[1] == "repo"){
+				//@todo Refactor markdown reader for error handling
+				$values = explode("|",$input_data[$key+2]);
+				$values = array_map('trim',$values);
+				array_shift($variables);
+				array_pop($variables);
+				array_shift($values);
+				array_pop($values);
+				$inputs[] = array_combine($variables,$values);
+			}
 		}
 	}
-		//var_dump($inputs);
+	//var_dump($inputs);
 	return $inputs;
 }
 
@@ -432,32 +438,45 @@ public function sensors_to_websensors($current_group){
 			foreach($sensors_list as $sensor_object){
 				$websensors[$key] = $sensors_db->load([
 					"sensor_id" => $sensor_object["sensor_id"]
-					]);	
-				$websensors[$key]["name"] = $sensor_object["entity_name"];
-				$websensors[$key]["description"] = $sensor_object["entity_description"];
-				$websensors[$key]["icon"] = USER_SENSORS.$websensors[$key]["sensor_type"]."/icon.png";
-				if($websensors[$key]["sensor_battery"] != "ON"){
-					$battery_level = intval($websensors[$key]["sensor_battery"]);
-					if($battery_level < 30){
-						$websensors[$key]["sensor_battery_class"] = "progress-bar-danger";
-					}
+					]);
+				if($websensors[$key]){
+					$websensors[$key]["name"] = $sensor_object["entity_name"];
+					$websensors[$key]["description"] = $sensor_object["entity_description"];
+					$websensors[$key]["icon"] = USER_SENSORS.$websensors[$key]["sensor_type"]."/icon.png";
+					if($websensors[$key]["sensor_battery"] != "ON"){
+						$battery_level = intval($websensors[$key]["sensor_battery"]);
+						if($battery_level < 30){
+							$websensors[$key]["sensor_battery_class"] = "progress-bar-danger";
+						}
 
-					if($battery_level > 30 && $battery_level < 60){
-						$websensors[$key]["sensor_battery_class"] = "progress-bar-warning";
-					}
+						if($battery_level > 30 && $battery_level < 60){
+							$websensors[$key]["sensor_battery_class"] = "progress-bar-warning";
+						}
 
-					if($battery_level > 60){
+						if($battery_level > 60){
 
-						$websensors[$key]["sensor_battery_class"] = "progress-bar-success";
-					}
+							$websensors[$key]["sensor_battery_class"] = "progress-bar-success";
+						}
 					//var_dump($battery_level);
+					}
+
+					$key++;
 				}
-				$key++;
 			}
 		}
 	}
-	//var_dump($websensors);
-	return $websensors;
+	if(isset($websensors)){
+		if(!$websensors[0]){
+			return false;
+		}
+		else{
+			return $websensors;
+		}
+	}
+	else
+	{
+		return false;
+	}
 }
 
 }

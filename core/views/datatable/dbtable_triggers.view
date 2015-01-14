@@ -80,7 +80,7 @@ if($triggers){
 				break;
 
 				case "state":
-				echo t($triggers[$i][$td]);
+				echo $triggers[$i][$td];
 				break;
 
 				default:
@@ -92,16 +92,21 @@ if($triggers){
 
 		$tpl->draw(CORE_VIEWS."table/cell/open");
 
+
 		$buttons = [
 			"link" => $_SERVER['SCRIPT_NAME']."?category=scenario&menu=triggers&tab=".$triggers[$i]["trigger_object"]."&trigger=".$triggers[$i]["trigger"],
-			"id" => $triggers[$i]["id"]
+			"id" => $triggers[$i]["id"],
+			"checked" => $triggers[$i]["trigger_state"]
 		];
 
 		$tpl->assign("buttons",$buttons);
-		$tpl->draw(CORE_VIEWS."table/buttons");
+		$tpl->draw(CORE_VIEWS."table/buttons_triggers");
 		$tpl->draw(CORE_VIEWS."table/cell/close");
 
 		$tpl->draw(CORE_VIEWS."table/row/close");
+
+		$dynamic_js[] = CORE_VIEWS."footer/db_triggers.js";
+
 	}
 
 	$tpl->draw(CORE_VIEWS."table/close");

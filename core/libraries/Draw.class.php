@@ -103,6 +103,8 @@ class Draw
 		$webobjects = Variable::objects_to_webobjects($current_group);
 		//var_dump($webobject);
 		if(isset($webobjects)){
+			$tpl->draw(CORE_VIEWS."grids/row/col-sm-10");
+
 			$col = 0;
 
 			foreach($webobjects as $key => $webobject){
@@ -142,6 +144,7 @@ class Draw
 
 			}
 			$tpl->draw(CORE_VIEWS."grids/block/close");
+			$tpl->draw(CORE_VIEWS."grids/row/close");
 			return true;
 		}
 		else
@@ -150,15 +153,20 @@ class Draw
 		}
 	}
 
+//Draw all sensors widgets for group
 	public static function sensors_widgets($current_group,$tpl){
 		$websensors = Variable::sensors_to_websensors($current_group);
 		//var_dump($websensors);
-		if(isset($websensors)){
+		if($websensors){
+			$tpl->draw(CORE_VIEWS."grids/row/col-sm-2");
 			foreach($websensors as $websensor){
+				if(file_exists(USER_SENSORS.$websensor["sensor_type"]."/widgets/".$websensor["sensor_type"]."/".$websensor["sensor_type"].".html")){
 				$tpl->assign("websensor",$websensor);
 				$widget = USER_SENSORS.$websensor["sensor_type"]."/widgets/".$websensor["sensor_type"]."/".$websensor["sensor_type"];
 				$tpl->draw($widget);
+				}
 			}
+			$tpl->draw(CORE_VIEWS."grids/row/close");
 			return true;
 		}
 		else{

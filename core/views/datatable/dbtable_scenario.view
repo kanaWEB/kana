@@ -18,8 +18,6 @@ $table_data[] = "action_tag";
 //$action_name = $object_name;
 
 
-
-
 include(CORE_VIEWS."table/header/header.view");
 
 //Link generator

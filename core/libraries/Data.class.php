@@ -74,13 +74,20 @@ class data{
 			$db_sensors->setsensor_name($sensor_data["id"]);
 			$db_sensors->setsensor_battery($sensor_data["battery"]);
 			$db_sensors->setsensor_lastvalue($sensor_data["value"]);
+			$db_sensors->setsensor_timestamp(time());
 			$db_sensors->save();
 			echo "New sensor founded! save it";
 			return false;
 		}
 		else{
-			$db_sensors->change(["sensor_lastvalue" => $sensor_data["value"]],['sensor_id'=>$sensor_data["id"]]);
-			$db_sensors->change(["sensor_battery" => $sensor_data["battery"]],['sensor_id'=>$sensor_data["id"]]);
+			$db_sensors->change([
+				"sensor_lastvalue" => $sensor_data["value"],
+				"sensor_battery"=>$sensor_data["battery"],
+				"sensor_timestamp" => time()
+				],
+				[
+				'sensor_id'=>$sensor_data["id"]
+				]);
 			return $sensor_info;
 		}
 	//	}
@@ -109,6 +116,7 @@ class data{
 			"code" => $data,
 			"trigger" => "one",
 			"trigger_object" => $type,
+			"trigger_state" => 1
 		]);
 
 
@@ -116,6 +124,7 @@ class data{
 		$alltrigger = $db_triggers->load([
 			"trigger" => "all",
 			"trigger_object" => $type,
+			"trigger_state" => 1
 		]);
 
 		echo "Checking triggers \n ";

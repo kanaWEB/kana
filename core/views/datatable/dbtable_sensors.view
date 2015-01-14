@@ -6,7 +6,6 @@ $table_data[] = "sensor_name";
 $group_db = new Entity("core","Group");
 $sensors_db = new Entity("config",$menu_selected);
 $sensors = $sensors_db->populate();
-
 if($sensors){
 	include(CORE_VIEWS."table/header/header.view");
 

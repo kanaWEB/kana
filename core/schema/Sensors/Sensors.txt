@@ -5,3 +5,4 @@ sensor_name:string
 sensor_save:int
 sensor_battery:int
 sensor_lastvalue:string
+sensor_timestamp:int

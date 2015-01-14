@@ -727,6 +727,11 @@ public static function timestamp_nearest_minutes($nearminutes){
 	return $time_new;
 }
 
+public static function time_since($seconds){
+	$time_since  = time() - $seconds;
+	return Functions::readableTime($time_since);
+}
+
 //Display readable time
 public static function readableTime($seconds) {
 	$y = floor($seconds / 60/60/24/365);

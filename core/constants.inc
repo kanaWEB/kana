@@ -53,7 +53,7 @@ define('COOKIE_NAME','KANA');
 
 //DEBUG
 define('DEBUG',false);
-define('PUSH',true);
+define('PUSH',false);
 define('SHOWCOMMANDS',true);
 define('DEVMODE',true);
 define('REINSTALL',FALSE);

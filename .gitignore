@@ -2,3 +2,4 @@ cache/
 plugins/objects
 plugins/views
 plugins/data
+plugins/sensors

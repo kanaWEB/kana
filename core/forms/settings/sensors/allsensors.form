@@ -95,9 +95,12 @@ if($sensors_detected_list){
 				break;
 
 				case "sensor_info":
+				//@todo Refactor code
 					echo "<label class='label label-success'>ID:</label> ".$sensors_detected_list[$i]["sensor_id"];
 					echo "<br><label class='label label-success'>".t("Last value").":</label> ".$sensors_detected_list[$i]["sensor_lastvalue"];
 					echo "<br><label class='label label-success'>".t("Battery").":</label> ".$sensors_detected_list[$i]["sensor_battery"];
+					$time_sincelastseen = Functions::readableTime(time() - $sensors_detected_list[$i]["sensor_timestamp"]);
+					echo "<br><label class='label label-success'>".t("Time").": </label> ".$time_sincelastseen;
 				break;
 			}
 			$tpl->draw(CORE_VIEWS."table/cell/close");
