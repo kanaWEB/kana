@@ -1,0 +1,13 @@
+<?php
+if(file_exists("/dev/i2c-0")){
+	$data = "0";
+}
+elseif(file_exists("/dev/i2c-1")){
+	$data = "1";
+}
+else
+{
+	$data = "I2C not active";
+}
+
+?>

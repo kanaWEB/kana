@@ -1,0 +1,8 @@
+<?
+if(isset($_["data_id"])){
+	$sensor_data_db = new Entity("data","data/".$_["data_id"]);
+	$data["data"] = $sensor_data_db->getById($sensor_data_db->rowCount())["data"];
+	$data["data_id"] = $_["data_id"];
+	echo json_encode($data);
+}
+?>

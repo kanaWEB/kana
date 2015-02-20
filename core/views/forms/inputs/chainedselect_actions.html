@@ -1,0 +1,61 @@
+
+
+
+<!-- core/views/forms/inputs/chainedselect_actions.html -->
+
+<div class="form-group">
+	<!-- Select INPUT Plugin 	-->
+	
+	<select name="plugin_actions{$input.nb}" id="plugin_actions{$input.nb}" class="form-control selectpicker">
+		{if="!isset($input.nowait)"}
+		<option {if="$input.selected.object=='wait_s'"}selected{/if} data-content="<img src='core/img/wait.png' <span>     Wait seconds</span>" value="wait_s">
+		<option {if="$input.selected.object=='wait_m'"}selected{/if} data-content="<img src='core/img/wait.png' <span>     Wait minutes</span>" value="wait_m">		    
+		</option>
+		{/if}
+		{loop="$input.objects"}
+		<option {if="$input.selected.object==$value.value"}selected{/if} data-content="<img src='{$value.img}' <span>     {$value.text}</span>" value="{$value.value}">			    
+		</option>
+		{/loop}
+	</select>
+	<br>
+	<br>
+	<!-- Select INPUT Plugin 	-->
+	<select name="objects_actions{$input.nb}" id="objects_actions{$input.nb}" class="form-control">
+	{if="!isset($input.nowait)"}
+	<option {if="$input.selected.action=='wait_s;1'"}selected{/if} class="wait_s" value="wait_s;1">1s</option>
+	<option {if="$input.selected.action=='wait_s;5'"}selected{/if} class="wait_s" value="wait_s;5">5s</option>
+	<option {if="$input.selected.action=='wait_s;10'"}selected{/if} class="wait_s" value="wait_s;10">10s</option>
+	<option {if="$input.selected.action=='wait_s;15'"}selected{/if} class="wait_s" value="wait_s;15">15s</option>
+	<option {if="$input.selected.action=='wait_s;20'"}selected{/if} class="wait_s" value="wait_s;20">20s</option>
+	<option {if="$input.selected.action=='wait_s;25'"}selected{/if} class="wait_s" value="wait_s;25">25s</option>
+	<option {if="$input.selected.action=='wait_s;30'"}selected{/if} class="wait_s" value="wait_s;30">30s</option>
+	<option {if="$input.selected.action=='wait_s;35'"}selected{/if} class="wait_s" value="wait_s;35">35s</option>
+	<option {if="$input.selected.action=='wait_s;40'"}selected{/if} class="wait_s" value="wait_s;40">40s</option>
+	<option {if="$input.selected.action=='wait_s;45'"}selected{/if} class="wait_s" value="wait_s;45">45s</option>
+	<option {if="$input.selected.action=='wait_s;50'"}selected{/if} class="wait_s" value="wait_s;50">50s</option>
+	<option {if="$input.selected.action=='wait_s;55'"}selected{/if} class="wait_s" value="wait_s;55">55s</option>
+	<option {if="$input.selected.action=='wait_s;60'"}selected{/if} class="wait_s" value="wait_s;60">60s</option>
+
+	<option {if="$input.selected.action=='wait_m;1'"}selected{/if} class="wait_m" value="wait_m;1">1m</option>
+	<option {if="$input.selected.action=='wait_m;5'"}selected{/if} class="wait_m" value="wait_m;5">5m</option>
+	<option {if="$input.selected.action=='wait_m;10'"}selected{/if} class="wait_m" value="wait_m;10">10m</option>
+	<option {if="$input.selected.action=='wait_m;15'"}selected{/if} class="wait_m" value="wait_m;15">15m</option>
+	<option {if="$input.selected.action=='wait_m;20'"}selected{/if} class="wait_m" value="wait_m;20">20m</option>
+	<option {if="$input.selected.action=='wait_m;25'"}selected{/if} class="wait_m" value="wait_m;25">25m</option>
+	<option {if="$input.selected.action=='wait_m;30'"}selected{/if} class="wait_m" value="wait_m;30">30m</option>
+	<option {if="$input.selected.action=='wait_m;35'"}selected{/if} class="wait_m" value="wait_m;35">35m</option>
+	<option {if="$input.selected.action=='wait_m;40'"}selected{/if} class="wait_m" value="wait_m;40">40m</option>
+	<option {if="$input.selected.action=='wait_m;45'"}selected{/if} class="wait_m" value="wait_m;45">45m</option>
+	<option {if="$input.selected.action=='wait_m;50'"}selected{/if} class="wait_m" value="wait_m;50">50m</option>
+	<option {if="$input.selected.action=='wait_m;55'"}selected{/if} class="wait_m" value="wait_m;55">55m</option>
+	<option {if="$input.selected.action=='wait_m;60'"}selected{/if} class="wait_m" value="wait_m;60">60m</option>
+	{/if}
+		{loop="$input.options"}
+		<option {if="$input.selected.action==$value.object_dir.';'.$value.id.';'.$value.action.';'.$value1['action_nb'].';'.$value.type"}selected{/if} class="{$value.object_dir}" value="{$value.object_dir};{$value.id};{$value.action};{$value.action_nb};{$value.type}">
+			{$value.name|t} {$value.entity_name}
+		</option>
+		{/loop}
+	</select>
+
+</div>
+</div>

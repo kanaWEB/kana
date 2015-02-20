@@ -1,0 +1,26 @@
+<?php
+$collector_program = "serial2php.py";
+$collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/".$collector_program;
+$check_process_command = 'ps aux|grep "/core/collectors/"|grep "'.$object.'"';
+exec($check_process_command,$processes,$exitcode);
+array_pop($processes); //Remove check_process_command from process list
+
+if($processes){
+	$state = echo "Open";
+}
+else
+{
+	$state = echo "Close";
+}
+	/*
+
+	if(Functions::is_port_open($_["socket"])){
+		echo "SOCKET OPEN";
+	}
+	else
+	{
+		echo "SOCKET NOT OPEN";
+	}
+	*/
+
+	?>

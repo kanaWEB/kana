@@ -1,0 +1,3 @@
+<?php
+$command_args[$nb] = $actions_values[$key];
+?>

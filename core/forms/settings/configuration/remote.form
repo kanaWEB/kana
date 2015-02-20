@@ -1,0 +1,67 @@
+<?php
+//include(CORE_VIEWS."forms/form_default.view");
+$tokens_db = new Entity("core","Tokens");
+$tokens = $tokens_db->populate();
+
+if($tokens){
+	foreach($tokens as $token){
+		$tokens_options[] = [
+		"text" => $token["token"],
+		"value" => $token["token"]
+		];
+	}
+}
+else{
+	$tokens_options[] = [
+	"text" => "notoken",
+	"value" => "notoken"
+	];
+}
+
+
+//Add all languages files
+$objects_dir = Functions::getdir(USER_OBJECTS);
+foreach($objects_dir as $object_dir){
+	$lang_object = add_language(USER_OBJECTS.$object_dir);
+	if(is_array($lang) && is_array($lang_view)){
+				$lang = array_merge($lang,$lang_view); //Merge General translation with user view translation
+				if(isset($lang_object)){
+					if(is_array($lang_object))
+						$lang = array_merge($lang,$lang_object);
+				}
+			}
+		}
+
+		$list_all_objects = True;
+		include(CORE_DATA."object.data");
+		$object_data = $data;
+
+		include(CORE_DATA."url/commands_tft.data");
+		$action_data = $data;
+		//var_dump($action_data[0]);
+
+//If actions are available		
+		if($action_data[0]["id"]){
+			$form = new Form("Remote Access");
+			$form->input([
+				"id" => "tokens",
+				"name" => "Token",
+				"type" => "select",
+				"options" => $tokens_options,
+				"selected" => false
+				]);
+
+			$form->input([
+				"type" => "chainedselect_kanatft",
+				"objects" => $object_data,
+				"options" => $action_data,
+				"selected" => false,
+				"nb" => 0
+				]);
+			
+			$form->display($tpl,false);
+		}
+		else{
+			echo "<h1>".t("No actions available")."</h1>";
+		}
+

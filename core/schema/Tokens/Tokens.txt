@@ -1,0 +1,4 @@
+//Token Log Object : 1.0
+token:text
+id_user:int
+state:int

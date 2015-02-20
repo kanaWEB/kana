@@ -1,0 +1,54 @@
+<?php
+/*
+Redirect to collectors (collectors get data from external sources and works as background mini python server)
+When a data is collected it is send with a php script request
+*/
+
+//Collector Control redirectors
+if(isset($_["object"])){
+	$command = $_["command"];
+	$object = $_["object"];
+	//@todo Simplify collector
+	//If not GPIOS (Custom variable collector)
+	if(file_exists(USER_OBJECTS.$object."/electronics")){
+		$collector_args = new Entity("electronics",$object);
+		$collector_args = $collector_args->load(["id" => 1]);
+		$collector = $collector_args["collector"];
+	}
+	//If GPIOS
+	elseif(file_exists(USER_OBJECTS.$object."/gpios")){	
+			$collector_args = new Entity("config",$object);
+			$collector_args = $collector_args->populate();
+			$collector = "gpio";
+		}
+	//Custom fixed Collector
+	elseif(file_exists(USER_OBJECTS.$object."/collector")){
+				$collector_args = new Entity("config",$object);
+				$collector_args = $collector_args->populate();
+				$collector = file_get_contents(USER_OBJECTS.$object."/collector");
+			}
+	elseif(file_exists(USER_OBJECTS."/collectors/".$object)){
+		echo "Not Implemented";
+	}
+	else{
+				echo "Can't find collector";
+				exit();
+	}
+
+	
+	
+	
+
+	$path = "core/actions/collectors/".$collector."/".$command.".actions";
+
+	if(file_exists($path)){
+		include($path);
+	}
+	else
+	{
+		echo "Command unknown!";
+	}
+}
+
+
+?>

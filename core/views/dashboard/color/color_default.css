@@ -1,0 +1,48 @@
+/* Default state */
+.state_on{
+background-color: #ffdf4b;
+
+  box-shadow:0 0 20px gold,0 0 20px gold;
+}
+
+.state_off{
+background-color: #000;
+
+ box-shadow:0 0 20px black,0 0 20px black;
+}
+
+.state_unknown{
+  background-color: #fff;
+  box-shadow:0 0 20px white,0 0 20px white;
+}
+
+.state_error{
+background-color: #ff0000;
+
+}
+
+/* Color state */
+
+.state_red{
+  background-color: #f12519;
+  box-shadow:0 0 40px red,0 0 40px red;
+}
+
+.state_green{
+  background-color: #00cc00;
+  box-shadow:0 0 40px green,0 0 40px green;
+}
+
+.state_blue{
+}
+
+.state_orange{
+
+}
+
+.state_purple{
+
+}
+
+
+

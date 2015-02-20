@@ -1,0 +1,45 @@
+<?php
+/*
+Variables Needed
+
+$dir_list = list of directories
+$tab = actions/triggers
+$menu = MENU OBJECTS/SCENARIOS from &menu=
+$object_name = Name of object
+ */
+unset($menu_items);
+
+$object_name = "sensors";
+
+//Get actions availables for selected objects
+$menu_items[] =	[
+	"text" => "All Sensors",
+	"description" => "Whenever a sensor is updated",
+	"link" => "/settings.php?category=scenario&menu=triggers&tab=sensors&trigger=all",
+	"dir" => "sensors"
+];
+
+$menu_items[] = [
+	"text" => "One Sensor",
+	"description" => "When a specific sensor is updated",
+	"link" => "/settings.php?category=scenario&menu=triggers&tab=sensors&trigger=one",
+	"dir" => "sensors"
+];
+
+
+//var_dump($menu_items);
+if(isset($_["tab"])){
+$selected_menu_item = $_["tab"];
+}
+else{
+$selected_menu_item = false;
+}
+
+$object_icon = "core/img/sensors.png";
+//var_dump($menu_items);
+$tpl->assign("id",$object_name);
+$tpl->assign("icon",$object_icon);
+$tpl->assign("selected_menu_item",$selected_menu_item);
+$tpl->assign("menu_items",$menu_items);
+$tpl->draw(CORE_VIEWS."menu/items/menu");
+?>

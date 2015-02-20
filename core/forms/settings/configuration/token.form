@@ -1,0 +1,13 @@
+<?php
+
+$form = new Form("Tokens");
+
+
+//$users_db = new Entity("core","Users");
+//$users = $users_db->populate();
+echo "<h1>Not validated</h1>"."<br>";
+include(CORE_VIEWS."datatable/dbtable_tokenslog.view");
+echo "<h1>Validated</h1>";
+include(CORE_VIEWS."datatable/dbtable_tokens.view");
+
+?>

@@ -1,0 +1,21 @@
+<?php
+
+//Preferences item
+$settingsmenu[] = [
+"text" => "Triggers",
+"icon" => "glyphicon-cog",
+"link" => "triggers"
+];
+
+//Users item
+$settingsmenu[] = [
+"text" => "Scenario",
+"icon" => "glyphicon-user",
+"link" => "scenario"
+];
+
+$tpl->assign("settingsmenu_active",$menu_selected); //As set inside settings.php
+$tpl->assign("settingsmenu",$settingsmenu);
+$tpl->draw(CORE_VIEWS."menu/items/item"); //Display menu/settings/item
+unset($settingsmenu);
+?>

@@ -1,0 +1,27 @@
+<?php
+
+isset($_["state"]) ? $state = $_["state"] : $state = "code_on";
+if(file_exists(USER_OBJECTS.$object_name."/electronics")){
+	$code_db = new Entity("config",$object_name);
+	$code = $code_db->getById($actions_values[$state]);
+	$code = $code["code"];
+}
+else{
+	if(!isset($config_values)){
+		$config_db = new Entity("config",$object_name);
+
+	}
+	if(isset($actions_values[$state])){
+		$config_values = $config_db->getById($actions_values[$state]);
+		$code = $config_values["code"];
+	}
+	else{
+		echo "Code doesn't exists";
+		exit();
+	}
+}
+
+
+
+$command_args[$nb] = $code;
+?>

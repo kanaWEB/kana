@@ -1,0 +1,13 @@
+<?php
+#@# name:Sensor State | example: 10 | sensor_id:Sensor id;select;sensors/list
+unset($data);
+$generic_sensors_db = new Entity("data","sensors");
+$sensor_id = $data_link_json->sensor_id;
+$generic_sensors = $generic_sensors_db->loadall([
+	"data_id"=> $sensor_id
+	]);
+if($generic_sensors){
+	$data = $generic_sensors[count($generic_sensors)-1]["state"];
+}
+
+?>

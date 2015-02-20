@@ -1,0 +1,10 @@
+<?php
+switch($key){
+	case "lang":
+	$command_args[$nb] = $_SESSION["LANGUAGE"];
+	break;
+	default:
+	$command_args[$nb] = "NO";
+	break;
+}
+?>

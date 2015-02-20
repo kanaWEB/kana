@@ -1,0 +1,20 @@
+<?php
+#@# name:Sensor Data | example: 10 | sensor_id:Sensor id;select;sensors/list
+unset($data);
+
+$generic_sensors_db = new Entity("core","Sensors");
+$sensor_id = $data_link_json->sensor_id;
+$sensor = $generic_sensors_db->load([
+	"sensor_id"=> $sensor_id
+]);
+
+if($sensor){
+	$data = $sensor["sensor_lastvalue"];
+}
+else
+{
+	$data = "no sensor";
+}
+
+
+?>

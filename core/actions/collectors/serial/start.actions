@@ -1,0 +1,43 @@
+<?php
+//Args passed
+ 	
+$port = $collector_args["serial_rx"];
+$speed = $collector_args["serial_speed"];
+
+if(DEBUG){
+var_dump($collector_args);
+}
+//Random arg
+$socket = rand(9060,9120);
+
+$collector_program = "serial2php.py";
+
+//Construct args
+$collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/".$collector_program;
+
+$args = " ".$port." ".$speed." ".dirname($_SERVER['SCRIPT_FILENAME'])." '".$object."'"." ".$socket;
+
+Functions::stop_process_with_socket($collector_program,$object);
+
+if(DEBUG){
+	echo $collector_filename.$args;
+	//echo shell_exec($collector_filename.$args); //WARNING : Unless the collector doesn't works this should result in an infinite loop
+}
+Functions::launch_background($collector_filename.$args,0);
+sleep(3);
+if(Functions::is_port_open($socket)){
+	echo json_encode([
+		"data_id" => $_["data_id"],
+		"state" => "ON",
+		"label" => "success"
+		]);
+}
+else
+{
+	echo json_encode([
+		"data_id" => $_["data_id"],
+		"state" => "FAIL",
+		"label" => "danger"
+		]);
+}
+?>

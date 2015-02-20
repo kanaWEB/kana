@@ -1,0 +1,47 @@
+<?php
+
+$form = new Form("Preferences");
+
+
+$lang_list = get_langlist();
+
+$theme_list = new Theme();
+$theme_list = $theme_list->getlist();
+
+$form->input([
+	"type" => "select",
+	"id" => "theme",
+	"name" => "Theme",
+	"options" => $theme_list,
+	"selected" => $config["theme"]
+	]);
+
+$form->input([
+	"type" => "select",
+	"id" => "lang",
+	"name" => "Language",
+	"options" => $lang_list,
+	"selected" => $_SESSION["LANGUAGE"]
+	]);
+
+$form->display($tpl);
+
+$buttons[] = [
+"text" => "Check permissions",
+"command" => "check_perm"
+];
+
+$buttons[] = [
+"text" => "Update system",
+"command" => "aptupdate"
+];
+
+$buttons[] = [
+"text" => "Shutdown system",
+"command" => "halt"
+];
+
+$tpl->assign("buttons",$buttons);
+$tpl->draw(CORE_VIEWS."modal/root_permissions");
+
+?>

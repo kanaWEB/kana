@@ -1,0 +1,148 @@
+<?php
+
+
+//Get core data
+$core_data_dir = Functions::getdir(CORE_DATA);
+foreach($core_data_dir as $file){
+	if(is_file(CORE_DATA.$file)){
+		if(pathinfo($file)['extension'] == "data"){
+			$magickey = pathinfo($file,PATHINFO_FILENAME);
+			$datafiles[$magickey] = CORE_DATA.$file;
+		}
+	}
+}
+
+//Get core data subdirectories
+$core_data_subdirs = Functions::getdir_r("core/data");
+foreach($core_data_subdirs as $dir){
+	$files = Functions::getdir($dir);
+	foreach($files as $file){
+		if(pathinfo($file)['extension'] = ".data"){
+			$magickey = basename($dir)."/".pathinfo($file,PATHINFO_FILENAME);
+			$datafiles[$magickey] = $dir."/".$file;
+		}
+	}
+}
+
+//Get user objects data
+$user_objects = Functions::getdir(USER_OBJECTS);
+foreach($user_objects as $user_object){
+	if(file_exists(USER_OBJECTS.$user_object."/data")){
+		$files = Functions::getdir(USER_OBJECTS.$user_object."/data");
+		foreach($files as $file){
+			if(pathinfo($file)['extension'] == "data"){
+				$magickey = $user_object."/".pathinfo($file,PATHINFO_FILENAME);
+				$datafiles[$magickey] = USER_OBJECTS.$user_object."/data/".$file;
+			}
+		}
+	}
+}
+
+//Get views objects data
+$user_views = Functions::getdir(USER_VIEWS);
+foreach($user_views as $user_view){
+	if(file_exists(USER_VIEWS.$user_view."/data")){
+		$files = Functions::getdir(USER_VIEWS.$user_view."/data");
+		foreach($files as $file){
+			if(pathinfo($file)['extension'] == "data"){
+				$magickey = $user_view."/".pathinfo($file,PATHINFO_FILENAME);
+				$datafiles[$magickey] = USER_VIEWS.$user_view."/data/".$file;
+			}
+		}
+	}
+}
+
+//Get user data subdirectories
+$user_data_subdirs = Functions::getdir_r(USER_DATA);
+if($user_data_subdirs){
+	foreach($user_data_subdirs as $dir){
+		$files = Functions::getdir($dir);
+		foreach($files as $file){
+			if(pathinfo($file)['extension'] = ".data"){
+				$magickey = basename($dir)."/".pathinfo($file,PATHINFO_FILENAME);
+				$datafiles[$magickey] = $dir."/".$file;
+			}
+		}
+	}
+}
+
+
+foreach($datafiles as $key => $datafile){
+	$code = file($datafile);
+	$info = substr(@$code[1],4);
+	$tags = substr(@$code[1],0,3);
+	$args_nb = 0;
+	
+	if($tags == "#@#"){
+		//args_block [0]NAME:TEST[1]DESCRIPTION:TEST2
+		$args_block = explode("|",$info);
+		$data[$key]["file"] = $datafile;
+		foreach($args_block as $arg){
+			//exploded_arg[0] : arg name exploded_arg[1] : arg value
+			$exploded_arg = explode(":",$arg);
+			$arg_name = trim($exploded_arg[0]);
+			$arg_value = trim($exploded_arg[1]);
+
+
+			//If arg is an modifier for the data
+			if(($arg_name != "name") && ($arg_name !="example") && ($arg_name !="plugin")){
+				$args_nb++;
+				$data[$key]["args"][$args_nb]["id"] = $arg_name;
+				$arg_value = explode(";",$arg_value);
+				$data[$key]["args"][$args_nb]["name"] = $arg_value[0];
+				$data[$key]["args"][$args_nb]["type"] = $arg_value[1];
+				//var_dump($arg_value);
+				
+				//Generate data to make a selected fields
+				switch($arg_value[1]){
+					case "select":
+					$data[$key]["args"][$args_nb]["selected"] = false;
+					$options = Variable::get_data($arg_value[2]);
+					$data[$key]["args"][$args_nb]["options"] = $options;
+
+					case "text":
+					$data[$key]["args"][$args_nb]["selected"] = false;
+					$data[$key]["args"][$args_nb]["placeholder"] = $arg_value[2];
+
+					default:
+					$data[$key]["args"][$args_nb]["selected"] = false;
+					$data[$key]["args"][$args_nb]["placeholder"] = $arg_value[2];
+				}
+			}
+			else
+			{
+
+				$data[$key][$arg_name] = $arg_value;
+				if(isset($data[$key]["plugin"])){
+					$data[$key]["icon"] = USER_OBJECTS.$data[$key]["plugin"]."/icon.png";
+				}
+				else
+				{
+					$data[$key]["icon"] = "core/img/core.png";
+				}
+			}
+
+
+		}
+		//arg_block [0]NAME[1]ARGS
+		//foreach($args_block as $arg_block){
+		//$arg_block_array = explode(":",$arg_block);
+		//$args[]
+		//}
+		$data[$key]["args_nb"] = $args_nb;
+	}
+}
+//Get Users data
+if(isset($_["display"])){
+	switch($_["display"]){
+		case "json":
+		echo json_encode($data);
+		break;
+
+		case "vardump":
+		var_dump($data);
+		break;
+	}
+}
+
+?>

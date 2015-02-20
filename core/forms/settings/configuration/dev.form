@@ -1,0 +1,133 @@
+<?php
+if(DEVMODE){
+
+include(EXTERNAL_LIB."TextTable/TextTable.php");
+
+$repo_name = "madnerds";
+
+$objects = Functions::getdir(USER_OBJECTS);
+$sensors = Functions::getdir(USER_SENSORS);
+$views = Functions::getdir(USER_VIEWS);
+//$themes = Functions::getdir(USER_THEME);
+//$language = Functions::getdir(USER_LANGUAGE);
+
+//var_dump($objects);
+//var_dump($sensors);
+//var_dump($views);
+
+foreach($objects as $object){
+	@$tags = file_get_contents(USER_OBJECTS.$object."/info/tags.md");
+	$md_array[] = [
+		$repo_name,
+		$object,
+		"objects",
+		$tags
+	];
+}
+
+foreach($sensors as $sensor){
+	@$tags = file_get_contents(USER_SENSORS.$sensor."/info/tags.md");
+	$md_array[] = [
+		$repo_name,
+		$sensor,
+		"sensors",
+		$tags
+	];
+}
+
+foreach($views as $view){
+	@$tags = file_get_contents(USER_VIEWS.$view."/info/tags.md");
+	$md_array[] = [
+		$repo_name,
+		$view,
+		"views",
+		$tags
+	];
+}
+
+$headers = [
+	"repo",
+	"name",
+	"type",
+	"tags"
+];
+
+//var_dump($md_array);
+
+?>
+<h3>Plugins list for <?php echo $repo_name ?></h3>
+<pre id="dev-text-markdown">
+<?
+
+foreach($md_array as $md_table){
+	//var_dump($md_table);
+	$table = new TextTable($headers,array($md_table));
+	echo $table->render();
+	echo "\n";
+}
+
+?>
+</pre>
+<?
+
+/*
+$repo_name = "madnerds";
+$repo_list = "https://raw.githubusercontent.com/".$repo_name."/kana-plugins-list/master/README.md";
+$repo_list_array = Variable::md2vars($repo_list);
+var_dump($repo_list_array);
+*/
+
+/*
+
+
+$fields = [
+	[
+		"id" => "repo",
+		"type" => "text",
+		"name" => "repo",
+		"description" => "Repository name"
+	],
+	[
+		"id" => "name",
+		"type"=> "text",
+		"name" => "name",
+		"description" => "Plugin id"
+	],
+	[
+		"id" => "type",
+		"type" => "text",
+		"name" => "type",
+		"description" => "Type of plugins"
+	],
+	[
+		"id" => "tags",
+		"type" => "text",
+		"name" => "tags",
+		"description" => "Tags to find the plugins"
+	]
+];
+
+
+
+//var_dump($fields);
+$tpl->assign("fields",$fields);
+$tpl->draw(CORE_VIEWS."dev/plugin_list");
+$dynamic_js[] = CORE_VIEWS."footer/dev_plugin_list.js";
+
+	/*
+	if(isset($_["entity"])){
+		$db_text = file(USER_OBJECTS.$_["entity"]."/".$_["entity"].".txt");
+		array_shift($db_text);
+		foreach($db_text as $field){
+			$field_info = explode(":",$field);
+			$db_fields[] = $field_info[0];
+		}
+		
+	}
+
+	$tpl->draw(CORE_VIEWS."dev/plugin");
+	$dynamic_js[] = CORE_VIEWS."footer/dev.js";
+	*/
+//
+}
+?>

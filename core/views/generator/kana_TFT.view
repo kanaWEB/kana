@@ -1,0 +1,16 @@
+<?php
+$group_name = "Groups";
+$group_db = new Entity("core","Group");
+$groups = $group_db->populate();
+
+echo "Generate config";
+echo '<div class="form-group"><select class="form-control">';
+foreach($groups as $group){
+	echo '<option value="'.$group["id"].'">';
+	echo $group["entity_name"];
+	echo '</option>';
+}
+echo '</select>';
+echo '<button class="btn btn-danger">Generate config.ini</button>'
+
+?>

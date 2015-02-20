@@ -1,0 +1,33 @@
+<?php
+/*
+@todo TO REFACTOR Language Manager
+@todo Views language file should only be load if we are inside the view (the name should be available inside info/name.md)
+ */
+
+//need 
+//
+//$user_views = Functions::getdir(USER_VIEWS);
+//foreach($user_views as $user_view){
+
+	//Get View language
+	$lang_view = add_language(USER_VIEWS.$user_view);
+
+		//Get Object View
+	if(isset($_["menu"]) && isset($_["name"])){
+		if($_["menu"] == "objects"){
+			$lang_object = add_language(USER_OBJECTS.$_["name"]);
+		}
+	}
+
+	if(is_array($lang) && is_array($lang_view)){
+				$lang = array_merge($lang,$lang_view); //Merge General translation with user view translation
+				if(isset($lang_object)){
+					if(is_array($lang_object))
+						$lang = array_merge($lang,$lang_object);
+				}
+			}
+
+
+//}
+?>
+

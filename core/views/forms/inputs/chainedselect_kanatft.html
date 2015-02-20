@@ -1,0 +1,29 @@
+
+
+
+<!-- core/views/forms/inputs/chainedselect_kanatft.html -->
+<input type="hidden"  id="nb_actions" name="nb_actions" value="0"><br />
+<div class="form-group">
+	<!-- Select INPUT Plugin 	-->
+	
+	<select name="plugin_actions0" id="plugin_actions0" class="form-control selectpicker">
+		{loop="$input.objects"}
+		<option data-content="<img src='{$value.img}' <span>     {$value.text}</span>" value="{$value.value}">			    
+		</option>
+		{/loop}
+	</select>
+	<br>
+	<br>
+	<!-- Select INPUT Plugin 	-->
+	<select onchange="showurl()" name="objects_actions0" id="objects_actions0" class="form-control">
+		{loop="$input.options"}
+		<option class="{$value.object_dir}" value="{$value.url}">
+			{$value.name|t} {$value.entity_name}
+		</option>
+		{/loop}
+	</select>
+
+</div>
+<legend>Kana TFT commands</legend>
+<input type="text" class="form-control" id="urltext">
+</div>

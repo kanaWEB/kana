@@ -1,0 +1,43 @@
+<?php
+$object_name = $menu_selected;
+$object_db = new Entity("config",$object_name);
+//var_dump($object_db);
+if(isset($_["del"])){
+	$action_db = new Entity("actions",$object_name);
+	$linked_actions = $action_db->rowCount(array('object_key'=>$_['id']));
+	if($linked_actions != 0){
+		Draw::ajax_notify(t("You can't delete an used object"),"error");
+	}
+	else{
+	$object_db->delete(array('id'=>$_['id']));
+	Draw::ajax_notify(t("Component removed"),"success",$_["id"]);
+	}
+
+}
+else{
+	if(DEBUG){
+		echo "POST DATA";
+		var_dump($_);
+	}
+	$fields = $_;
+	unset($fields["submit"]);
+	unset($fields["menu"]);
+	unset($fields["tab"]);
+	unset($fields["category"]);
+	if(isset($_["id"])){
+		$object_db->setId($_["id"]);
+	}
+	else{
+		$object_db->create();
+	}
+
+	
+	foreach($fields as $key => $field){
+		$setter = "set".$key;
+		$object_db->$setter($field);
+	}
+	//var_dump($object_db);
+	$object_db->save();
+	redirect("settings","?category=".$category_selected."&menu=".$object_name."&tab=".$tab_selected."&notice=".t("Component added"));
+}
+?>

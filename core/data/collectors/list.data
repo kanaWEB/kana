@@ -1,0 +1,24 @@
+<?php
+unset($data);
+//Check for collectors
+if(!isset($objects_dir)){
+	$objects_dir = Functions::getdir(USER_OBJECTS);
+}
+//var_dump(get_defined_vars());
+foreach($objects_dir as $dir){
+	if(file_exists(USER_OBJECTS.$dir."/".$dir.".collector")){
+		$object_info = new Object($dir);
+		$object_info->json();
+
+		$data[] = [
+		"text" => $object_info->json->name,
+		"value" => $dir
+		];
+	}
+}
+
+if(!isset($data)){
+	$data = False;
+}
+
+?>

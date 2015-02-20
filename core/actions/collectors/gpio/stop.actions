@@ -1,0 +1,12 @@
+<?php
+//Verify if there isn't wrongly open socket
+$collector_program = "gpio2php.py";
+
+Functions::stop_process_with_socket($collector_program,$object);
+
+echo json_encode([
+	"data_id" => $_["data_id"],
+	"state" => "OFF",
+	"label" => "danger"
+	]);
+?>

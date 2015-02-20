@@ -1,0 +1,9 @@
+<!-- core/views/table/buttons.html -->
+<a href="{$buttons.link}&id={$buttons.id}" class="btn btn-xlg btn-warning">
+	<i class="glyphicon glyphicon-wrench"></i>
+</a>
+<span id="del{$buttons.id}" onclick="ajax_delete(this,'{$buttons.link}&submit&del&id={$buttons.id}')" class="btn btn-xlg btn-danger">
+	<i class="glyphicon glyphicon-remove"></i>
+</span>
+
+<input id="trigger_state_{$buttons.id}" onchange="triggers_change({$buttons.id})" class="ajaxswitch" {if="$buttons.checked"}checked{/if} type="checkbox" data-on="success" data-off="danger" data-on-color="success" data-off-color="danger">

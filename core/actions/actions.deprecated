@@ -1,0 +1,251 @@
+
+
+/*
+//Open Action table
+$action_db = new Entity("actions",$object_name);
+$action = $action_db->getById($id);
+
+if($action){
+	if($currentUser->GroupRight($action["group_key"]) || !isset($_SERVER['REMOTE_ADDR'])){ //Check User
+
+
+//GET PATH		
+		//If execute locally, get path with $_REQUEST
+		if(isset($_SERVER['SCRIPT_FILENAME'])){
+			$script_dir = $_SERVER['SCRIPT_FILENAME'];
+		}
+		else{
+			$script_dir = $_REQUEST;
+			reset($script_dir);
+			$script_dir = key($script_dir)."/";
+		}
+
+
+$action = Variable::action_args($action); //Json to array for the arguments
+
+//Is this an GPIO object?
+if(file_exists(USER_OBJECTS.$object_name."/gpios")){
+	$object_db = new Entity("config",$object_name);
+	$object_db_load = $object_db->getById($action["object_key"]); //Get object with foreign keys (object_key)
+}
+
+//Is this a remotely controllable Electronics Objects
+if(file_exists(USER_OBJECTS.$object_name."/electronics")){
+	$object_db = new Entity("electronics",$object_name);
+	$object_db_load = $object_db->getById(1); //Get first object (as there will always be one)
+}
+
+//Is this a program objects ?
+//if(!isset($object)){
+	//$object_db = new Entity("config",$object_name);
+	//exit();
+//}
+
+//Get availables commands
+$command_file = file(USER_OBJECTS.$object_name."/actions/".$action_name."/"."commands.txt");
+
+//Command Argument Treatment
+$command_array = trim($command_file[$action_nb]);
+$command_array = explode("[",$command_array);
+
+//Program (without arguments)
+$commands[0] = $command_array[0];
+
+//If command is inside object plugin
+$user_command = USER_OBJECTS.$object_name."/actions/".$action_name."/".$commands[0];
+
+if(file_exists($user_command)){
+	$commands[0] = dirname($script_dir)."/".$user_command;
+}
+			//Arguments (@todo improve when every plugin is finished)
+			array_shift($command_array); //Remove command
+			foreach($command_array as $key => $argument){
+				
+				//REMOTE ARGUMENTS	(arguments is stored inside codes/gpios/electronics)
+				if($argument[0] == "@"){
+					if(!isset($object_db_load)){
+						$object_db = new Entity("config",$object_name);
+						$object_db_load = $object_db->getById($action["object_key"]);
+					}
+					$argument = substr(trim($argument), 1, -1);	
+					$commands[$key+1] = " ".$object_db_load[$argument]." ";
+				}
+				//String arguments
+				elseif($argument[0] == '"'){
+					$argument = substr(trim($argument), 1, -1);
+					$commands[$key+1] = ' "'.htmlspecialchars_decode($action[$argument], ENT_QUOTES).'" ';
+				}
+				//Data arguments
+				elseif($argument[0] == '%'){
+					$argument = substr(trim($argument), 1, -1);
+					//$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
+					//echo $action[$argument];
+					$string = $action[$argument];
+					if(preg_match_all('/\{(.*?)\}/',$string,$match)) {     
+						foreach($match[0] as $data_link){
+							
+							$data_link_json = html_entity_decode($data_link);
+							$data_link_json = json_decode($data_link_json);
+							$data_file = Variable::data_dir($data_link_json->data);
+
+							if(file_exists($data_file)){
+								include($data_file);
+								$string = str_replace($data_link,$data,$string);
+							}
+
+						}
+					}
+					$commands[$key+1] = ' "'.htmlspecialchars_decode($string, ENT_QUOTES).'" ';
+				}
+				else{
+					//Special arguments 
+					switch(trim($argument)){
+						//Language 
+						case "lang]":
+						$commands[$key+1] = " ".$_SESSION["LANGUAGE"]." ";
+						break;
+
+						//Protected text value with quotes (deprecated)
+						//case "text]":
+						//$argument = substr(trim($argument), 0, -1);
+						//$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
+						//break;
+
+						//Code get state from objects
+						case "code]":
+						$state_code = trim($_["state"]);
+						$code_db = new Entity("config",$object_name);
+						if($state_code == "change"){
+							$state = $action["state"] ? 0 : 1;
+							$state_code = $state ? "on" : "off";
+						}
+						else
+						{
+							if($state_code == "on"){
+								$state = 1;
+							}
+							if($state_code == "off"){
+								$state = 0;
+							}
+						}
+
+						$code = $code_db->getById($action["code_".$state_code]);
+					//echo $action["code_".$state];
+					//echo $code["code"];
+						$commands[$key+1] = " ".$code["code"];
+						break;
+
+						//get state from commands
+						case "state]":
+						if(isset($_["state"])){
+							$state = trim($_["state"]);
+						}
+						else{
+							$state = false;
+						}
+
+						switch($state){
+							case "on":
+							$state = 1;
+							break;
+
+							case "off":
+							$state = 0;
+							break;
+
+							case "change":
+							if(isset($object_db_load["gpio"])){
+								$gpio = $object_db_load["gpio"];
+								include(CORE_DATA."gpio/pinstate.data");
+								$state = $data ? 0 : 1;
+							}
+							else
+							{
+								$state = $action["state"];
+							}
+
+							break;
+
+							default:
+							//$state = false;
+							break;
+						}	
+						$commands[$key+1] = $state;
+						break;
+
+						//Default arguments
+						default:
+						$argument = substr(trim($argument), 0, -1);
+						$commands[$key+1] = " ".htmlspecialchars_decode($action[$argument], ENT_QUOTES)." ";
+						break;
+					}
+				}
+			}
+
+			//var_dump($commands);
+
+			$final_command = "";
+			foreach($commands as $command){
+				$final_command .= $command;
+			}
+
+			//Display command if you are root
+			if($currentUser->isadmin()){
+				//var_dump($currentUser);
+				if(SHOWCOMMANDS){
+					echo $final_command;
+				}
+			}
+			Functions::launch_background($final_command);
+			//exec($final_command,$out,$exitcode);
+			//var_dump($out);
+			//var_dump($exitcode);
+
+
+			if(!isset($state)){
+				$state = 0;
+			}
+			
+			$action_db->change(array('state'=>$state),array('id'=>$action["id"]));
+
+			if(isset($_["token"])){
+				$affirmations = array(
+					'OK!',
+					'Certainly!',
+					'I\'m doing this right now!',
+					'Yes sir!');
+				$affirmation = $affirmations[rand(0,count($affirmations)-1)];
+				$response = array('responses'=>array(
+					array('type'=>'talk','sentence'=>$affirmation)
+					)
+				);
+
+				$json = json_encode($response);
+				echo $json;
+			}
+
+
+
+		}
+		else
+		{
+
+			if(isset($_["token"])){
+				
+				$affirmation = "Non";
+				$response = array('responses'=>array(
+					array('type'=>'talk','sentence'=>$affirmation)
+					)
+				);
+
+				$json = json_encode($response);
+				echo $json;
+			}
+			else{
+
+				echo Draw::ajax_notify("Permissions denied by Administrator","error");
+			}
+		}
+		} //actions
+	} //isset
+	?>

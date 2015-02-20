@@ -1,0 +1,26 @@
+<?php
+if(DEBUG){
+	echo "Dumping POST/GET sanitized variables";
+	var_dump($_);
+}
+
+if(isset($_["del"])){
+	$action_db = new Entity("config",$menu_selected);
+	$action_db->delete(array('id'=>$_['id']));
+	Draw::ajax_notify(t("sensors deleted"),"error",$_["id"]);
+}
+else{
+
+	$objects_db = new Entity("config",$menu_selected);
+	$objects_db->setEntity_name($_["entity_name"]);
+	$objects_db->setEntity_description($_["entity_description"]);
+	$objects_db->setSensor_id($_["sensor_id"]);
+	$objects_db->setGroup_key($_["group_key"]);
+	if(isset($_["id"])){
+		$objects_db->setId($_["id"]);
+	}
+	$objects_db->save();
+
+	redirect("settings","?category=".$category_selected."&menu=".$menu_selected."&notice=".t("Sensor added"));
+}
+?>

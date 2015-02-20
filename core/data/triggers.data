@@ -1,0 +1,23 @@
+<?php
+$triggers_db = new Entity("core","Triggers");
+$triggers = $triggers_db->populate();
+
+if($triggers){
+foreach($triggers as $trigger){
+	$data[] = [
+	"text" => html_entity_decode($trigger["entity_name"]),
+	"value" => $trigger["id"]
+	 ];
+}
+}
+else
+{
+	$data = false;
+}
+
+if(isset($_["data_id"])){
+ 	$data_json["data_id"] = $_["data_id"];
+ 	$data_json["data"] = $data;
+	echo json_encode($data_json);
+}
+?>

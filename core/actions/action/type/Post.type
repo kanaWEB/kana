@@ -1,0 +1,4 @@
+<?php
+isset($_[$key]) ? $command_args[$nb] = $_[$key] : $command_args[$nb] = "NO";
+
+?>

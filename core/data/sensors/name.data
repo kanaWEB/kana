@@ -1,0 +1,11 @@
+<?php
+$db_sensors = new Entity("core","Sensors");
+
+if(isset($sensor_id)){
+	$sensor_list = $db_sensors->loadAll([
+		"sensor_id" => $sensor_id
+		]);
+	$data = $sensor_list[0]["sensor_name"];
+}
+
+?>

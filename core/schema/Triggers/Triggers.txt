@@ -1,0 +1,13 @@
+//Trigger Object : 1.0
+entity_name:string
+entity_description:string
+code:int
+trigger_object:string
+id_object:int
+trigger:string
+trigger_state:int
+modifier:string
+schedule:string
+state:string
+timestamp:int
+timeout:int

@@ -1,0 +1,12 @@
+<?php
+$table = new Entity("core","Users");
+$table_data = $table->populate();
+
+foreach($table_data as $user){
+	$data[]=[
+		"text" => $user["nickname"],
+		"value" => $user["nickname"]
+	];
+}
+unset($table_data);
+?>

@@ -1,0 +1,18 @@
+<?php
+
+//Get action values for object_key
+
+if(!isset($config_values)){
+	//Is this a remotely controllable Electronics Objects
+	if(file_exists(USER_OBJECTS.$object_name."/electronics")){
+		$config_db = new Entity("electronics",$object_name);
+		$config_values = $config_db->getById(1); //Get first object (as there will always be one)
+	}
+	else{
+		$config_db = new Entity("config",$object_name);
+		$config_values = $config_db->getById($actions_values["object_key"]); //Get object with foreign keys (object_key)
+	}
+}
+
+$command_args[$nb] = $config_values[$key];
+?>

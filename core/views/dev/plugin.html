@@ -1,0 +1,54 @@
+<h1>Text input</h1>
+<table class="table table-bordered">
+	<tr>
+		<th>id</th>
+		<th>name</th>
+		<th>type</th>
+		<th>placeholder</th>
+	</tr>
+	<tr>
+		<td>
+		{if="!isset($id_fields)"}
+		
+			<input onchange="change_result_text()" id="dev-text-input-id" placeholder="entity id" type="text">
+	
+		{/if}
+
+		{if="isset($id_fields)"}
+			
+		
+			<select onchange="change_result_text()" id="dev-text-input-id">
+				{loop="$id_fields"}
+				<option value="{$value}">
+					{$value}
+				</option>
+				{/loop}
+			</select>
+			
+		{/if}
+		</td>
+
+		<td><input onchange="change_result_text()" id="dev-text-input-name" placeholder="Translatable name" type="text"></td>
+		<td ><input onchange="change_result_text()" id="dev-text-input-type" value="text" type="text"></td>
+		<td ><input  onchange="change_result_text()" id="dev-text-input-placeholder" placeholder="Text visible when empty" type="text"></td>
+	</tr>
+</table>
+<h3>Result</h3>
+<div class="form-group">
+	<label id="dev-text-label"></label>
+	<input id="dev-text-input" type="text" value="" class="label-result-text form-control" name="" placeholder="">
+</div>
+
+<h3>Form File</h3>
+<span></span>.md<br>
+
+<pre id="dev-text-markdown">
+id         |name           |type     |placeholder		  			  
+-----------|---------------|---------|--------------------------------
+           |               |         |                                
+</pre>
+
+<h3>Language file</h3>
+
+$lang["<span id="dev-text-translate-text"></span>"] = "";<br>
+$lang["<span id="dev-text-translate-placeholder"></span>"] = "";

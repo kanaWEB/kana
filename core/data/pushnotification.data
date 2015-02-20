@@ -1,0 +1,29 @@
+<?php
+
+$db_fields = array(
+	"data" => "text",
+	"timestamp" => "int"
+	);
+$db_name = "notifications/".$currentUser->nickname();
+$table = DATA_DIR.$db_name.".db";
+//var_dump($table);
+if(file_exists($table)){
+	$data_db = new Entity("data",$db_name);
+	$row = $data_db->rowCount();
+	//var_dump($row);
+	$data = $data_db->getById($row);
+	$data = $data["data"];
+
+	if($data){
+		explode(";",$data);
+		$data_db->delete(array('id'=>$row));
+		Draw::ajax_notify(html_entity_decode($data,ENT_QUOTES),"information");
+	}
+	else{
+	//echo "no notifications";
+	}
+}
+else{
+	//echo "no database";
+}
+?>

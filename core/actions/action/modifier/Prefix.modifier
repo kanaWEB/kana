@@ -1,0 +1,5 @@
+<?php
+if(isset($arg->prefix)){
+	$command_args[$nb] = $arg->prefix.$command_args[$nb];
+}
+?>

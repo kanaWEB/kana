@@ -1,0 +1,10 @@
+<?php
+$tpl->draw(CORE_VIEWS."table/open");
+$tpl->draw(CORE_VIEWS."table/row/open");
+foreach($table_headers as $table_header){
+	$tpl->draw(CORE_VIEWS."table/header/open");
+	echo t($table_header);
+	$tpl->draw(CORE_VIEWS."table/header/close");
+}
+$tpl->draw(CORE_VIEWS."table/row/close");
+?>

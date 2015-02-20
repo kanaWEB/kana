@@ -1,0 +1,21 @@
+<!-- /core/views/dashboard/default.html -->
+{loop="buttons"}
+  	<button 
+ 		class='btn btn-xlg {if="isset($value->color)"}btn-{$value->color}{else}btn-primary{/if}'
+		data-object="{$info.object}"
+		data-id="{$info.id}"
+		data-uid="{$info.uid}"
+		data-command='{if="isset($value->command)"}{$value->command}{else}default{/if}'
+		data-state='{if="isset($value->state)"}{$value->state}{else}default{/if}'
+		onclick="{if="isset($value->effect->type)"}{$value->effect->type}{else}state_fade(this,'on'){/if}" 
+	>
+	{if="isset($value->icon)"}
+		<i class='glyphicon {if="isset($value->icon)"}{$value->icon}{else}off{/if}'>
+		</i>
+	{else}
+		{$value->name}
+	{/if}
+	</button>			
+{/loop}
+
+</div>

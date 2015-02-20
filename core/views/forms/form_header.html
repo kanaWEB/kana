@@ -1,0 +1,18 @@
+
+
+
+<!-- core/views/forms/form_header.html -->
+  <form id="formSelector" action="" method="post" data-toggle="validator" role="form">
+    <h1>{$form_name|t}
+    </h1>
+    {if="$help_array"}
+    <div class="alert alert-danger">
+      <ul>
+        {loop="help_array"}
+        <li>
+          {$value.text}
+        </li>
+        {/loop}
+      </ul>
+    </div>
+    {/if}

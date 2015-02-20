@@ -1,0 +1,37 @@
+<?php
+if($currentUser->isadmin()){
+	if(isset($_["view"])){
+		if(file_exists(USER_VIEWS.$_["view"])){
+			if(isset($_["op"])){
+				
+				switch($_["op"]){
+					case "add":
+					if(isset($_["data"])){
+						file_put_contents(CONFIG_DIR."views/".$_["view"].".json",$_["data"]);
+					}
+					else{
+						echo "data not set";
+					}
+					break;
+
+					case "read":
+					 echo file_get_contents(CONFIG_DIR."views/".$_["view"].".json");
+					break;
+
+					case "del":
+					unlink(CONFIG_DIR."views/".$_["view"].".json");
+					break;
+				}
+			}
+		}
+		else{
+			echo USER_VIEWS.$_["view"]." doesn't exists";
+		}
+	}
+	else
+	{
+		echo "view not set";
+	}
+}
+
+	?>

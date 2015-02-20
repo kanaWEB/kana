@@ -1,0 +1,89 @@
+<?php
+/*
+This file manages object's actions
+*/
+
+if(isset($_["object"]) && isset($_["id"])){
+	$object_name = $_["object"]; //Get Object name
+	$id = $_["id"]; //Get ID of objects
+
+	//Object Actions
+	$action_db = new Entity("actions",$object_name);
+	$actions_values = $action_db->getById($id);
+	if(!$actions_values){
+		var_dump("Invalid ID");
+		exit();
+	}
+	$action_name = $actions_values["action"];
+	$actions_values = Variable::action_args($actions_values);
+
+	isset($_["command"]) ? $command_name = $_["command"] : $command_name = "default";
+
+	//Prepare commands
+	$command_file_path = USER_OBJECTS.$object_name."/actions/".$action_name."/"."commands.json";
+	if(file_exists($command_file_path)){
+		//Get Alls commands
+		$command_file = file_get_contents($command_file_path);
+		$command_json = json_decode($command_file);
+		
+		if($command_json != null){
+		//Get information for the command we want to launch
+			//var_dump($command_name);
+			if(isset($command_json->$command_name)){
+				$command_json = $command_json->$command_name;
+
+			//Get all arguments see core/actions/action for more information
+				include("core/actions/action/args.redirector");
+
+				$script_dir = Variable::get_data("path");
+
+				$final_command = $script_dir."/".dirname($command_file_path)."/bin/".$command_json->command." ";
+				foreach($command_args as $value){$final_command .= $value." ";}
+			}
+			else{
+				echo "Invalid command, List of commands:\n";
+				var_dump($command_json);
+				foreach($command_json as $key => $command_list){
+					echo $key." ";
+				}
+			}
+		}
+		else{
+			echo "command misformed";
+		}
+	}
+	else{
+		echo "Plugin doesn't have this command : ";
+		echo $command_file_path;
+	}
+
+	if(isset($final_command)){
+		if($currentUser->isadmin()){
+		//var_dump($currentUser);
+			if(SHOWCOMMANDS){
+				if(isset($_["webobject"])){
+					//echo $final_command;
+					$json_answer = [
+					"text" => htmlspecialchars($final_command),
+					"uid" => $actions_values["uid"],
+					"command_state" => 2
+					];
+					echo json_encode($json_answer);
+				}	
+			}
+		}
+		Functions::launch_background($final_command);
+	
+	//If this is an webobject we answer with valid json answer (see webobject.js)
+	
+
+	//exec($final_command,$out,$exitcode);
+	//var_dump($out);
+	//var_dump($exitcode);
+	}
+
+}
+else
+{
+	echo "object and/or id is not set";
+}

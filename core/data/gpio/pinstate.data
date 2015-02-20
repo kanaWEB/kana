@@ -1,0 +1,23 @@
+<?php
+#@# name:GPIO state | example:ON/OFF | gpio:gpio;select;gpio/pinslists
+if(isset($data_link_json->gpio)){
+	$gpio = $data_link_json->gpio;
+}
+
+if(isset($_["gpio"])){
+	$gpio = $_["gpio"];
+}
+
+$pinstate_command = "/usr/local/bin/gpio read ".$gpio;
+//var_dump($pinstate_command);
+$data = trim(shell_exec($pinstate_command));
+
+if(isset($data_link_json)){
+	if($data){
+		$data = t("ON");
+	}
+	else{
+		$data = t("OFF");
+	}
+}
+?>

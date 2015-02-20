@@ -1,0 +1,14 @@
+
+
+<!-- core/views/forms/inputs/text_autodetect.html -->
+
+	<div class="form-group">
+
+	<label for="{$input.id}">{$input.name|t}</label>  <span onclick="autodetect(this,'{$input.collector}','{$input.object}')" class="btn btn-primary">{"Autodetect"|t}</span>
+	<br>
+	<br>
+
+			<input type="text" value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"}required{/if}>
+
+		
+	</div>

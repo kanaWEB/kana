@@ -1,0 +1,26 @@
+<?php
+		//If we are inside settings make it as selected
+		if(PHP_PAGE == "settings.php"){
+			$topmenu_selected = [
+			"text" => "Settings",
+			"icon" => "glyphicon glyphicon-wrench"
+			];
+		}
+
+//Default views
+		if($currentUser->isadmin()){
+		//Settings
+		$topmenu[] = [
+		"text" => "Settings",
+		"icon" => "glyphicon glyphicon-wrench",
+		"link" => "settings.php"
+		];
+}
+		//Log Out
+		$topmenu[] = [
+		"text" => t("Logout")." (".$currentUser->nickname().")",
+		"icon" => "glyphicon glyphicon-user",
+		"link" => "index.php?logout"
+		];
+
+?>

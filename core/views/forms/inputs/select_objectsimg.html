@@ -1,0 +1,9 @@
+<div class="form-group">
+	<!-- Select INPUT Plugin 	-->
+	
+	<select name="sensors" id="" class="form-control selectpicker">
+		{loop="$input.objects"}
+		<option {if="$input.selected.object==$value.value"}selected{/if} data-content="<img src='{$value.img}' <span>     {$value.text}</span>" value="{$value.value}">			    
+		</option>
+		{/loop}
+	</select>

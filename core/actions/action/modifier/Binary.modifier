@@ -1,0 +1,31 @@
+<?php
+switch($command_args[$nb]){
+	case "on":
+	$command_args[$nb] = 1;
+	break;
+
+	case "off":
+	$command_args[$nb] = 0;
+	break;
+
+	case "true":
+	$command_args[$nb] = 1;
+	break;
+
+	case "false":
+	$command_args[$nb] = 0;
+	break;
+
+	case "1":
+	$command_args[$nb] = 1;
+	break;
+
+	case "0":
+	$command_args[$nb] = 0;
+	break;
+
+	default:
+	$command_args[$nb] = "";
+	break;
+}
+?>

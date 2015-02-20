@@ -1,0 +1,3 @@
+<?php
+include(CORE_VIEWS."datatable/dbtable_allactions.view");
+?>

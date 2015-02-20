@@ -1,0 +1,41 @@
+<?php
+require_once("core/schema/RRDKana.class.php");
+
+if(isset($_["data_id"]) && isset($_["data_type"]) && isset($_["data_time"])){
+	$id = $_["data_id"];
+	$type = $_["data_type"];
+	$time = $_["data_time"];
+	$export_type = $_["data_export_type"];
+	$db_sensor = new Entity("core","Sensors");
+	$sensor_info = $db_sensor->load(["sensor_id" => $id]);
+//var_dump($sensor_info);
+//var_dump($db_sensor);
+
+	if(file_exists(DATA_DIR.$type."/".$id.".rrd")){
+		if($export_type == "json"){
+			$rrd_db = new RRDKana($type,$id);
+			$rrd_db->get_schema(); //We get the schema to retrieve range info
+			$json["data"] = $rrd_db->xml2json($time);
+			//var_dump($json);
+			//var_dump($sensor_info);
+			$json["name"] = $sensor_info["sensor_name"];
+			$json["range"] = $rrd_db->range();
+			echo json_encode($json);
+		}
+
+		if($export_type == "csv"){
+			header('Content-Type: application/csv');
+			header('Content-Disposition: attachement; filename="'.$id.'.csv"');
+			$rrd_db = new RRDKana($type,$id);
+			$csv = $rrd_db->xml2csv($time);
+			echo $csv;
+		}
+	}
+	else{
+		echo "No schema for database";
+	}
+}
+else{
+	echo "Bad URL Need data_id data_type data_time";
+}
+?>

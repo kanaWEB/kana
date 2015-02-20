@@ -1,0 +1,41 @@
+<?php
+//Table Header
+
+include(CORE_VIEWS."table/header/header.view");
+
+//Link generator
+$link = $_SERVER['SCRIPT_NAME'];
+$link .= "?category=".$category_selected."&menu=".$object_name."&tab=".$tab_selected;
+
+
+//Table data
+for($i=0;$i<count($objects);$i++){
+	$tpl->draw(CORE_VIEWS."table/row/open");
+	//var_dump($objects);
+	foreach($table_data as $td){
+		
+		$tpl->draw(CORE_VIEWS."table/cell/open");
+		if($td !="password"){
+		echo html_entity_decode($objects[$i][$td]);
+		}
+		else{
+			echo '<label class="label label-danger">'.t("Hidden")."</label>";
+		}
+		$tpl->draw(CORE_VIEWS."table/cell/close");
+
+	}
+	$tpl->draw(CORE_VIEWS."table/cell/open");
+
+	$buttons = [
+	"link" => $link,
+	"id" => $objects[$i]["id"]
+	];
+
+	$tpl->assign("buttons",$buttons);
+	$tpl->draw(CORE_VIEWS."table/buttons");
+	$tpl->draw(CORE_VIEWS."table/cell/close");
+	$tpl->draw(CORE_VIEWS."table/row/close");
+}
+
+$tpl->draw(CORE_VIEWS."table/close");
+?>

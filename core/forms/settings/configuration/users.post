@@ -1,0 +1,59 @@
+<?php
+//Group Post
+
+if(isset($_["del"])){
+	if($_["id"] == 1){
+		Draw::ajax_notify(t("You can't delete the admin!"),"error");
+	}
+	else{
+		$object_db = new Entity("core","Users");
+		$object_db->delete(array('id'=>$_['id']));
+
+		$group_right_db = new Entity("core","GroupRight");;
+		@$group_right_db->delete([
+			'id_user' => $_['id_user'],
+			'id_group' => $_['id_group']
+			]);
+		Draw::ajax_notify(t("User delete"),"error",$_["id"]);
+	}
+}
+else{
+	$fields = $_;
+
+	unset($fields["submit"]);
+	unset($fields["menu"]);
+
+	$object_db = new Entity("core","Users");
+	if(isset($_["id"])){
+		$object_db->setId($_["id"]);
+		
+		if($_["id"] != 1){
+			$object_db->setState(2); //Set user as 2 (0 disable 1 admin 2 user)
+		}
+		else
+		{
+			$object_db->setState(1); //Set user as 2 (0 disable 1 admin 2 user)
+		}
+	}
+	else{
+		$object_db->create();
+		$object_db->setState(2);
+	}
+	foreach($fields as $key => $field){
+		if($key == "password"){
+			$field = sha1(md5($field));
+		}
+		$setter = "set".$key;
+		$object_db->$setter($field);
+	}
+	
+	
+	$object_db->setCookie("");
+	$object_db->setToken("");
+	$object_db->setDefault_group("");
+	$object_db->setDefault_view("");
+	$object_db->save();
+
+	redirect("settings","?category=configuration&menu=users&notice=".t("User saved"));
+}
+?>

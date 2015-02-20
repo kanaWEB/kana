@@ -1,0 +1,26 @@
+<?php
+//Need
+//$user_views = Functions::getdir(USER_VIEWS);
+//foreach($user_views as $user_view){
+
+//Get View's menu data	
+			$menu_file = file(USER_VIEWS."/".$user_view."/menu.md"); 
+			$menu_data = explode("|",$menu_file[2]);
+
+		//Selected Menu
+			if(isset($_["view"]) && $_["view"] == $user_view ){
+				$topmenu_selected = [
+				"text" => $menu_data[1],
+				"icon" => $menu_data[0]
+				];
+			}
+
+		//Menu generation
+			$topmenu[] = [
+			"id" => $user_view,
+			"text" => $menu_data[1],
+			"icon" => $menu_data[0],
+			"link" => "views.php?view=".$user_view
+			];
+//}
+?>

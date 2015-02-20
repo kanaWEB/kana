@@ -1,0 +1,3 @@
+<?
+echo json_encode(Variable::sensors_to_websensors());
+?>

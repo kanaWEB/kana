@@ -1,0 +1,31 @@
+<?php
+//Arguments treatment
+		//type define how to convert values name into values
+		//Modifier modify the value
+$nb = 0;
+foreach($command_json->args as $key => $arg){
+
+			//Get value
+	isset($arg->type) ? $type = $arg->type : $type = "Actions";
+	if(file_exists("core/actions/action/type/".$type.".type")){
+		include("core/actions/action/type/".$type.".type");
+	}
+
+			//Modified value with a modifier
+	if(isset($arg->modifier)){
+		$modifier = $arg->modifier;
+		//var_dump($modifier);
+		if(file_exists("core/actions/action/modifier/".$modifier.".modifier")){
+			include("core/actions/action/modifier/".$modifier.".modifier");
+		}
+	}
+	if(!isset($arg->noquotes)){
+		//var_dump($arg);
+		$command_args[$nb] = '"'.$command_args[$nb].'"';
+	}
+	
+	$nb++;
+}
+
+
+?>
