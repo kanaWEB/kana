@@ -1,6 +1,6 @@
 <?php
 /*
-Change a gpio (from the gpio widgets) core/views/
+Change a gpio (from the gpio widgets) core/templates
 */
 
 if($currentUser->isadmin()){

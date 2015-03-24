@@ -68,7 +68,7 @@ class Variable{
 	public static function get_data($data_link,$modifiers=false){
 		//We search every data directory
 		$data_file = Variable::data_dir($data_link);
-
+		//var_dump($data_file);
 		//If a modifier is set we convert it into a variable for the data
 		if($modifiers){
 			$variable_name = array_keys($modifiers);
@@ -77,6 +77,7 @@ class Variable{
 				//var_dump($modifier);
 				$$key = $modifier;
 				//var_dump($sensor_type);
+				//var_dump($object_name);
 			}
 		}
 
@@ -111,7 +112,7 @@ Fields
  */
 
 //Get all actions arguments from json
-public function actions_args($actions){
+public static function actions_args($actions){
 	foreach($actions as $key_action => $action){
 		$args = json_decode(html_entity_decode($action["args"]));
 		foreach($args as $key_arg => $arg){
@@ -123,7 +124,7 @@ public function actions_args($actions){
 }
 
 //Get action arguments from json
-public function action_args($action){
+public static function action_args($action){
 	$args = json_decode(html_entity_decode($action["args"]));
 	foreach($args as $key_arg => $arg){
 		$action[$key_arg] = $arg;
@@ -167,7 +168,7 @@ public function md2vars($file){
 }
 
 //Availables Actions menu item (Triggers)
-public function md2menuitem($category,$object_name,$available_md_item){
+public static function md2menuitem($category,$object_name,$available_md_item){
 
 	if($category == "scenario"){
 		$link =  $_SERVER['SCRIPT_NAME']."?category=".$category."&menu=triggers&tab=".$object_name."&trigger=".$available_md_item;
@@ -247,10 +248,102 @@ public function object_menus_name($object_name){
 	return $menu_name;
 }
 
-public function objects_to_webobjects($current_group){
-	$objects = Functions::getdir(USER_OBJECTS);
-	
+/*
+
+REFACTORING IN PROGRESS
+EVERYTHING RELATED TO WIDGETS VARIABLE AND DRAWING WILL BE MOVED INSIDE WIDGET.CLASS.PHP FOR SIMPLIFICATION
+
+actions_to_webobjects($object,$actions_list);
+ANALYSE
+Draw.class.php L111 
+$webobjects = Variable::actions_to_webobjects($object_type,$actions_list);
+
+
+objects_to_webobjects($current_group);
+sensors_to_websensors($current_group);
+
+Widget need 
+
+*/
+
+public static function actions_to_webobjects($object,$actions_list){
 	$key = 0;
+	$webobjects = [];
+
+//If there are actions
+	if($actions_list){
+		foreach($actions_list as $action){
+			if(file_exists(USER_OBJECTS.$object."/actions/".$action["action"]."/"."buttons.json")){
+			//Define id/widget/type/name/description/icon
+
+			//Get commands information from database
+				$webobjects[$key]["info"]["id"] = $action["id"];
+				$webobjects[$key]["info"]["object_key"] = $action["object_key"];
+				$webobjects[$key]["info"]["uid"] = $action["uid"];
+				$webobjects[$key]["info"]["command"] = $action["action"];
+				$webobjects[$key]["info"]["object"] = $object;
+
+			//Get widgets information
+				$webobjects[$key]["info"]["name"] = htmlspecialchars_decode($action["entity_name"]);
+				$webobjects[$key]["info"]["description"] = htmlspecialchars_decode($action["entity_description"]);
+				$webobjects[$key]["info"]["icon"] = USER_OBJECTS.$object."/icon.png";
+
+			//Get state information
+			//Every widgets have a location where it can provided information on the widget
+			//Each states are specified inside state.json
+				$state_file_path = USER_OBJECTS.$object."/actions/".$action["action"]."/"."state.json";
+				$state_file = file_get_contents($state_file_path);
+				$state_json = json_decode($state_file);
+
+				if($state_json == null){
+					var_dump($object." doesn't have a correct state.json for action:".$action["action"]);
+					exit();
+				}
+
+			//Get buttons information
+			//Each buttons are specified inside buttons.json
+				$buttons_file_path = USER_OBJECTS.$object."/actions/".$action["action"]."/"."buttons.json";
+				$buttons_file = file_get_contents($buttons_file_path);
+				$buttons_json = json_decode($buttons_file);
+				if($buttons_json == null){
+					var_dump($object." doesn't have a correct buttons.json for action:".$action["action"]);
+					exit();
+				}
+				$webobjects[$key]["buttons"] = $buttons_json->buttons;
+
+
+			//$webobjects[$key]["buttons"] = $buttons_json;	
+				$webobjects[$key]["state"] = $state_json;
+
+
+			//There are 2 ways to known the state of an object
+			//1: onload check a data onload (to use when status doesn't take time to load)
+			//2: user check a data when a user asked for the state (by clicking check or check all)
+				if(isset($state_json->onload)){
+					$modifiers["state_action"] = $action;
+					$webobjects[$key]["state_style"] = Variable::get_data($state_json->onload,$modifiers);
+				}
+				else{
+					$webobjects[$key]["state_style"] = [
+					"text" => t("Unknown"),
+					"class" => "state_unknown"
+					];
+				}
+				$key++;
+			}
+			else
+			{
+				var_dump($object." doesn't have action:".$action["action"]);
+			}
+		}
+	}
+
+	return $webobjects;
+}
+
+public static function objects_to_webobjects($current_group){
+	$objects = Functions::getdir(USER_OBJECTS);
+	$webobjects = [];
 		//For each objects
 	foreach($objects as $object){
 
@@ -259,160 +352,93 @@ public function objects_to_webobjects($current_group){
 		$actions_list = $actions_db->loadAll([
 			"group_key" => $current_group
 			]);
-
-		//If there are actions
-		if($actions_list){
-			
-			foreach($actions_list as $action){
-				if(file_exists(USER_OBJECTS.$object."/actions/".$action["action"]."/"."buttons.json")){
-				//Define id/widget/type/name/description/icon
-					
-					//Get commands information from database
-					$webobjects[$key]["info"]["id"] = $action["id"];
-					$webobjects[$key]["info"]["object_key"] = $action["object_key"];
-					$webobjects[$key]["info"]["uid"] = $action["uid"];
-					$webobjects[$key]["info"]["command"] = $action["action"];
-					$webobjects[$key]["info"]["object"] = $object;
-
-					//Get widgets information
-					$webobjects[$key]["info"]["name"] = htmlspecialchars_decode($action["entity_name"]);
-					$webobjects[$key]["info"]["description"] = htmlspecialchars_decode($action["entity_description"]);
-					$webobjects[$key]["info"]["icon"] = USER_OBJECTS.$object."/icon.png";
-
-					//Get state information
-					//Every widgets have a location where it can provided information on the widget
-					//Each states are specified inside state.json
-					$state_file_path = USER_OBJECTS.$object."/actions/".$action["action"]."/"."state.json";
-					$state_file = file_get_contents($state_file_path);
-					$state_json = json_decode($state_file);
-
-					if($state_json == null){
-						var_dump($object." doesn't have a correct state.json for action:".$action["action"]);
-						exit();
-					}
-
-					//Get buttons information
-					//Each buttons are specified inside buttons.json
-					$buttons_file_path = USER_OBJECTS.$object."/actions/".$action["action"]."/"."buttons.json";
-					$buttons_file = file_get_contents($buttons_file_path);
-					$buttons_json = json_decode($buttons_file);
-					if($buttons_json == null){
-						var_dump($object." doesn't have a correct buttons.json for action:".$action["action"]);
-						exit();
-					}
-					$webobjects[$key]["buttons"] = $buttons_json->buttons;
-
-					
-					//$webobjects[$key]["buttons"] = $buttons_json;
-
-
-						
-						$webobjects[$key]["state"] = $state_json;
-
-
-						//There are 2 ways to known the state of an object
-						//1: onload check a data onload (to use when status doesn't take time to load)
-						//2: user check a data when a user asked for the state (by clicking check or check all)
-						if(isset($state_json->onload)){
-							$modifiers["state_action"] = $action;
-							$webobjects[$key]["state_style"] = Variable::get_data($state_json->onload,$modifiers);
-							
-						}
-						else
-						{
-							$webobjects[$key]["state_style"] = [
-								"text" => t("Unknown"),
-								"class" => "state_unknown"
-							];
-						}
-						$key++;
-
-					}
-					else
-					{
-						var_dump($object." doesn't have action:".$action["action"]);
-					}
-				}
-			}
-		}
-	//var_dump($webobjects);
-		if(isset($webobjects)){
-			return $webobjects;
-		}else{
-			return false;
-		}
+		
+		//We get every webobjects of a type and merge it with the complete list of webobjects
+		$webobjects_tmp = self::actions_to_webobjects($object,$actions_list);
+		
+		//var_dump($webobjects_tmp);
+		$webobjects = array_merge($webobjects,$webobjects_tmp);
 	}
 
-	public function sensors_to_websensors($current_group = false){
-		$sensors_type = Functions::getdir(USER_SENSORS);
-		$key = 0;
-		foreach($sensors_type as $sensor_type){
-			$sensors_objects_db = new Entity("config",$sensor_type);
+	//var_dump($webobjects);
+	if(isset($webobjects)){
 
-			if($current_group){
-				$sensors_list = $sensors_objects_db->loadAll([
-					"group_key" => $current_group
-					]);
-			}
-			else
-			{
-				$sensors_list = $sensors_objects_db->populate();
-			}
+		return $webobjects;
+	}else{
+		return false;
+	}
+}
 
-		//var_dump($sensors_list);
+public static function sensors_to_websensors($current_group = false){
+	$sensors_type = Functions::getdir(USER_SENSORS);
+	$key = 0;
+	foreach($sensors_type as $sensor_type){
+		$sensors_objects_db = new Entity("config",$sensor_type);
 
-			if($sensors_list){
-				$sensors_db = new Entity("core","Sensors"); 
-				foreach($sensors_list as $sensor_object){
-					$websensors[$key] = $sensors_db->load([
-						"sensor_id" => $sensor_object["sensor_id"]
-						]);
-					if($websensors[$key]){
-						$websensors[$key]["name"] = $sensor_object["entity_name"];
-						$websensors[$key]["description"] = $sensor_object["entity_description"];
-						$websensors[$key]["icon"] = USER_SENSORS.$websensors[$key]["sensor_type"]."/icon.png";
-
-						$websensors[$key]["timesince"] = Functions::time_since_smaller($websensors[$key]["sensor_timestamp"]);
-
-						if($websensors[$key]["sensor_battery"] != "ON"){
-							$battery_level = intval($websensors[$key]["sensor_battery"]);
-							if($battery_level < 30){
-								$websensors[$key]["sensor_battery_class"] = "danger";
-							}
-
-							if($battery_level > 30 && $battery_level < 60){
-								$websensors[$key]["sensor_battery_class"] = "warning";
-							}
-
-							if($battery_level > 60){
-
-								$websensors[$key]["sensor_battery_class"] = "success";
-							}
-					//var_dump($battery_level);
-						}
-						else
-						{
-							$websensors[$key]["sensor_battery_class"] = "info";
-						}
-
-						$key++;
-					}
-				}
-			}
-		}
-		if(isset($websensors)){
-			if(!$websensors[0]){
-				return false;
-			}
-			else{
-				return $websensors;
-			}
+		if($current_group){
+			$sensors_list = $sensors_objects_db->loadAll([
+				"group_key" => $current_group
+				]);
 		}
 		else
 		{
-			return false;
+			$sensors_list = $sensors_objects_db->populate();
+		}
+
+		//var_dump($sensors_list);
+
+		if($sensors_list){
+			$sensors_db = new Entity("core","Sensors"); 
+			foreach($sensors_list as $sensor_object){
+				$websensors[$key] = $sensors_db->load([
+					"sensor_id" => $sensor_object["sensor_id"]
+					]);
+				if($websensors[$key]){
+					$websensors[$key]["name"] = $sensor_object["entity_name"];
+					$websensors[$key]["description"] = $sensor_object["entity_description"];
+					$websensors[$key]["icon"] = USER_SENSORS.$websensors[$key]["sensor_type"]."/icon.png";
+
+					$websensors[$key]["timesince"] = Functions::time_since_smaller($websensors[$key]["sensor_timestamp"]);
+
+					if($websensors[$key]["sensor_battery"] != "ON"){
+						$battery_level = intval($websensors[$key]["sensor_battery"]);
+						if($battery_level < 30){
+							$websensors[$key]["sensor_battery_class"] = "danger";
+						}
+
+						if($battery_level > 30 && $battery_level < 60){
+							$websensors[$key]["sensor_battery_class"] = "warning";
+						}
+
+						if($battery_level > 60){
+
+							$websensors[$key]["sensor_battery_class"] = "success";
+						}
+					//var_dump($battery_level);
+					}
+					else
+					{
+						$websensors[$key]["sensor_battery_class"] = "info";
+					}
+
+					$key++;
+				}
+			}
 		}
 	}
+	if(isset($websensors)){
+		if(!$websensors[0]){
+			return false;
+		}
+		else{
+			return $websensors;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
 
 }
 ?>

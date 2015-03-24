@@ -42,6 +42,6 @@ $buttons[] = [
 ];
 
 $tpl->assign("buttons",$buttons);
-$tpl->draw(CORE_VIEWS."modal/root_permissions");
+$tpl->draw(CORE_TEMPLATES."modal/root_permissions");
 
 ?>

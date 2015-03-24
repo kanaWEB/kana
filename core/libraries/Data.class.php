@@ -65,7 +65,9 @@ class data{
 			"sensor_id" => $sensor_data["id"]
 			]);
 
-		var_dump($sensor_info);
+		//var_dump($sensor_info);
+		self::check_triggers($sensor_data["id"],"sensors",$time,$sensor_data["value"]);
+
 
 		if(!$sensor_info){
 			$db_sensors->setsensor_id($sensor_data["id"]);
@@ -88,33 +90,21 @@ class data{
 				[
 				'sensor_id'=>$sensor_data["id"]
 				]);
+			echo "Save to kana.db\n";
 			return $sensor_info;
 		}
-	//	}
-		/*
-		if(isset($sensor_data["value"])){
-				echo "Triggers OFF!!!!! check Data.class.php L79\n";
-				echo "Sensor triggered! \n ";
-				//self::save_data($sensor_data["id"],$sensor_data["value"],"sensors",$time,$sensor_data["battery"],30);
-				//self::check_triggers($sensor_data["id"],"sensors",$time);
-		}
-	*/
-		
 	}
 
 	//@todo Check schedule
 	public static function check_triggers($data,$type,$time,$state=""){
-
-		//var_dump($type);
-		//var_dump($data);
 
 		//Check if a code has a trigger
 		$db_triggers = new Entity("core","Triggers");
 
 		//Check one code triggers
 		$trigger = $db_triggers->load([
-			"code" => $data,
-			"trigger" => "one",
+			//"code" => $data,
+			//"trigger" => "one",
 			"trigger_object" => $type,
 			"trigger_state" => 1
 		]);
@@ -127,8 +117,10 @@ class data{
 			"trigger_state" => 1
 		]);
 
-		echo "Checking triggers \n ";
+		echo "Checking triggers for ".$type." - ".$state."\n ";
 		//if there is a trigger
+
+		var_dump($trigger);
 
 		if($trigger){
 			

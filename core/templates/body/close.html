@@ -1,0 +1,19 @@
+<!-- /core/templates/body/close.html -->
+<div class="br10"></div>
+<div id="footer" class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="navbar-inner">
+            <p class="text-muted credit">
+            <a target="_blank" href="https://github.com/madnerds/kana">{$appname} {$appversion} {$appstate}</a> {"by"|t} {$author} 
+            {if="$admin_warning"}<span class="label label-danger">{"Maintenance mode"|t}</span>{/if}
+            </p>
+            
+            <h4>
+                {loop="$collectors_name"}
+                <span class="label label-primary">{$value.text}</span> <span id="c-{$value.value}" onclick="collector_changestate(this,'{$value.value}')" class="label label-warning">?</span>
+                {/loop}
+            </h4>
+        </div>
+    </nav>
+</div>
+</body>

@@ -35,13 +35,13 @@ else{
 	//var_dump($array_keys);
 	$args["action"] = "";
 	for($i=0;$i <= $fields["nb_actions"];$i++){
-		$args["action"] .= '"'.$fields["objects_actions".$i].'" ';
+		$args["action"] .= " ".$fields["objects_actions".$i];
 	}
 
 	$args = json_encode($args);
 	$fields["object_key"] = 0;
 	$fields["state"] = 0;
-	$fields["action"] = "launch";
+	$fields["action"] = "default";
 	$fields["entity_description"] = "";
 	$action_db = new Entity("actions",$action_name);
 
@@ -60,7 +60,7 @@ else{
 	}
 
 	$action_db->save();
-	redirect("settings","?menu=objects&name=actionsgroup&tab=groups&notice=".t("Action saved"));
+	redirect("settings","?category=objects&menu=actionsgroup&tab=groups&notice=".t("Action saved"));
 
 }
 ?>

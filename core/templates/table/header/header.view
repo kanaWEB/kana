@@ -1,0 +1,10 @@
+<?php
+$tpl->draw(CORE_TEMPLATES."table/open");
+$tpl->draw(CORE_TEMPLATES."table/row/open");
+foreach($table_headers as $table_header){
+	$tpl->draw(CORE_TEMPLATES."table/header/open");
+	echo t($table_header);
+	$tpl->draw(CORE_TEMPLATES."table/header/close");
+}
+$tpl->draw(CORE_TEMPLATES."table/row/close");
+?>

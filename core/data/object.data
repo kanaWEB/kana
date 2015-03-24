@@ -10,14 +10,15 @@ if(isset($_["category"])){
 	$object_name = $_["tab"];
 }
 }
-
+//var_dump($object_name);
 if(!isset($object_name) || isset($list_all_objects)){
 	$objects_dir = Functions::getdir(USER_OBJECTS);
 	foreach($objects_dir as $object_dir){
+		//Display only objects that have actions
 		$actions_db = new Entity("actions",$object_dir);
 		$actions = $actions_db->populate();
 		if($actions){
-			$object_info = new Object($object_name);
+			$object_info = new Object($object_dir);
 			$object_info->json();
 
 			$data[] = [

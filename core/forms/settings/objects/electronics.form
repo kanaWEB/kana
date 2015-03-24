@@ -54,7 +54,7 @@ foreach($inputs_file as $input_file){
 $form->display($tpl);
 
 
-include(CORE_VIEWS."gpio/pins.view");
+include(CORE_TEMPLATES."gpio/pins.view");
 
 
 ?>

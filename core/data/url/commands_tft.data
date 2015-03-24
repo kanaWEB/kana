@@ -7,7 +7,6 @@ if(isset($_["action_name"]) && isset($_["object_name"])){
 	}
 }
 else{
-
 	$objects_dir = Functions::getdir(USER_OBJECTS);
 	$key = 0;
 	foreach($objects_dir as $object_dir){

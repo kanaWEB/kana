@@ -26,6 +26,7 @@ if(!$currentUser->id()){
 		]);
 
 	//If there was already a request from this ip increment it
+	//@todo Ban brute force request
 	if($ip_selected){
 		$nbrequest = $ip_selected["nbrequest"] + 1;
 		$tokenlog_db->change([
@@ -34,7 +35,13 @@ if(!$currentUser->id()){
 			], 
 			['id'=>$ip_selected["id"]]
 			);
-		echo "Token: ".$token." is saved but not validated";
+
+			$answer["type"] = "Not Authorized";
+			$answer["code"] =  "401";
+			$answer["message"] = "Validate your token";
+
+	
+		
 	}
 
 	//If this is the first request then save it
@@ -44,13 +51,23 @@ if(!$currentUser->id()){
 		$tokenlog_db->SetToken($token);
 		$tokenlog_db->SetNbrequest(1);
 		$tokenlog_db->Save();
-		echo "Token:".$token." saved (you need to validate it now)"; //Ouput permission error message
+		
+			$answer["type"] = "Created";
+			$answer["code"] =  "201";
+			$answer["message"] = "Token saved but not validate";
+
+		
 	}
 }
 else{
-	echo "Token:".$token." OK";
+	
+			$answer["type"] = "OK";
+			$answer["code"] =  "200";
+			$answer["message"] = "Token is validated";
+			
+	
 }
 
-
+echo json_encode($answer);
 
 ?>

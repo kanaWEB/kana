@@ -1,17 +1,7 @@
 <?php
 //Add all languages files
-$objects_dir = Functions::getdir(USER_OBJECTS);
-$lang_view = "";
-foreach($objects_dir as $object_dir){
-	$lang_object = add_language(USER_OBJECTS.$object_dir);
-	if(is_array($lang) && is_array($lang_view)){
-				$lang = array_merge($lang,$lang_view); //Merge General translation with user view translation
-				if(isset($lang_object)){
-					if(is_array($lang_object))
-						$lang = array_merge($lang,$lang_object);
-				}
-			}
-		}
+$dynamic_js[] = CORE_TEMPLATES."footer/chainedselect.js";
+$lang = get_all_language($lang);
 
 //If an object is selected
 if(isset($_["id"])){
@@ -33,13 +23,14 @@ else
 }
 $form = new Form($form_name);
 
-$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
+$tpl->draw(CORE_TEMPLATES."grids/container/bordered_open");
 
 
 //Name/Description
-include(CORE_VIEWS."forms/form_default.view");
+include(CORE_TEMPLATES."forms/form_default.view");
 
 //Triggers
+//@todo refactor with Variable::get_data
 $data_file = Variable::data_dir("triggers");
 include($data_file);
 
@@ -53,13 +44,10 @@ $form->input([
 
 
 //Actions
-$list_all_objects = True;
-include(CORE_DATA."object.data");
-$object_data = $data;
-
-
-include(CORE_DATA."url/commands.data");
-$action_data = $data;
+$modifiers["list_all_objects"] = True;
+$object_data = Variable::get_data("object",$modifiers);
+$modifiers["currentUser"] = $currentUser;
+$action_data = Variable::get_data("url/commands",$modifiers);
 
 $form->input([
 			"type" => "hidden",
@@ -81,7 +69,7 @@ $form->display($tpl);
 $objects_db = new Entity("core","Scenario");
 $objects = $objects_db->populate();
 if($objects){
-include(CORE_VIEWS."/"."datatable/dbtable_scenario.view");
+include(CORE_TEMPLATES."/"."datatable/dbtable_scenario.view");
 }
 
 

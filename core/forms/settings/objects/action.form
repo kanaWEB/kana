@@ -16,16 +16,16 @@ else{
 }
 
 $form = new Form($form_name);
-	include(CORE_VIEWS."forms/form_default.view");
+	include(CORE_TEMPLATES."forms/form_default.view");
 	if(file_exists(USER_OBJECTS.$object_name."/"."gpios")){
-	include(CORE_VIEWS."forms/form_gpio.view");
+	include(CORE_TEMPLATES."forms/form_gpio.view");
 	}
 
 //Custom Fields
 $form_file_dir = USER_OBJECTS.$object_name."/actions/".$action_selected."/form/";
-include(CORE_VIEWS."forms/form_md2.view");
+include(CORE_TEMPLATES."forms/form_md2.view");
 
-include(CORE_VIEWS."datatable/dbtable_actions.view");
+include(CORE_TEMPLATES."datatable/dbtable_actions.view");
 
 
 ?>

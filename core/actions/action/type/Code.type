@@ -1,9 +1,15 @@
 <?php
 
-isset($_["state"]) ? $state = $_["state"] : $state = "code_on";
+isset($_["state"]) ? $state = $_["state"] : $state = "1";
 if(file_exists(USER_OBJECTS.$object_name."/electronics")){
 	$code_db = new Entity("config",$object_name);
-	$code = $code_db->getById($actions_values[$state]);
+	//@todo refactor this to allow n codes instead of 2 codes
+	if($state){
+	$code = $code_db->getById($actions_values["code_on"]);
+	}
+	else{
+	$code = $code_db->getById($actions_values["code_off"]);	
+	}
 	$code = $code["code"];
 }
 else{

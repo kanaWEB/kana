@@ -1,67 +1,74 @@
 <?php
-//include(CORE_VIEWS."forms/form_default.view");
-$tokens_db = new Entity("core","Tokens");
-$tokens = $tokens_db->populate();
+//Get URL former
+//@todo Groups.form and remote.form have a lot in commons, there is surely something to refactor here.
 
-if($tokens){
-	foreach($tokens as $token){
-		$tokens_options[] = [
-		"text" => $token["token"],
-		"value" => $token["token"]
-		];
-	}
-}
-else{
-	$tokens_options[] = [
-	"text" => "notoken",
-	"value" => "notoken"
-	];
-}
+$dynamic_js[] = CORE_TEMPLATES."footer/chainedselect_clonable.js";
 
+$tokens_options = Variable::get_data("token");
+$lang = get_all_language($lang);
 
-//Add all languages files
-$objects_dir = Functions::getdir(USER_OBJECTS);
-foreach($objects_dir as $object_dir){
-	$lang_object = add_language(USER_OBJECTS.$object_dir);
-	if(is_array($lang) && is_array($lang_view)){
-				$lang = array_merge($lang,$lang_view); //Merge General translation with user view translation
-				if(isset($lang_object)){
-					if(is_array($lang_object))
-						$lang = array_merge($lang,$lang_object);
-				}
-			}
-		}
+$modifiers["list_all_objects"] = True;
+$object_data = Variable::get_data("object",$modifiers);
 
-		$list_all_objects = True;
-		include(CORE_DATA."object.data");
-		$object_data = $data;
+$modifiers["currentUser"] = $currentUser;
+$action_data = Variable::get_data("url/commands",$modifiers);
 
-		include(CORE_DATA."url/commands_tft.data");
-		$action_data = $data;
-		//var_dump($action_data[0]);
+//var_dump($action_data);
+//object ex:led
+//id ex:1
+//command (optional): ex:default
+//state (optional): ex:1
+//Entity_action : ex: Turn on 
+//entity_name : ex: red led
+//List of actions Select
 
 //If actions are available		
-		if($action_data[0]["id"]){
-			$form = new Form("Remote Access");
-			$form->input([
-				"id" => "tokens",
-				"name" => "Token",
-				"type" => "select",
-				"options" => $tokens_options,
-				"selected" => false
-				]);
+if($action_data[0]["id"]){
+	$form = new Form("Remote Access");
+	$form->input([
+		"id" => "tokens",
+		"name" => "Token",
+		"type" => "select",
+		"options" => $tokens_options,
+		"selected" => false
+		]);
 
-			$form->input([
-				"type" => "chainedselect_kanatft",
-				"objects" => $object_data,
-				"options" => $action_data,
-				"selected" => false,
-				"nb" => 0
-				]);
-			
-			$form->display($tpl,false);
-		}
-		else{
-			echo "<h1>".t("No actions available")."</h1>";
-		}
+	$form->input([
+		"type" => "hidden",
+		"id" => "nb_actions",
+		"value" => 0
+		]);
+
+	$form->input([
+		"type" => "chainedselect_actions",
+		"objects" => $object_data,
+		"options" => $action_data,
+		"selected" => false,
+		"nowait" => true,
+		"onchange" => "showUrl()",
+		"nb" => 0
+		]);
+
+	$form->input([
+		"type" => "text",
+		"id" => "action_key",
+		"name" => "Action Key",
+		"selected" => false,
+		"placeholder" => "actions"
+		]);
+
+	$form->input([
+		"type" => "text",
+		"id" => "url_key",
+		"name" => "URL Key",
+		"selected" => false,
+		"placeholder" => "actions"
+		]);
+
+
+	$form->display($tpl,false);
+}
+else{
+	echo "<h1>".t("No actions available")."</h1>";
+}
 

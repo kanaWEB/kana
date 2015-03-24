@@ -1,18 +1,18 @@
 <?php
 //Settings default form
 //Header
-include(CORE_VIEWS."header/header.view");
+include(CORE_TEMPLATES."header/header.view");
 
 //Top and Settings Menu
-include(CORE_VIEWS."menu/top.view");
+include(CORE_TEMPLATES."menu/top.view");
 
 //Category items
-include(CORE_VIEWS."menu/settings/settings.view");
+include(CORE_TEMPLATES."menu/settings/settings.view");
 
 //Items
-include(CORE_VIEWS."menu/settings/".$category_selected."/".$category_selected.".view");
+include(CORE_TEMPLATES."menu/settings/".$category_selected."/".$category_selected.".view");
 //Form generator
-include(CORE_VIEWS."forms/Form.class.php");
+include(CORE_TEMPLATES."forms/Form.class.php");
 
 //Redirect to correct forms
 $file = CORE_FORMS."settings/".$category_selected."/".$menu_selected.".form";
@@ -33,9 +33,9 @@ else{
 	}
 }
 
-$tpl->draw(CORE_VIEWS."modal/data");
+$tpl->draw(CORE_TEMPLATES."modal/data");
 //Footer
-include(CORE_VIEWS."footer/footer.view");
+include(CORE_TEMPLATES."footer/footer.view");
 
 
 /*

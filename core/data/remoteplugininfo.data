@@ -11,8 +11,23 @@ $plugin["state"] = file_exists("plugins/".$repo["type"]."/".$repo["name"]);
 $name_url = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/name.md";
 $description_url = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/description.md";
 
-$plugin["name"] = file_get_contents($name_url);
-$plugin["description"] = file_get_contents($description_url);
+//@todo workaround for markdown info , make every info into json before correcting!
+$plugin["name"] = @file_get_contents($name_url);
+if(!$plugin["name"]){
+	$json = file_get_contents("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/info.json");
+	//var_dump("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/info.json");
+	//var_dump($json);
+	$json = json_decode($json);
+	//var_dump($json);
+	$plugin["name"] = $json->name;
+}
+
+$plugin["description"] = @file_get_contents($description_url);
+if(!$plugin["description"]){
+	$plugin["description"] = $json->description;
+}
+
+
 if($repo["type"] == "views"){
 	$image = Variable::md2var("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/menu.md");
 	$plugin["image"] = '&nbsp<span class="glyphicon '.$image["icon"].'"></span>';

@@ -1,0 +1,28 @@
+<?php
+
+if(isset($_["sensor_name"])){
+	$sensor_name = $_["sensor_name"];
+}
+
+if(isset($sensor_name)){
+	$generic_sensors_db = new Entity("core","Sensors");
+
+	$sensor = $generic_sensors_db->load([
+		"sensor_name"=> $sensor_name
+		]);
+
+	var_dump($sensor);
+
+	if($sensor){
+		$data = $sensor["sensor_lastvalue"];
+		echo $data;
+	}
+	else{
+		$data = "no sensor";
+	}
+}
+else{
+	echo "No sensor";
+}
+
+?>

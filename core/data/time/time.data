@@ -1,0 +1,4 @@
+<?php
+#@# name:Actual Time | example:13h37
+$data = date('G\hi');
+?>

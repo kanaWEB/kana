@@ -16,7 +16,7 @@ else
 }
 
 $form = new Form($form_name);
-	include(CORE_VIEWS."forms/form_default.view");
+	include(CORE_TEMPLATES."forms/form_default.view");
 
 //Custom Fields
 $inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."gpios/");
@@ -52,13 +52,13 @@ foreach($inputs_file as $input_file){
 $form->display($tpl);
 
 
-include(CORE_VIEWS."gpio/pins.view");
+include(CORE_TEMPLATES."gpio/pins.view");
 
 
 $object_db = new Entity("config",$object_name);
 $objects = $object_db->populate();
 if($objects){
-	include(CORE_VIEWS."/"."datatable/dbtable.view");
+	include(CORE_TEMPLATES."/"."datatable/dbtable.view");
 }
 
 

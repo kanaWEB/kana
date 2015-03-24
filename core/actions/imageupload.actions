@@ -1,0 +1,30 @@
+<?php
+
+if($currentUser->isadmin()){
+	if( !empty($_FILES['file']['name']) )
+	{
+		echo "File detected\n";
+		$ImgInfo = getimagesize($_FILES['file']['tmp_name']);
+		if($ImgInfo[2] == 2){ //Check if jpeg
+			echo "JPEG DETECTED\n";
+	//var_dump($_FILES['file']);
+			if(isset($_FILES['file']['error']) 
+				&& UPLOAD_ERR_OK === $_FILES['file']['error']){
+				echo "Upload OK\n";
+			if(isset($_["view"])){
+				if(file_exists(USER_VIEWS.$_["view"])){
+					$filename = CONFIG_DIR."views/".$_["view"].".jpeg";
+					echo $filename."\n";
+					unlink(CONFIG_DIR."views/".$_["view"].".json");
+					if(move_uploaded_file($_FILES['file']['tmp_name'], $filename))
+					{
+						echo "MOVE OK\n";
+					}
+				}
+			}
+		}
+	}
+}
+}
+
+?>

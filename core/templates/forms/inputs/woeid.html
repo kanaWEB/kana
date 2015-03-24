@@ -1,0 +1,11 @@
+
+<!-- core/templates/forms/inputs/woeid.html -->
+
+<div class="form-group">
+	<input type="text" class="form-control"  name="weather_place" value="" placeholder="{"Your city"|t}">	
+	<button onclick="query_woeid(this)" class=" weather_query btn-success">{"Search"|t}</button>
+	<br>
+	<label for="{$input.id}">{$input.name|t}</label>
+	<input type="text" {if="isset($input.onclick)"}onclick="{$input.onclick}" {/if}value="{$input.selected}" class="form-control" name="{$input.id}" placeholder="{$input.placeholder|t}" {if="isset($input.required)"} data-bv-message="{'This field is required'|t}"required{/if}>
+</div>
+

@@ -111,8 +111,8 @@ $fields = [
 
 //var_dump($fields);
 $tpl->assign("fields",$fields);
-$tpl->draw(CORE_VIEWS."dev/plugin_list");
-$dynamic_js[] = CORE_VIEWS."footer/dev_plugin_list.js";
+$tpl->draw(CORE_TEMPLATES."dev/plugin_list");
+$dynamic_js[] = CORE_TEMPLATES."footer/dev_plugin_list.js";
 
 	/*
 	if(isset($_["entity"])){
@@ -125,8 +125,8 @@ $dynamic_js[] = CORE_VIEWS."footer/dev_plugin_list.js";
 		
 	}
 
-	$tpl->draw(CORE_VIEWS."dev/plugin");
-	$dynamic_js[] = CORE_VIEWS."footer/dev.js";
+	$tpl->draw(CORE_TEMPLATES."dev/plugin");
+	$dynamic_js[] = CORE_TEMPLATES."footer/dev.js";
 	*/
 //
 }

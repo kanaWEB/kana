@@ -21,14 +21,14 @@ else{
 }
 
 $tpl->assign("text",$object_name);
-$tpl->draw(CORE_VIEWS."text/h1");
+$tpl->draw(CORE_TEMPLATES."text/h1");
 
 $form = new Form($form_name);
-	include(CORE_VIEWS."forms/form_default.view");
+	include(CORE_TEMPLATES."forms/form_default.view");
 
 $form->display($tpl);
 if($objects){
-include(CORE_VIEWS."/"."datatable/dbtable.view");
+include(CORE_TEMPLATES."/"."datatable/dbtable.view");
 }
 
 ?>

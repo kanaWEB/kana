@@ -2,7 +2,7 @@
 //All triggers
 if(!isset($_["trigger"])){ //Available actions
 	
-	include(CORE_VIEWS."menu/settings/scenario/triggers_default.view");
+	include(CORE_TEMPLATES."menu/settings/scenario/triggers_default.view");
 
 	$objects = Functions::getdir(USER_OBJECTS);
 
@@ -15,12 +15,12 @@ if(!isset($_["trigger"])){ //Available actions
 
 			if($dir_list > 0){
 				//@todo If only one action redirect
-				include(CORE_VIEWS."menu/settings/scenario/triggers_md.view");
+				include(CORE_TEMPLATES."menu/settings/scenario/triggers_md.view");
 			}
 		}
 	}
 
-	include(CORE_VIEWS."datatable/dbtable_triggers.view");
+	include(CORE_TEMPLATES."datatable/dbtable_triggers.view");
 }
 //Specific trigger
 else{
@@ -41,7 +41,7 @@ else{
 
 	
 	$tpl->assign("text",$object_nameicon);
-	$tpl->draw(CORE_VIEWS."text/h1");
+	$tpl->draw(CORE_TEMPLATES."text/h1");
 
 //If an action is choosen
 	if(isset($_["id"])){
@@ -60,12 +60,12 @@ else{
 	}
 
 	$form = new Form($form_name);
-	include(CORE_VIEWS."forms/form_trigger.view");
+	include(CORE_TEMPLATES."forms/form_trigger.view");
 
 //Custom Fields
-	include(CORE_VIEWS."forms/form_md2.view");
+	include(CORE_TEMPLATES."forms/form_md2.view");
 
-	include(CORE_VIEWS."datatable/dbtable_triggers.view");
+	include(CORE_TEMPLATES."datatable/dbtable_triggers.view");
 }
 
 ?>

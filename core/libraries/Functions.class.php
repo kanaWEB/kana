@@ -420,6 +420,8 @@ public static function listener_cgi($objectManager){
 	return $cmd;
 }
 
+
+
 //Send a stop message to the listener
 public static function listener_stop($objectManager){
 	$listener_port = $objectManager->LISTENER_PORT;
@@ -655,6 +657,12 @@ public static function vocal_command($vocal,$command,$actionUrl){
 }
 
 
+//Get an image from /etc/kana and convert it to base64
+public static function ext_image_base64($link){
+	$image_raw = file_get_contents(CONFIG_DIR.$link.".jpeg");
+	$image_base64 = base64_encode($image_raw);
+	return $image_base64;
+}
 
 //Get directory in an array without . and ..
 public static function getdir($dir){

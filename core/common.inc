@@ -5,6 +5,20 @@
 **/
 session_name("KANA");
 session_start();
+
+
+/* DEV MODE */
+error_reporting(-1);
+ini_set('display_errors', '1');
+function terminate_missing_variables($errno, $errstr, $errfile, $errline)
+{                               
+  if (($errno == E_NOTICE) and (strstr($errstr, "Undefined variable")))
+   die ("$errstr in $errfile line $errline");
+
+  return false; // Let the PHP error handler handle all the rest  
+}
+
+
 require_once("constants.inc"); //Global Constants
 
 /*

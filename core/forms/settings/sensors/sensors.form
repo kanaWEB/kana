@@ -26,16 +26,16 @@ else{
 }
 
 $tpl->assign("text",$object_nameicon);
-$tpl->draw(CORE_VIEWS."text/h1");
+$tpl->draw(CORE_TEMPLATES."text/h1");
 
 $form = new Form($form_name);
-include(CORE_VIEWS."forms/form_default.view");
-include(CORE_VIEWS."forms/form_sensors.view");
-include(CORE_VIEWS."forms/form_group.view");
+include(CORE_TEMPLATES."forms/form_default.view");
+include(CORE_TEMPLATES."forms/form_sensors.view");
+include(CORE_TEMPLATES."forms/form_group.view");
 
 $form->display($tpl);
 if($objects){
-	include(CORE_VIEWS."datatable/dbtable_sensors.view");
+	include(CORE_TEMPLATES."datatable/dbtable_sensors.view");
 }
 
 ?>

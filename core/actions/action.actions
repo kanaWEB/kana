@@ -2,13 +2,30 @@
 /*
 This file manages object's actions
 */
+/*
+	var_dump($_["object"]);
+	var_dump($_["id"]);
+	var_dump($_["command"]);
+	var_dump($_["state"]);
+*/
 
 if(isset($_["object"]) && isset($_["id"])){
 	$object_name = $_["object"]; //Get Object name
 	$id = $_["id"]; //Get ID of objects
 
+
+	//@todo catching error should be handle before anything is done, we need to remove all exit()
 	//Object Actions
-	$action_db = new Entity("actions",$object_name);
+	if(file_exists(USER_OBJECTS.$object_name)){
+		$action_db = new Entity("actions",$object_name);
+	}
+	else
+	{
+		var_dump("Invalid OBJECT");
+		exit();
+	}
+
+
 	$actions_values = $action_db->getById($id);
 	if(!$actions_values){
 		var_dump("Invalid ID");
@@ -18,6 +35,8 @@ if(isset($_["object"]) && isset($_["id"])){
 	$actions_values = Variable::action_args($actions_values);
 
 	isset($_["command"]) ? $command_name = $_["command"] : $command_name = "default";
+
+
 
 	//Prepare commands
 	$command_file_path = USER_OBJECTS.$object_name."/actions/".$action_name."/"."commands.json";
@@ -56,7 +75,7 @@ if(isset($_["object"]) && isset($_["id"])){
 		echo "Plugin doesn't have this command : ";
 		echo $command_file_path;
 	}
-
+	//var_dump($final_command);
 	if(isset($final_command)){
 		if($currentUser->isadmin()){
 		//var_dump($currentUser);
@@ -66,12 +85,26 @@ if(isset($_["object"]) && isset($_["id"])){
 					$json_answer = [
 					"text" => htmlspecialchars($final_command),
 					"uid" => $actions_values["uid"],
-					"command_state" => 2
+					"command_state" => 2,
+					"type" => "OK",
+					"code" => "200",
+					"message" => "Order sent"
 					];
 					echo json_encode($json_answer);
 				}	
 			}
+			
 		}
+
+		if(!isset($json_answer))
+			{
+				$json_answer = [
+					"type" => "OK",
+					"code" => "200",
+					"message" => "Order sent"
+					];
+					echo json_encode($json_answer);
+			}
 		Functions::launch_background($final_command);
 	
 	//If this is an webobject we answer with valid json answer (see webobject.js)

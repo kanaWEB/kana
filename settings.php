@@ -62,7 +62,7 @@ if($currentUser->isadmin()){
 }
 //if user is not admin
 else{
-	include(CORE_VIEWS."header/min_header.view");
-	$tpl->draw(CORE_VIEWS."modal/permissions_denied");
+	include(CORE_TEMPLATES."header/min_header.view");
+	$tpl->draw(CORE_TEMPLATES."modal/permissions_denied");
 }
 ?>

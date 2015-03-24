@@ -1,0 +1,115 @@
+<?php
+if(!isset($table_headers)){
+	$table_headers[] = "";
+	$table_headers[] = "Type";
+	$table_headers[] = "Name";
+	$table_headers[] = "Description";
+	$table_headers[] = "Code";
+	$table_headers[] = "State";
+
+
+	$table_data[] = "trigger_object";
+	$table_data[] = "trigger";
+	$table_data[] = "entity_name";
+	$table_data[] = "entity_description";
+	
+	$table_data[] = "code";
+	$table_data[] = "state";
+
+}
+
+if(isset($_["trigger"])){
+	$trigger_get = $_["trigger"];
+}
+
+$db = new Entity("core","Triggers");
+$triggers = $db->populate();
+/*
+if(!isset($action_dir)){
+	
+}
+else{
+$actions = $action_db->loadAll(["action" => $action_dir]);
+}
+*/
+if($triggers){
+//$triggers = Variable::scenario_triggers_args($triggers);
+//}
+
+//Table Header
+	
+	include(CORE_TEMPLATES."table/header/header.view");
+//var_dump($triggers);
+//Table Data
+	for($i=0;$i<count($triggers);$i++){
+		$tpl->draw(CORE_TEMPLATES."table/row/open");
+		foreach($table_data as $td){
+			$tpl->draw(CORE_TEMPLATES."table/cell/open");
+			switch($td){ 
+				case "entity_name":
+				$name = html_entity_decode($triggers[$i][$td]);
+				echo $name;
+				break;
+
+				case "entity_description":
+				$description = html_entity_decode($triggers[$i][$td]);
+				echo $description;
+				break;
+
+				case "trigger":
+				$trigger_get = $triggers[$i][$td];
+				
+				switch($trigger_get){
+					case "all":
+						echo "<label class='label label-danger'>".t($trigger_get)."</label>";
+					break;
+					
+					default:
+						echo "<label class='label label-success'>".t($trigger_get)."</label>";
+					break;
+				}
+				break;
+
+				case "trigger_object":
+				if(file_exists(USER_OBJECTS.$triggers[$i][$td])){
+					echo "<img src='".USER_OBJECTS.$triggers[$i][$td]."/icon.png'>";
+				}
+				else{
+					echo "<img src='core/img/".$triggers[$i][$td].".png'>";
+				}
+				break;
+
+				case "state":
+				echo $triggers[$i][$td];
+				break;
+
+				default:
+				echo "<code>".$triggers[$i]["code"]."</code>";
+				break;
+			}
+			$tpl->draw(CORE_TEMPLATES."table/cell/close");
+		}
+
+		$tpl->draw(CORE_TEMPLATES."table/cell/open");
+
+
+		$buttons = [
+			"link" => $_SERVER['SCRIPT_NAME']."?category=scenario&menu=triggers&tab=".$triggers[$i]["trigger_object"]."&trigger=".$triggers[$i]["trigger"],
+			"id" => $triggers[$i]["id"],
+			"checked" => $triggers[$i]["trigger_state"]
+		];
+
+		$tpl->assign("buttons",$buttons);
+		$tpl->draw(CORE_TEMPLATES."table/buttons_triggers");
+		$tpl->draw(CORE_TEMPLATES."table/cell/close");
+
+		$tpl->draw(CORE_TEMPLATES."table/row/close");
+
+		$dynamic_js[] = CORE_TEMPLATES."footer/db_triggers.js";
+
+	}
+
+	$tpl->draw(CORE_TEMPLATES."table/close");
+	
+}
+?>

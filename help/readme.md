@@ -46,7 +46,7 @@ speed |Speed in ms    |text|Times before the led blink again|true    |
 ### General fields
 * id : name of the database field
 * name : Displayed name
-* type : Type of field, will open core/views/form/input/TYPE.html 
+* type : Type of field, will open core/templates/form/input/TYPE.html 
 * datatype : Type of data (number/text ?)
 
 ### Select

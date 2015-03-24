@@ -6,8 +6,8 @@ if(isset($_["input"])){
 	$input = json_decode($input,true);
 	//var_dump($input);
 	
-	include(CORE_VIEWS."header/min_header.view");
-	$inputs_path = CORE_VIEWS."forms/inputs/";
+	include(CORE_TEMPLATES."header/min_header.view");
+	$inputs_path = CORE_TEMPLATES."forms/inputs/";
 	
 	switch($input["type"]){
 		case "select":

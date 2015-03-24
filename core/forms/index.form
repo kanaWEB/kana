@@ -5,7 +5,7 @@
 //If no user is load
 if(!$currentUser->isuser()){
 	//Header
-	include(CORE_VIEWS."header/header.view");
+	include(CORE_TEMPLATES."header/header.view");
 
 	/*
 	 Login Form
@@ -21,10 +21,10 @@ if(!$currentUser->isuser()){
 	"text" => "Identification",
 	"icon" => "glyphicon-credit-card"
 	];
-	include(CORE_VIEWS."menu/top.view");
+	include(CORE_TEMPLATES."menu/top.view");
 
 	//Form
-	include(CORE_VIEWS."forms/Form.class.php");
+	include(CORE_TEMPLATES."forms/Form.class.php");
 	
 	$login_form = new Form("Identification");
 	$login_form->help("You need to be logged to use this application");
@@ -54,7 +54,7 @@ if(!$currentUser->isuser()){
 	$login_form->display($tpl);
 
 	//Footer
-	include(CORE_VIEWS."footer/footer.view");
+	include(CORE_TEMPLATES."footer/footer.view");
 }
 else
 {

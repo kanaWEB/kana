@@ -1,0 +1,25 @@
+<?php
+
+//Get Tokens
+$tokens_db = new Entity("core","Tokens");
+$tokens = $tokens_db->populate();
+
+//Tokens to select options
+if($tokens){
+	foreach($tokens as $token){
+		$tokens_options[] = [
+		"text" => $token["token"],
+		"value" => $token["token"]
+		];
+	}
+}
+else{
+	$tokens_options[] = [
+	"text" => "notoken",
+	"value" => "notoken"
+	];
+}
+
+$data = $tokens_options;
+
+?>

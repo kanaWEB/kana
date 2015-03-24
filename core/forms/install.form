@@ -6,7 +6,7 @@ Installation Form
 $theme = new Theme(INSTALL_THEME);
 
 //Header
-include(CORE_VIEWS."header/header.view");
+include(CORE_TEMPLATES."header/header.view");
 
 //Menu
 $topmenu_selected = [
@@ -18,10 +18,10 @@ $topmenu[] = [
 "text" => "Installation",
 "icon" => "glyphicon-asterisk"
 ];
-include("core/views/menu/top.view");
+include("core/templates/menu/top.view");
 
 //Form
-include("core/views/forms/Form.class.php");
+include("core/templates/forms/Form.class.php");
 $install_form = new Form("Installation");
 $install_form->help("Create an admin account");
 $install_form->help("Define your language");
@@ -52,6 +52,6 @@ $install_form->input([
 $install_form->display($tpl);
 
 //Footer
-include(CORE_VIEWS."/footer/footer.view");
+include(CORE_TEMPLATES."/footer/footer.view");
 //}
 ?>

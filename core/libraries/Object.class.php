@@ -45,7 +45,7 @@ class Object{
 		}
 		else
 		{
-			var_dump($this->object. " no info.json");
+			var_dump($this->json_dir. " no info.json");
 			//exit();
 		}
 		
@@ -127,22 +127,22 @@ class Object{
 
 
 //Markdown to Name of an objects
-	public function Tags($object_dir){
+//@todo TO DEPRECATED markdown is not used anymore and shouldn't be used to stored variable (even if it looks cool on github)
+	public function Tags(){
 	//Check if objects directory exists
-		if(is_dir($object_dir)){
 		//Check for menu translation
-			$translated_menu_dir = $object_dir."/info/tags.".$_SESSION["LANGUAGE"].".md";
+		$translated_menu_dir = $this->dir."/info/tags.".$_SESSION["LANGUAGE"].".md";
 
-			if(file_exists($translated_menu_dir)){
-				$menu_filepath = $translated_menu_dir;
-			}
-			else{
+		if(file_exists($translated_menu_dir)){
+			$menu_filepath = $translated_menu_dir;
+		}
+		else{
 		//If no translation check for menu 
-				if(file_exists($object_dir."/info/tags.md")){
-					$menu_filepath = $object_dir."/info/tags.md";
-				}
+			if(file_exists($this->dir."/info/tags.md")){
+				$menu_filepath = $this->dir."/info/tags.md";
 			}
 		}
+		
 
 
 		if(isset($menu_filepath)){
@@ -154,6 +154,4 @@ class Object{
 			return false;
 		}
 	}
-
-
 }

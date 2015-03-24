@@ -1,0 +1,8 @@
+<?php
+include(CORE_DATA."gpio/pins.data");
+$tpl->assign("gpios",$data);
+$tpl->assign("model",$model);
+$tpl->assign("gpios_type",DEFAULT_GPIO);
+$dynamic_js[] = CORE_TEMPLATES."gpio/gpio.js";
+$tpl->draw(CORE_TEMPLATES."gpio/pins");
+?>

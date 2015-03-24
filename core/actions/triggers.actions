@@ -1,5 +1,7 @@
 <?php
-if($currentUser->isadmin()){
+//Only admin and local script can manipulate triggers
+//You can give a user access to a trigger with the plugin trigger_control
+if($currentUser->isadmin() || !isset($_SERVER['REMOTE_ADDR'])){
 	if(isset($_["state"]) && isset($_["id"])){
 		
 		$triggers_db = new Entity("core","Triggers");

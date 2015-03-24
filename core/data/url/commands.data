@@ -1,5 +1,6 @@
 <?php
 if(isset($_["action_name"]) && isset($_["object_name"])){
+	//@todo DEPRECATED use json instead
 	$md_actions_dir = (USER_OBJECTS.$_["object_name"]."/actions/".$_["action_name"]."/actions/");
 	$actions_array = Functions::getdir($md_actions_dir);
 	foreach($actions_array as $actions){
@@ -19,66 +20,56 @@ else{
 		if($actions_db){
 			foreach($actions_db as $action){
 				if($currentUser->GroupRight($action["group_key"])){
-					$md_actions_dir = (USER_OBJECTS.$object_dir."/actions/".$action["action"]."/actions/");
-					$actions_array = Functions::getdir($md_actions_dir);
-					foreach($actions_array as $actions){
-						$action_data[$key] = Variable::md2var($md_actions_dir."/".$actions);				
+					$buttons_file_path = USER_OBJECTS.$object_dir."/actions/".$action["action"]."/"."buttons.json";
+					if(file_exists($buttons_file_path)){
+						$buttons_file = file_get_contents($buttons_file_path);
+						$buttons_json = json_decode($buttons_file);
 
-						if(!isset($action_data[$key]["action_nb"])){
-							$action_data[$key]["action_nb"] = 0;
+					//var_dump($buttons_json);
+						foreach($buttons_json as $buttons){
+							foreach($buttons as $button){
+								if(isset($button->command)){
+								//var_dump($button);
+									$action_data[$key]["object"] = $object_dir;
+									$action_data[$key]["id"] = $action["id"];
+									$action_data[$key]["command"] = $button->command;
+
+									
+									if(isset($button->state)){
+
+										$action_data[$key]["state"] = $button->state;
+									}
+									else{
+										$action_data[$key]["state"] = 1;
+									}
+
+									$action_data[$key]["entity_action"] = $button->name;
+									$action_data[$key]["entity_name"] = $action["entity_name"];
+									$action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
+
+									$key++;
+								}
+							}
 						}
-
-						$action_data[$key]["object_dir"] = $object_dir;
-						$action_data[$key]["entity_name"] = $action["entity_name"];
-						$action_data[$key]["id"] = $action["id"];
-						$action_data[$key]["action"] = $action["action"];
-						$action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
-
-						$key++;
 					}
 				}
 			}
 		}
 	}
 	if(isset($action_data)){
-	$data = $action_data;
+		$data = $action_data;
 	}
 	else{
-		$action_data[$key]["object_dir"] = false;
-		$action_data[$key]["entity_name"] = "Nothing";
+		$action_data[$key]["object"] = false;
 		$action_data[$key]["id"] = false;
-		$action_data[$key]["action"] = false;
+		$action_data[$key]["command"] = false;
+		$action_data[$key]["state"] = false;
+		$action_data[$key]["entity_action"] = "Unknown Action";	
+		$action_data[$key]["entity_name"] = "Unknown Object";
 		$action_data[$key]["icon"] = false;
-		$action_data[$key]["action_nb"] = false;
-		$action_data[$key]["type"] = false;
-		$action_data[$key]["name"] = false;
+
 		$data = $action_data;
 	}
 
 }
-
-/*
-
-	echo "<a href='../log.php'>LOG</a><br>";
-foreach($action_data as $key => $action_datum){
-	//var_dump($action_datum);
-	
-	
-	echo "Object Type:".$action_datum["object_dir"]."<br>";
-	echo "Object Name:".$action_datum["entity_name"]."<br>";
-	echo "Action:".$action_datum["name"]."<br>";
-
-	echo "<a href='";
-	echo "actions.php?type=action&object=".$action_datum["object_dir"]."&id=".$action__datum["id"]."&action=".$action__datum["action"]."&action_nb=".$action__datum["action_nb"]."&state=".$action__datum["type"];
-	echo "'>go</a>";
-	echo "<br><br>";
-
-
-	
-	$data[$key]["object_type"] =  $action__datum["object_dir"];
-	$data[$key]["entity_name"] = $action__datum["entity_name"];
-	$data[$key]["object_action"] = $action__datum["name"];
-	$data[$key]["url"] = "actions.php?type=action&object=".$action__datum["object_dir"]."&id=".$action__datum["id"]."&action=".$action_datum["action"]."&action_nb=".$action_datum["action_nb"]."&state=".$action_datum["type"];
-}
-*/
 ?>

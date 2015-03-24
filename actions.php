@@ -1,16 +1,20 @@
 <?php
 include("core/common.inc");
 
+/*
+TOKEN should be push to another file (to easily add/modify way to check in)
+*/
+
 if(isset($_["token"])){
 	$currentUser = new User;
 	$currentUser->check_token($_["token"]);
-	if(!$currentUser->id()){
-		$affirmation = "Token invalid";
+		if(!$currentUser->id()){
+			$affirmation = "Token invalid";
 		
-		$tokenlog_db = new Entity("core","TokenLog");
-		$ip_selected = $tokenlog_db->load([
-			"ipaddress" => $_SERVER['REMOTE_ADDR'],
-			"token" => $_["token"]
+			$tokenlog_db = new Entity("core","TokenLog");
+			$ip_selected = $tokenlog_db->load([
+				"ipaddress" => $_SERVER['REMOTE_ADDR'],
+				"token" => $_["token"]
 			]);
 
 		//If there was already a request from this ip increment it
@@ -32,18 +36,24 @@ if(isset($_["token"])){
 			$tokenlog_db->SetNbrequest(1);
 			$tokenlog_db->Save();
 		}
-			echo '{"error":"invalid or missing token"}'; //Ouput permission error message
+			
+			$answer["type"] = "Forbidden";
+			$answer["code"] =  "403";
+			$answer["message"] = "Access denied for this token";
 
-			$response = array('responses'=>array(
-				array('type'=>'talk','sentence'=>$affirmation)
-				)
-			);
-
-			$json = json_encode($response);
+			$json = json_encode($answer);
 			echo $json;
+			//@todo to refactor
 			exit();
 		}
-	}
+}
+
+
+/*
+Users verifications
+VERIFICATION IS BYPASSED IF SCRIPT IS CALLED LOCALLY
+
+*/
 
 	if($currentUser->isuser() || !isset($_SERVER['REMOTE_ADDR'])){
 	//@todo check user right to do actions
@@ -64,13 +74,11 @@ if(isset($_["token"])){
 	}	
 	else
 	{
-		$affirmation = "No token set / Login Failed";
-		$response = array('responses'=>array(
-			array('type'=>'talk','sentence'=>$affirmation)
-			)
-		);
+		$answer["type"] = "Forbidden";
+		$answer["code"] =  "403";
+		$answer["message"] = "Access denied for this token";
 
-		$json = json_encode($response);
+		$json = json_encode($answer);
 		echo $json;
 	//echo Draw::ajax_notify("NOT LOGGED","error");
 	}

@@ -20,12 +20,12 @@ if(isset($menu_selected)){
 //Generating Header
 	$tpl->assign("text",$object_longname); 
 	$tpl->assign("image",$object_icon);
-	$tpl->draw(CORE_VIEWS."text/h1_image");
+	$tpl->draw(CORE_TEMPLATES."text/h1_image");
 
 	include(CORE_FORMS."settings/objects/objects.redirect");
 
 //3th Menu Navbar generation
-	include(CORE_VIEWS."menu/settings/objects/navtab.view");
+	include(CORE_TEMPLATES."menu/settings/objects/navtab.view");
 
 //Auto redirection to needed tab
 
@@ -41,12 +41,12 @@ if(isset($menu_selected)){
 			//Actions Tabs
 			case "action":
 			$dir_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
-			include(CORE_VIEWS."menu/settings/objects/menu_md.view");
+			include(CORE_TEMPLATES."menu/settings/objects/menu_md.view");
 			if($dir_list > 0){
 				//@todo If only one action redirect
 				if(!isset($action_selected)){ //Available actions
 
-					include(CORE_VIEWS."datatable/dbtable_actions.view");
+					include(CORE_TEMPLATES."datatable/dbtable_actions.view");
 				}
 				else{ //Selected Action
 					include(CORE_FORMS."/settings/objects/action.form");

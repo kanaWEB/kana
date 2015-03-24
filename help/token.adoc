@@ -1,0 +1,105 @@
+Token Api
+=========
+Rémi Sarrailh
+:description: How to communicate with Kana with Token.
+:appversion: 0.5
+:tokenapi: 0.5
+:toc:
+:state: Draft
+
+Author : {author} +
+State : {state} +
+Document version : {appversion} | Api Version : {tokenapi}
+
+Token are used to give another *software* the capabilities to execute actions without being logged. +
+
+Each *groups* that the user are *authorized* to use are available thanks to this token. +
+
+[NOTE]
+You should make 1 token for 1 machine so if a machine is compromise +
+You can revoke it without revoking the access to others machine.
+
+You can
+
+- Save a new token
+- Verify if a token is validated
+
+:numbered!:
+== Arguments
+*token.php* takes 2 arguments : *token* / *json* +
+When json variable *exists* Kana will output *json* else it output *plain text*
+
+.Example
+http://url/token.php?token=1234&json
+
+== Response
+Json response use the same error code than the *HTTP Protocol*
+http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+[sidebar]
+.Json Response
+--
+type  : Type of message +
+code : Error code +
+message : Message +
+--
+
+=== Create token
+When you ask for a token for the first time +
+
+.Example
+http://url/token.php?token=1234&json
+[sidebar]
+.Json Response
+--
+type  : Created +
+code : 201 +
+message : Token saved but not validate +
+--
+
+
+=== Token needs validation
+When you ask for an *unauthorized* token +
+
+.Example
+http://url/token.php?token=1234&json
+[sidebar]
+.Json Response
+--
+type  : Not Authorized +
+code : 401 +
+message : Validate your token +
+--
+
+=== Token OK
+.Example
+http://url/token.php?token=1234&json
+[sidebar]
+.Json Response
+--
+type  : OK +
+code : 200 +
+message : Token is validated +
+--
+
+=== Token doesn't have the right to do this
+When you ask to execute an action with an *unauthorized* token +
+or without *correct permissions* +
+
+.Example
+http://url/actions.php?....&token=1234
+[sidebar]
+.Json Response
+--
+type  : Forbidden +
+code : 403 +
+message : Access denied for this token +
+--
+
+== Future changes (unfinished)
+Token should be validated on both side to ensure server identity. +
+For now attackers could get the token thought a Man In The Middle attack +
+
+.Example
+- A master key is generated on install (which can be regenerated)
+-
+-

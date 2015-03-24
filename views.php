@@ -6,7 +6,7 @@ if(isset($currentUser)){
 
 //If the user is not disable
 if($currentUser->isuser()){
-	include(CORE_VIEWS."/header/header.view");
+	include(CORE_TEMPLATES."/header/header.view");
 
 	//If a view is set
 	if(isset($_["view"])){
@@ -34,18 +34,18 @@ if($currentUser->isuser()){
 			
 		//VIEW FILE (php code mode)
 			if(file_exists($view_file)){
-				include(CORE_VIEWS."/menu/top.view");
-				if($default_view_button != False) {$tpl->draw(CORE_VIEWS."buttons/default_view");}
+				include(CORE_TEMPLATES."/menu/top.view");
+				if($default_view_button != False) {$tpl->draw(CORE_TEMPLATES."buttons/default_view");}
 				include($view_file);
 			}
 		//VIEW MD TABLE (markdown mode)
 			elseif(file_exists($md_file)){
-				include(CORE_VIEWS."/menu/top.view");
-				if($default_view_button != False) {$tpl->draw(CORE_VIEWS."buttons/default_view");}
+				include(CORE_TEMPLATES."/menu/top.view");
+				if($default_view_button != False) {$tpl->draw(CORE_TEMPLATES."buttons/default_view");}
 				$blocks = Draw::md2datatable($md_file,$view_dir);
 				
-				include(CORE_VIEWS."buttons/ajax_play.view");
-				include(CORE_VIEWS."datatable/blocks.view");
+				include(CORE_TEMPLATES."buttons/ajax_play.view");
+				include(CORE_TEMPLATES."datatable/blocks.view");
 			}
 		}
 		else{
@@ -56,7 +56,7 @@ if($currentUser->isuser()){
 				//Else if it's an user, tell them to ask the admin to give him right
 				else
 				{
-				$tpl->draw(CORE_VIEWS."modal/permissions_denied");
+				$tpl->draw(CORE_TEMPLATES."modal/permissions_denied");
 				}
 
 			}
@@ -75,7 +75,7 @@ if($currentUser->isuser()){
 			}
 		}
 
-		include(CORE_VIEWS."/footer/footer.view");
+		include(CORE_TEMPLATES."/footer/footer.view");
 	}
 	else{
 		redirect("index","?error=".t("You need to be logged to see this page") );

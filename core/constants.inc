@@ -1,28 +1,27 @@
 <?php
 /**
  * Global Constant file
- * You shouldn't need to modify theses
+ * Modifying this file can deeply change how Kana will works and alter security
 */
 //CORE PATH
-define('CORE_VIEWS',"core/views/");
-define('CORE_SCHEMA',"core/schema/");
-define('CORE_DATA',"core/data/");
-define('CORE_WIDGETS',"core/widgets/");
-define('CORE_FORMS',"core/forms/");
+define('CORE_TEMPLATES',"core/templates/"); //Where RainTPL template are stored
+define('CORE_SCHEMA',"core/schema/"); //Where core database schema and libraries are stored
+define('CORE_DATA',"core/data/"); //core Data generator
+define('CORE_FORMS',"core/forms/"); //core/users Form generator
 
-//DATABASE PATH
-define('DATABASE','/etc/kana/kana.db');
-define('DATA_DIR',"/etc/kana/data/");
-define('CONFIG_DIR',"/etc/kana/config/");
-define('KANA_DIR',"/etc/kana/");
+//DATABASE PATH Personal data are not store on the web server directory so we avoid leaking personal information accidently
+define('DATABASE','/etc/kana/kana.db'); //The main database
+define('DATA_DIR',"/etc/kana/data/"); //Data from sensors and collectors
+define('CONFIG_DIR',"/etc/kana/config/"); //Configuration are saved here in one database for one plugins
+define('KANA_DIR',"/etc/kana/"); //The main folder for personal data 
 
 //RAINTPL
 define('CACHE_DIR',"cache/");
 
-//EXTERNAL DEPENDENCIES
+//EXTERNAL DEPENDENCIES, Every dependancies are inside this directory.
 define('EXTERNAL_LIB',"core/libraries/dependancies/");
 
-//USER PATH
+//You can redefined where are installed plugins here
 define('USER_THEME',"plugins/theme/");
 define('USER_VIEWS',"plugins/views/");
 define('USER_DATA',"plugins/data/");
@@ -32,14 +31,16 @@ define('USER_SENSORS',"plugins/sensors/");
 
 define('LANGUAGE',"plugins/language/");
 
-//APP INFO
+//Application information, 
 define('APP_NAME',"KANA");
 define('VERSION',"0.42");
 define('APP_STATE',"ALPHA");
 define('AUTHOR',"MadNerds");
-define('PHP_PAGE',basename($_SERVER['PHP_SELF']));
 
-//DATA
+//Get page name used for redirection
+define('PHP_PAGE',basename($_SERVER['PHP_SELF'])); 
+
+//Collector stored everything they received until this point where the data are flush.
 define('MAXDATA',10);
 
 //Very insecure!!
@@ -58,6 +59,7 @@ define('SHOWCOMMANDS',true);
 define('DEVMODE',true);
 define('REINSTALL',FALSE);
 define('INSTALL_THEME',"bootstrap");
+
 
 //MENU
 define('DEFAULT_CATEGORY_SETTINGS',"objects");

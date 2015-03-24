@@ -1,0 +1,56 @@
+<?php
+
+
+//Preferences item
+$settingsmenu[] = [
+"text" => "Preferences",
+"icon" => "glyphicon-cog",
+"link" => "pref"
+];
+
+//Users item
+$settingsmenu[] = [
+"text" => "Users",
+"icon" => "glyphicon-user",
+"link" => "users"
+];
+
+//Groups items
+$settingsmenu[] = [
+"text" => "Groups",
+"icon" => "glyphicon-folder-open",
+"link" => "groups"
+];
+
+
+/*
+
+//Scenario Items (@todo: DEPRECATED)
+$settingsmenu[] = [
+"text" => "Scenario",
+"icon" => "glyphicon-random",
+"link" => "scenario"
+];
+*/
+// (@todo : Add Separators)
+
+//Tokens items
+$settingsmenu[] = [
+"text" => "Tokens",
+"icon" => "glyphicon-link",
+"link" => "token"
+];
+
+//Remote Access
+$settingsmenu[] = [
+"text" => "Remote Access",
+"icon" => "glyphicon-phone",
+"link" => "remote"
+];
+
+
+$tpl->assign("settingsmenu_active",$menu_selected); //As set inside settings.php
+$tpl->assign("settingsmenu",$settingsmenu);
+$tpl->draw(CORE_TEMPLATES."menu/items/item"); //Display menu/settings/item
+unset($settingsmenu);
+?>

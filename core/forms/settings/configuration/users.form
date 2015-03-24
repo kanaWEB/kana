@@ -32,9 +32,9 @@ else{
 
 
 
-$tpl->draw(CORE_VIEWS."grids/container/bordered_open");
+$tpl->draw(CORE_TEMPLATES."grids/container/bordered_open");
 $tpl->assign("text",$object_name);
-$tpl->draw(CORE_VIEWS."text/h1");
+$tpl->draw(CORE_TEMPLATES."text/h1");
 
 $form = new Form($form_name);
 
@@ -113,7 +113,7 @@ if($selected){
 	unset($topmenu);
 	foreach($user_views as $user_view){
 	//Get Users Plugins views
-		include(CORE_VIEWS."menu/top/topusers.view");
+		include(CORE_TEMPLATES."menu/top/topusers.view");
 	}
 
 	if(isset($topmenu)){
@@ -153,7 +153,7 @@ if($selected){
 $form->display($tpl);
 
 if($objects){
-	include(CORE_VIEWS."/"."datatable/usertable.view");
+	include(CORE_TEMPLATES."/"."datatable/usertable.view");
 }
 
 

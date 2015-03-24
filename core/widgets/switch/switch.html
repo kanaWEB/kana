@@ -1,9 +1,0 @@
-<!-- /core/widgets/switch/switch.html -->
-				<div class="btn-group dashboard_bloc_content">
-				{loop="$webobject.actions"}
-				<button class="btn btn-xlg {if="isset($value.color)"}btn-{$value.color}{else}btn-primary{/if} " onclick="webobject_switch(this,'{$webobject.type}','{$webobject.id}','{$webobject.widget}',{if="isset($value.action_nb)"}{$value.action_nb} {else} 0 {/if},'{$value.type}')" >
-					{if="isset($value.icon)"}<i class="glyphicon glyphicon-{if="isset($value.icon)"}{$value.icon}{else}off{/if} "></i>{/if}
-					{if="isset($value.text)"}{$value.text}{/if}
-				</button>
-				{/loop}
-				</div>

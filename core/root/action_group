@@ -1,0 +1,6 @@
+#!/bin/sh
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+cd $DIR
+cd ../../
+echo "actionsgroup;1;$1"
+./action.py "actionsgroup;1;default;$1"

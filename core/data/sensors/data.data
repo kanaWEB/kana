@@ -2,19 +2,34 @@
 #@# name:Sensor Data | example: 10 | sensor_id:Sensor id;select;sensors/list
 unset($data);
 
-$generic_sensors_db = new Entity("core","Sensors");
-$sensor_id = $data_link_json->sensor_id;
-$sensor = $generic_sensors_db->load([
-	"sensor_id"=> $sensor_id
-]);
-
-if($sensor){
-	$data = $sensor["sensor_lastvalue"];
-}
-else
-{
-	$data = "no sensor";
+if(isset($data_link_json->sensor_id)){
+	$sensor_id = $data_link_json->sensor_id;
 }
 
+if(isset($_["sensor_id"])){
+	$sensor_id = $_["sensor_id"];
+}
+
+if(isset($sensor_id)){
+	$generic_sensors_db = new Entity("core","Sensors");
+
+	$sensor = $generic_sensors_db->load([
+		"sensor_id"=> $sensor_id
+		]);
+
+	if($sensor){
+		$data = $sensor["sensor_lastvalue"];
+		if(isset($_["terminal"])){
+		echo $data."\n";
+		}
+		if(isset($_["json"])){
+			echo json_encode($data);
+		}
+	}
+	else
+	{
+		$data = "no sensor";
+	}
+}
 
 ?>

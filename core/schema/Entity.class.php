@@ -16,38 +16,72 @@ class Entity extends SQLKana
 		//var_dump($entity);
 		
 		switch($type){
-			case 'core':
+			case 'core': //You can only create table inside kana.db (core) if there is a corresponding schema.txt inside /core/schema/schema.txt
 			$this->database = DATABASE;
 			$this->setCoreTable($entity);
 			break;
 
-			case 'data':
+			case 'data': //Check needed (Is there a sensor linked to this data?)
 			$this->database = DATA_DIR.$entity.".db";
+			//var_dump($this->database);
+			//var_dump($entity);
 			$this->setDataTable($entity);
+			if(file_exists("plugins/sensors/".$entity)){
+				$this->check = "plugins/sensors/".$entity;
+				//var_dump("sensors");
+			}
+			else
+			{
+				$this->check = "plugins/objects/".$entity;
+				//var_dump("collectors");
+			}
 			break;
 
-			case 'config':
+			case 'config': //Check OK
 			$dir = Variable::sensors_or_objects_dir($entity);
 			$this->database = CONFIG_DIR.$dir.$entity.".db";
 			$this->setConfigTable($entity,$dir);
+			$this->check = "plugins/".$dir.$entity;
 			break;
 
-			case 'electronics':
+			case 'electronics': //Check needed (Is there an objects)
 			$this->database = CONFIG_DIR."objects/".$entity.".db";
 			$this->setElectronicTable($entity);
+			$this->check = USER_OBJECTS.$entity;
 			break;
 
-			case 'actions':
+			case 'actions': //Check needed (Is there an objects)
 			$this->database = CONFIG_DIR."objects/".$entity.".db";
 			$this->setActionTable($entity);
+			$this->check = USER_OBJECTS.$entity;
 			break;
 		}
 
 		//var_dump($this->database);
 
-		$this->open($this->database);
-		$this->busyTimeout(5000);
-		$this->create();
+		//@todo Remove Debug, test performance
+		//Generation of database are handled automatically if theses conditions is filled
+		//1. If the database doesn't already exists
+		//2. If the database 
+		if(file_exists($this->database)){
+			$this->open($this->database);
+			$this->busyTimeout(5000);
+		}
+		else
+		{
+
+			if(file_exists($this->check)){
+				$this->open($this->database);
+				$this->busyTimeout(5000);
+				$this->create();
+			}
+			else
+			{
+				echo $this->check;
+				echo "ERROR DATABASE SHOULD NOT BE CREATED";
+				exit();
+			}
+		}
 	}
 
 	//Set Table fields with CORE SCHEMA file
@@ -125,6 +159,7 @@ class Entity extends SQLKana
 
 	//Set Electronics table schema from forms
 	function SetElectronicTable($object_name){
+		if(is_dir(USER_OBJECTS.$object_name."/electronics/")){
 		$dir = USER_OBJECTS.$object_name."/electronics/";
 		$inputs_file = Functions::getdir($dir);
 		$db_fields['id'] = "key";
@@ -138,6 +173,11 @@ class Entity extends SQLKana
 			var_dump($db_fields);
 		}
 
+
+		}
+		else{
+			$inputs_file = false;
+		}
 		$this->TABLE_NAME = "Electronics";
 	}
 
