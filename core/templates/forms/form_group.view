@@ -1,13 +1,12 @@
 <?php
 include(CORE_DATA."group.data");
 $form->input([
-	"type" => "select",
-	"id" => "group_key",
-	"name" => "Group",
-	"options" => $data,
-	"selected" => $selected["group_key"]
-	]);
+    "type" => "select",
+    "id" => "group_key",
+    "name" => "Group",
+    "options" => $data,
+    "selected" => $selected["group_key"]
+    ]);
 
 $table_headers[] = "Group";
 $table_data[] = "group_key";
-?>

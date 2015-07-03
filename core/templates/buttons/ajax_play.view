@@ -17,8 +17,7 @@ $ajax_buttons[] = [
 "onclick" => "ajax_stop"
 ];
 
-if($ajax_buttons){
-	$tpl->assign("buttons",$ajax_buttons);
-	$tpl->draw(CORE_TEMPLATES."buttons/button_group");
+if ($ajax_buttons) {
+    $tpl->assign("buttons", $ajax_buttons);
+    $tpl->draw(CORE_TEMPLATES."buttons/button_group");
 }
-?>

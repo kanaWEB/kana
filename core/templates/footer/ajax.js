@@ -2,7 +2,7 @@
 
 disable_ajaxbuttons(false,false,true);
 function ajax_play(){
-	ajax_start()
+	ajax_start();
 	disable_ajaxbuttons(true,false,true);
 	change_colorbuttons("#ajax_refresh","btn-danger","btn-default");
 }

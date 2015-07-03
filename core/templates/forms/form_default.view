@@ -6,34 +6,33 @@ $table_headers[] = "Description";
 $table_data[] = "entity_name";
 $table_data[] = "entity_description";
 
-if(isset($hidden_input)){
-	$form->input($hidden_input);
+if (isset($hidden_input)) {
+    $form->input($hidden_input);
 }
 
 $form->input([
-	"type" => "panelstart"
-	]);
+    "type" => "panelstart"
+    ]);
 
 $form->input([
-	"type" => "text",
-	"id" => "entity_name",
-	"name" => "Name",
-	"placeholder" => "name",
-	"selected" => $selected["entity_name"],
-	"required" => true
-	]);
+    "type" => "text",
+    "id" => "entity_name",
+    "name" => "Name",
+    "placeholder" => "name",
+    "selected" => $selected["entity_name"],
+    "required" => true
+    ]);
 
 
 
 $form->input([
-	"type" => "text",
-	"id" => "entity_description",
-	"name" => "Description",
-	"placeholder" => "description",
-	"selected" => $selected["entity_description"]
-	]);
+    "type" => "text",
+    "id" => "entity_description",
+    "name" => "Description",
+    "placeholder" => "description",
+    "selected" => $selected["entity_description"]
+    ]);
 
 $form->input([
-	"type" => "panelend"
-	]);
-?>
+    "type" => "panelend"
+    ]);

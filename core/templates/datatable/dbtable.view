@@ -9,33 +9,30 @@ $link .= "?category=".$category_selected."&menu=".$object_name."&tab=".$tab_sele
 
 
 //Table data
-for($i=0;$i<count($objects);$i++){
-	$tpl->draw(CORE_TEMPLATES."table/row/open");
-	//var_dump($objects);
-	foreach($table_data as $td){
-		
-		$tpl->draw(CORE_TEMPLATES."table/cell/open");
-		if($td !="password"){
-		echo html_entity_decode($objects[$i][$td]);
-		}
-		else{
-			echo '<label class="label label-danger">'.t("Hidden")."</label>";
-		}
-		$tpl->draw(CORE_TEMPLATES."table/cell/close");
+for ($i=0; $i<count($objects); $i++) {
+    $tpl->draw(CORE_TEMPLATES."table/row/open");
+    //var_dump($objects);
+    foreach ($table_data as $td) {
+        $tpl->draw(CORE_TEMPLATES."table/cell/open");
+        if ($td !="password") {
+            echo html_entity_decode($objects[$i][$td]);
+        } else {
+            echo '<label class="label label-danger">'.t("Hidden")."</label>";
+        }
+        $tpl->draw(CORE_TEMPLATES."table/cell/close");
 
-	}
-	$tpl->draw(CORE_TEMPLATES."table/cell/open");
+    }
+    $tpl->draw(CORE_TEMPLATES."table/cell/open");
 
-	$buttons = [
-	"link" => $link,
-	"id" => $objects[$i]["id"]
-	];
+    $buttons = [
+    "link" => $link,
+    "id" => $objects[$i]["id"]
+    ];
 
-	$tpl->assign("buttons",$buttons);
-	$tpl->draw(CORE_TEMPLATES."table/buttons");
-	$tpl->draw(CORE_TEMPLATES."table/cell/close");
-	$tpl->draw(CORE_TEMPLATES."table/row/close");
+    $tpl->assign("buttons", $buttons);
+    $tpl->draw(CORE_TEMPLATES."table/buttons");
+    $tpl->draw(CORE_TEMPLATES."table/cell/close");
+    $tpl->draw(CORE_TEMPLATES."table/row/close");
 }
 
 $tpl->draw(CORE_TEMPLATES."table/close");
-?>

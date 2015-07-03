@@ -9,7 +9,7 @@ function isObject(val) {
     return ( (typeof val === 'function') || (typeof val === 'object') );
 }
 
-if(push_notifications_state == true){
+if(push_notifications_state === true){
 waitfor_notifications();
 
 Notification.requestPermission(function (permission) {
@@ -44,7 +44,7 @@ function check_notifications(){
 			if(isdata_object){
 				//console.log("Getting Notification!")
 				//Manage HTML5 Notifications if possible
-				if(desktop_notification_state == false){
+				if(desktop_notification_state === false){
 					//console.log("Ajax notify selected");
 					data = JSON.stringify(data);
 					ajax_notify(data,"bottomRight");
@@ -59,7 +59,7 @@ function check_notifications(){
 			if(textStatus == "error"){
 				clearInterval(pushnotification_timer);
   				console.log(textStatus);
-  				if(desktop_notification_state == false){
+  				if(desktop_notification_state === false){
 					//console.log("Ajax notify selected");
 					ajax_notify("Connection lost","bottomRight");
 				}
@@ -71,9 +71,9 @@ function check_notifications(){
 }
 
 function desktop_notification(text){
-	console.log(text)
+	console.log(text);
 	text = text.replace(/'/g, "&#039;");
-	console.log(text)
+	console.log(text);
 	var instance = new Notification(
 			"Kana", {
 				body: text

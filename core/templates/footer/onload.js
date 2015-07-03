@@ -99,7 +99,7 @@ function switch_widget_clicked(widget_button){
 
 	if(widget_ismoving){
 
-	console.log("Moved")
+	console.log("Moved");
 	second_widget_moving = widget_id;
 
 	//console.log($("#"+first_widget_button));
@@ -109,7 +109,7 @@ function switch_widget_clicked(widget_button){
 	switchwidget(first_widget_moving,second_widget_moving);
     
     $("#"+first_widget_button).attr("id",widget_button_id);
-    $("#"+widget_button_id).attr("id",first_widget_button)
+    $("#"+widget_button_id).attr("id",first_widget_button);
     $("#"+first_widget_moving).attr("id",second_widget_moving);
     $("#"+second_widget_moving).attr("id",first_widget_moving);
 
@@ -120,7 +120,7 @@ function switch_widget_clicked(widget_button){
 	}
 	else
 	{
-	console.log("Selected")
+	console.log("Selected");
 	first_widget_moving = widget_id;
 	first_widget_button = widget_button_id;
 	widget_button.removeClass("btn-primary");
@@ -176,8 +176,8 @@ function ajax_delete(button,url){
 		console.log(data);
 		json = ajax_notify(data,"top");
 		console.log(json.data);
-		if(json.data != false){
-			console.log($("#del"+json.data))
+		if(json.data !== false){
+			console.log($("#del"+json.data));
 			$("#del"+json.data).parent().parent().fadeOut( "slow");
 		} 
 	});

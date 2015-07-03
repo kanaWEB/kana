@@ -37,7 +37,7 @@ function parse_bad_json(badjson){
 	//console.log(error_message_end);
 	if(error_message_start != -1 && error_message_end != -1){
 		console.log("I PARSED BAD JSON!");
-		json = badjson.substr(error_message_start,error_message_end)
+		json = badjson.substr(error_message_start,error_message_end);
 		console.log(json);
 		json = $.parseJSON(json);
 		return json;
@@ -58,8 +58,8 @@ function ajax_notify(data,position){
 		//console.log(json);
 	} catch(exception){
 		//console.log(data);
-		json = parse_bad_json(data)
-		if(json != false){
+		json = parse_bad_json(data);
+		if(json !== false){
 			text = json.text;
 			type = json.type;
 		}
@@ -78,7 +78,7 @@ function ajax_notify(data,position){
 	if (typeof json === 'undefined') {
 		json = false;
 	}
-	return json
+	return json;
 }
 
 function notification(text,type,position){
@@ -89,7 +89,7 @@ function notification(text,type,position){
 		timeout: notify_time,
 		closeWith: [notify_closeWith]
 	});
-	return n
+	return n;
 }
 
 function quicknoty(text,position){

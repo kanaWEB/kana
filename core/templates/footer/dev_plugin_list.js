@@ -49,42 +49,42 @@ function change_table(id_table,key,values){
 }
 
 function generate_table(keys,values){
-	html = new Array();
-	html["key"] = "";
-	html["values"] = "";
-	html["separator"] ="";
+	html = [];
+	html.key = "";
+	html.values = "";
+	html.separator = "";
 	for(var i=0;i<keys.length;i++){
 		value = values[i];
 		key = keys[i];
 		console.log(value);
 		if(value.length > key.length){
 			key = addspace(key,value.length);
-			html["separator"] = adddash(html["separator"],value.length);
+			html.separator = adddash(html.separator,value.length);
 
 		}
 		else
 		{
 			value = addspace(value,key.length);
-			html["separator"] = adddash(html["separator"],key.length);
+			html.separator = adddash(html.separator,key.length);
 			console.log(value.length);
 			console.log(key.length);
 		}
-		html["key"] = html["key"] + key 
-		html["values"] = html["values"] + value;
+		html.key = html.key + key;
+		html.values = html.values + value;
 		
 		if(i != (keys.length - 1)){
-		html["key"] = html["key"] + " |";
-		html["values"] = html["values"] + " |";
-		html["separator"] = html["separator"] + "|";
+		html.key = html.key + " |";
+		html.values = html.values + " |";
+		html.separator = html.separator + "|";
 		}
 	}
-	html["key"] = html["key"].trim();
-	html["values"] = html["values"].trim();
-	console.log(html["key"]);
-	console.log(html["separator"]);
-	console.log(html["values"]);
+	html.key = html.key.trim();
+	html.values = html.values.trim();
+	console.log(html.key);
+	console.log(html.separator);
+	console.log(html.values);
 
-	result = html["key"] + "\n" + html["separator"] + "\n" + html["values"];
+	result = html.key + "\n" + html.separator + "\n" + html.values;
 	return result;
 }
 

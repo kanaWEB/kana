@@ -3,15 +3,15 @@
 Installation Post
 */
 
-if(DEBUG){
-	debug("PHP","Variables");
-	var_dump($_);
+if (DEBUG) {
+    debug("PHP", "Variables");
+    var_dump($_);
 }
 
 //Save Configuration
 $config_language = $_["lang"];
 $config_theme = "bootstrap";
-$config = new Entity("core","Config");
+$config = new Entity("core", "Config");
 $config->create();
 $config->setLanguage($config_language);
 $config->setTheme($config_theme);
@@ -23,7 +23,7 @@ Functions::generate_secretkey(CONFIG_DIR."/secretkey");
 //Save First User
 $name = $_["admin_name"];
 $password = $_["admin_pass"];
-$user_db = new Entity("core","Users");
+$user_db = new Entity("core", "Users");
 $user_db->create();
 $user_db->setNickName($name);
 $user_db->setLastName("");
@@ -40,16 +40,38 @@ $user_db->save();
 
 //Generate Group
 //Generate default group
-$group_db = new Entity("core","Group");
+$group_db = new Entity("core", "Group");
 $group_db->create();
 $group_db->setEntity_name(t("Default Group"));
 $group_db->setEntity_description(t("Auto-generated group"));
 $group_db->save();
 
-$group_db = new Entity("core","GroupRight");
-$group_db = new Entity("core","ViewRight");
+$groupRight_db = new Entity("core", "GroupRight");
+$groupRight_db->create();
+$groupRight_db->setId_user(1);
+$groupRight_db->setId_group(1);
+$groupRight_db->save();
+
+$viewRight_db = new Entity("core", "ViewRight");
+$viewRight_db->create();
+$viewRight_db->setId_view(1);
+$viewRight_db->setId_user(1);
+$viewRight_db->save();
+
+$tokens_db = new Entity("core", "Tokens");
+$tokens_db->create();
+$tokensLog_db = new Entity("core", "TokenLog");
+$tokensLog_db->create();
+
+$triggers_db = new Entity("core", "Triggers");
+$triggers_db->create();
+
+$scenario_db = new Entity("core", "Scenario");
+$scenario_db->create();
+
+$sensors_db = new Entity("core", "Sensors");
+$sensors_db->create();
 
 unset($_SESSION);
 //Redirect to index
-redirect("index","?notice=".t("Installation successful"));
-?>
+redirect("index", "?notice=".t("Installation successful"));

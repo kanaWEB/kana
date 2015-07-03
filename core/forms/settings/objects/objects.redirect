@@ -13,97 +13,84 @@ Auto Redirector for objects
 
 */
 $object_name = $menu_selected;
-if(!$tab_selected){
-	
-	$menu_name = Variable::object_menus_name($object_name);
+if (!$tab_selected) {
+    $menu_name = Variable::object_menus_name($object_name);
 //GPIOS only collector
-	if(isset($menu_name["gpios"]) && !isset($menu_name["actions"])){
-		$tab_selected = "gpios";
-	}
+    if (isset($menu_name["gpios"]) && !isset($menu_name["actions"])) {
+        $tab_selected = "gpios";
+    }
 
 ///GPIOS/ACTIONS
-	if(isset($menu_name["gpios"]) && isset($menu_name["actions"])){
-		$object_db = new Entity("config",$object_name);
-		$nb_object = $object_db->rowCount();
+    if (isset($menu_name["gpios"]) && isset($menu_name["actions"])) {
+        $object_db = new Entity("config", $object_name);
+        $nb_object = $object_db->rowCount();
 
-	//If no gpios object is set
-		if($nb_object == 0){
-			$tab_selected = "gpios";
-			$notice = t("You need to setup electronics to continue");
-		}
-		else
-	//else go to actions by default
-		{
-			$tab_selected = "action";
-		}
-	}
+    //If no gpios object is set
+        if ($nb_object == 0) {
+            $tab_selected = "gpios";
+            $notice = t("You need to setup electronics to continue");
+        } else {
+            //else go to actions by default
+            $tab_selected = "action";
+        }
+    }
 
 //CODES/ACTIONS
-	if(isset($menu_name["codes"]) && isset($menu_name["actions"]) && !isset($menu_name["electronics"])){
-		$object_db = new Entity("config",$object_name);
-		$nb_object = $object_db->rowCount();
+    if (isset($menu_name["codes"]) && isset($menu_name["actions"]) && !isset($menu_name["electronics"])) {
+        $object_db = new Entity("config", $object_name);
+        $nb_object = $object_db->rowCount();
 
-	//If no gpios object is set
-		if($nb_object == 0){
-			$tab_selected = "codes";
-			$notice = t("You need to enter codes / configuration to setup actions");
-		}
-		else
-	//else go to actions by default
-		{
-			$tab_selected = "action";
-		}
-	}
+    //If no gpios object is set
+        if ($nb_object == 0) {
+            $tab_selected = "codes";
+            $notice = t("You need to enter codes / configuration to setup actions");
+        } else {
+            //else go to actions by default
+            $tab_selected = "action";
+        }
+    }
 
 //ACTIONS ONLY
-	if(isset($menu_name["actions"]) && !isset($menu_name["codes"]) && !isset($menu_name["gpios"])){
-		$tab_selected = "action";
-	}
+    if (isset($menu_name["actions"]) && !isset($menu_name["codes"]) && !isset($menu_name["gpios"])) {
+        $tab_selected = "action";
+    }
 
 //ELECTRONICS/CODES/ACTIONS
-	if(isset($menu_name["codes"]) && isset($menu_name["actions"]) && isset($menu_name["electronics"])){
-	//Check electronics configuration
-		$electronics_db = new Entity("electronics",$object_name);
-		$electronics = $electronics_db->rowCount();
-		if($electronics == 0){
-			$tab_selected = "electronics";
-			$notice = t("You need to setup electronics to continue");
+    if (isset($menu_name["codes"]) && isset($menu_name["actions"]) && isset($menu_name["electronics"])) {
+    //Check electronics configuration
+        $electronics_db = new Entity("electronics", $object_name);
+        $electronics = $electronics_db->rowCount();
+        if ($electronics == 0) {
+            $tab_selected = "electronics";
+            $notice = t("You need to setup electronics to continue");
 
-		}
-	//If electronics is set check codes configurations
-		else{
-			$object_db = new Entity("config",$object_name);
-			$nb_object = $object_db->rowCount();
-			if($nb_object == 0){
-				$tab_selected = "codes";
-				$notice = t("You need to enter codes / configuration to setup actions");
-			}
-			else
-			{
-				$tab_selected = "action";
-			}
-		}
-	}
+        } else {
+            //If electronics is set check codes configurations
+            $object_db = new Entity("config", $object_name);
+            $nb_object = $object_db->rowCount();
+            if ($nb_object == 0) {
+                $tab_selected = "codes";
+                $notice = t("You need to enter codes / configuration to setup actions");
+            } else {
+                $tab_selected = "action";
+            }
+        }
+    }
 
-	if(file_exists(USER_OBJECTS.$object_name."/hideactions.txt")){
-		$tab_selected = "groups";
-	} 
-
+    if (file_exists(USER_OBJECTS.$object_name."/hideactions.txt")) {
+        $tab_selected = "groups";
+    }
 }
 
-if($tab_selected == "action"){
-
-	//Get actions list and count it
-	$actions_list = Functions::getdir(USER_OBJECTS."/".$object_name."/actions");
-	$nb_actions = count($actions_list);
-	if(!$action_selected){
-	$action_selected = $actions_list[0];
-	}
+if ($tab_selected == "action") {
+    //Get actions list and count it
+    $actions_list = Functions::getdir(USER_OBJECTS."/".$object_name."/actions");
+    $nb_actions = count($actions_list);
+    if (!$action_selected) {
+        $action_selected = $actions_list[0];
+    }
 
 
 }
 //var_dump($tab_selected);
 //var_dump($action_selected);
-
-
-?>

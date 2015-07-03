@@ -1,40 +1,37 @@
 <?php
 /*
-	Sensors
-	//@todo refactor objects/sensors view to a single view
+    Sensors
+    //@todo refactor objects/sensors view to a single view
 */
 
 $objects = Functions::getdir(USER_SENSORS);
 //@todo check if there is a sensor
 
-if($menu_selected != "allsensors"){
-	$tpl->assign("hide",true);
+if ($menu_selected != "allsensors") {
+    $tpl->assign("hide", true);
 }
 
-	//Generating Sensors menu
-	foreach($objects as $object){
-		$object_info = new Object($object,"sensors");
-		$object_info->json();
+    //Generating Sensors menu
+foreach ($objects as $object) {
+    //var_dump($objects);
+    $object_info = new Object($object, "sensors");
+    $object_info->json();
 
-		//If the menu exists generate it
-		if($object_info){
-			$settingsmenu[] = $object_info->menu_item();
-		}
-		else
-		{
-			var_dump($object."doesn't have info.json");
-		}
+    //If the menu exists generate it
+    if ($object_info) {
+            $settingsmenu[] = $object_info->menu_item();
+    } else {
+            var_dump($object."doesn't have info.json");
+    }
+}
 
-	}
-
-if(!isset($settingsmenu)){
-	$settingsmenu = false;
+if (!isset($settingsmenu)) {
+    $settingsmenu = false;
 }
 
 //Category 
-$tpl->assign("category_selected",$category);
-$tpl->assign("settingsmenu_active",$menu_selected); //As set inside settings.php
-$tpl->assign("settingsmenu",$settingsmenu);
+$tpl->assign("category_selected", $category);
+$tpl->assign("settingsmenu_active", $menu_selected); //As set inside settings.php
+$tpl->assign("settingsmenu", $settingsmenu);
 $tpl->draw(CORE_TEMPLATES."menu/items/item_icons");
 $dynamic_js[] = CORE_TEMPLATES."footer/searchsensors.js";
-?>
