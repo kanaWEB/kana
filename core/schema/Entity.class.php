@@ -72,6 +72,7 @@ class Entity extends SQLKana
         if (file_exists($this->database)) {
             $this->open($this->database);
             $this->busyTimeout(5000);
+            $this->create();
         } else {
             if (file_exists($this->check)) {
                 //@todo CHECK PERMISSIONS
