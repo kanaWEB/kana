@@ -1,15 +1,11 @@
-<?
-//GET PATH		
-		//If execute locally, get path with $_REQUEST
-		if(isset($_SERVER['SCRIPT_FILENAME'])){
-			$script_dir = $_SERVER['SCRIPT_FILENAME'];
-		}
-		else{
-			$script_dir = $_REQUEST;
-			reset($script_dir);
-			$script_dir = key($script_dir)."/";
-		}
-		
-		$data = dirname($script_dir);
-		
-?>
+<?php
+//GET PATH      
+//If execute locally, get path with $_REQUEST
+if (isset($_SERVER['SCRIPT_FILENAME'])) {
+    $script_dir = $_SERVER['SCRIPT_FILENAME'];
+} else {
+    $script_dir = $_REQUEST;
+    reset($script_dir);
+    $script_dir = key($script_dir)."/";
+}
+$data = dirname($script_dir);

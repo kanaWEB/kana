@@ -1,27 +1,23 @@
 <?php
 //Only admin and local script can manipulate triggers
 //You can give a user access to a trigger with the plugin trigger_control
-if($currentUser->isadmin() || !isset($_SERVER['REMOTE_ADDR'])){
-	if(isset($_["state"]) && isset($_["id"])){
-		
-		$triggers_db = new Entity("core","Triggers");
-		$triggers_db->change([
-			"trigger_state" => $_["state"]
-			], 
-			[
-			'id'=>$_["id"]
-			]);
-		if($_["state"]){
-		echo Draw::ajax_notify(t("Trigger Enabled"),"success");
-		}
-		else
-		{
-		echo Draw::ajax_notify(t("Trigger Disabled"),"error");
-		}
-	}
-	else
-	{
-		echo "I AM ERROR";
-	}
+if ($currentUser->isadmin() || !isset($_SERVER['REMOTE_ADDR'])) {
+    if (isset($_["state"]) && isset($_["id"])) {
+        $triggers_db = new Entity("core", "Triggers");
+        $triggers_db->change(
+            [
+            "trigger_state" => $_["state"]
+            ],
+            [
+            'id'=>$_["id"]
+            ]
+        );
+        if ($_["state"]) {
+            echo Draw::ajax_notify(t("Trigger Enabled"), "success");
+        } else {
+            echo Draw::ajax_notify(t("Trigger Disabled"), "error");
+        }
+    } else {
+        echo "I AM ERROR";
+    }
 }
-?>

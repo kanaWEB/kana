@@ -196,7 +196,7 @@ if(file_exists($user_command)){
 					echo $final_command;
 				}
 			}
-			Functions::launch_background($final_command);
+			Functions::launchBackground($final_command);
 			//exec($final_command,$out,$exitcode);
 			//var_dump($out);
 			//var_dump($exitcode);

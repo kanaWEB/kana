@@ -1,14 +1,11 @@
 <?php
-$collector_program = "serial2php.py";
+$collector_program = "serialjson2php.py";
 $collector_filename =  dirname($_SERVER['SCRIPT_FILENAME'])."/core/collectors/".$collector_program;
 $check_process_command = 'ps aux|grep "'.$collector_filename.'"|grep "'.$object.'"';
-exec($check_process_command,$processes,$exitcode);
+exec($check_process_command, $processes, $exitcode);
 array_pop($processes); //Remove check_process_command from process list
-if($processes){
-	$data = True;
+if ($processes) {
+    $data = true;
+} else {
+    $data = false;
 }
-else
-{
-	$data = False;
-}
-?>

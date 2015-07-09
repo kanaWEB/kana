@@ -2,35 +2,26 @@
 //We are going to issue SSH command in local to manage root permissions
 //As used inside Raspcontrol
 
+if ($currentUser->isadmin()) {
+    set_include_path(get_include_path() . PATH_SEPARATOR . EXTERNAL_LIB.'PhpSec');
+    include(EXTERNAL_LIB."PhpSec/Net/SSH2.php"); //Root Commands
+    
+    $sshUser = $_["sshUser"];
+    $sshPassword = $_["sshPassword"];
+    $command = $_["command"];
+    $ssh = new Net_SSH2("127.0.0.1");
+    if ($ssh->login($sshUser, $sshPassword)) {
+        $command = "sudo ".dirname($_SERVER['SCRIPT_FILENAME'])."/core/root/".$command.".sh";
+        $ssh->exec($command);
+        $error_level = $ssh->getExitStatus();
 
-if($currentUser->isadmin()){
-	set_include_path(get_include_path() . PATH_SEPARATOR . EXTERNAL_LIB.'PhpSec');
-	include(EXTERNAL_LIB."PhpSec/Net/SSH2.php"); //Root Commands
-	
-	$sshUser = $_["sshUser"];
-	$sshPassword = $_["sshPassword"];
-	$command = $_["command"];
-	$ssh = new Net_SSH2("127.0.0.1");
-	if($ssh->login($sshUser,$sshPassword))
-	{
-		$command = "sudo ".dirname($_SERVER['SCRIPT_FILENAME'])."/core/root/".$command.".sh";
-		$ssh->exec($command);
-		$error_level = $ssh->getExitStatus();
+        if ($error_level != 0) {
+            Draw::ajax_notify(t("The command didn't worked, Error code:").$error_level, "error");
+        } else {
+            Draw::ajax_notify(t("Command executed successfully"), "success");
+        }
 
-		if($error_level != 0){
-			Draw::ajax_notify(t("The command didn't worked, Error code:").$error_level,"error");
-		}
-		else
-		{
-
-			Draw::ajax_notify(t("Command executed successfully"),"success");
-		}
-
-	}
-	else{
-		Draw::ajax_notify(t("Wrong Username/Password"),"error");
-	}
-
+    } else {
+        Draw::ajax_notify(t("Wrong Username/Password"), "error");
+    }
 }
-
-?>

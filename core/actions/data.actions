@@ -4,12 +4,9 @@
 $data_file = Variable::data_dir($_["data"]);
 
 //If a data file is found then include theses files to output data
-if($data_file){
-include($data_file);
+if ($data_file) {
+    include($data_file);
+} else {
+    //If no data file is found then ouput a json formatted error.
+    echo json_encode(["error" => "no data found"]);
 }
-else
-{
-	//If no data file is found then ouput a json formatted error.
-	echo json_encode(["error" => "no data found"]);
-}
-?>

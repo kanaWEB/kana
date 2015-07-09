@@ -2,11 +2,10 @@
 //Verify if there isn't wrongly open socket
 $collector_program = "ping2php.py";
 
-Functions::stop_process_with_socket($collector_program,$object);
+Functions::stopProcessWithSocket($collector_program, $object);
 
 echo json_encode([
-	"data_id" => $_["data_id"],
-	"state" => "OFF",
-	"label" => "danger"
-	]);
-?>
+    "data_id" => $_["data_id"],
+    "state" => "OFF",
+    "label" => "danger"
+    ]);

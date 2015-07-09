@@ -1,50 +1,42 @@
 <?php
-if($currentUser->isadmin()){
-	if(isset($_["view"])){
-		if(file_exists(USER_VIEWS.$_["view"])){
-			if(isset($_["op"])){
-				$json_file = CONFIG_DIR."views/".$_["view"].".json";
-				switch($_["op"]){
-					case "add":
-					if(isset($_["data"])){
-						if(!file_exists($json_file)){
-							file_put_contents($json_file,$_["data"]);
-						}else
-						{
-							$json_file_old = json_decode(file_get_contents($json_file),true);
-							$json_file_new = json_decode($_["data"],true);
-							if($json_file_old != null && $json_file_new != null){
-								$json_data = array_merge($json_file_old,$json_file_new);
-								$json_data = json_encode($json_data);
-								file_put_contents($json_file,$json_data);
-								//var_dump($json_data);
-							}
-						}
+if ($currentUser->isadmin()) {
+    if (isset($_["view"])) {
+        if (file_exists(USER_VIEWS.$_["view"])) {
+            if (isset($_["op"])) {
+                $json_file = CONFIG_DIR."views/".$_["view"].".json";
+                switch ($_["op"]) {
+                    case "add":
+                        if (isset($_["data"])) {
+                            if (!file_exists($json_file)) {
+                                file_put_contents($json_file, $_["data"]);
+                            } else {
+                                $json_file_old = json_decode(file_get_contents($json_file), true);
+                                $json_file_new = json_decode($_["data"], true);
+                                if ($json_file_old != null && $json_file_new != null) {
+                                    $json_data = array_merge($json_file_old, $json_file_new);
+                                    $json_data = json_encode($json_data);
+                                    file_put_contents($json_file, $json_data);
+                                    //var_dump($json_data);
+                                }
+                            }
+                        } else {
+                            echo "data not set";
+                        }
+                        break;
 
-					}
-					else{
-						echo "data not set";
-					}
-					break;
+                    case "read":
+                        echo file_get_contents($json_file);
+                        break;
 
-					case "read":
-					echo file_get_contents($json_file);
-					break;
-
-					case "del":
-					unlink($json_file);
-					break;
-				}
-			}
-		}
-		else{
-			echo USER_VIEWS.$_["view"]." doesn't exists";
-		}
-	}
-	else
-	{
-		echo "view not set";
-	}
+                    case "del":
+                        unlink($json_file);
+                        break;
+                }
+            }
+        } else {
+            echo USER_VIEWS.$_["view"]." doesn't exists";
+        }
+    } else {
+        echo "view not set";
+    }
 }
-
-?>

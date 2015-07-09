@@ -1,54 +1,52 @@
 <?php
 $object = $_["object"];
-$collector_program = "serial2php.py";
+$collector_program = "serialjson2php.py";
 $address = "127.0.0.1";
 $timeout = 1;
-$port = Functions::get_socket($collector_program,$object);
+$port = Functions::get_socket($collector_program, $object);
 
-if($port){
-echo Functions::receivefrom_socket($port);
+if ($port) {
+    echo Functions::receivefrom_socket($port);
 }
 /*
-	$fp = fsockopen($address,$port,$errno,$errstr);
-	if(!$fp){
-		echo "ERROR: $errno - $errstr<br />\n";
-	}
-	else{
-		while (!feof($usenet)){ 
-			stream_set_timeout($fp, 5);
-			$ret = fgets($fp, 1024); 
-			$info = stream_get_meta_data($fp); 
-			if ($info['timed_out']) { 
-				//echo $info['timed_out'];
-			} 
-			var_dump($info);
-			var_dump($ret);
-			var_dump($fp);
-	}
+    $fp = fsockopen($address,$port,$errno,$errstr);
+    if(!$fp){
+        echo "ERROR: $errno - $errstr<br />\n";
+    }
+    else{
+        while (!feof($usenet)){ 
+            stream_set_timeout($fp, 5);
+            $ret = fgets($fp, 1024); 
+            $info = stream_get_meta_data($fp); 
+            if ($info['timed_out']) { 
+                //echo $info['timed_out'];
+            } 
+            var_dump($info);
+            var_dump($ret);
+            var_dump($fp);
+    }
 
 }
 /*
-	echo "Reading socket";
+    echo "Reading socket";
 
 //Creating Socket
-	$socket=socket_create(AF_INET,SOCK_STREAM,0) or die("Cannot create a socket");
-	socket_connect($socket,$address,$port) or die("Could not connect to the socket");
+    $socket=socket_create(AF_INET,SOCK_STREAM,0) or die("Cannot create a socket");
+    socket_connect($socket,$address,$port) or die("Could not connect to the socket");
 
 //Non Blocking
-	socket_set_nonblock($socket);
-	socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0)); //Timeout
+    socket_set_nonblock($socket);
+    socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0)); //Timeout
 
-	while (($read = @socket_read($socket, 1)) === false)
-	{
-	}
+    while (($read = @socket_read($socket, 1)) === false)
+    {
+    }
 
-	if(isset($read)){
-	var_dump($read);
-	}
+    if(isset($read)){
+    var_dump($read);
+    }
 
-	socket_close($socket);
+    socket_close($socket);
 */
 
 //}
-
-	?>

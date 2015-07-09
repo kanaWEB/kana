@@ -1,18 +1,16 @@
 <?php
-if(isset($_["user"])){
-	$user = $_["user"];
+
+if (isset($_['user'])) {
+    $user = $_['user'];
+} else {
+    $user = $currentUser->nickname();
 }
-else{
-	$user = $currentUser->nickname();
-}
-if(isset($_["message"])){
-	$message = $_["message"];
-}
-else{
-	$message = "Hi!";
+if (isset($_['message'])) {
+    $message = $_['message'];
+} else {
+    $message = 'Hi!';
 }
 
 $time = time();
 
-Data::save_data("",$message,"notifications/".$user,$time);
-?>
+Data::save_data('', $message, 'notifications/'.$user, $time);

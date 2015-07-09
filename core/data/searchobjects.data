@@ -7,27 +7,25 @@ $available_md_item = false;
 $tolerance = 70;
 $search_result = false;
 
-
-
-//@todo Refactor json code and deprecated every objects related functions inside Variable.class.php and put it inside object.class.php
-foreach($objects as $object){
-	//$tags_array = Variable::objectTags(USER_OBJECTS.$object);
-	$object_data = new Object($object);
-	$tags = $object_data->Json()->tags;
-	//$tags = explode(",",$tags_array);
-	//var_dump($array_to_search);
-	foreach($tags as $tag){
-		//var_dump($tag);
-		similar_text($tag,$search,$probability);
-		if($probability > $tolerance){
-			$search_result[] = $object."_item";
-		}
-	}
-	//echo "<br>";
+//@todo Refactor json code and deprecated every objects related functions inside Variable.class.php 
+//and put it inside object.class.php
+foreach ($objects as $object) {
+    //$tags_array = Variable::objectTags(USER_OBJECTS.$object);
+    $object_data = new Object($object);
+    $tags = $object_data->Json()->tags;
+    //$tags = explode(",",$tags_array);
+    //var_dump($array_to_search);
+    foreach ($tags as $tag) {
+        //var_dump($tag);
+        similar_text($tag, $search, $probability);
+        if ($probability > $tolerance) {
+            $search_result[] = $object."_item";
+        }
+    }
+    //echo "<br>";
 }
-if(is_array($search_result)){
-arsort($search_result);
+if (is_array($search_result)) {
+        arsort($search_result);
 }
 $data = json_encode($search_result);
 echo $data;
-?>

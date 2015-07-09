@@ -1,22 +1,16 @@
 <?php
-if($currentUser->id() == $_["id_user"]){
+if ($currentUser->id() == $_["id_user"]) {
+    $id_user = $_["id_user"];
+    $id_group = $_["id_group"];
 
-	$id_user = $_["id_user"];
-	$id_group = $_["id_group"];
+    $user_db = new entity("core", "Users");
+    $user_db->update($id_user, "default_group", $id_group);
 
-	$user_db = new entity("core","Users");
-	$user_db->update($id_user,"default_group",$id_group);
-
-	//Refresh current default view
-	$currentUser->RefreshDefaultGroup($id_group);
-	$_SESSION['currentUser'] = serialize($currentUser);
-	
-	echo Draw::ajax_notify("Group set as default","success");
+    //Refresh current default view
+    $currentUser->RefreshDefaultGroup($id_group);
+    $_SESSION['currentUser'] = serialize($currentUser);
+    
+    echo Draw::ajax_notify("Group set as default", "success");
+} else {
+    echo Draw::ajax_notify("You can only modify YOUR default group", "danger");
 }
-else
-{
-	echo Draw::ajax_notify("You can only modify YOUR default group","danger");
-}
-
-
-?>

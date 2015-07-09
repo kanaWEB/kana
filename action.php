@@ -1,56 +1,57 @@
 <?php
+
 //This file is used to emulate the functionalities of yana server
 //For more information on yana server / yana client
 //Please go to http://blog.idleman.fr/ (fr)
 
 //We include basic functionalities
-include("core/common.inc");
+include 'core/common.inc';
 
 //If action is set
-if (isset($_["action"])) {
+if (isset($_['action'])) {
     //The only action this file has to handle is getting the list of speech commands
     //action.php?action=GET_SPEECH_COMMAND
-    if ($_["action"] == "GET_SPEECH_COMMAND") {
-    //If a token is set
-        if (isset($_["token"])) {
-        //Check if the token exists and is associated with an user
-            $currentUser = new User;
-            $currentUser->check_token($_["token"]);
+    if ($_['action'] == 'GET_SPEECH_COMMAND') {
+        //If a token is set
+        if (isset($_['token'])) {
+            //Check if the token exists and is associated with an user
+            $currentUser = new User();
+            $currentUser->check_token($_['token']);
 
         //If token is associated to no user, log it
             if (!$currentUser->id()) {
-                $tokenlog_db = new Entity("core", "TokenLog");
+                $tokenlog_db = new Entity('core', 'TokenLog');
                 $ip_selected = $tokenlog_db->load([
-                    "ipaddress" => $_SERVER['REMOTE_ADDR'],
-                    "token" => $_["token"]
+                    'ipaddress' => $_SERVER['REMOTE_ADDR'],
+                    'token' => $_['token'],
                     ]);
 
             //If there was already a request from this ip increment it
                 if ($ip_selected) {
-                    $nbrequest = $ip_selected["nbrequest"] + 1;
+                    $nbrequest = $ip_selected['nbrequest'] + 1;
                     $tokenlog_db->change(
                         [
-                        "nbrequest" => $nbrequest,
-                        "timestamp" => time()
+                        'nbrequest' => $nbrequest,
+                        'timestamp' => time(),
                         ],
-                        ['id'=>$ip_selected["id"]]
+                        ['id' => $ip_selected['id']]
                     );
                 } else {
                     //If this is the first request then save it
                     $tokenlog_db->SetIpaddress($_SERVER['REMOTE_ADDR']);
                     $tokenlog_db->SetTimeStamp(time());
-                    $tokenlog_db->SetToken($_["token"]);
+                    $tokenlog_db->SetToken($_['token']);
                     $tokenlog_db->SetNbrequest(1);
                     $tokenlog_db->Save();
                 }
                 echo '{"error":"invalid or missing token"}'; //Ouput permission error message
             } else {
-            //If token is associated with an user display list of commands
-                include(CORE_DATA."url/commandsyana.data");
+                //If token is associated with an user display list of commands
+                include CORE_DATA.'url/commandsyana.data';
                 echo json_encode($data);
             }
         } else {
-         //If no token was specified
+            //If no token was specified
             echo '{"error":"no token"}';
         }
     }

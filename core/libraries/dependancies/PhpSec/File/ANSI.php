@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP ANSI Decoder
+ * Pure-PHP ANSI Decoder.
  *
  * PHP versions 4 and 5
  *
@@ -29,204 +29,201 @@
  * THE SOFTWARE.
  *
  * @category  File
- * @package   File_ANSI
+ *
  * @author    Jim Wigginton <terrafrost@php.net>
  * @copyright MMXII Jim Wigginton
  * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ *
  * @link      http://phpseclib.sourceforge.net
  */
 
 /**
- * Pure-PHP ANSI Decoder
+ * Pure-PHP ANSI Decoder.
  *
- * @package File_ANSI
  * @author  Jim Wigginton <terrafrost@php.net>
- * @access  public
  */
 class File_ANSI
 {
-    /**
+    /*
      * Max Width
      *
      * @var Integer
      * @access private
      */
-    var $max_x;
+    public $max_x;
 
-    /**
+    /*
      * Max Height
      *
      * @var Integer
      * @access private
      */
-    var $max_y;
+    public $max_y;
 
-    /**
+    /*
      * Max History
      *
      * @var Integer
      * @access private
      */
-    var $max_history;
+    public $max_history;
 
-    /**
+    /*
      * History
      *
      * @var Array
      * @access private
      */
-    var $history;
+    public $history;
 
-    /**
+    /*
      * History Attributes
      *
      * @var Array
      * @access private
      */
-    var $history_attrs;
+    public $history_attrs;
 
-    /**
+    /*
      * Current Column
      *
      * @var Integer
      * @access private
      */
-    var $x;
+    public $x;
 
-    /**
+    /*
      * Current Row
      *
      * @var Integer
      * @access private
      */
-    var $y;
+    public $y;
 
-    /**
+    /*
      * Old Column
      *
      * @var Integer
      * @access private
      */
-    var $old_x;
+    public $old_x;
 
-    /**
+    /*
      * Old Row
      *
      * @var Integer
      * @access private
      */
-    var $old_y;
+    public $old_y;
 
-    /**
+    /*
      * An empty attribute row
      *
      * @var Array
      * @access private
      */
-    var $attr_row;
+    public $attr_row;
 
-    /**
+    /*
      * The current screen text
      *
      * @var Array
      * @access private
      */
-    var $screen;
+    public $screen;
 
-    /**
+    /*
      * The current screen attributes
      *
      * @var Array
      * @access private
      */
-    var $attrs;
+    public $attrs;
 
-    /**
+    /*
      * The current foreground color
      *
      * @var String
      * @access private
      */
-    var $foreground;
+    public $foreground;
 
-    /**
+    /*
      * The current background color
      *
      * @var String
      * @access private
      */
-    var $background;
+    public $background;
 
-    /**
+    /*
      * Bold flag
      *
      * @var Boolean
      * @access private
      */
-    var $bold;
+    public $bold;
 
-    /**
+    /*
      * Underline flag
      *
      * @var Boolean
      * @access private
      */
-    var $underline;
+    public $underline;
 
-    /**
+    /*
      * Blink flag
      *
      * @var Boolean
      * @access private
      */
-    var $blink;
+    public $blink;
 
-    /**
+    /*
      * Reverse flag
      *
      * @var Boolean
      * @access private
      */
-    var $reverse;
+    public $reverse;
 
-    /**
+    /*
      * Color flag
      *
      * @var Boolean
      * @access private
      */
-    var $color;
+    public $color;
 
-    /**
+    /*
      * Current ANSI code
      *
      * @var String
      * @access private
      */
-    var $ansi;
+    public $ansi;
 
     /**
      * Default Constructor.
      *
      * @return File_ANSI
-     * @access public
      */
-    function File_ANSI()
+    public function File_ANSI()
     {
         $this->setHistory(200);
         $this->setDimensions(80, 24);
     }
 
     /**
-     * Set terminal width and height
+     * Set terminal width and height.
      *
      * Resets the screen as well
      *
      * @param Integer $x
      * @param Integer $y
-     * @access public
      */
-    function setDimensions($x, $y)
+    public function setDimensions($x, $y)
     {
         $this->max_x = $x - 1;
         $this->max_y = $y - 1;
@@ -247,40 +244,37 @@ class File_ANSI
     }
 
     /**
-     * Set the number of lines that should be logged past the terminal height
+     * Set the number of lines that should be logged past the terminal height.
      *
      * @param Integer $x
      * @param Integer $y
-     * @access public
      */
-    function setHistory($history)
+    public function setHistory($history)
     {
         $this->max_history = $history;
     }
 
     /**
-     * Load a string
+     * Load a string.
      *
      * @param String $source
-     * @access public
      */
-    function loadString($source)
+    public function loadString($source)
     {
         $this->setDimensions($this->max_x + 1, $this->max_y + 1);
         $this->appendString($source);
     }
 
     /**
-     * Appdend a string
+     * Appdend a string.
      *
      * @param String $source
-     * @access public
      */
-    function appendString($source)
+    public function appendString($source)
     {
-        for ($i = 0; $i < strlen($source); $i++) {
+        for ($i = 0; $i < strlen($source); ++$i) {
             if (strlen($this->ansi)) {
-                $this->ansi.= $source[$i];
+                $this->ansi .= $source[$i];
                 $chr = ord($source[$i]);
                 // http://en.wikipedia.org/wiki/ANSI_escape_code#Sequence_elements
                 // single character CSI's not currently supported
@@ -349,10 +343,18 @@ class File_ANSI
                                         case 0: // Turn off character attributes
                                             $this->attrs[$this->y][$this->x] = '';
 
-                                            if ($this->bold) $this->attrs[$this->y][$this->x].= '</b>';
-                                            if ($this->underline) $this->attrs[$this->y][$this->x].= '</u>';
-                                            if ($this->blink) $this->attrs[$this->y][$this->x].= '</blink>';
-                                            if ($this->color) $this->attrs[$this->y][$this->x].= '</span>';
+                                            if ($this->bold) {
+                                                $this->attrs[$this->y][$this->x] .= '</b>';
+                                            }
+                                            if ($this->underline) {
+                                                $this->attrs[$this->y][$this->x] .= '</u>';
+                                            }
+                                            if ($this->blink) {
+                                                $this->attrs[$this->y][$this->x] .= '</blink>';
+                                            }
+                                            if ($this->color) {
+                                                $this->attrs[$this->y][$this->x] .= '</span>';
+                                            }
 
                                             if ($this->reverse) {
                                                 $temp = $this->background;
@@ -385,9 +387,9 @@ class File_ANSI
                                             $temp = $this->background;
                                             $this->background = $this->foreground;
                                             $this->foreground = $temp;
-                                            $this->attrs[$this->y][$this->x] = '<span style="color: ' . $this->foreground . '; background: ' . $this->background . '">';
+                                            $this->attrs[$this->y][$this->x] = '<span style="color: '.$this->foreground.'; background: '.$this->background.'">';
                                             if ($this->color) {
-                                                $this->attrs[$this->y][$this->x] = '</span>' . $this->attrs[$this->y][$this->x];
+                                                $this->attrs[$this->y][$this->x] = '</span>'.$this->attrs[$this->y][$this->x];
                                             }
                                             $this->color = true;
                                             break;
@@ -416,15 +418,15 @@ class File_ANSI
                                                 case 47: $back = 'white'; break;
 
                                                 default:
-                                                    user_error('Unsupported attribute: ' . $mod);
+                                                    user_error('Unsupported attribute: '.$mod);
                                                     $this->ansi = '';
                                                     break 2;
                                             }
 
                                             unset($temp);
-                                            $this->attrs[$this->y][$this->x] = '<span style="color: ' . $this->foreground . '; background: ' . $this->background . '">';
+                                            $this->attrs[$this->y][$this->x] = '<span style="color: '.$this->foreground.'; background: '.$this->background.'">';
                                             if ($this->color) {
-                                                $this->attrs[$this->y][$this->x] = '</span>' . $this->attrs[$this->y][$this->x];
+                                                $this->attrs[$this->y][$this->x] = '</span>'.$this->attrs[$this->y][$this->x];
                                             }
                                             $this->color = true;
                                     }
@@ -448,7 +450,7 @@ class File_ANSI
                 case "\x0F": // shift
                     break;
                 case "\x1B": // start ANSI escape code
-                    $this->ansi.= "\x1B";
+                    $this->ansi .= "\x1B";
                     break;
                 default:
                     $this->screen[$this->y] = substr_replace(
@@ -460,22 +462,20 @@ class File_ANSI
 
                     if ($this->x > $this->max_x) {
                         $this->x = 0;
-                        $this->y++;
+                        ++$this->y;
                     } else {
-                        $this->x++;
+                        ++$this->x;
                     }
             }
         }
     }
 
     /**
-     * Add a new line
+     * Add a new line.
      *
      * Also update the $this->screen and $this->history buffers
-     *
-     * @access private
      */
-    function _newLine()
+    public function _newLine()
     {
         //if ($this->y < $this->max_y) {
         //    $this->y++;
@@ -493,67 +493,65 @@ class File_ANSI
                 array_shift($this->history_attrs);
             }
 
-            $this->y--;
+            --$this->y;
         }
-        $this->y++;
+        ++$this->y;
     }
 
     /**
-     * Returns the current screen without preformating
+     * Returns the current screen without preformating.
      *
-     * @access private
      * @return String
      */
-    function _getScreen()
+    public function _getScreen()
     {
         $output = '';
-        for ($i = 0; $i <= $this->max_y; $i++) {
-            for ($j = 0; $j <= $this->max_x + 1; $j++) {
+        for ($i = 0; $i <= $this->max_y; ++$i) {
+            for ($j = 0; $j <= $this->max_x + 1; ++$j) {
                 if (isset($this->attrs[$i][$j])) {
-                    $output.= $this->attrs[$i][$j];
+                    $output .= $this->attrs[$i][$j];
                 }
                 if (isset($this->screen[$i][$j])) {
-                    $output.= htmlspecialchars($this->screen[$i][$j]);
+                    $output .= htmlspecialchars($this->screen[$i][$j]);
                 }
             }
-            $output.= "\r\n";
+            $output .= "\r\n";
         }
+
         return rtrim($output);
     }
 
     /**
-     * Returns the current screen
+     * Returns the current screen.
      *
-     * @access public
      * @return String
      */
-    function getScreen()
+    public function getScreen()
     {
-        return '<pre style="color: white; background: black" width="' . ($this->max_x + 1) . '">' . $this->_getScreen() . '</pre>';
+        return '<pre style="color: white; background: black" width="'.($this->max_x + 1).'">'.$this->_getScreen().'</pre>';
     }
 
     /**
-     * Returns the current screen and the x previous lines
+     * Returns the current screen and the x previous lines.
      *
-     * @access public
      * @return String
      */
-    function getHistory()
+    public function getHistory()
     {
         $scrollback = '';
-        for ($i = 0; $i < count($this->history); $i++) {
-            for ($j = 0; $j <= $this->max_x + 1; $j++) {
+        for ($i = 0; $i < count($this->history); ++$i) {
+            for ($j = 0; $j <= $this->max_x + 1; ++$j) {
                 if (isset($this->history_attrs[$i][$j])) {
-                    $scrollback.= $this->history_attrs[$i][$j];
+                    $scrollback .= $this->history_attrs[$i][$j];
                 }
                 if (isset($this->history[$i][$j])) {
-                    $scrollback.= htmlspecialchars($this->history[$i][$j]);
+                    $scrollback .= htmlspecialchars($this->history[$i][$j]);
                 }
             }
-            $scrollback.= "\r\n";
+            $scrollback .= "\r\n";
         }
-        $scrollback.= $this->_getScreen();
+        $scrollback .= $this->_getScreen();
 
-        return '<pre style="color: white; background: black" width="' . ($this->max_x + 1) . '">' . $scrollback . '</pre>';
+        return '<pre style="color: white; background: black" width="'.($this->max_x + 1).'">'.$scrollback.'</pre>';
     }
 }

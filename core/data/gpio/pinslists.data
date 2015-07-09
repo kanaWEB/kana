@@ -5,23 +5,20 @@ include(CORE_DATA."/gpio/model.data");
 $model = $data;
 unset($data);
 
-if($model == "Model B+"){
-	for ($i=0; $i <= 31 ;$i++) { 
-		$data[] = [
-		"value" => $i,
-		"text" => $i
-		];
-	}
-}
-else //Support all models
-{
-	for ($i=0; $i <= 14 ;$i++) { 
-		$data[] = [
-		"value" => $i,
-		"text" => $i
-		];
-	}
+if ($model == "Model B+" || $model == "Model 2") {
+    for ($i=0; $i <= 29; $i++) {
+        $data[] = [
+        "value" => $i,
+        "text" => $i
+        ];
+    }
+} else {
+    //Support all models
+    for ($i=0; $i <= 14; $i++) {
+        $data[] = [
+        "value" => $i,
+        "text" => $i
+        ];
+    }
 }
 //todo Manage JSON
-
-?>

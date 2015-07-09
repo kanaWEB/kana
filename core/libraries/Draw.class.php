@@ -120,14 +120,15 @@ class Draw
     }
 
     //@todo Refactor draw objects generation, it should be inside objects.class.php and design should be handle by RainTPL only.
-    public static function object_widget($webobjects,$tpl){
-        foreach($webobjects as $key => $webobject){
+    public static function object_widget($webobjects,$tpl)
+    {
+        foreach ($webobjects as $key => $webobject) {
                 $webobject["widget_id"] = $key;
 
-                $tpl->assign("info",$webobject["info"]);
-                $tpl->assign("buttons",$webobject["buttons"]);
-                $tpl->assign("state",$webobject["state"]);
-                $tpl->assign("state_style",$webobject["state_style"]);
+                $tpl->assign("info", $webobject["info"]);
+                $tpl->assign("buttons", $webobject["buttons"]);
+                $tpl->assign("state", $webobject["state"]);
+                $tpl->assign("state_style", $webobject["state_style"]);
                 //var_dump($webobject);
                 //$widget_override_path = USER_OBJECTS.$webobject["object"]."/widgets/".$webobject["action"] ."/".$webobject["action"];
                 //var_dump($widget_override_path);
@@ -141,12 +142,13 @@ class Draw
 
 
     //Generate widgets of objects
-    public static function objects_widgets($current_group,$tpl){
+    public static function objects_widgets($current_group, $tpl)
+    {
         
         $webobjects = Variable::objects_to_webobjects($current_group);
-        Functions::Pretty_Debug($webobjects);
+        //Functions::pretty_Debug($webobjects);
         //var_dump($webobjects);
-        if($webobjects){
+        if ($webobjects) {
             //Functions::pretty_debug($webobjects);
             
             $tpl->draw(CORE_TEMPLATES."grids/row/col-sm-10");
@@ -158,14 +160,14 @@ class Draw
             $widgets_col_desktop = 6;
             $widgets_col_large = 4;
 
-            foreach($webobjects as $key => $webobject){
+            foreach ($webobjects as $key => $webobject) {
                 $webobject["widget_id"] = $key;
 
-                $tpl->assign("info",$webobject["info"]);
-                $tpl->assign("buttons",$webobject["buttons"]);
+                $tpl->assign("info", $webobject["info"]);
+                $tpl->assign("buttons", $webobject["buttons"]);
 
-                $tpl->assign("state",$webobject["state"]);
-                $tpl->assign("state_style",$webobject["state_style"]);
+                $tpl->assign("state", $webobject["state"]);
+                $tpl->assign("state_style", $webobject["state_style"]);
 
                 //var_dump($webobject);
                 //$widget_override_path = USER_OBJECTS.$webobject["object"]."/widgets/".$webobject["action"] ."/".$webobject["action"];
@@ -182,7 +184,7 @@ class Draw
 
 
                 
-                if($col == 0){
+                if ($col == 0) {
 
                     ?>
 

@@ -1,46 +1,33 @@
 <?php
 //Remove a plugin
 //
-
-if($currentUser->isadmin()){
-	if(isset($_["plugin_name"]) && isset($_["plugin_type"])){
-		$repo["name"] = $_["plugin_name"];
-		$repo["type"] = $_["plugin_type"];
-		if($repo["type"] == "" || $repo["name"] == ""){
-			echo "Empty Plugin name and type makes me unhappy :-(";
-		}
-		else{
-			echo "Plugin uninstall"."<br>";
-			$absolute_path = " ".dirname(dirname(dirname(__FILE__)))."/plugins/".$repo["type"]."/".$repo["name"];
-			echo "plugins/".$repo["type"]."/".$repo["name"];
-			clearstatcache();
-			if(file_exists("plugins/".$repo["type"]."/".$repo["name"])){
-
-
-				echo $absolute_path;
-				echo "\n let's do this!";
-				exec("rm -rf ".$absolute_path,$out,$result);
-				var_dump($out);
-				var_dump($result);
-				if($out == 0){
-					echo "Everything went fine!";
-				}
-				else
-				{
-					echo "Permissions error";
-				}
-			}
-			else
-			{
-				echo "\n Directory doesn't exists";
-			}
-		}
-	}
-	else{
-		echo "No plugin name and type makes me unhappy :-(";
-	}
-
+if ($currentUser->isadmin()) {
+    if (isset($_["plugin_name"]) && isset($_["plugin_type"])) {
+        $repo["name"] = $_["plugin_name"];
+        $repo["type"] = $_["plugin_type"];
+        if ($repo["type"] == "" || $repo["name"] == "") {
+            echo "Empty Plugin name and type makes me unhappy :-(";
+        } else {
+            echo "Plugin uninstall"."<br>";
+            $absolute_path = " ".dirname(dirname(dirname(__FILE__)))."/plugins/".$repo["type"]."/".$repo["name"];
+            echo "plugins/".$repo["type"]."/".$repo["name"];
+            clearstatcache();
+            if (file_exists("plugins/".$repo["type"]."/".$repo["name"])) {
+                echo $absolute_path;
+                echo "\n let's do this!";
+                exec("rm -rf ".$absolute_path, $out, $result);
+                var_dump($out);
+                var_dump($result);
+                if ($out == 0) {
+                    echo "Everything went fine!";
+                } else {
+                    echo "Permissions error";
+                }
+            } else {
+                echo "\n Directory doesn't exists";
+            }
+        }
+    } else {
+        echo "No plugin name and type makes me unhappy :-(";
+    }
 }
-
-
-?>

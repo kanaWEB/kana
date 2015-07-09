@@ -1,17 +1,16 @@
 <?php
 //Install a plugin with git from a github repo
-if($currentUser->isadmin()){
-$repo["repo"] = $_["plugin_repo"];
-$repo["name"] = $_["plugin_name"];
-$repo["type"] = $_["plugin_type"];
+if ($currentUser->isadmin()) {
+    $repo["repo"] = $_["plugin_repo"];
+    $repo["name"] = $_["plugin_name"];
+    $repo["type"] = $_["plugin_type"];
 
-echo "Plugin install"."<br>";
-$absolute_path = " ".dirname(dirname(dirname(__FILE__)))."/plugins/".$repo["type"]."/".$repo["name"];
-$command = "git clone ";
-$http_repo = "https://github.com/".$repo["repo"]."/kana-".$repo["name"];
-$command = $command.$http_repo.$absolute_path;
-exec($command,$out,$result);
-var_dump($out);
-var_dump($result);
+    echo "Plugin install"."<br>";
+    $absolute_path = " ".dirname(dirname(dirname(__FILE__)))."/plugins/".$repo["type"]."/".$repo["name"];
+    $command = "git clone ";
+    $http_repo = "https://github.com/".$repo["repo"]."/kana-".$repo["name"];
+    $command = $command.$http_repo.$absolute_path;
+    exec($command, $out, $result);
+    var_dump($out);
+    var_dump($result);
 }
-?>

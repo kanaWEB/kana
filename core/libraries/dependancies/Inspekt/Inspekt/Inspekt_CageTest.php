@@ -1,4 +1,5 @@
 <?php
+
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Inspekt/Cage.php';
@@ -10,30 +11,24 @@ require_once 'Inspekt/Cage.php';
 class Inspekt_CageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var    Inspekt_Cage
-     * @access protected
+     * @var Inspekt_Cage
      */
     protected $cage;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
-     *
-     * @access protected
      */
     protected function setUp()
     {
-		$inputarray['html'] = '<IMG """><SCRIPT>alert("XSS")</SCRIPT>">';
-		
+        $inputarray['html'] = '<IMG """><SCRIPT>alert("XSS")</SCRIPT>">';
 
-		$this->cage = Inspekt_Cage::Factory($array);
+        $this->cage = Inspekt_Cage::Factory($array);
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
-     *
-     * @access protected
      */
     protected function tearDown()
     {
@@ -633,4 +628,3 @@ class Inspekt_CageTest extends PHPUnit_Framework_TestCase
         );
     }
 }
-?>
