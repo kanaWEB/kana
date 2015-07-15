@@ -27,11 +27,11 @@ function ajax_refresh_sensor(){
 	}).done(function ( data ) {
 		widget = $("#" + data.data_id);
 
-		if(data.data == 0){
-			$(widget).children().removeClass();
+		if(data.data === 0){
+		$(widget).children().removeClass();
 			$(widget).children().addClass("panel panel-success");
 		}
-		if(data.data == 1){
+		if(data.data === 1){
 			$(widget).children().removeClass();
 			$(widget).children().addClass("panel panel-danger");
 		}
@@ -311,7 +311,7 @@ function query_woeid(button){
 	button_class.addClass("btn-warning");
 
 	//weather_place = $("input:text[name=weather_place]").val();
-	url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22" + encodeURI(weather_place) + "%22&format=json" ;
+	url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22" + encodeURI(weather_place) + "%22&format=json" ;
 	$.getJSON( url, {
 		tags: "woeid",
 		tagmode: "any",

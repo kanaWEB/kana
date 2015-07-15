@@ -5,21 +5,21 @@ unset($data);
 $objects_dir = Functions::getdir(USER_OBJECTS);
 /*
 foreach($objects_dir as $object_dir){
-	$triggers_dir = Functions::getdir(USER_OBJECTS."/".$object_dir."/actions");
-	
-	foreach($triggers_dir as $trigger_dir){
-	$objects_info[] = [
-		"object_dir" => $object_dir,
-		"trigger_dir" => $trigger_dir
-	];
-	var_dump($objects_info);
-	}
+    $triggers_dir = Functions::getdir(USER_OBJECTS."/".$object_dir."/actions");
+    
+    foreach($triggers_dir as $trigger_dir){
+    $objects_info[] = [
+        "object_dir" => $object_dir,
+        "trigger_dir" => $trigger_dir
+    ];
+    var_dump($objects_info);
+    }
 }
 */
 
-foreach($objects_dir as $key => $object_dir){
-	$actions_db = new Entity("actions",$object_dir);
-	$data[] = $actions_db->populate();
+foreach ($objects_dir as $key => $object_dir) {
+    $actions_db = new Entity("actions", $object_dir);
+    $data[] = $actions_db->populate();
 }
 
 
@@ -28,22 +28,21 @@ foreach($objects_dir as $key => $object_dir){
 //$triggers = $triggers_db->populate();
 
 if($triggers){
-	foreach($triggers as $trigger){
-		$data[] = [
-		"text" => html_entity_decode($trigger["entity_name"]),
-		"value" => $trigger["id"]
-		];
-	}
+    foreach($triggers as $trigger){
+        $data[] = [
+        "text" => html_entity_decode($trigger["entity_name"]),
+        "value" => $trigger["id"]
+        ];
+    }
 }
 else
 {
-	$data = false;
+    $data = false;
 }
 
 if(isset($_["data_id"])){
-	$data_json["data_id"] = $_["data_id"];
-	$data_json["data"] = $data;
-	echo json_encode($data_json);
+    $data_json["data_id"] = $_["data_id"];
+    $data_json["data"] = $data;
+    echo json_encode($data_json);
 }
-*/
-?>
+*/;

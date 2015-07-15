@@ -1,25 +1,30 @@
 <?php
 //If an action is choosen
-if(isset($_["id"])){
-	$selected_db = new Entity("actions",$menu_selected);
-	$selected = $selected_db->getById($_["id"]);
-	$selected = Variable::action_args($selected);
-	$form_name = "ID:".$_["id"];
-	$hidden_input = [
-	"type" => "hidden",
-	"value" => $_["id"]
-	];
-}
-else{
-	$selected = false;
-	$form_name = "New";
+if (isset($_["id"])) {
+    $selected_db = new Entity("actions", $menu_selected);
+    $selected = $selected_db->getById($_["id"]);
+    if ($selected) {
+        $selected = Variable::action_args($selected);
+        $form_name = "ID:".$_["id"];
+        $hidden_input = [
+        "type" => "hidden",
+        "value" => $_["id"]
+         ];
+    } else {
+        echo "WRONG ID";
+        exit();
+    }
+   
+} else {
+    $selected = false;
+    $form_name = "New";
 }
 
 $form = new Form($form_name);
-	include(CORE_TEMPLATES."forms/form_default.view");
-	if(file_exists(USER_OBJECTS.$object_name."/"."gpios")){
-	include(CORE_TEMPLATES."forms/form_gpio.view");
-	}
+include(CORE_TEMPLATES."forms/form_default.view");
+if (file_exists(USER_OBJECTS.$object_name."/"."gpios")) {
+    include(CORE_TEMPLATES."forms/form_gpio.view");
+}
 
 //Custom Fields
 $form_file_dir = USER_OBJECTS.$object_name."/actions/".$action_selected."/form/";
@@ -27,6 +32,4 @@ include(CORE_TEMPLATES."forms/form_md2.view");
 
 include(CORE_TEMPLATES."datatable/dbtable_actions.view");
 
-
-?>
 

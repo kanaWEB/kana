@@ -1,3 +1,2 @@
 <?php
 include(CORE_TEMPLATES."datatable/dbtable_allactions.view");
-?>

@@ -1,18 +1,14 @@
 <?php
-$object_db = new Entity("core","Group");
+$object_db = new Entity("core", "Group");
 $objects = $object_db->populate();
 unset($data);
-if($objects){
-	foreach($objects as $object){
-		$data[] = [
-		"text" => $object["entity_name"],
-		"value" => $object["id"]
-		];
-	}
-
+if ($objects) {
+    foreach ($objects as $object) {
+        $data[] = [
+        "text" => $object["entity_name"],
+        "value" => $object["id"]
+        ];
+    }
+} else {
+    $data = false;
 }
-else{
-	$data = false;
-}
-
-?>

@@ -16,20 +16,20 @@ if (!$currentUser->isuser()) {
      "text" => "Identification",
      "icon" => "glyphicon-user"
      ];
-     $topmenu[] = [
+    $topmenu[] = [
      "link" => "",
      "text" => "Identification",
      "icon" => "glyphicon glyphicon-user"
      ];
-     include(CORE_TEMPLATES."menu/top.view");
+    include(CORE_TEMPLATES."menu/top.view");
 
     //Form
      include(CORE_TEMPLATES."forms/Form.class.php");
 
-     $login_form = new Form("Identification");
-     $login_form->help("You need to be logged to use this application");
+    $login_form = new Form("Identification");
+    $login_form->help("You need to be logged to use this application");
 
-     $login_form->input([
+    $login_form->input([
         "type" => "text",
         "id" => "username",
         "name" => "Login",
@@ -38,20 +38,20 @@ if (!$currentUser->isuser()) {
 
         ]);
 
-     $login_form->input([
+    $login_form->input([
         "type" => "password",
         "id" => "pass",
         "name" => "Password",
         ]);
 
-     $login_form->input([
+    $login_form->input([
         "type" => "checkbox",
         "id" => "cookie",
         "name" => "Remember me",
         "selected" => false
         ]);
 
-     $login_form->display($tpl);
+    $login_form->display($tpl);
 
     //Footer
      include(CORE_TEMPLATES."footer/footer.view");

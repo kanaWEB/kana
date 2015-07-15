@@ -1,5 +1,3 @@
 <?php
 $tpl->draw(CORE_TEMPLATES."plugins/addplugins");
 $dynamic_js[] = CORE_TEMPLATES."plugins/addplugins.js";
-
-?>

@@ -1,0 +1,10 @@
+<?php
+unset($data);
+$data[] = [
+        "text" => "yes",
+        "value" => 1
+        ];
+$data[] = [
+        "text" => "no",
+        "value" => 0
+        ];

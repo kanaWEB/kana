@@ -1,7 +1,7 @@
 <?php
 //Logout
 if (isset($_["logout"]) && !isset($_["submit"])) {
-//Delete Cookie if it exist
+    //Delete Cookie if it exist
     if (isset($_COOKIE[COOKIE_NAME])) {
         $user = new Entity("core", "Users");
         $user_data = $user->load(array("id"=>$currentUser->Id()));
@@ -21,7 +21,7 @@ if (isset($_["logout"]) && !isset($_["submit"])) {
 }
 /*Submit form*/
 if (isset($_["submit"])) {
-            //Check user
+    //Check user
     $currentUser = new User();
     $cookie = isset($_["cookie"]);
     $currentUser->check_password($_["username"], $_["pass"], $cookie);

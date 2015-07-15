@@ -52,7 +52,13 @@ if ($actions) {
             switch ($td) {
                 case "object_key":
                     $name = $object_db->getById($actions[$i][$td]);
-                    echo $name["entity_name"];
+                    if ($name) {
+                        echo $name["entity_name"];
+                    } else {
+                        $jsonDb = new JsonEntity($object_name);
+                        $jsonConfig = $jsonDb->getById($actions[$i][$td]);
+                        echo $jsonConfig["entity_name"];
+                    }
                     break;
 
                 case "group_key":

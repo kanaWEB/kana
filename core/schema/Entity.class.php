@@ -85,8 +85,13 @@ class Entity extends SQLKana
             } else {
                 if ($this->check == DATABASE) {
                     //@todo CHECK PERMISSIONS
-                     $this->open($this->database);
-                    $this->create();
+                    if (is_writable(DATABASE)) {
+                        $this->open($this->database);
+                        $this->create();
+                    } else {
+                        echo 'ERROR DATABASE IS NOT WRITABLE';
+                        exit();
+                    }
                 } else {
                     echo $this->check;
                     echo 'ERROR DATABASE SHOULD NOT BE CREATED';
@@ -124,7 +129,7 @@ class Entity extends SQLKana
             var_dump($db_fields);
         }
 
-        $this->object_fields = $db_fields;
+        $this->objectFields = $db_fields;
         $this->TABLE_NAME = $table_name;
         //var_dump($db_fields);
     }
@@ -153,7 +158,7 @@ class Entity extends SQLKana
         } else {
             $db_fields['sensor_id'] = 'string';
             $db_fields['group_key'] = 'string';
-            $this->object_fields = $db_fields;
+            $this->objectFields = $db_fields;
         }
 
         if (DEBUG) {
@@ -211,7 +216,7 @@ class Entity extends SQLKana
             var_dump($db_fields);
         }
 
-        $this->object_fields = $db_fields;
+        $this->objectFields = $db_fields;
         $this->TABLE_NAME = 'Actions';
     }
 
@@ -232,7 +237,7 @@ class Entity extends SQLKana
             var_dump($db_fields);
         }
 
-        $this->object_fields = $db_fields;
+        $this->objectFields = $db_fields;
         $this->TABLE_NAME = 'Data';
     }
 
@@ -246,6 +251,6 @@ class Entity extends SQLKana
                 $db_fields[$input['id']] = 'TEXT';
             }
         }
-        $this->object_fields = $db_fields;
+        $this->objectFields = $db_fields;
     }
 }

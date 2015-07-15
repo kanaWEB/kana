@@ -1,76 +1,71 @@
 <?php
 $fields = $_;
 
-		unset($fields["submit"]);
-		unset($fields["menu"]);
-		unset($fields["tab"]);
-		unset($fields["notice"]);
-		unset($fields["error"]);
-		unset($fields["category"]);
-	
-		$object_name = $menu_selected;
-		
+unset($fields["submit"]);
+unset($fields["menu"]);
+unset($fields["tab"]);
+unset($fields["notice"]);
+unset($fields["error"]);
+unset($fields["category"]);
 
-		if(isset($_["del"])){
-			$action_db = new Entity("actions",$object_name);
-			$action_db->delete(array('id'=>$_['id']));
-			Draw::ajax_notify(t("Action deleted"),"success",$_["id"]);
-		}
-		else{
+$object_name = $menu_selected;
 
-			//Get data from object (GPIO)
-			//$object_db = new Entity("config",$object_name);
-			//$object_data = $object_db->getById($_["object_key"]);
-			//$gpio = $object_data["gpio"];
+if (isset($_["del"])) {
+    $action_db = new Entity("actions", $object_name);
+    $action_db->delete(array('id'=>$_['id']));
+    Draw::ajax_notify(t("Action deleted"), "success", $_["id"]);
+} else {
+    //Get data from object (GPIO)
+            //$object_db = new Entity("config",$object_name);
+            //$object_data = $object_db->getById($_["object_key"]);
+            //$gpio = $object_data["gpio"];
 
-			//Get Arguments
-			$args = $fields;
-			unset($args["entity_name"]);
-			unset($args["entity_description"]);
-			unset($args["object_key"]);
-			unset($args["group_key"]);
-			unset($args["action"]);
-			unset($args["id"]);
+            //Get Arguments
+    $args = $fields;
+    unset($args["entity_name"]);
+    unset($args["entity_description"]);
+    unset($args["object_key"]);
+    unset($args["group_key"]);
+    unset($args["action"]);
+    unset($args["id"]);
 
-			$args_key = array_keys($args);
-			if(!isset($fields["object_key"])){
-				$fields["object_key"] = 0;	
-			}
+    $args_key = array_keys($args);
+    if (!isset($fields["object_key"])) {
+        $fields["object_key"] = 0;
+    }
 
-			if(!isset($fields["action"])){
-				$fields["action"] = $action_selected;
-			}
-			
-			$fields["state"] = 0;
-			$fields["entity_name"] = html_entity_decode($fields["entity_name"],ENT_QUOTES);
-			$fields["entity_decription"] = html_entity_decode($fields["entity_description"],ENT_QUOTES);
+    if (!isset($fields["action"])) {
+        $fields["action"] = $action_selected;
+    }
 
-			foreach($args_key as $arg_key){
-				unset($fields[$arg_key]);
-			}
-			//var_dump($args);
-			$args = json_encode($args,JSON_HEX_AMP);
-			
-			//var_dump($fields);
-			$action_db = new Entity("actions",$object_name);
-		
-			//Predefined fields
-			foreach($fields as $key => $field){
-				$setter = "set".$key;
-				$action_db->$setter($field);
-			}
+    $fields["state"] = 0;
+    $fields["entity_name"] = html_entity_decode($fields["entity_name"], ENT_QUOTES);
+    $fields["entity_decription"] = html_entity_decode($fields["entity_description"], ENT_QUOTES);
 
-			//Args Fields
-			$action_db->setArgs($args);
-		
-			if(isset($_["id"])){
-				$action_db->setId($_["id"]);
-			}
+    foreach ($args_key as $arg_key) {
+        unset($fields[$arg_key]);
+    }
+            //var_dump($args);
+    $args = json_encode($args, JSON_HEX_AMP);
 
-			$action_db->save();
-			var_dump($fields);
-			
-			redirect("settings","?category=".$category_selected."&menu=".$object_name."&tab=action&action=".$action_selected."&notice=".t("Action saved"));
+            //var_dump($fields);
+    $action_db = new Entity("actions", $object_name);
 
-		}
-?>
+            //Predefined fields
+    foreach ($fields as $key => $field) {
+        $setter = "set".$key;
+        $action_db->$setter($field);
+    }
+
+            //Args Fields
+    $action_db->setArgs($args);
+
+    if (isset($_["id"])) {
+        $action_db->setId($_["id"]);
+    }
+
+    $action_db->save();
+    var_dump($fields);
+
+    redirect("settings", "?category=".$category_selected."&menu=".$object_name."&tab=action&action=".$action_selected."&notice=".t("Action saved"));
+}

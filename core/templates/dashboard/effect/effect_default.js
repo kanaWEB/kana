@@ -78,8 +78,8 @@ function button_link_htmlviews(button,url){
 	object = effect.button.data("object");
 	id = effect.button.data("id");
 	url = 'actions.php?type=htmlviews&plugin_name='+object+'&action_name='+command+'&page='+url+'&id='+id;
-	window.location.replace(url);
-
+	//console.log(url);
+	window.open(url);
 }
 
 //Go to a page

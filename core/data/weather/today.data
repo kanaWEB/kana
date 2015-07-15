@@ -1,25 +1,22 @@
 <?php
 #@# name:Weather for today | example:ON/OFF | woeid:WOEID;woeid;612977
 
-if(isset($data_link_json->woeid)){
-	$woeid = $data_link_json->woeid;
-}
-else{
-	if(isset($_["woeid"])){
-		$woeid = $_["woeid"];
-	}
+if (isset($data_link_json->woeid)) {
+    $woeid = $data_link_json->woeid;
+} else {
+    if (isset($_["woeid"])) {
+        $woeid = $_["woeid"];
+    }
 }
 
-if(isset($woeid)){
-$contents = file_get_contents('http://weather.yahooapis.com/forecastrss?w='.$woeid.'&u=c');
-$xml = simplexml_load_string($contents);
-$today = $xml->xpath('/rss/channel/item/yweather:condition');
-$today = $today[0];
-$data = t('Today ').$today['temp'].t(' degrees celsius').', '.$today['text'];
+if (isset($woeid)) {
+    $contents = file_get_contents('https://weather.yahooapis.com/forecastrss?w='.$woeid.'&u=c');
+    $xml = simplexml_load_string($contents);
+    $today = $xml->xpath('/rss/channel/item/yweather:condition');
+    $today = $today[0];
+    $data = t('Today ').$today['temp'].t(' degrees celsius').', '.$today['text'];
 //var_dump($affirmation);
 
+} else {
+    echo "No woeid";
 }
-else{
-	echo "No woeid";
-}
-?>

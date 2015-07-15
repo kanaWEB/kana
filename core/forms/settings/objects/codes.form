@@ -1,64 +1,58 @@
 <?php
 //If an object is selected
-if(isset($_["id"])){
-	$selected_db = new Entity("config",$object_name);
-	$selected = $selected_db->getById($_["id"]);
-	$form_name = "ID:".$_["id"];
-	$hidden_input = [
-	"type" => "hidden",
-	"value" => $_["id"]
-	];
-}
-else
-{
-	$selected = false;
-	$form_name = "New";
+if (isset($_["id"])) {
+    $selected_db = new Entity("config", $object_name);
+    $selected = $selected_db->getById($_["id"]);
+    $form_name = "ID:".$_["id"];
+    $hidden_input = [
+    "type" => "hidden",
+    "value" => $_["id"]
+    ];
+} else {
+    $selected = false;
+    $form_name = "New";
 }
 
 $form = new Form($form_name);
-	include(CORE_TEMPLATES."forms/form_default.view");
+    include(CORE_TEMPLATES."forms/form_default.view");
 
 //Custom Fields
 $inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."codes/");
 
 //@todo Data management in form should be managed inside Form.class.php
-foreach($inputs_file as $input_file){
-	$file = USER_OBJECTS.$object_name."/"."codes/".$input_file;
-	
-	//Get md2 of form from objects/object_name/codes/
-	$input = Variable::md2var($file);
-	$input["selected"] = $selected[$input["id"]];
-	if(isset($input["options"])){
-		$data_file = Variable::data_dir($input["options"]);
-		include($data_file);
-		$input["options"] = $data;
-	}
+foreach ($inputs_file as $input_file) {
+    $file = USER_OBJECTS.$object_name."/"."codes/".$input_file;
+    
+    //Get md2 of form from objects/object_name/codes/
+    $input = Variable::md2var($file);
+    $input["selected"] = $selected[$input["id"]];
+    if (isset($input["options"])) {
+        $data_file = Variable::data_dir($input["options"]);
+        include($data_file);
+        $input["options"] = $data;
+    }
 
 
-	if(isset($input["selected_data"])){
-		$data_file = Variable::data_dir($input["selected_data"]);
-		if($data_file){
-		include($data_file);
-		}
-		else{
-			echo "cannot found:".$input["selected_data"];
-		}
-		if(!isset($input["selected"])){
-		$input["selected"] = $data;
-		}
-	}
+    if (isset($input["selected_data"])) {
+        $data_file = Variable::data_dir($input["selected_data"]);
+        if ($data_file) {
+            include($data_file);
+        } else {
+            echo "cannot found:".$input["selected_data"];
+        }
+        if (!isset($input["selected"])) {
+            $input["selected"] = $data;
+        }
+    }
 
-	$form->input($input);
-	$table_headers[] = $input["name"];
-	$table_data[] = $input["id"];
+    $form->input($input);
+    $table_headers[] = $input["name"];
+    $table_data[] = $input["id"];
 }
 $form->display($tpl);
 
-$object_db = new Entity("config",$object_name);
+$object_db = new Entity("config", $object_name);
 $objects = $object_db->populate();
-if($objects){
-	include(CORE_TEMPLATES."/"."datatable/dbtable.view");
+if ($objects) {
+    include(CORE_TEMPLATES."/"."datatable/dbtable.view");
 }
-
-
-?>

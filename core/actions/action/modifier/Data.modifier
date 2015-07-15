@@ -3,18 +3,16 @@
 //$commands[$key+1] = " '".htmlspecialchars_decode($action[$argument], ENT_QUOTES)."' ";
 $string = $command_args[$nb];
 //var_dump($string);
-if(preg_match_all('/\{(.*?)\}/',$string,$match)) {     
-	
-	foreach($match[0] as $data_link){
-		$data_link_json = html_entity_decode($data_link);
-		$data_link_json = json_decode($data_link_json);
-		$data_file = Variable::data_dir($data_link_json->data);
+if (preg_match_all('/\{(.*?)\}/', $string, $match)) {
+    foreach ($match[0] as $data_link) {
+        $data_link_json = html_entity_decode($data_link);
+        $data_link_json = json_decode($data_link_json);
+        $data_file = Variable::data_dir($data_link_json->data);
 
-		if(file_exists($data_file)){
-			include($data_file);
-			$string = str_replace($data_link,$data,$string);
-		}
-	}
+        if (file_exists($data_file)) {
+            include($data_file);
+            $string = str_replace($data_link, $data, $string);
+        }
+    }
 }
 $command_args[$nb] = $string;
-?>

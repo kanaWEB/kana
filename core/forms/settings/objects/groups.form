@@ -7,113 +7,111 @@ $dynamic_js[] = CORE_TEMPLATES."footer/chainedselect_clonable.js";
 
 $lang = get_all_language($lang);
 
-$modifiers["list_all_objects"] = True;
-$object_data = Variable::get_data("object",$modifiers);
+$modifiers["list_all_objects"] = true;
+$object_data = Variable::get_data("object", $modifiers);
 $modifiers["currentUser"] = $currentUser;
-$action_data = Variable::get_data("url/commands",$modifiers);
+$action_data = Variable::get_data("url/commands", $modifiers);
 
-if(isset($_["id"])){
-	$selected_db = new Entity("actions",$object_name);
-	$selected = $selected_db->getById($_["id"]);
-	$selected = Variable::action_args($selected);
-	$selected_actions = explode(" ",$selected["action"]);
+if (isset($_["id"])) {
+    $selected_db = new Entity("actions", $object_name);
+    $selected = $selected_db->getById($_["id"]);
+    $selected = Variable::action_args($selected);
+    $selected_actions = explode(" ", $selected["action"]);
 
-			//var_dump($selected_actions);
-			//@todo Check how selected actions are handle, this look pretty bad.
-			//Hack for empty array item
-	array_shift($selected_actions);
-			//var_dump($selected_actions);
-			//Get selected objects / remove ""
-	foreach($selected_actions as $key => $selected_action){
-				//$selected_action = substr($selected_action,1,-1);
-		$selected_groups[$key]["action"] = $selected_action;
-		$selected_actionlist = explode(";",$selected_action);
-		$selected_groups[$key]["object"] = $selected_actionlist[0];
-	}
+            //var_dump($selected_actions);
+            //@todo Check how selected actions are handle, this look pretty bad.
+            //Hack for empty array item
+    array_shift($selected_actions);
+            //var_dump($selected_actions);
+            //Get selected objects / remove ""
+    foreach ($selected_actions as $key => $selected_action) {
+        //$selected_action = substr($selected_action,1,-1);
+        $selected_groups[$key]["action"] = $selected_action;
+        $selected_actionlist = explode(";", $selected_action);
+        $selected_groups[$key]["object"] = $selected_actionlist[0];
+    }
 
-			//var_dump($selected_groups);
+            //var_dump($selected_groups);
 
-	$form_name = "ID:".$_["id"];
-	$hidden_input = [
-	"type" => "hidden",
-	"value" => $_["id"]
-	];
-	$nb_actions = count($selected_actions) - 1;
-}
-else{
-	$selected = false;
-	$selected_groups = false;
-	$form_name = "New";
-	$nb_actions = 0;
+    $form_name = "ID:".$_["id"];
+    $hidden_input = [
+    "type" => "hidden",
+    "value" => $_["id"]
+    ];
+    $nb_actions = count($selected_actions) - 1;
+} else {
+    $selected = false;
+    $selected_groups = false;
+    $form_name = "New";
+    $nb_actions = 0;
 }
 
 $form = new Form($form_name);
 
 $form->input([
-	"type" => "text",
-	"id" => "entity_name",
-	"name" => "Name",
-	"placeholder" => "name",
-	"selected" => $selected["entity_name"],
-	"required" => true
-	]);
+    "type" => "text",
+    "id" => "entity_name",
+    "name" => "Name",
+    "placeholder" => "name",
+    "selected" => $selected["entity_name"],
+    "required" => true
+    ]);
 
 include(CORE_TEMPLATES."forms/form_group.view");
 
 //List of actions Select
 $form->input([
-	"type" => "hidden",
-	"id" => "nb_actions",
-	"value" => $nb_actions
-	]);
+    "type" => "hidden",
+    "id" => "nb_actions",
+    "value" => $nb_actions
+    ]);
 
 //List of actions Add/Remove
 $form->input([
-	"type" => "chainedselect_buttons",
-	"id" => "actions"
-	]);
+    "type" => "chainedselect_buttons",
+    "id" => "actions"
+    ]);
 
 $form->input([
-	"type" => "chainedselect_header",
-	"id" => "actions",
-	"nb" => 0
-	]);
+    "type" => "chainedselect_header",
+    "id" => "actions",
+    "nb" => 0
+    ]);
 
 $form->input([
-	"type" => "chainedselect_actions",
-	"objects" => $object_data,
-	"options" => $action_data,
-	"selected" => $selected_groups[0],
-	"nb" => 0
-	]);
+    "type" => "chainedselect_actions",
+    "objects" => $object_data,
+    "options" => $action_data,
+    "selected" => $selected_groups[0],
+    "nb" => 0
+    ]);
 
 $form->input([
-	"type" => "newactions",
-	]);
+    "type" => "newactions",
+    ]);
 
-if($nb_actions != 0){
-			//var_dump($selected_groups);
-	for($i=1;$i<count($selected_groups);$i++){
-		$form->input([
-			"type" => "chainedselect_header",
-			"id" => "actions",
-			"nb" => $i
-			]);
+if ($nb_actions != 0) {
+    //var_dump($selected_groups);
+    for ($i=1;$i<count($selected_groups);$i++) {
+        $form->input([
+            "type" => "chainedselect_header",
+            "id" => "actions",
+            "nb" => $i
+            ]);
 
-		$form->input([
-			"type" => "chainedselect_actions",
-			"objects" => $object_data,
-			"options" => $action_data,
-			"selected" => $selected_groups[$i],
-			"nb" => $i
-			]);
-
-	}
+        $form->input([
+            "type" => "chainedselect_actions",
+            "objects" => $object_data,
+            "options" => $action_data,
+            "selected" => $selected_groups[$i],
+            "nb" => $i
+            ]);
+    }
 }
 
 $form->input([
-	"type" => "divclose",
-	]);
+    "type" => "divclose",
+    ]);
 
 
 $form->display($tpl);

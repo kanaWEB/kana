@@ -124,7 +124,6 @@ class Draw
     {
         foreach ($webobjects as $key => $webobject) {
                 $webobject["widget_id"] = $key;
-
                 $tpl->assign("info", $webobject["info"]);
                 $tpl->assign("buttons", $webobject["buttons"]);
                 $tpl->assign("state", $webobject["state"]);
@@ -162,7 +161,7 @@ class Draw
 
             foreach ($webobjects as $key => $webobject) {
                 $webobject["widget_id"] = $key;
-
+                //var_dump($webobject);
                 $tpl->assign("info", $webobject["info"]);
                 $tpl->assign("buttons", $webobject["buttons"]);
 

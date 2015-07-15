@@ -1,0 +1,55 @@
+<?php
+unset($data);
+$_ = Functions::secure($_POST, $_GET);
+if (isset($_["category"])) {
+    if ($_["category"] == "objects") {
+        $object_name = $_["menu"];
+    }
+    if ($_["menu"] == "triggers") {
+        $object_name = $_["tab"];
+    }
+}
+//var_dump($object_name);
+if (!isset($object_name) || isset($list_all_objects)) {
+    $objects_dir = Functions::getdir(USER_OBJECTS);
+    foreach ($objects_dir as $object_dir) {
+        //Display only objects that have actions
+        $actions_db = new JsonEntity($object_dir);
+        $actions = $actions_db->populate();
+        if ($actions) {
+            $object_info = new Object($object_dir);
+            $object_info->json();
+
+            $data[] = [
+                "text" => $object_info->json->name,
+                "value" => $object_dir,
+                "img" => "plugins/objects/".$object_dir."/icon.png"
+            ];
+        }
+    }
+    
+    if (!isset($data)) {
+        $data = false;
+    }
+} else {
+    $object_db = new JsonEntity($object_name);
+    $objects = $object_db->populate();
+
+
+    if ($objects) {
+        foreach ($objects as $object) {
+            $data[] = [
+            "text" => $object["entity_name"],
+            "value" => $object["id"]
+            ];
+        }
+    } else {
+        $data = false;
+    }
+}
+
+if (isset($_["data_id"])) {
+    $data_json["data_id"] = $_["data_id"];
+    $data_json["data"] = $data;
+    echo json_encode($data_json);
+}

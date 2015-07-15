@@ -1,6 +1,5 @@
 <?php
-	$objects_dir = Functions::getdir(USER_OBJECTS);
-	foreach($objects_dir as $object_dir){
-		$data[$object_dir] = "plugins/objects/".$object_dir."/icon.png";
-	}
-?>
+    $objects_dir = Functions::getdir(USER_OBJECTS);
+    foreach ($objects_dir as $object_dir) {
+        $data[$object_dir] = "plugins/objects/".$object_dir."/icon.png";
+    }

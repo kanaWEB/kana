@@ -2,42 +2,35 @@
 #@# name:Trigger state | example:ON/OFF | trigger_id:Trigger;select;triggers | plugin:core
 
 //Querying from data_link
-if(isset($data_link_json->trigger_id)){
-	$trigger_id = $data_link_json->trigger_id;
+if (isset($data_link_json->trigger_id)) {
+    $trigger_id = $data_link_json->trigger_id;
 }
 
 //Querying from url
-if(isset($_["trigger_id"])){
-	$trigger_id = $_["trigger_id"];
+if (isset($_["trigger_id"])) {
+    $trigger_id = $_["trigger_id"];
 }
 
 //Querying from widget state.json
-if(isset($state_action)){
-
-	$state_action = Variable::action_args($state_action);
-	//var_dump($state_action);
-	$trigger_id = $state_action["trigger_id"];
+if (isset($state_action)) {
+    $state_action = Variable::action_args($state_action);
+    //var_dump($state_action);
+    $trigger_id = $state_action["trigger_id"];
 }
 
-$triggers_db = new Entity("core","Triggers");
+$triggers_db = new Entity("core", "Triggers");
 $trigger_data = $triggers_db->load([
-	"id" => $trigger_id
+    "id" => $trigger_id
 ]);
 
-if($trigger_data["trigger_state"]){
-	$data = 
-	[ 
-	"class" => "state_on",
-	];
+if ($trigger_data["trigger_state"]) {
+    $data =
+    [
+    "class" => "state_on",
+    ];
+} else {
+    $data =
+    [
+    "class" => "state_off",
+    ];
 }
-else
-{
-	$data = 
-	[ 
-	"class" => "state_off",
-	];
-}
-
-
-
-?>

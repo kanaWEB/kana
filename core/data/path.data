@@ -1,5 +1,5 @@
 <?php
-//GET PATH      
+//GET PATH
 //If execute locally, get path with $_REQUEST
 if (isset($_SERVER['SCRIPT_FILENAME'])) {
     $script_dir = $_SERVER['SCRIPT_FILENAME'];

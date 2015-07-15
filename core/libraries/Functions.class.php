@@ -281,15 +281,13 @@ class Functions
     }
 
     //Launch a terminal command in background
-    public static function launchBackground($cmd, $sudo = false)
+    public static function launchBackground($cmd)
     {
         //Hack to speed up command (need nice in sudoers)
         //$cmd = "sudo nice -n ".$nice." ".$cmd;
-        if (!$sudo) {
+
             shell_exec(sprintf('%s > /dev/null 2>&1 &', $cmd));
-        } else {
-            shell_exec(sprintf('%s > /dev/null 2>&1 &', "sudo ".$cmd));
-        }
+       
         //$cmd = "sudo . /opt/piget/core/install/extendPath;".$cmd;
         //exec(". /opt/piget/core/install/extendPath;".$cmd, $out, $err);
         //var_dump($cmd);
@@ -735,6 +733,16 @@ Listener Functions
         array_shift($dir);
 
         return $dir;
+    }
+
+    //@todo deprecated getdir and use getDirOnly instead
+    public static function getDirOnly($dirToSearch)
+    {
+        $dirArray = false;
+        foreach (glob($dirToSearch.'/*', GLOB_ONLYDIR) as $dir) {
+            $dirArray[] = basename($dir);
+        }
+        return $dirArray;
     }
 
     //Get recursive directory in an array without . and ..

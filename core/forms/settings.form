@@ -16,21 +16,18 @@ include(CORE_TEMPLATES."forms/Form.class.php");
 
 //Redirect to correct forms
 $file = CORE_FORMS."settings/".$category_selected."/".$menu_selected.".form";
-if(file_exists($file)){
-	include($file);
-}
-else{
-	if($category_selected == "objects"){
-		$file = CORE_FORMS."settings/objects/objects.form";
-		include($file);
-	}
-	elseif($category_selected == "sensors"){
-		$file = CORE_FORMS."settings/sensors/sensors.form";
-		include($file);
-	}
-	else{
-	echo $file." do not exist";
-	}
+if (file_exists($file)) {
+    include($file);
+} else {
+    if ($category_selected == "objects") {
+        $file = CORE_FORMS."settings/objects/objects.form";
+        include($file);
+    } elseif ($category_selected == "sensors") {
+        $file = CORE_FORMS."settings/sensors/sensors.form";
+        include($file);
+    } else {
+        echo $file." do not exist";
+    }
 }
 
 $tpl->draw(CORE_TEMPLATES."modal/data");
@@ -39,29 +36,28 @@ include(CORE_TEMPLATES."footer/footer.view");
 
 
 /*
-	//Settings Menu Generator
+    //Settings Menu Generator
 if(isset($menu_selected)){
-		//Objects Redirector (menu is objects and name is set)
-		if( ($menu_selected == "objects") && isset($name_selected)){
-			$object_name = $name_selected;
-			$settingsmenu_active = "objects&name=".$object_name;
-			$filename = "objects";
-			//If no tab is set then redirect
-			if(!isset($tab_selected)){
-				//include(CORE_FORMS."settings/plugins/objects.redirect");
-			}
-		}
-	//General item
-		else{
-			$settingsmenu_active = $menu_selected;
-			$filename = $menu_selected;
-		}
-	}
+        //Objects Redirector (menu is objects and name is set)
+        if( ($menu_selected == "objects") && isset($name_selected)){
+            $object_name = $name_selected;
+            $settingsmenu_active = "objects&name=".$object_name;
+            $filename = "objects";
+            //If no tab is set then redirect
+            if(!isset($tab_selected)){
+                //include(CORE_FORMS."settings/plugins/objects.redirect");
+            }
+        }
+    //General item
+        else{
+            $settingsmenu_active = $menu_selected;
+            $filename = $menu_selected;
+        }
+    }
 //Menu is not set
-	else{
-	//Default active menu
-		$settingsmenu_active = DEFAULT_MENU_SETTINGS;
-		$filename = $settingsmenu_active;
-	}
-*/
-	?>
+    else{
+    //Default active menu
+        $settingsmenu_active = DEFAULT_MENU_SETTINGS;
+        $filename = $settingsmenu_active;
+    }
+*/;

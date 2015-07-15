@@ -14,7 +14,7 @@ for ($i=0; $i<count($objects); $i++) {
     //var_dump($objects);
     foreach ($table_data as $td) {
         $tpl->draw(CORE_TEMPLATES."table/cell/open");
-        if ($td !="password") {
+        if (strtolower($td) != "password") {
             echo html_entity_decode($objects[$i][$td]);
         } else {
             echo '<label class="label label-danger">'.t("Hidden")."</label>";

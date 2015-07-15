@@ -57,13 +57,12 @@ if (!$tab_selected) {
 
 //ELECTRONICS/CODES/ACTIONS
     if (isset($menu_name["codes"]) && isset($menu_name["actions"]) && isset($menu_name["electronics"])) {
-    //Check electronics configuration
+        //Check electronics configuration
         $electronics_db = new Entity("electronics", $object_name);
         $electronics = $electronics_db->rowCount();
         if ($electronics == 0) {
             $tab_selected = "electronics";
             $notice = t("You need to setup electronics to continue");
-
         } else {
             //If electronics is set check codes configurations
             $object_db = new Entity("config", $object_name);
@@ -89,8 +88,7 @@ if ($tab_selected == "action") {
     if (!$action_selected) {
         $action_selected = $actions_list[0];
     }
-
-
 }
 //var_dump($tab_selected);
 //var_dump($action_selected);
+

@@ -17,6 +17,7 @@ define('DATA_DIR', "/opt/user/data/kana/"); //Data from sensors and collectors
 define('CONFIG_DIR', "/opt/user/config/kana/"); //Configuration are saved here in one database for one plugins
 //The main folder for personal data 
 define('KANA_DIR', "/opt/user/data/kana/");
+define('PIGET_CONFIG_DIR', "/opt/user/config/");
 
 //RAINTPL
 define('CACHE_DIR', "cache/");

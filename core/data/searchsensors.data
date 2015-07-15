@@ -6,23 +6,22 @@ $menu = "sensors";
 $tolerance = 70;
 $search_result = false;
 
-foreach($objects as $object){
-	$tags_array = Variable::objectTags(USER_SENSORS.$object);
-	//var_dump($tags_array);
-	//var_dump($object);
-	$tags = explode(",",$tags_array);
-	//var_dump($array_to_search);
-	foreach($tags as $tag){
-		similar_text($tag,$search,$probability);
-		if($probability > $tolerance){
-		$search_result[] = $object."_item";
-		}
-	}
-	//echo "<br>";
+foreach ($objects as $object) {
+    $tags_array = Variable::objectTags(USER_SENSORS.$object);
+    //var_dump($tags_array);
+    //var_dump($object);
+    $tags = explode(",", $tags_array);
+    //var_dump($array_to_search);
+    foreach ($tags as $tag) {
+        similar_text($tag, $search, $probability);
+        if ($probability > $tolerance) {
+            $search_result[] = $object."_item";
+        }
+    }
+    //echo "<br>";
 }
-if(is_array($search_result)){
-arsort($search_result);
+if (is_array($search_result)) {
+    arsort($search_result);
 }
 $data = json_encode($search_result);
 echo $data;
-?>

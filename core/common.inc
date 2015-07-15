@@ -28,6 +28,7 @@ LOAD FUNCTIONS
 //Add core functionalities
 require_once("schema/SQLKana.class.php");
 require_once("schema/Entity.class.php"); //SQL manager
+require_once("libraries/JsonEntity.class.php"); //Json manager
 
 include(EXTERNAL_LIB."Inspekt/Inspekt.php");
 include("libraries/Functions.class.php"); //DEPRECATED FUNCTIONALITY @todo remove unused functions and refactor

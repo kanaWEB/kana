@@ -1,26 +1,21 @@
 <?php
 $file = CORE_FORMS."settings/".$category_selected."/".$menu_selected.".post";
-//echo $file;	
-if(file_exists($file)){
-	include($file);
+//echo $file;
+if (file_exists($file)) {
+    include($file);
+} else {
+    if ($category_selected == "objects") {
+        include(CORE_FORMS."settings/objects/objects.redirect");
+
+        //var_dump($category_selected);
+        //var_dump($action_selected);
+
+        $file = CORE_FORMS."settings/".$category_selected."/".$tab_selected.".post";
+        
+        include($file);
+    } elseif ($category_selected == "sensors") {
+        include(CORE_FORMS."settings/sensors/sensors.post");
+    } else {
+        echo $file." do no exists";
+    }
 }
-else{
-	if($category_selected == "objects"){
-
-		include(CORE_FORMS."settings/objects/objects.redirect");
-
-		//var_dump($category_selected);
-		//var_dump($action_selected);
-
-		$file = CORE_FORMS."settings/".$category_selected."/".$tab_selected.".post";
-		
-		include($file);
-	}
-	elseif($category_selected == "sensors"){
-		include(CORE_FORMS."settings/sensors/sensors.post");
-	}
-	else{
-	echo $file." do no exists";
-	}
-}
-?>

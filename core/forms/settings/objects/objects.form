@@ -3,89 +3,97 @@
 //Settings.php -> Objects Redirector
 
 //If an object is selected
-if(isset($menu_selected)){
-	$object_name = $menu_selected; //Get object directory name
+if (isset($menu_selected)) {
+    $object_name = $menu_selected; //Get object directory name
 
-	$object_info = new Object($object_name);
-	$object_info->json();
-	$object_nameicon = $object_info->Title();
+    $object_info = new Object($object_name);
+    $object_info->json();
+    $object_nameicon = $object_info->Title();
 
 //Variables
-	$object_dir = $object_info->dir;
-	$object_icon = $object_info->icon;//USER_OBJECTS.$object_name."/icon.png"; //Icon of object (32x32)
-	$object_longname = $object_info->json->name;
+    $object_dir = $object_info->dir;
+    $object_icon = $object_info->icon;//USER_OBJECTS.$object_name."/icon.png"; //Icon of object (32x32)
+    $object_longname = $object_info->json->name;
 //////
-	
+    
 
 //Generating Header
-	$tpl->assign("text",$object_longname); 
-	$tpl->assign("image",$object_icon);
-	$tpl->draw(CORE_TEMPLATES."text/h1_image");
+    $tpl->assign("text", $object_longname);
+    $tpl->assign("image", $object_icon);
+    $tpl->draw(CORE_TEMPLATES."text/h1_image");
 
-	include(CORE_FORMS."settings/objects/objects.redirect");
+    include(CORE_FORMS."settings/objects/objects.redirect");
 
 //3th Menu Navbar generation
-	include(CORE_TEMPLATES."menu/settings/objects/navtab.view");
+    include(CORE_TEMPLATES."menu/settings/objects/navtab.view");
 
 //Auto redirection to needed tab
 
 
 //If a tab is selected redirected to the correct form
-	if($tab_selected){
-		switch ($tab_selected) {
-			//Help Tabs
-			case "help":
-			Draw::md2help($object_name);
-			break;
+    if ($tab_selected) {
+        switch ($tab_selected) {
+            //Help Tabs
+            case "help":
+                Draw::md2help($object_name);
+                break;
 
-			//Actions Tabs
-			case "action":
-			$dir_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
-			include(CORE_TEMPLATES."menu/settings/objects/menu_md.view");
-			if($dir_list > 0){
-				//@todo If only one action redirect
-				if(!isset($action_selected)){ //Available actions
+            //Actions Tabs
+            case "action":
+                $dir_list = Functions::getdir(USER_OBJECTS.$object_name."/actions/");
+                include(CORE_TEMPLATES."menu/settings/objects/menu_md.view");
+                if ($dir_list > 0) {
+                    //@todo If only one action redirect
+                    if (!isset($action_selected)) { //Available Actions
+                        include(CORE_TEMPLATES."datatable/dbtable_actions.view");
+                    } else { //Selected Action
+                        include(CORE_FORMS."/settings/objects/action.form");
+                    }
+                } else {
+                    echo t("No actions");
+                }
+                break;
 
-					include(CORE_TEMPLATES."datatable/dbtable_actions.view");
-				}
-				else{ //Selected Action
-					include(CORE_FORMS."/settings/objects/action.form");
-				}
-			}
-			else
-			{
-				echo t("No actions");
-			}
-			break;
+            //Electronics Tabs
+            case "gpios":
+                //If action object have different gpios
+                if (file_exists(CORE_FORMS."/settings/objects/gpios.form")) {
+                    include(CORE_FORMS."/settings/objects/gpios.form");
+                }
+                break;
 
-			//Electronics Tabs
-			case "gpios": //If action object have different gpios
-			include(CORE_FORMS."/settings/objects/gpios.form");
-			break;
+            case "electronics":
+                //If action object have same gpios
+                if (file_exists(CORE_FORMS."/settings/objects/electronics.form")) {
+                    include(CORE_FORMS."/settings/objects/electronics.form");
+                }
+                break;
 
-			case "electronics": //If action object have same gpios
-			include(CORE_FORMS."/settings/objects/electronics.form");
-			break;
+            //Codes Tabs
+            case "codes":
+                if (file_exists(CORE_FORMS."/settings/objects/codes.form")) {
+                    include(CORE_FORMS."/settings/objects/codes.form");
+                }
+                break;
 
-			//Codes Tabs
-			case "codes":
-			include(CORE_FORMS."/settings/objects/codes.form");
-			break;
+            case "groups":
+                if (file_exists(CORE_FORMS."/settings/objects/groups.form")) {
+                    include(CORE_FORMS."/settings/objects/groups.form");
+                }
+                break;
 
-			case "groups":
-			include(CORE_FORMS."/settings/objects/groups.form");
-			break;
-
-			//Unknown Tab
-			//default:
-			//echo "default";
-			//break;
-		}
-	}
-
+            case "json":
+                if (file_exists(CORE_FORMS."settings/objects/json.form")) {
+                    include(CORE_FORMS."settings/objects/json.form");
+                } else {
+                    var_dump("I can't find ".CORE_FORMS."settings/objects/json.form");
+                    exit();
+                }
+                break;
+            //Unknown Tab
+            //default:
+            //echo "default";
+            //break;
+        }
+    }
 }
-
-
-
-
-?>

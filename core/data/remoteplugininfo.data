@@ -13,30 +13,27 @@ $description_url = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$
 
 //@todo workaround for markdown info , make every info into json before correcting!
 $plugin["name"] = @file_get_contents($name_url);
-if(!$plugin["name"]){
-	$json = file_get_contents("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/info.json");
-	//var_dump("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/info.json");
-	//var_dump($json);
-	$json = json_decode($json);
-	//var_dump($json);
-	$plugin["name"] = $json->name;
+if (!$plugin["name"]) {
+    $json = file_get_contents("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/info.json");
+    //var_dump("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/info/info.json");
+    //var_dump($json);
+    $json = json_decode($json);
+    //var_dump($json);
+    $plugin["name"] = $json->name;
 }
 
 $plugin["description"] = @file_get_contents($description_url);
-if(!$plugin["description"]){
-	$plugin["description"] = $json->description;
+if (!$plugin["description"]) {
+    $plugin["description"] = $json->description;
 }
 
 
-if($repo["type"] == "views"){
-	$image = Variable::md2var("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/menu.md");
-	$plugin["image"] = '&nbsp<span class="glyphicon '.$image["icon"].'"></span>';
-
-}
-else
-{
-	$image = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/icon.png";
-	$plugin["image"] = '<img src="'.$image.'">';
+if ($repo["type"] == "views") {
+    $image = Variable::md2var("https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/menu.md");
+    $plugin["image"] = '&nbsp<span class="glyphicon '.$image["icon"].'"></span>';
+} else {
+    $image = "https://raw.githubusercontent.com/".$repo["repo"]."/kana-".$repo["name"]."/master/icon.png";
+    $plugin["image"] = '<img src="'.$image.'">';
 }
 
 #@todo: move to views
@@ -46,17 +43,17 @@ else
 		<?php echo $plugin["image"] ?>
 		<span class="text"><?php echo $plugin["name"] ?></span>
 	</h2>
-	<?php if($plugin["state"]){
-		?>
+	<?php if ($plugin["state"]) {
+    ?>
 		<button class="btn btn-danger" onclick="uninstallplugin(this,'<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Uninstall</button>
 		<button class="btn btn-danger" onclick="updateplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["type"] ?>','<?php echo $repo["name"] ?>')">Update</button>
 		<?php
-	}
-	else
-	{
-		?>
+
+} else {
+        ?>
 		<button class="btn btn-primary" onclick="installplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Install</button>
 		<?php
-	}
-	?>
+
+    }
+    ?>
 </li>

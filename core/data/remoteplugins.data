@@ -11,17 +11,17 @@ $repo_list_array = Variable::md2vars($repo_list);
 $i = 0;
 if ($_["searchterms"] != "all") {
     foreach ($repo_list_array as $repo) {
-            $tags_array = explode(",", $repo["tags"]);
+        $tags_array = explode(",", $repo["tags"]);
         foreach ($tags_array as $tag) {
-             $matches = levenshtein($tag, $_["searchterms"])."<br>";
+            $matches = levenshtein($tag, $_["searchterms"])."<br>";
             if ($matches <= 2) {
                 //echo $repo["name"]."<br>";
                 $repo_search_array[$i]["repo"] = $repo["repo"];
                 $repo_search_array[$i]["name"] = $repo["name"];
                 $repo_search_array[$i]["tags"] = $repo["tags"];
                 $repo_search_array[$i]["type"] = $repo["type"];
-                    $i++;
-                    break;
+                $i++;
+                break;
             }
         }
     }

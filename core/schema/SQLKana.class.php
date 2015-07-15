@@ -126,9 +126,9 @@ class SQLKana extends SQLite3
         $query = 'CREATE TABLE IF NOT EXISTS `'.SQL_PREFIX.$this->TABLE_NAME.'` (';
 
         //Get all fields and generate
-        $last = count($this->object_fields);
+        $last = count($this->objectFields);
         $i = 0;
-        foreach ($this->object_fields as $field => $type) {
+        foreach ($this->objectFields as $field => $type) {
             ++$i;
             $query .= '`'.$field.'`  '.$this->sgbdType($type).'  NOT NULL';
             if ($last != $i) {
@@ -168,7 +168,7 @@ class SQLKana extends SQLite3
     {
         $query = 'INSERT INTO `'.SQL_PREFIX.$this->TABLE_NAME.'`(';
         $i = false;
-        foreach ($this->object_fields as $field => $type) {
+        foreach ($this->objectFields as $field => $type) {
             if ($type != 'key') {
                 if ($i) {
                     $query .= ',';
@@ -188,7 +188,7 @@ class SQLKana extends SQLite3
             }
             $i = false;
 
-            foreach ($event->object_fields as $field => $type) {
+            foreach ($event->objectFields as $field => $type) {
                 if ($type != 'key') {
                     if ($i) {
                         $query .= ',';
@@ -226,7 +226,7 @@ class SQLKana extends SQLite3
 
             $i = false;
 
-            foreach ($this->object_fields as $field => $type) {
+            foreach ($this->objectFields as $field => $type) {
                 if ($i) {
                     $query .= ',';
                 } else {
@@ -242,7 +242,7 @@ class SQLKana extends SQLite3
 
             $this->setUid(uniqid());
             $i = false;
-            foreach ($this->object_fields as $field => $type) {
+            foreach ($this->objectFields as $field => $type) {
                 if ($type != 'key') {
                     if ($i) {
                         $query .= ',';
@@ -255,7 +255,7 @@ class SQLKana extends SQLite3
 
             $query .= ')VALUES(';
             $i = false;
-            foreach ($this->object_fields as $field => $type) {
+            foreach ($this->objectFields as $field => $type) {
                 if ($type != 'key') {
                     if ($i) {
                         $query .= ',';
@@ -431,7 +431,7 @@ public function check_database_locked()
             $array[] = $queryReturn;
                 /*
                 $object = eval(' return new Entity($this->TABLE_NAME,$this->user);');
-                foreach($this->object_fields as $field=>$type){
+                foreach($this->objectFields as $field=>$type){
                     if(isset($queryReturn[$field])) eval('$this->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
                 }
                 $objects[] = $object;
@@ -610,9 +610,9 @@ public function check_database_locked()
         $this->debug = $debug;
     }
 
-    public function getObject_fields()
+    public function getObjectFields()
     {
-        return $this->object_fields;
+        return $this->objectFields;
     }
 
     public function setId($id)

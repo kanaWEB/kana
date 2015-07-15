@@ -1,4 +1,4 @@
 <?php
 //isset($_["state"]) ? $state = $_["state"] ? $state = "code_on";
 //$command_args[$nb] = ; $actions_db->getById($actions_values[$state]);
-?>
+;
