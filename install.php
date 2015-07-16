@@ -2,7 +2,7 @@
 
 include 'core/common.inc'; //Common libraries
 
-if (is_writable(DATABASE)) {
+if (is_writable(CONFIG_DIR)) {
 //If the database doesn't exists
     if (!DB_EXISTS) {
     //If the user has submit root account information

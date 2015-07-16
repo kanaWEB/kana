@@ -85,7 +85,7 @@ class Entity extends SQLKana
             } else {
                 if ($this->check == DATABASE) {
                     //@todo CHECK PERMISSIONS
-                    if (is_writable(DATABASE)) {
+                    if (is_writable(CONFIG_DIR)) {
                         $this->open($this->database);
                         $this->create();
                     } else {
