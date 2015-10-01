@@ -22,46 +22,44 @@ include(CORE_TEMPLATES."table/header/header.view");
 
 //Link generator
 $link = $_SERVER['SCRIPT_NAME']."?category=scenario&menu=".$menu_selected;
-$db_scenario = new Entity("core","Scenario");
+$db_scenario = new Entity("core", "Scenario");
 $objects = $db_scenario->populate();
-$db_triggers = new Entity("core","Triggers");
+$db_triggers = new Entity("core", "Triggers");
 
 //Table data
-for($i=0;$i<count($objects);$i++){
-	$tpl->draw(CORE_TEMPLATES."table/row/open");
-	foreach($table_data as $td){
-		$tpl->draw(CORE_TEMPLATES."table/cell/open");
-		switch($td){
-			case "id_trigger":
-			$triggers = $db_triggers->load([
-				"id" => $objects[$i][$td]
-				]);
-			echo html_entity_decode($triggers["entity_name"]);
-			break;
+for ($i=0;$i<count($objects);$i++) {
+    $tpl->draw(CORE_TEMPLATES."table/row/open");
+    foreach ($table_data as $td) {
+        $tpl->draw(CORE_TEMPLATES."table/cell/open");
+        switch ($td) {
+            case "id_trigger":
+            $triggers = $db_triggers->load([
+                "id" => $objects[$i][$td]
+                ]);
+            echo html_entity_decode($triggers["entity_name"]);
+            break;
 
-			case "action_tag":
-			echo "<code>".html_entity_decode($objects[$i][$td])."</code>";
-			break;
+            case "action_tag":
+            echo "<code>".html_entity_decode($objects[$i][$td])."</code>";
+            break;
 
-			default:
-			echo html_entity_decode($objects[$i][$td]);
-			break;
-		}
-		$tpl->draw(CORE_TEMPLATES."table/cell/close");
-	}
-	$tpl->draw(CORE_TEMPLATES."table/cell/open");
+            default:
+            echo html_entity_decode($objects[$i][$td]);
+            break;
+        }
+        $tpl->draw(CORE_TEMPLATES."table/cell/close");
+    }
+    $tpl->draw(CORE_TEMPLATES."table/cell/open");
 
-	$buttons = [
-	"link" => $link,
-	"id" => $objects[$i]["id"]
-	];
+    $buttons = [
+    "link" => $link,
+    "id" => $objects[$i]["id"]
+    ];
 
-	$tpl->assign("buttons",$buttons);
-	$tpl->draw(CORE_TEMPLATES."table/buttons");
-	$tpl->draw(CORE_TEMPLATES."table/cell/close");
-	$tpl->draw(CORE_TEMPLATES."table/row/close");
+    $tpl->assign("buttons", $buttons);
+    $tpl->draw(CORE_TEMPLATES."table/buttons");
+    $tpl->draw(CORE_TEMPLATES."table/cell/close");
+    $tpl->draw(CORE_TEMPLATES."table/row/close");
 }
 
 $tpl->draw(CORE_TEMPLATES."table/close");
-
-?>

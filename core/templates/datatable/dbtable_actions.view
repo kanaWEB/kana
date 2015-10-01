@@ -103,5 +103,4 @@ if ($actions) {
     }
 
     $tpl->draw(CORE_TEMPLATES."table/close");
-    
 }

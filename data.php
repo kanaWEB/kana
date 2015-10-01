@@ -5,15 +5,15 @@ include 'core/constants.inc'; //Global Constants
 include 'core/schema/SQLKana.class.php';
 include 'core/schema/Entity.class.php'; //SQL manager
 
-//@todo: Only local script should be able to send data this way
-if (!isset($data) && !isset($type)) {
+//@todo: Manage remote data reception with security token
+if (isset($_GET['data'])) {
     if (!isset($_SERVER['REMOTE_ADDR']) || DATA_REMOTE) {
         $data = $_GET['data'];
         //$type = $_GET['type'];
-        $dataExploded = explode("/", $data);
+        $dataExploded = explode(";", $data);
         //var_dump($dataExploded);
         if (count($dataExploded) > 1) {
-            $type = $dataExploded[1];
+            $type = $dataExploded[0];
             $collector_file = 'plugins/objects/'.$type.'/'.$type.'.collector';
 
             if (file_exists($collector_file)) {

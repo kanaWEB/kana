@@ -11,12 +11,12 @@ include(CORE_TEMPLATES."header/header.view");
 //Menu
 $topmenu_selected = [
 "text" => "Installation",
-"icon" => "glyphicon-asterisk"
+"icon" => "glyphicon glyphicon-asterisk"
 ];
 $topmenu[] = [
 "link" => "",
 "text" => "Installation",
-"icon" => "glyphicon-asterisk"
+"icon" => "glyphicon glyphicon-asterisk"
 ];
 include("core/templates/menu/top.view");
 

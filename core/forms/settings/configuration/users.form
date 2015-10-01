@@ -2,159 +2,128 @@
 //Group Management Form
 
 $object_name = "Users";
-$objects_db = new Entity("core","Users");
+$objects_db = new Entity("core", "Users");
 $objects = $objects_db->populate();
 
 $group_name = "Groups";
-$group_db = new Entity("core","Group");
+$group_db = new Entity("core", "Group");
 $groups = $group_db->populate();
 
 $group_right_name = "Groups Right";
-$group_right_db = new Entity("core","GroupRight");;
+$group_right_db = new Entity("core", "GroupRight");
 
 $view_right_name = "Views Right";
-$view_right_db = new Entity("core","ViewRight");;
+$view_right_db = new Entity("core", "ViewRight");
 
 //If an object is selected
-if(isset($_["id"])){
-	$selected_db = new Entity("core","Users");
-	$selected = $selected_db->getById($_["id"]);
-	$form_name = "ID:".$_["id"];
-	$hidden_input = [
-	"type" => "hidden",
-	"value" => $_["id"]
-	];
-}
-else{
-	$selected = false;
-	$form_name = "New";
+if (isset($_["id"])) {
+    $selected_db = new Entity("core", "Users");
+    $selected = $selected_db->getById($_["id"]);
+    $form_name = "ID:".$_["id"];
+    $hidden_input = [
+    "type" => "hidden",
+    "value" => $_["id"]
+    ];
+} else {
+    $selected = false;
+    $form_name = "New";
 }
 
 
 
 $tpl->draw(CORE_TEMPLATES."grids/container/bordered_open");
-$tpl->assign("text",$object_name);
+$tpl->assign("text", $object_name);
 $tpl->draw(CORE_TEMPLATES."text/h1");
 
 $form = new Form($form_name);
 
 $form->input([
-	"type" => "text",
-	"id" => "nickname",
-	"name" => "Nickname",
-	"placeholder" => "MaDnErDz",
-	"selected" => $selected["nickname"],
-	"required" => true
-	]);
+    "type" => "text",
+    "id" => "nickname",
+    "name" => "Nickname",
+    "placeholder" => "MaDnErDz",
+    "selected" => $selected["nickname"],
+    "required" => true
+    ]);
 
 $form->input([
-	"type" => "password",
-	"id" => "password",
-	"name" => "Password",
-	"placeholder" => "Please choose a safe password!",
-	"selected" => false,
-	"required" => true
-	]);
+    "type" => "password",
+    "id" => "password",
+    "name" => "Password",
+    "placeholder" => "Please choose a safe password!",
+    "selected" => false,
+    "required" => true
+    ]);
 
-$form->input([
-	"type" => "text",
-	"id" => "lastname",
-	"name" => "Last name",
-	"placeholder" => "Bob",
-	"selected" => $selected["lastname"],
-	]);
+if ($selected) {
+    foreach ($groups as $group) {
+        $group_right = $group_right_db->load([
+            'id_user'=>$selected["id"],
+            'id_group'=>$group["id"]
+            ]);
+        $switchs[] = [
+        "id" => $group["id"],
+        "text" => $group["entity_name"],
+        "checked" => $group_right,
+        "args" => $selected["id"].",".$group["id"],
+        ];
+    }
 
-$form->input([
-	"type" => "text",
-	"id" => "firstname",
-	"name" => "First name",
-	"placeholder" => "The maker",
-	"selected" => $selected["firstname"],
-	]);
-
-$form->input([
-	"type" => "text",
-	"id" => "email",
-	"name" => "Email",
-	"placeholder" => "bob@themaker.net",
-	"selected" => $selected["email"],
-	]);
-
-if($selected){
-	foreach($groups as $group){
-
-		$group_right = $group_right_db->load([
-			'id_user'=>$selected["id"],
-			'id_group'=>$group["id"]
-			]);
-		$switchs[] = [
-		"id" => $group["id"],
-		"text" => $group["entity_name"],
-		"checked" => $group_right,
-		"args" => $selected["id"].",".$group["id"],
-		];
-	}
-
-	$form->input([
-		"type" => "ajaxswitch",
-		"id" => "id_group",
-		"name" => "Groups",
-		"onclick" => "change_group_right",
-		"switchs" => $switchs
-		]);
+    $form->input([
+        "type" => "ajaxswitch",
+        "id" => "id_group",
+        "name" => "Groups",
+        "onclick" => "change_group_right",
+        "switchs" => $switchs
+        ]);
 
 
-	unset($switchs);
+    unset($switchs);
 
-	//Get views list
-	$user_views = Functions::getdir(USER_VIEWS);
-	
+    //Get views list
+    $user_views = Functions::getdir(USER_VIEWS);
+    
 
-	unset($topmenu);
-	foreach($user_views as $user_view){
-	//Get Users Plugins views
-		include(CORE_TEMPLATES."menu/top/topusers.view");
-	}
+    unset($topmenu);
+    foreach ($user_views as $user_view) {
+        //Get Users Plugins views
+        include(CORE_TEMPLATES."menu/top/topusers.view");
+    }
 
-	if(isset($topmenu)){
-		$views = $topmenu;
-		
+    if (isset($topmenu)) {
+        $views = $topmenu;
+        
 
-		foreach($views as $view){
-			if(isset($view["id"])){
-				
-				$view_right = $view_right_db->load([
-					'id_user'=>$selected["id"],
-					'id_view'=>$view["id"]
-					]);
+        foreach ($views as $view) {
+            if (isset($view["id"])) {
+                $view_right = $view_right_db->load([
+                    'id_user'=>$selected["id"],
+                    'id_view'=>$view["id"]
+                    ]);
 
-				$switchs[] = [
-				"id" => $view["id"],
-				"text" => $view["text"],
-				"checked" => $view_right,
-				"args" => $selected["id"].",'".$view["id"]."'",
-				];
-			}
+                $switchs[] = [
+                "id" => $view["id"],
+                "text" => $view["text"],
+                "checked" => $view_right,
+                "args" => $selected["id"].",'".$view["id"]."'",
+                ];
+            }
+        }
+    }
 
-		}
-	}
-
-	if(isset($switchs)){
-		$form->input([
-			"type" => "ajaxswitch",
-			"id" => "id_view",
-			"name" => "Views",
-			"onclick" => "change_view_right",
-			"switchs" => $switchs
-			]);
-	}
+    if (isset($switchs)) {
+        $form->input([
+            "type" => "ajaxswitch",
+            "id" => "id_view",
+            "name" => "Views",
+            "onclick" => "change_view_right",
+            "switchs" => $switchs
+            ]);
+    }
 }
 
 $form->display($tpl);
 
-if($objects){
-	include(CORE_TEMPLATES."/"."datatable/usertable.view");
+if ($objects) {
+    include(CORE_TEMPLATES."/"."datatable/usertable.view");
 }
-
-
-?>

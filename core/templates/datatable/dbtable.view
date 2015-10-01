@@ -20,7 +20,6 @@ for ($i=0; $i<count($objects); $i++) {
             echo '<label class="label label-danger">'.t("Hidden")."</label>";
         }
         $tpl->draw(CORE_TEMPLATES."table/cell/close");
-
     }
     $tpl->draw(CORE_TEMPLATES."table/cell/open");
 

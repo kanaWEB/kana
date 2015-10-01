@@ -9,20 +9,20 @@ $theme_list = new Theme();
 $theme_list = $theme_list->getlist();
 
 $form->input([
-	"type" => "select",
-	"id" => "theme",
-	"name" => "Theme",
-	"options" => $theme_list,
-	"selected" => $config["theme"]
-	]);
+    "type" => "select",
+    "id" => "theme",
+    "name" => "Theme",
+    "options" => $theme_list,
+    "selected" => $config["theme"]
+    ]);
 
 $form->input([
-	"type" => "select",
-	"id" => "lang",
-	"name" => "Language",
-	"options" => $lang_list,
-	"selected" => $_SESSION["LANGUAGE"]
-	]);
+    "type" => "select",
+    "id" => "lang",
+    "name" => "Language",
+    "options" => $lang_list,
+    "selected" => $_SESSION["LANGUAGE"]
+    ]);
 
 $form->display($tpl);
 
@@ -41,7 +41,5 @@ $buttons[] = [
 "command" => "halt"
 ];
 
-$tpl->assign("buttons",$buttons);
+$tpl->assign("buttons", $buttons);
 $tpl->draw(CORE_TEMPLATES."modal/root_permissions");
-
-?>

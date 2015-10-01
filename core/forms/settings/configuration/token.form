@@ -7,5 +7,3 @@ echo "<h1>Not validated</h1>"."<br>";
 include(CORE_TEMPLATES."datatable/dbtable_tokenslog.view");
 echo "<h1>Validated</h1>";
 include(CORE_TEMPLATES."datatable/dbtable_tokens.view");
-
-?>

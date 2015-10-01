@@ -1,7 +1,7 @@
 <?php
-if(DEBUG){
-	debug("PHP","Variables");
-	var_dump($_);
+if (DEBUG) {
+    debug("PHP", "Variables");
+    var_dump($_);
 }
 
 //Save Configuration
@@ -12,10 +12,10 @@ $fields["id"] = 1;
 $fields["language"] = $config_language;
 $fields["theme"] = $config_theme;
 
-$config = new Entity("core","Config");
-foreach($fields as $key => $field){
-				$setter = "set".$key;
-				$config->$setter($field);
+$config = new Entity("core", "Config");
+foreach ($fields as $key => $field) {
+    $setter = "set".$key;
+    $config->$setter($field);
 }
 $config->save();
 
@@ -23,5 +23,4 @@ unset($_SESSION["LANGUAGE"]);
 unset($_SESSION['config']);
 unset($_SESSION["theme"]);
 //Redirect to index
-redirect("settings","?category=configuration&menu=pref&notice=".t("Preferences saved"));
-?>
+redirect("settings", "?category=configuration&menu=pref&notice=".t("Preferences saved"));

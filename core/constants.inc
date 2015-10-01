@@ -49,6 +49,7 @@ define('MAXDATA', 10);
 
 //Very insecure!!
 define('DATA_REMOTE', true);
+
 define('SQL_PREFIX', '');
 define('DB_EXISTS', file_exists(DATABASE));
 

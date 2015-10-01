@@ -1,21 +1,21 @@
 <?php
-if(!isset($table_headers)){
-	$table_headers[] = "Name";
-	$table_headers[] = "Description";
-	$table_headers[] = "Action";
-	$table_data[] = "entity_name";
-	$table_data[] = "entity_description";
-	$table_data[] = "action";
-	$action_name = $object_name;
+if (!isset($table_headers)) {
+    $table_headers[] = "Name";
+    $table_headers[] = "Description";
+    $table_headers[] = "Action";
+    $table_data[] = "entity_name";
+    $table_data[] = "entity_description";
+    $table_data[] = "action";
+    $action_name = $object_name;
 }
 
-if(isset($_["action"])){
-	$action_get = $_["action"];
+if (isset($_["action"])) {
+    $action_get = $_["action"];
 }
 
-$object_db = new Entity("config",$object_name);
-$group_db = new Entity("core","Group");
-$action_db = new Entity("actions","actionsgroup");
+$object_db = new Entity("config", $object_name);
+$group_db = new Entity("core", "Group");
+$action_db = new Entity("actions", "actionsgroup");
 
 //var_dump($action_dir);
 //if(!isset($action_dir)){
@@ -26,62 +26,59 @@ $actions = $action_db->populate();
 //}
 //var_dump($actions);
 
-if($actions){
-$actions = Variable::actions_args($actions);
+if ($actions) {
+    $actions = Variable::actions_args($actions);
 
 //Table Header
-	
-	include(CORE_TEMPLATES."table/header/header.view");
+    
+    include(CORE_TEMPLATES."table/header/header.view");
 
 //Table Data
-	for($i=0;$i<count($actions);$i++){
-		$tpl->draw(CORE_TEMPLATES."table/row/open");
-		foreach($table_data as $td){
-			$tpl->draw(CORE_TEMPLATES."table/cell/open");
-			switch($td){
-				case "object_key":
-				$name = $object_db->getById($actions[$i][$td]);
-				echo $name["entity_name"];
-				break;
+    for ($i=0;$i<count($actions);$i++) {
+        $tpl->draw(CORE_TEMPLATES."table/row/open");
+        foreach ($table_data as $td) {
+            $tpl->draw(CORE_TEMPLATES."table/cell/open");
+            switch ($td) {
+                case "object_key":
+                $name = $object_db->getById($actions[$i][$td]);
+                echo $name["entity_name"];
+                break;
 
-				case "group_key":
-				$name = $group_db->getById($actions[$i][$td]);
-				echo $name["entity_name"];
-				break;
+                case "group_key":
+                $name = $group_db->getById($actions[$i][$td]);
+                echo $name["entity_name"];
+                break;
 
-				case "action":
-				$action_get = $actions[$i][$td];
-				echo $action_get;
-				break;
+                case "action":
+                $action_get = $actions[$i][$td];
+                echo $action_get;
+                break;
 
-				default:
-				if(substr($td,0,4) == "code"){
-					$name = $object_db->getById($actions[$i][$td]);
-					echo $name["entity_name"];
-				}
-				else{
-				echo html_entity_decode($actions[$i][$td]);
-				}
-				break;
-			}
-			$tpl->draw(CORE_TEMPLATES."table/cell/close");
-		}
+                default:
+                if (substr($td, 0, 4) == "code") {
+                    $name = $object_db->getById($actions[$i][$td]);
+                    echo $name["entity_name"];
+                } else {
+                    echo html_entity_decode($actions[$i][$td]);
+                }
+                break;
+            }
+            $tpl->draw(CORE_TEMPLATES."table/cell/close");
+        }
 
-		$tpl->draw(CORE_TEMPLATES."table/cell/open");
+        $tpl->draw(CORE_TEMPLATES."table/cell/open");
 
-		$buttons = [
-		"link" => $_SERVER['SCRIPT_NAME']."?category=objects&menu=actionsgroup&tab=groups",
-		"id" => $actions[$i]["id"]
-		];
+        $buttons = [
+        "link" => $_SERVER['SCRIPT_NAME']."?category=objects&menu=actionsgroup&tab=groups",
+        "id" => $actions[$i]["id"]
+        ];
 
-		$tpl->assign("buttons",$buttons);
-		$tpl->draw(CORE_TEMPLATES."table/buttons");
-		$tpl->draw(CORE_TEMPLATES."table/cell/close");
+        $tpl->assign("buttons", $buttons);
+        $tpl->draw(CORE_TEMPLATES."table/buttons");
+        $tpl->draw(CORE_TEMPLATES."table/cell/close");
 
-		$tpl->draw(CORE_TEMPLATES."table/row/close");
-	}
+        $tpl->draw(CORE_TEMPLATES."table/row/close");
+    }
 
-	$tpl->draw(CORE_TEMPLATES."table/close");
-	
+    $tpl->draw(CORE_TEMPLATES."table/close");
 }
-?>

@@ -14,25 +14,25 @@ foreach ($blocks as $key => $block) {
         if (isset($row["custom"])) {
             //var_dump($row);
             $tpl->draw(CORE_TEMPLATES."table/row/open");
-                $tpl->draw(CORE_TEMPLATES."table/cell/open");
-                    $tpl->draw(CORE_TEMPLATES."grids/center/open");
-                        include($row["custom"]["link"]);
-                    $tpl->draw(CORE_TEMPLATES."grids/center/close");
-                $tpl->draw(CORE_TEMPLATES."table/cell/close");
+            $tpl->draw(CORE_TEMPLATES."table/cell/open");
+            $tpl->draw(CORE_TEMPLATES."grids/center/open");
+            include($row["custom"]["link"]);
+            $tpl->draw(CORE_TEMPLATES."grids/center/close");
+            $tpl->draw(CORE_TEMPLATES."table/cell/close");
             $tpl->draw(CORE_TEMPLATES."table/row/close");
         } else {
             $tpl->draw(CORE_TEMPLATES."table/row/open");
-                $tpl->draw(CORE_TEMPLATES."table/cell/open");
-                    $tpl->assign("text", $row["name"]);
-                    $tpl->draw(CORE_TEMPLATES.$row["name"]["type"]);
-                $tpl->draw(CORE_TEMPLATES."table/cell/close");
+            $tpl->draw(CORE_TEMPLATES."table/cell/open");
+            $tpl->assign("text", $row["name"]);
+            $tpl->draw(CORE_TEMPLATES.$row["name"]["type"]);
+            $tpl->draw(CORE_TEMPLATES."table/cell/close");
 
-                $tpl->draw(CORE_TEMPLATES."table/cell/open");
-                    $tpl->draw(CORE_TEMPLATES."grids/center/open");
-                    $tpl->assign("text", $row["data"]);
-                    $tpl->draw(CORE_TEMPLATES.$row["data"]["type"]);
-                    $tpl->draw(CORE_TEMPLATES."grids/center/close");
-                $tpl->draw(CORE_TEMPLATES."table/cell/close");
+            $tpl->draw(CORE_TEMPLATES."table/cell/open");
+            $tpl->draw(CORE_TEMPLATES."grids/center/open");
+            $tpl->assign("text", $row["data"]);
+            $tpl->draw(CORE_TEMPLATES.$row["data"]["type"]);
+            $tpl->draw(CORE_TEMPLATES."grids/center/close");
+            $tpl->draw(CORE_TEMPLATES."table/cell/close");
             $tpl->draw(CORE_TEMPLATES."table/row/close");
         }
     }

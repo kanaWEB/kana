@@ -7,68 +7,66 @@ $dynamic_js[] = CORE_TEMPLATES."footer/chainedselect_clonable.js";
 $tokens_options = Variable::get_data("token");
 $lang = get_all_language($lang);
 
-$modifiers["list_all_objects"] = True;
-$object_data = Variable::get_data("object",$modifiers);
+$modifiers["list_all_objects"] = true;
+$object_data = Variable::get_data("object", $modifiers);
 
 $modifiers["currentUser"] = $currentUser;
-$action_data = Variable::get_data("url/commands",$modifiers);
+$action_data = Variable::get_data("url/commands", $modifiers);
 
 //var_dump($action_data);
 //object ex:led
 //id ex:1
 //command (optional): ex:default
 //state (optional): ex:1
-//Entity_action : ex: Turn on 
+//Entity_action : ex: Turn on
 //entity_name : ex: red led
 //List of actions Select
 
-//If actions are available		
-if($action_data[0]["id"]){
-	$form = new Form("Remote Access");
-	$form->input([
-		"id" => "tokens",
-		"name" => "Token",
-		"type" => "select",
-		"options" => $tokens_options,
-		"selected" => false
-		]);
+//If actions are available
+if ($action_data[0]["id"]) {
+    $form = new Form("Remote Access");
+    $form->input([
+        "id" => "tokens",
+        "name" => "Token",
+        "type" => "select",
+        "options" => $tokens_options,
+        "selected" => false
+        ]);
 
-	$form->input([
-		"type" => "hidden",
-		"id" => "nb_actions",
-		"value" => 0
-		]);
+    $form->input([
+        "type" => "hidden",
+        "id" => "nb_actions",
+        "value" => 0
+        ]);
 
-	$form->input([
-		"type" => "chainedselect_actions",
-		"objects" => $object_data,
-		"options" => $action_data,
-		"selected" => false,
-		"nowait" => true,
-		"onchange" => "showUrl()",
-		"nb" => 0
-		]);
+    $form->input([
+        "type" => "chainedselect_actions",
+        "objects" => $object_data,
+        "options" => $action_data,
+        "selected" => false,
+        "nowait" => true,
+        "onchange" => "showUrl()",
+        "nb" => 0
+        ]);
 
-	$form->input([
-		"type" => "text",
-		"id" => "action_key",
-		"name" => "Action Key",
-		"selected" => false,
-		"placeholder" => "actions"
-		]);
+    $form->input([
+        "type" => "text",
+        "id" => "action_key",
+        "name" => "Action Key",
+        "selected" => false,
+        "placeholder" => "actions"
+        ]);
 
-	$form->input([
-		"type" => "text",
-		"id" => "url_key",
-		"name" => "URL Key",
-		"selected" => false,
-		"placeholder" => "actions"
-		]);
+    $form->input([
+        "type" => "text",
+        "id" => "url_key",
+        "name" => "URL Key",
+        "selected" => false,
+        "placeholder" => "actions"
+        ]);
 
 
-	$form->display($tpl,false);
+    $form->display($tpl, false);
+} else {
+    echo "<h1>".t("No actions available")."</h1>";
 }
-else{
-	echo "<h1>".t("No actions available")."</h1>";
-}
-

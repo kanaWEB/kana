@@ -1,9 +1,6 @@
 //User Object : 1.0
 nickname:string
 password:string
-firstname:string
-lastname:string
-email:string
 state:int
 cookie:string
 token:string
