@@ -63,42 +63,43 @@ class data
         }
     }
 
-    public static function checkSensor($sensor_data, $time)
+    public static function checkSensor($sensor, $time)
     {
-        $db_sensors = new Entity('core', 'Sensors');
-        $sensor_info = $db_sensors->load([
-            'sensor_id' => $sensor_data['id'],
+        var_dump($sensor);
+        $dbSensors = new Entity('core', 'Sensors');
+        $sensorToDatabase = $dbSensors->load([
+            'sensor_id' => $sensor['id'],
             ]);
 
-        //var_dump($sensor_info);
-        self::checkTriggers($sensor_data['id'], 'sensors', $time, $sensor_data['value']);
+        //var_dump($sensorToDatabase);
+        self::checkTriggers($sensor['id'], 'sensors', $time, $sensor['value']);
 
-        if (!$sensor_info) {
-            $db_sensors->setsensor_id($sensor_data['id']);
-            $db_sensors->setsensor_type('unknown');
-            $db_sensors->setsensor_save(0);
-            $db_sensors->setsensor_name($sensor_data['id']);
-            $db_sensors->setsensor_battery($sensor_data['battery']);
-            $db_sensors->setsensor_lastvalue($sensor_data['value']);
-            $db_sensors->setsensor_timestamp(time());
-            $db_sensors->save();
+        if (!$sensorToDatabase) {
+            $dbSensors->setsensor_id($sensor['id']);
+            $dbSensors->setsensor_type('unknown');
+            $dbSensors->setsensor_save(0);
+            $dbSensors->setsensor_name($sensor['id']);
+            $dbSensors->setsensor_battery($sensor['battery']);
+            $dbSensors->setsensor_lastvalue($sensor['value']);
+            $dbSensors->setsensor_timestamp(time());
+            $dbSensors->save();
             echo 'New sensor founded! save it';
 
             return false;
         } else {
-            $db_sensors->change(
+            $dbSensors->change(
                 [
-                'sensor_lastvalue' => $sensor_data['value'],
-                'sensor_battery' => $sensor_data['battery'],
+                'sensor_lastvalue' => $sensor['value'],
+                'sensor_battery' => $sensor['battery'],
                 'sensor_timestamp' => time(),
                 ],
                 [
-                'sensor_id' => $sensor_data['id'],
+                'sensor_id' => $sensor['id'],
                 ]
             );
             echo "Save to kana.db\n";
 
-            return $sensor_info;
+            return $sensorToDatabase;
         }
     }
 
@@ -127,7 +128,7 @@ class data
         echo 'Checking triggers for '.$type.' - '.$state."\n ";
         //if there is a trigger
 
-        var_dump($trigger);
+        //var_dump($trigger);
 
         if ($trigger) {
             //If there is a trigger linked with the data
@@ -154,8 +155,10 @@ class data
                         //If timeout is ok
                         if (($timeout_time < $time) || ($time = 0)) {
                             echo " Launching action \n";
-                            $db_triggers->change(array('timestamp' => $time), array('id' => $trigger['id'])); //Change timeout
-                            Functions::launchBackground("./action.py '".$scenario['action_tag']."'"); //Launch action
+                            //Change timeout
+                            $db_triggers->change(array('timestamp' => $time), array('id' => $trigger['id']));
+                            //Launch action
+                            Functions::launchBackground("./action.py '".$scenario['action_tag']."'"); 
                         }
                     }
                 }

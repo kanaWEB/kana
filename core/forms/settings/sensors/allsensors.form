@@ -39,7 +39,7 @@ $dynamic_js[] = CORE_TEMPLATES.'footer/db_sensors.js';
 if ($sensors_detected_list) {
     include CORE_TEMPLATES.'table/header/header.view';
     for ($i = 0; $i < count($sensors_detected_list); ++$i) {
-        $db_available = Data::db_available($sensors_detected_list[$i]['sensor_type']);
+        $dbAvailable = Data::dbAvailable($sensors_detected_list[$i]['sensor_type']);
         $tpl->draw(CORE_TEMPLATES.'table/row/open');
 
         foreach ($table_data as $td) {
@@ -59,7 +59,7 @@ if ($sensors_detected_list) {
                     $tpl->draw(CORE_TEMPLATES.'forms/inputs/select_sensorimg');
 
                     //Save DB?
-                    if ($db_available) {
+                    if ($dbAvailable) {
                         $db_sensor_save = [
                             'id' => 'db_save',
                             'text' => 'Save',
@@ -98,6 +98,14 @@ if ($sensors_detected_list) {
 
                     $tpl->assign('input', $input_sensor_name_button);
                     $tpl->draw(CORE_TEMPLATES.'forms/inputs/button');
+                    
+
+                    $input_sensor_delete_button = [
+                        "link" => $_SERVER['SCRIPT_NAME']."?category=sensors",
+                        "id" => $sensors_detected_list[$i]["id"]
+                    ];
+                    $tpl->assign("buttons", $input_sensor_delete_button);
+                    $tpl->draw(CORE_TEMPLATES."forms/inputs/button_delete");
                     break;
 
                 case 'sensor_info':

@@ -12,7 +12,7 @@ def send_data(data, path, timestamp, state):
     else:
         # Execute every action related to this trigger
         cmd = path+"/core/collectors/bin/phpboost "+path+"/data.php data="+data.encode("utf8")+" time="+str(timestamp)
-    # print "command"+str(cmd)
+    print "command"+str(cmd)
     os.system(cmd)
 
 

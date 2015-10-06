@@ -1,42 +1,46 @@
 <?php
 //Post are implemented in ajax inside allsensors.form
 
-if(isset($_["sensor_id"])){
-	$sensor_db = new entity("core","Sensors");
-	$sensor_id = $_["sensor_id"];
-	$sensor_test = $sensor_db->load(["sensor_id" => $sensor_id]);
+if (isset($_["del"])) {
+    $sensor_db = new Entity("core", "Sensors");
+    if (isset($_["id"])) {
+        $sensor_db->delete(array('id'=>$_['id']));
+        Draw::ajax_notify(t("Sensor removed"), "success", $_["id"]);
+    }
+} else {
+    if (isset($_["sensor_id"])) {
+        $sensor_db = new entity("core", "Sensors");
+        $sensor_id = $_["sensor_id"];
+        $sensor_test = $sensor_db->load(["sensor_id" => $sensor_id]);
 
 
-	if($sensor_test){
-		if(isset($_["sensor_newtype"])){
-			$sensor_newtype = $_["sensor_newtype"];
-			$sensor_db->change(["sensor_type" => $sensor_newtype],['sensor_id'=>$sensor_id]);
-		}
+        if ($sensor_test) {
+            if (isset($_["sensor_newtype"])) {
+                $sensor_newtype = $_["sensor_newtype"];
+                $sensor_db->change(["sensor_type" => $sensor_newtype], ['sensor_id'=>$sensor_id]);
+            }
 
-		if(isset($_["sensor_newname"])){	
-			$sensor_newname = $_["sensor_newname"];
-			$sensor_db->change(["sensor_name" => $sensor_newname],['sensor_id'=>$sensor_id]);
-		}
+            if (isset($_["sensor_newname"])) {
+                $sensor_newname = $_["sensor_newname"];
+                $sensor_db->change(["sensor_name" => $sensor_newname], ['sensor_id'=>$sensor_id]);
+            }
 
-		if(isset($_["sensor_newsave"])){
-			$sensor_newsave = $_["sensor_newsave"];
-			$sensor_db->change(["sensor_save" => $sensor_newsave],["sensor_id"=>$sensor_id]);
-		}
-		$result["errorcode"] = $sensor_db->lastErrorCode();
-		$result["message"] = "OK";
-	}
-	else
-	{
-		$result["errorcode"] = 127;
-		$result["message"] = t("ID not founded");
-	}
+            if (isset($_["sensor_newsave"])) {
+                $sensor_newsave = $_["sensor_newsave"];
+                $sensor_db->change(["sensor_save" => $sensor_newsave], ["sensor_id"=>$sensor_id]);
+            }
+            $result["errorcode"] = $sensor_db->lastErrorCode();
+            $result["message"] = "OK";
+        } else {
+            $result["errorcode"] = 127;
+            $result["message"] = t("ID not founded");
+        }
 
-}
-else{
-	$result["errorcode"] = 1;
-	$result["message"] = t("No ID specified");
-}
-echo json_encode($result);
+    } else {
+        $result["errorcode"] = 1;
+        $result["message"] = t("No ID specified");
+    }
+    echo json_encode($result);
 //var_dump($sensor_db->populate());
 
-?>
+}

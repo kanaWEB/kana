@@ -44,7 +44,7 @@ try:
                     state = "off"
                 print "SENDING-----"
                 print "IP:" + data + " " + state
-                PhpRequest.send(path, dataname, data, state)
+                PhpRequest.send(path, "/computers/"+data, state)
                 Socket.Send(data+";"+state)
                 print "SENDING-----"
 

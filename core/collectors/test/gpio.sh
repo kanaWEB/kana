@@ -1,1 +1,1 @@
-../gpio2php.py "25;27" "/var/www/" "buttons" 9061
+../gpio2php.py "25;27" "/do/kana/www" "buttons" 9061
