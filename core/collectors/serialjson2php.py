@@ -74,6 +74,7 @@ try:
             ser.write(message + "\n")
 
         if data:
+            print data
             if is_json(data):
                 json_object = json.loads(data)
                 # print json_object

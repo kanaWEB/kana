@@ -47,6 +47,8 @@ class data
     //Check the state of a data (if there is a state)
     public static function checkState($state_to_check, $state)
     {
+        //var_dump($state);
+        //var_dump($state_to_check);
         if ($state_to_check == '') {
             return true;
             echo "No state \n";
@@ -107,19 +109,22 @@ class data
     public static function checkTriggers($data, $type, $time, $state = '')
     {
 
+
         //Check if a code has a trigger
         $db_triggers = new Entity('core', 'Triggers');
 
         //Check one code triggers
-        $trigger = $db_triggers->load([
+        $triggers = $db_triggers->loadAll([
             //"code" => $data,
             //"trigger" => "one",
             'trigger_object' => $type,
             'trigger_state' => 1,
         ]);
 
+
+
         //Check all code triggers
-        $alltrigger = $db_triggers->load([
+        $alltriggers = $db_triggers->loadAll([
             'trigger' => 'all',
             'trigger_object' => $type,
             'trigger_state' => 1,
@@ -129,64 +134,67 @@ class data
         //if there is a trigger
 
         //var_dump($trigger);
+        if ($triggers) {
+            foreach ($triggers as $trigger) {
+                //If there is a trigger linked with the data
+                if ($data == $trigger['code']) {
+                    //If there is a scenario linked with the trigger
+                    $db_scenario = new Entity('core', 'Scenario');
+                    $scenario = $db_scenario->load([
+                        'id_trigger' => $trigger['id'],
+                    ]);
 
-        if ($trigger) {
-            //If there is a trigger linked with the data
-            if ($data == $trigger['code']) {
-                //If there is a scenario linked with the trigger
-                $db_scenario = new Entity('core', 'Scenario');
-                $scenario = $db_scenario->load([
-                    'id_trigger' => $trigger['id'],
-                ]);
+                    if ($scenario) {
+                        echo "Scenario founded for Trigger ONE \n";
+                        $trigger_state_check = self::checkState($trigger['state'], $state);
 
-                if ($scenario) {
-                    echo "Scenario founded for Trigger ONE \n";
-                    $trigger_state_check = self::checkState($trigger['state'], $state);
+                        //If the data have the state asked (also true if no state)
+                        if ($trigger_state_check) {
+                            //Check timeout time
+                            //@todo let's users define the timeout
+                            $timeout_time = $trigger['timestamp'] + $trigger['timeout'];
+                            echo $type.' - '.$data.' - '.$state." \n ";
+                            echo 'Timeout: '.$time - $timeout_time." \n ";
+                            echo $scenario['action_tag']." \n ";
 
-                    //If the data have the state asked (also true if no state)
-                    if ($trigger_state_check) {
-                        //Check timeout time
-                        //@todo let's users define the timeout
-                        $timeout_time = $trigger['timestamp'] + $trigger['timeout'];
-                        echo $type.' - '.$data.' - '.$state." \n ";
-                        echo 'Timeout: '.$time - $timeout_time." \n ";
-                        echo $scenario['action_tag']." \n ";
-
-                        //If timeout is ok
-                        if (($timeout_time < $time) || ($time = 0)) {
-                            echo " Launching action \n";
-                            //Change timeout
-                            $db_triggers->change(array('timestamp' => $time), array('id' => $trigger['id']));
-                            //Launch action
-                            Functions::launchBackground("./action.py '".$scenario['action_tag']."'"); 
+                            //If timeout is ok
+                            if (($timeout_time < $time) || ($time = 0)) {
+                                echo " Launching action \n";
+                                //Change timeout
+                                $db_triggers->change(array('timestamp' => $time), array('id' => $trigger['id']));
+                                //Launch action
+                                Functions::launchBackground("./action.py '".$scenario['action_tag']."'");
+                            }
                         }
                     }
                 }
             }
         }
 
-        //If there is an trigger for all actions
-        //@todo refactor
-        if ($alltrigger) {
-            $db_scenario = new Entity('core', 'Scenario');
-            $scenario = $db_scenario->load([
-                'id_trigger' => $alltrigger['id'],
-                ]);
+            //If there is an trigger for all actions
+            //@todo refactor
+        if ($alltriggers) {
+            foreach ($alltriggers as $alltrigger) {
+                $db_scenario = new Entity('core', 'Scenario');
+                $scenario = $db_scenario->load([
+                    'id_trigger' => $alltrigger['id'],
+                    ]);
 
-            $alltrigger_state_check = self::checkState($alltrigger['state'], $state);
+                $alltrigger_state_check = self::checkState($alltrigger['state'], $state);
 
-            if ($alltrigger_state_check) {
-                //Check if a scenario is link to the trigger
-                if ($scenario) {
-                    echo "\nScenario found for trigger ALL! \n";
-                    $timeout_time = $alltrigger['timestamp'] + $alltrigger['timeout'];
-                    echo $type.' - '.$data.' - '.$state.' - ';
-                    echo 'Timeout: '.($time - $timeout_time)." \n";
-                    echo $scenario['action_tag']." \n";
-                    if ($timeout_time < $time) {
-                        echo 'Time out OK!';
-                        $db_triggers->change(array('timestamp' => $time), array('id' => $alltrigger['id']));
-                        Functions::launchBackground("./action.py '".$scenario['action_tag']."'");
+                if ($alltrigger_state_check) {
+                    //Check if a scenario is link to the trigger
+                    if ($scenario) {
+                        echo "\nScenario found for trigger ALL! \n";
+                        $timeout_time = $alltrigger['timestamp'] + $alltrigger['timeout'];
+                        echo $type.' - '.$data.' - '.$state.' - ';
+                        echo 'Timeout: '.($time - $timeout_time)." \n";
+                        echo $scenario['action_tag']." \n";
+                        if ($timeout_time < $time) {
+                            echo 'Time out OK!';
+                            $db_triggers->change(array('timestamp' => $time), array('id' => $alltrigger['id']));
+                            Functions::launchBackground("./action.py '".$scenario['action_tag']."'");
+                        }
                     }
                 }
             }
