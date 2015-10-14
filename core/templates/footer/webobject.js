@@ -26,7 +26,8 @@ function webobject_switch(button){
 		console.log(result);
 		 state_box = $("#state_"+result.uid);
 		 console.log(state_box);
- 		 state_box.append('<input class="form-control" type="text" value="'+result.text+'">');
+		 $(".dashboard_debug").remove();
+ 		 state_box.append('<input class="dashboard_debug form-control" type="text" value="'+result.text+'">');
 		/*
 		if(data == 0){
 			console.log(state);

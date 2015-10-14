@@ -73,4 +73,4 @@ define('DEFAULT_MENU_SETTINGS', "allobjects");
 
 //GPIO : wPi / BCM / Name
 //define('DEFAULT_GPIO',"wPi");
-define('DEFAULT_GPIO', "wPi");
+define('DEFAULT_GPIO', "BCM");

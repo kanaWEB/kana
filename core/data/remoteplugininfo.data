@@ -39,21 +39,26 @@ if ($repo["type"] == "views") {
 #@todo: move to views
 ?>
 <li class="bordered" style="padding:10px; background-color:grey;">
-	<h2 title="<?php echo $plugin["description"] ?>">
-		<?php echo $plugin["image"] ?>
-		<span class="text"><?php echo $plugin["name"] ?></span>
-	</h2>
-	<?php if ($plugin["state"]) {
-    ?>
-		<button class="btn btn-danger" onclick="uninstallplugin(this,'<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Uninstall</button>
-		<button class="btn btn-danger" onclick="updateplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["type"] ?>','<?php echo $repo["name"] ?>')">Update</button>
-		<?php
+    <h2 title="<?php echo $plugin["description"] ?>">
+        <?php echo $plugin["image"] ?>
+        <span class="text"><?php echo $plugin["name"] ?></span>
+    </h2>
+    <code><?php echo "/do/kana/add ".$repo['type']." ".$repo['name'] ?></code>
 
-} else {
+</li>
+<?php
+/*
+#    if ($plugin["state"]) {
+    ?>
+        <button class="btn btn-danger" onclick="uninstallplugin(this,'<?php echo "$repo["name"],'<?php echo $repo["type"] ?>')">Uninstall</button>
+        <button class="btn btn-danger" onclick="updateplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["type"] ?>','<?php echo $repo["name"] ?>')">Update</button>
+    <?php
+
+    } else {
         ?>
-		<button class="btn btn-primary" onclick="installplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Install</button>
-		<?php
+        <button class="btn btn-primary" onclick="installplugin(this,'<?php echo $repo["repo"] ?>','<?php echo $repo["name"] ?>','<?php echo $repo["type"] ?>')">Install</button>
+    <?php
 
     }
     ?>
-</li>
+*/

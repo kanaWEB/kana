@@ -41,5 +41,5 @@ if (isset($_["del"])) {
         $object_db->$setter($field);
     }
     $object_db->save();
-    redirect("settings", "?menu=groups&notice=".t("Group saved"));
+    redirect("settings", "?category=configuration&menu=groups&notice=".t("Group saved"));
 }

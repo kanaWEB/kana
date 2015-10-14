@@ -1,7 +1,7 @@
 <?php
 //Group Management Form
 
-$object_name = "Groups";
+$object_name = "groups";
 $objects_db = new Entity("core", "Group");
 $objects = $objects_db->populate();
 
