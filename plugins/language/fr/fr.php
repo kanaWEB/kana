@@ -28,7 +28,7 @@ $lang["This account doesn't exist"] = "Ce compte n'existe pas";
 
 //Form
 $lang['Send'] = 'Envoyer';
-$lang['Go back'] = 'Retour';
+$lang['Cancel'] = 'Annuler';
 $lang['This field is required'] = 'Ce champ est obligatoire';
 
 //Users
@@ -146,5 +146,11 @@ $lang['Battery'] = 'Batterie';
 $lang['Sensors'] = 'Capteurs';
 
 //Footer
-$lang['Maintenance mode'] = 'Mode maintenance';
+$lang['Prototyping'] = 'Mode prototype';
 $lang['by'] = 'par';
+$lang['Remote Access'] = "Accès à distance";
+$lang['Add'] = "Ajouter";
+$lang['All'] = "Tout";
+$lang['Search for plugins'] = "Chercher des plugins";
+$lang['Plugins Manager'] = "Gestionnaire de plugins";
+$lang['Waiting'] = "En attente";

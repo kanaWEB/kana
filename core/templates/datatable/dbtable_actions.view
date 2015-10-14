@@ -1,5 +1,7 @@
 <?php
 
+
+
 if (isset($display_allactions)) {
     $table_headers[] = "Object";
     $table_data[] = "plugin_name";

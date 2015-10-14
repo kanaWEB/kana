@@ -104,17 +104,17 @@ function get_langlist()
 function get_all_language($lang)
 {
     //Add all languages files (we need it to display correct language in each objects)
-$objects_dir = Functions::getdir(USER_OBJECTS);
+    $objects_dir = Functions::getdir(USER_OBJECTS);
     foreach ($objects_dir as $object_dir) {
         $lang_object = add_language(USER_OBJECTS.$object_dir);
-        if (is_array($lang) && is_array($lang_view)) {
-            $lang = array_merge($lang, $lang_view); //Merge General translation with user view translation
-                if (isset($lang_object)) {
-                    if (is_array($lang_object)) {
-                        $lang = array_merge($lang, $lang_object);
-                    }
-                }
+        //if (is_array($lang) && is_array($lang_view)) {
+        //    $lang = array_merge($lang, $lang_view); //Merge General translation with user view translation
+        if (isset($lang_object)) {
+            if (is_array($lang_object)) {
+                    $lang = array_merge($lang, $lang_object);
+            }
         }
+       // }
     }
 
     return $lang;

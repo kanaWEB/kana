@@ -2,7 +2,7 @@
 
 <!-- core/templates/menu/items/item_icons.html -->
 	<a href="settings.php?category=objects&menu=addplugins" class="btn btn-danger"><i class="glyphicon glyphicon-plus"></i>{"Add"|t}</a>
-	<a href="settings.php?category={$category_selected.id}&menu=all{$category_selected.id}" class="btn btn-warning"><i class="fa fa-align-justify"></i>{" All"|t}</a>
+	<a href="settings.php?category={$category_selected.id}&menu=all{$category_selected.id}" class="btn btn-warning"><i class="fa fa-align-justify"></i> {"All"|t}</a>
 	<input onkeyup="search_ajax_objects(this)" type="text">
 	<ul class="nav nav-pills">
 	{if="isset($settingsmenu)"}

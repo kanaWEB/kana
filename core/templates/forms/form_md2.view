@@ -24,12 +24,36 @@ if (file_exists($form_file_dir)) {
         }
 
         $form->input($input);
+
         $table_headers[] = $input["name"];
         $table_data[] = $input["id"];
     }
+
+}
+
+//var_dump(get_defined_vars());
+//var_dump($object_info);
+
+if ($tab_selected="action" && $selected) {
+    $input["type"] = "customaction";
+    $input["id"] = "customAction";
+    $input["name"] = "customAction";
+    $input["link"] = "?category=$category_selected&menu=$menu_selected&tab=action&action=$action_selected&id=".$selected['id']."&submit&custom";
+    //var_dump("/user/config/kana/objects/".$menu_selected."/".$selected["id"]);
+    if (file_exists("/user/config/kana/objects/".$menu_selected."/".$selected["id"])) {
+        $input["text"] = "<code>/user/config/kana/objects/".$menu_selected."/".$selected["id"]."</code> <br>".t("Remove custom action");
+        $input["color"] = "danger";
+    } else {
+        $input["text"] = "Create custom action";
+        $input["color"] = "warning";
+    }
+    $form->input($input);
 }
 
 if ($category_selected == "objects") {
     include(CORE_TEMPLATES."forms/form_group.view");
 }
+
+
+
 $form->display($tpl);

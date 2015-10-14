@@ -1,11 +1,12 @@
 <?php
 $data = array();
-$sound_dir = dirname($_SERVER['SCRIPT_FILENAME'])."/sounds/";
-$sound_files = Functions::getdir($sound_dir);
-foreach($sound_files as $sound_file){
-	$data[] = [
-	"text" => $sound_file,
-	"value" => $sound_dir.$sound_file
-	];
+$sound_dir = "/user/sounds/";
+if (file_exists($sound_dir)) {
+    $sound_files = Functions::getdir($sound_dir);
+    foreach ($sound_files as $sound_file) {
+        $data[] = [
+        "text" => $sound_file,
+        "value" => $sound_dir.$sound_file
+        ];
+    }
 }
-?>

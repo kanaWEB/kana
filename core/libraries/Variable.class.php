@@ -281,6 +281,7 @@ Widget need
         if ($actions_list) {
             foreach ($actions_list as $action) {
                 if (file_exists(USER_OBJECTS.$object.'/actions/'.$action['action'].'/'.'buttons.json')) {
+                    $pathCustom = "/user/config/kana/objects/";
                     //Define id/widget/type/name/description/icon
 
                     //Get commands information from database
@@ -298,18 +299,31 @@ Widget need
                     //Get state information
                     //Every widgets have a location where it can provided information on the widget
                     //Each states are specified inside state.json
-                    $state_file_path = USER_OBJECTS.$object.'/actions/'.$action['action'].'/'.'state.json';
-                    $state_file = file_get_contents($state_file_path);
-                    $state_json = json_decode($state_file);
+                    if (file_exists($pathCustom.$object."/".$action['id']."/state.json")) {
+                        $state_file_path = $pathCustom.$object."/".$action['id']."/state.json";
+                    } else {
+                        $state_file_path = USER_OBJECTS.$object.'/actions/'.$action['action'].'/'.'state.json';
+                    
+                    }
+                        $state_file = file_get_contents($state_file_path);
+                        $state_json = json_decode($state_file);
 
                     if ($state_json == null) {
                         var_dump($object." doesn't have a correct state.json for action:".$action['action']);
                         exit();
                     }
 
-            //Get buttons information
-            //Each buttons are specified inside buttons.json
-                    $buttons_file_path = USER_OBJECTS.$object.'/actions/'.$action['action'].'/'.'buttons.json';
+                    /*
+                        Buttons generator
+                    */
+                    //Get buttons information
+                    //Each buttons are specified inside buttons.json
+
+                    if (file_exists($pathCustom.$object."/".$action['id']."/buttons.json")) {
+                        $buttons_file_path = $pathCustom.$object."/".$action['id']."/buttons.json";
+                    } else {
+                        $buttons_file_path = USER_OBJECTS.$object.'/actions/'.$action['action'].'/buttons.json';
+                    }
                     $buttons_file = file_get_contents($buttons_file_path);
                     $buttons_json = json_decode($buttons_file);
                     if ($buttons_json == null) {
@@ -321,9 +335,9 @@ Widget need
                     //$webobjects[$key]["buttons"] = $buttons_json;
                     $webobjects[$key]['state'] = $state_json;
 
-            //There are 2 ways to known the state of an object
-            //1: onload check a data onload (to use when status doesn't take time to load)
-            //2: user check a data when a user asked for the state (by clicking check or check all)
+                    //There are 2 ways to known the state of an object
+                    //1: onload check a data onload (to use when status doesn't take time to load)
+                    //2: user check a data when a user asked for the state (by clicking check or check all)
                     if (isset($state_json->onload)) {
                         $modifiers['state_action'] = $action;
                         $webobjects[$key]['state_style'] = self::get_data($state_json->onload, $modifiers);
