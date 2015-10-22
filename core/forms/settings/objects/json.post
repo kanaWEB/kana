@@ -1,39 +1,22 @@
 <?php
 
 $object_name = $menu_selected;
-$object_db = new JsonEntity($object_name);
+$object_db = new JsonConfig($object_name);
 
-if (isset($_["del"])) {
-    if (isset($_["id"])) {
-        $id = $_["id"];
-        $action_db = new Entity("actions", $object_name);
-        $linked_actions = $action_db->rowCount(array('object_key'=>$id));
-        if ($linked_actions != 0) {
-            Draw::ajax_notify(t("You can't delete an used object"), "error");
-            //redirect("settings","?menu=objects&name=".$object_name."&tab=".$_["tab"]."&error=".);
-        } else {
-            $object_db->delete($id);
-            if ($object_db->error) {
-                Draw::ajax_notify(t($object_db->error), "error");
-            } else {
-                Draw::ajax_notify(t("Code removed"), "success", $id);
-            }
-        }
-    }
+
+$fields = $_;
+unset($fields["submit"]);
+unset($fields["menu"]);
+unset($fields["tab"]);
+unset($fields["category"]);
+
+if (isset($_["id"])) {
+    $object_db->setId($_["id"]);
 } else {
-    $fields = $_;
-    unset($fields["submit"]);
-    unset($fields["menu"]);
-    unset($fields["tab"]);
-    unset($fields["category"]);
-
-    if (isset($_["id"])) {
-        $object_db->setId($_["id"]);
-    } else {
-        $object_db->create();
-    }
-
-    $object_db->save($fields);
-    //var_dump($fields);
-    redirect("settings", "?category=objects&menu=".$object_name."&tab=".$tab_selected."&notice=".t("Code added"));
+    $object_db->create();
 }
+
+$object_db->save($fields);
+var_dump($fields);
+redirect("settings", "?category=objects&menu=".$object_name."&tab=".$tab_selected."&notice=".t("Configuration updated"));
+

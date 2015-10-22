@@ -1,9 +1,84 @@
 <?php
+$objectDefined = isset($_["object"]);
+if ($objectDefined) {
+    $object = $_["object"];
+    $command = $_["command"];
+    if (file_exists(USER_OBJECTS.$object)) {
+        switch ($command) {
+            case "start":
+                $command = "sudo /do/".$object."/start";
+                exec($command, $out, $exitcode);
+                $supervisorStatus = explode(":", $out[0]);
+                $supervisorStatus = $supervisorStatus[1];
+                //var_dump($supervisorStatus);
+                
+                switch ($supervisorStatus) {
+                    case " started":
+                        $state = "ON";
+                        $label = "success";
+                        break;
+                    case " ERROR (already started)":
+                        $state = "ON (already started)";
+                        $label = "success";
+                        break;
+                    default:
+                        $state = $supervisorStatus;
+                        $label = "warning";
+                        break;
+                }
+
+                //var_dump($supervisorStatus);
+                echo json_encode([
+                    "data_id" => $_["data_id"],
+                    "state" => $state,
+                    "label" => $label
+                    ]);
+
+                break;
+
+            case "stop":
+                $command = "sudo /do/".$object."/stop";
+                //var_dump($command);
+                exec($command, $out, $exitcode);
+                //var_dump($out);
+                $supervisorStatus = explode(":", $out[0]);
+                $supervisorStatus = $supervisorStatus[1];
+
+                switch ($supervisorStatus) {
+                    case " stopped":
+                        $state = "OFF";
+                        $label = "danger";
+                        break;
+
+                    case " ERROR (not running)":
+                        $state = "OFF (not running)";
+                        $label = "danger";
+                        break;
+                    default:
+                        $state = $supervisorStatus;
+                        $label = "warning";
+                        break;
+                }
+
+                //var_dump($supervisorStatus);
+                echo json_encode([
+                    "data_id" => $_["data_id"],
+                    "state" => $state,
+                    "label" => $label
+                    ]);
+                break;
+        }
+    }
+}
+
 /*
+TO DEPRECATED
+
+
 Redirect to collectors (collectors get data from external sources and works as background mini python server)
 When a data is collected it is send with a php script request
 */
-
+/*
 //Collector Control redirectors
 if (isset($_["object"])) {
     $command = $_["command"];
@@ -39,3 +114,4 @@ if (isset($_["object"])) {
         echo "Command unknown!";
     }
 }
+*/

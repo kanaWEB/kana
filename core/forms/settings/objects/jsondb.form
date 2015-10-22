@@ -1,21 +1,29 @@
 <?php
 //If an object is selected
-
-
-$selected = false;
-$selected_db = new JsonConfig($object_name);
-if ($selected_db) {
-    $selected = $selected_db->populate();
+if (isset($_["id"])) {
+    $selected_db = new JsonEntity($object_name);
+    $selected = $selected_db->getById($_["id"]);
+    $form_name = "ID:".$_["id"];
+    $hidden_input = [
+    "type" => "hidden",
+    "value" => $_["id"]
+    ];
+    //var_dump($selected);
+} else {
+    $selected = false;
+    $form_name = "New";
 }
-$form_name = "PiGet";
+
 $form = new Form($form_name);
+    include(CORE_TEMPLATES."forms/form_default.view");
 
 //Custom Fields
-$inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."json/");
+$inputs_file = Functions::getdir(USER_OBJECTS.$object_name."/"."jsondb/");
+
 
 //@todo Data management in form should be managed inside Form.class.php
 foreach ($inputs_file as $input_file) {
-    $file = USER_OBJECTS.$object_name."/"."json/".$input_file;
+    $file = USER_OBJECTS.$object_name."/"."jsondb/".$input_file;
     
     //Get md2 of form from objects/object_name/codes/
     //@todo Change to json
@@ -45,3 +53,9 @@ foreach ($inputs_file as $input_file) {
     $table_data[] = $input["id"];
 }
 $form->display($tpl);
+
+$object_db = new JsonEntity($object_name);
+$objects = $object_db->populate();
+if ($objects) {
+    include(CORE_TEMPLATES."/"."datatable/dbtable.view");
+}

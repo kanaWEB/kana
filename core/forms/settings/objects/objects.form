@@ -32,6 +32,7 @@ if (isset($menu_selected)) {
 
 //If a tab is selected redirected to the correct form
     if ($tab_selected) {
+        //echo $tab_selected;
         switch ($tab_selected) {
             //Help Tabs
             case "help":
@@ -87,6 +88,15 @@ if (isset($menu_selected)) {
                     include(CORE_FORMS."settings/objects/json.form");
                 } else {
                     var_dump("I can't find ".CORE_FORMS."settings/objects/json.form");
+                    exit();
+                }
+                break;
+
+            case "jsondb":
+                if (file_exists(CORE_FORMS."settings/objects/jsondb.form")) {
+                         include(CORE_FORMS."settings/objects/jsondb.form");
+                } else {
+                    var_dump("I can't find ".CORE_FORMS."settings/objects/jsondb.form");
                     exit();
                 }
                 break;

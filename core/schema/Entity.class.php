@@ -19,14 +19,17 @@ class Entity extends SQLKana
         //var_dump($entity);
 
         switch ($type) {
-            //You can only create table inside kana.db (core)
-            //if there is a corresponding schema.txt inside /core/schema/schema.txt
+            // Core database are generated in /user/config/kana/kana.db
+            // There are not meant to be used for plugins
+            // You need a /do/kana/core/schema/schema.txt inside /core/schema/schema.txt           
             case 'core':
                 $this->database = DATABASE;
                 $this->setCoreTable($entity);
                 $this->check = DATABASE;
                 break;
 
+            // Data database are database generated in /user/data/sensors/sensorname.db
+            // They are use to temporaly stored last data received by sensors
             case 'data':
             //Check needed (Is there a sensor linked to this data?)
                 $this->database = DATA_DIR.$entity.'.db';
@@ -42,6 +45,7 @@ class Entity extends SQLKana
                 }
                 break;
 
+            // Config database are generated inside /user/config/kana/objects/
             case 'config':
             //Check OK
                 $dir = Variable::sensors_or_objects_dir($entity);
@@ -50,13 +54,16 @@ class Entity extends SQLKana
                 $this->check = 'plugins/'.$dir.$entity;
                 break;
 
+            //Electronics are used to stored gpio/
             case 'electronics':
             //Check needed (Is there an objects)
                 $this->database = CONFIG_DIR.'objects/'.$entity.'.db';
                 $this->setElectronicTable($entity);
                 $this->check = USER_OBJECTS.$entity;
-                break;
+            break;
 
+
+            //Actions are used to stored finished objects
             case 'actions':
             //Check needed (Is there an objects)
                 $this->database = CONFIG_DIR.'objects/'.$entity.'.db';
