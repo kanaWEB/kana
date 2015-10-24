@@ -41,6 +41,7 @@ if ($objectDefined) {
                 //var_dump($command);
                 exec($command, $out, $exitcode);
                 //var_dump($out);
+                //var_dump($exitcode);
                 $supervisorStatus = explode(":", $out[0]);
                 $supervisorStatus = $supervisorStatus[1];
 

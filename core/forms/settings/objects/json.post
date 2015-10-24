@@ -9,6 +9,7 @@ unset($fields["submit"]);
 unset($fields["menu"]);
 unset($fields["tab"]);
 unset($fields["category"]);
+unset($fileds["notice"]);
 
 if (isset($_["id"])) {
     $object_db->setId($_["id"]);

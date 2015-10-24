@@ -347,7 +347,31 @@ Widget need
                         'class' => 'state_unknown',
                         ];
                     }
+
+                    //State is define inside actions database for objects (check /user/config/objects/objectNAME.db)
+                    //You can change the state externally see : /do/radio/check /do/computers/check
+                    if (isset($state_json->database)) {
+
+                        if ($action['state'] == 1) {
+                            $webobjects[$key]['state_style'] = [
+                                'text' => "ON",
+                                'class' => 'state_on'
+                            ];
+                        }
+
+                        if ($action['state'] == 0) {
+                            $webobjects[$key]['state_style'] = [
+                                'text' => "OFF",
+                                'class' => 'state_off'
+                            ];
+                        }
+                        //var_dump($webobjects[$key]['state_style']);
+
+                    }
+
                     ++$key;
+
+
                 } else {
                     var_dump($object." doesn't have action:".$action['action']);
                 }

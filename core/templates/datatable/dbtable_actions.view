@@ -27,9 +27,10 @@ if (!isset($table_headers)) {
 
 $action_get = $action_selected;
 
-if (file_exists(USER_OBJECTS.$object_name."/".$object_name.".txt")) {
+//if (file_exists(USER_OBJECTS.$object_name."/".$object_name.".txt")) {
     $object_db = new Entity("config", $object_name);
-}
+//}
+
 $group_db = new Entity("core", "Group");
 $action_db = new Entity("actions", $object_name);
 //var_dump($action_name);

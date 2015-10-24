@@ -5,25 +5,30 @@ from lib import Ping
 import sys
 import time
 import os
+import sqlite3
 
 """Main"""
 
 """Variables"""
+global path
 sleep_between_ping = 3
 last_data = ""
 lock = False
 data = False
+path = "/do/kana/www/"
 
 """
 Arguments
 ping2php.py "192.168.0.10;192.168.0.11" "/var/www/" "computers" 9062
 """
-ips = sys.argv[1].split(";")
-global path
-path = sys.argv[2]
+db = sqlite3.connect('/user/config/objects/computers.db')
+dbip = db.execute('SELECT ipaddress FROM Config')
+ip = dbip.fetchall()
 
-dataname = sys.argv[3]
-socket_port = sys.argv[4]
+# Get port
+with open('/do/computers/python/port', 'r') as port_file:
+    content = port_file.read()
+    socket_port = int(content.strip())
 Socket.Start(socket_port)
 print "Socket Started"
 
