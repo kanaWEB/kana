@@ -4,22 +4,20 @@ $dynamic_js[] = CORE_TEMPLATES."footer/chainedselect.js";
 $lang = get_all_language($lang);
 
 //If an object is selected
-if(isset($_["id"])){
-	$selected_db = new Entity("core","Scenario");
-	$selected = $selected_db->getById($_["id"]);
-	$form_name = "ID:".$_["id"];
-	$hidden_input = [
-	"type" => "hidden",
-	"value" => $_["id"]
-	];
-	$selected_groups["action"] = $selected["action_tag"];
-	$selected_groups["object"] = $selected["object"];
-}
-else
-{
-	$form_name = "Scenario";
-	$selected=false;
-	$selected_groups = false;
+if (isset($_["id"])) {
+    $selected_db = new Entity("core", "Scenario");
+    $selected = $selected_db->getById($_["id"]);
+    $form_name = "ID:".$_["id"];
+    $hidden_input = [
+    "type" => "hidden",
+    "value" => $_["id"]
+    ];
+    $selected_groups["action"] = $selected["action_tag"];
+    $selected_groups["object"] = $selected["object"];
+} else {
+    $form_name = "Scenario";
+    $selected=false;
+    $selected_groups = false;
 }
 $form = new Form($form_name);
 
@@ -35,43 +33,39 @@ $data_file = Variable::data_dir("triggers");
 include($data_file);
 
 $form->input([
-	"type" => "select",
-	"id" => "id_trigger",
-	"name" => "Triggers",
-	"options" => $data,
-	"selected" => $selected["id_trigger"]
-	]);
+    "type" => "select",
+    "id" => "id_trigger",
+    "name" => "Triggers",
+    "options" => $data,
+    "selected" => $selected["id_trigger"]
+    ]);
 
 
 //Actions
-$modifiers["list_all_objects"] = True;
-$object_data = Variable::get_data("object",$modifiers);
+$modifiers["list_all_objects"] = true;
+$object_data = Variable::get_data("object", $modifiers);
 $modifiers["currentUser"] = $currentUser;
-$action_data = Variable::get_data("url/commands",$modifiers);
+$action_data = Variable::get_data("url/commands", $modifiers);
 
 $form->input([
-			"type" => "hidden",
-			"id" => "nb_actions",
-			"value" => 0
-			]);
+            "type" => "hidden",
+            "id" => "nb_actions",
+            "value" => 0
+            ]);
 
 $form->input([
-			"type" => "chainedselect_actions",
-			"objects" => $object_data,
-			"options" => $action_data,
-			"selected" => $selected_groups,
-			"nb" => 0,
-			"nowait" => True
-			]);
+            "type" => "chainedselect_actions",
+            "objects" => $object_data,
+            "options" => $action_data,
+            "selected" => $selected_groups,
+            "nb" => 0,
+            "nowait" => true
+            ]);
 
 $form->display($tpl);
 
-$objects_db = new Entity("core","Scenario");
+$objects_db = new Entity("core", "Scenario");
 $objects = $objects_db->populate();
-if($objects){
-include(CORE_TEMPLATES."/"."datatable/dbtable_scenario.view");
+if ($objects) {
+    include(CORE_TEMPLATES."/"."datatable/dbtable_scenario.view");
 }
-
-
-
-?>

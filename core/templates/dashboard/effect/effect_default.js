@@ -97,10 +97,6 @@ function button_link_data(button,data){
 		});
 }
 
-
-
-
-
 function prepare_state(button){
   //Get button
   button = $(button);

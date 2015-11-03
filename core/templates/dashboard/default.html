@@ -1,4 +1,5 @@
 <!-- /core/templates/dashboard/default.html -->
+<li>
 {loop="buttons"}
   	<button 
  		class='btn btn-xlg {if="isset($value->color)"}btn-{$value->color}{else}btn-primary{/if}'
@@ -17,5 +18,4 @@
 	{/if}
 	</button>			
 {/loop}
-
-</div>
+</li>

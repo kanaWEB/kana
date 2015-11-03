@@ -119,8 +119,8 @@ class Draw
         Draw::object_widget($webobjects, $tpl);
     }
 
-    //@todo Refactor draw objects generation, it should be inside objects.class.php and design should be handle by RainTPL only.
-    public static function object_widget($webobjects,$tpl)
+    // @todo Refactor draw objects generation, it should be inside objects.class.php and design should be handle by RainTPL only.
+    public static function object_widget($webobjects, $tpl)
     {
         foreach ($webobjects as $key => $webobject) {
                 $webobject["widget_id"] = $key;
@@ -129,12 +129,12 @@ class Draw
                 $tpl->assign("state", $webobject["state"]);
                 $tpl->assign("state_style", $webobject["state_style"]);
                 //var_dump($webobject);
-                //$widget_override_path = USER_OBJECTS.$webobject["object"]."/widgets/".$webobject["action"] ."/".$webobject["action"];
+                // $widget_override_path = USER_OBJECTS.$webobject["object"]."/widgets/".$webobject["action"] ."/".$webobject["action"];
                 //var_dump($widget_override_path);
                 $widget = CORE_TEMPLATES."dashboard/default";
                 $tpl->draw(CORE_TEMPLATES."dashboard/panel_widget");
-                $tpl->draw(CORE_TEMPLATES."dashboard/default_state");
                 $tpl->draw($widget);
+                $tpl->draw(CORE_TEMPLATES."dashboard/default_state");
                 $tpl->draw(CORE_TEMPLATES."dashboard/panel_widget_close");
         }
     }
@@ -143,15 +143,15 @@ class Draw
     //Generate widgets of objects
     public static function objects_widgets($current_group, $tpl)
     {
-        
+       
         $webobjects = Variable::objects_to_webobjects($current_group);
         //Functions::pretty_Debug($webobjects);
         //var_dump($webobjects);
         if ($webobjects) {
             //Functions::pretty_debug($webobjects);
             
-            $tpl->draw(CORE_TEMPLATES."grids/row/col-sm-10");
-                    
+            //$tpl->draw(CORE_TEMPLATES."grids/row/col-sm-10");
+             /*       
             $col = 0;
             $row = 3;
             $widgets_col_mobile = 12;
@@ -159,6 +159,7 @@ class Draw
             $widgets_col_desktop = 6;
             $widgets_col_large = 4;
 
+*/
             foreach ($webobjects as $key => $webobject) {
                 $webobject["widget_id"] = $key;
                 //var_dump($webobject);
@@ -182,7 +183,7 @@ class Draw
                 //}
 
 
-                
+                /*
                 if ($col == 0) {
 
                     ?>
@@ -193,10 +194,14 @@ class Draw
                 ?>
                     <div class="col-xs-<? echo $widgets_col_mobile ?> col-sm-<? echo $widgets_col_tablet ?> col-md-<? echo $widgets_col_desktop ?> col-lg-<? echo $widgets_col_large ?>  col-ui-sortable">
                 <?
+                */
+
                 $tpl->draw(CORE_TEMPLATES."dashboard/panel_widget");
-                $tpl->draw(CORE_TEMPLATES."dashboard/default_state");
                 $tpl->draw($widget);
+                $tpl->draw(CORE_TEMPLATES."dashboard/default_state");
+                
                 $tpl->draw(CORE_TEMPLATES."dashboard/panel_widget_close");
+                /*
                 ?>
                     </div>
                 <?
@@ -209,9 +214,10 @@ class Draw
                     </div>
                 <?
                 }
+                */
             }
-            $tpl->draw(CORE_TEMPLATES."grids/block/close");
-            $tpl->draw(CORE_TEMPLATES."grids/row/close");
+            //$tpl->draw(CORE_TEMPLATES."grids/block/close");
+            //$tpl->draw(CORE_TEMPLATES."grids/row/close");
             return true;
         }
         else

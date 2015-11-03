@@ -283,17 +283,9 @@ class Functions
     //Launch a terminal command in background
     public static function launchBackground($cmd)
     {
-        //Hack to speed up command (need nice in sudoers)
-        //$cmd = "sudo nice -n ".$nice." ".$cmd;
-
-            shell_exec(sprintf('%s > /dev/null 2>&1 &', $cmd));
-       
-        //$cmd = "sudo . /opt/piget/core/install/extendPath;".$cmd;
-        //exec(". /opt/piget/core/install/extendPath;".$cmd, $out, $err);
-        //var_dump($cmd);
-        //var_dump($out);
-        //var_dump($err);
-
+            //shell_exec(sprintf('%s > /dev/null 2>&1 &', $cmd));
+            //shell_exec(sprintf('%s > /dev/null 2>&1 &', $cmd, "/user/config/kana/log/log", "/user/config/kana/log/pid"));
+            exec(sprintf("%s > %s 2>&1 & echo $! >> %s", $cmd, "/user/config/kana/log/log", "/user/config/kana/log/pid"));
     }
 
     //Verify if a process exists

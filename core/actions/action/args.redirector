@@ -20,10 +20,18 @@ if (isset($command_json->args)) {
             }
         }
         if (!isset($arg->noquotes)) {
-        //var_dump($arg);
             $command_args[$nb] = '"'.$command_args[$nb].'"';
         }
 
+        if ($nb == 0 && isset($arg->trim)) {
+            $trimCommand = true;
+        }
+
+        if (!isset($arg->trim)) {
+            $command_args[$nb] = $command_args[$nb]." ";
+        }
+
+        //var_dump($command_args);
         $nb++;
     }
 } else {

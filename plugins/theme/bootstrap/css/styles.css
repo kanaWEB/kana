@@ -80,6 +80,7 @@ input,select {
 	margin-bottom: 20em;
 }
 
+
 /*
 .widget-sm{
 
@@ -119,14 +120,9 @@ input,select {
 }
 
 /*
-Dashboard CSS forked from yana server , jquery.dashboard.css see http://github.com/ldleman/yana-server
+Dashboard CSS 
 */
-
-
-
-
-
-
+/*
 #dashboard{
   text-align:center;
 }
@@ -142,19 +138,21 @@ Dashboard CSS forked from yana server , jquery.dashboard.css see http://github.c
 .dashboard_bloc_content{
  width:100%;
 }
-
+*/
 
 .btn-xlg {
-  height:64px;
-  width:100%;
+  height:48px;
+  width:64px;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
   margin:0px;
+  margin-left:-4px;
   padding:0px;
-  font-size: 24px; //legacy
+  font-size: 20px;
 }
 
+/*
 .dashboard_bloc_head label{
   margin:0;
   display: inline-block;
@@ -165,25 +163,11 @@ Dashboard CSS forked from yana server , jquery.dashboard.css see http://github.c
   border-radius: 1px,solid;
 }
 
-
-
-
-
-
-
-
-
-
-
 .dashboard_bloc_moved{
   opacity:0.5;
 }
 
-/*
 
-WIDGET HEAD
-
-*/
 
 .dashboard_bloc_head ul{
   float:right;
@@ -219,24 +203,29 @@ WIDGET HEAD
   border-radius: 3px 3px 0px 0px;
   padding:5px;
 }
-
+*/
 .dashboard_state{
-  height:64px;
+height:48px;
+width:100%;
   text-align:center;
   font-size: 22px;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
+  display: inline-block;
+margin-bottom:-5px;
 }
-
+/*
 .widget_text{
   font-size: 22px;
-/*text-shadow: 0px 0px 6px rgba(255,255,255,0.7);*/
+//text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
  color: rgba(0,0,0,0.6);
  text-shadow: 2px 2px 3px rgba(255,255,255,0.1);
 }
-
+*/
 .dashboard_debug{
   font-size: 12px;
   color: red;
+}
+
+.colored-list{
+  background-color: #428bca;
+  color:#ffffff;
 }

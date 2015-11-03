@@ -1,5 +1,7 @@
 <?php
-if (isset($arg->prefix)) {
+if (isset($arg->noquotes)) {
+    $command_args[$nb] = $arg->prefix.$command_args[$nb];
+} else {
     $command_args[$nb] = $arg->prefix." ".'"'.$command_args[$nb].'"';
     $arg->noquotes = true;
 }

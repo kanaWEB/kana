@@ -55,14 +55,21 @@ if (isset($_["object"]) && isset($_["id"])) {
             if (isset($command_json->$command_name)) {
                 $command_json = $command_json->$command_name;
 
-            //Get all arguments see core/actions/action for more information
+                //Get all arguments /core/actions/type and modified them /core/actions/modifier
                 include("core/actions/action/args.redirector");
 
                 $script_dir = Variable::get_data("path");
 
-                $final_command = "$command_json->command ";
+                //Building command
+                if (isset($trimCommand)) {
+                     $final_command = $command_json->command;
+                } else {
+                    $final_command = $command_json->command." ";
+                }
+                
+                //Adding Arguments
                 foreach ($command_args as $value) {
-                    $final_command .= $value." ";
+                    $final_command .= $value;
                 }
             } else {
                 echo "Invalid command, List of commands:\n";
@@ -108,6 +115,7 @@ if (isset($_["object"]) && isset($_["id"])) {
                     echo json_encode($json_answer);
         }
         Functions::launchBackground($final_command, true);
+        //Functions::launchBackground($final_command, true);
     
     //If this is an webobject we answer with valid json answer (see webobject.js)
     
