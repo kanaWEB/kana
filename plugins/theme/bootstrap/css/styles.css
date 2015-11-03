@@ -205,12 +205,15 @@ Dashboard CSS
 }
 */
 .dashboard_state{
-height:48px;
-width:100%;
+  height:48px;
+  width:100%;
   text-align:center;
   font-size: 22px;
   display: inline-block;
-margin-bottom:-5px;
+  margin-bottom:-5px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
 }
 /*
 .widget_text{
