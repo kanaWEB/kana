@@ -64,10 +64,15 @@ class JsonConfig
         if (isset($this->file)) {
             if (is_array($array)) {
                 $json = json_encode($array);
+                
+                //Create directory if it doesn't exists
                 if (!file_exists($this->dir."/")) {
                     mkdir($this->dir."/");
                 }
-                if (is_writable($this->file)) {
+
+                //Write file if it is writable
+                if ((is_writable($this->file)) || (!file_exists($this->file))) {
+                    var_dump($this->file);
                     file_put_contents($this->file, $json);
                 } else {
                     $this->error = "Permissions error";

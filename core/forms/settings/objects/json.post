@@ -9,7 +9,7 @@ unset($fields["submit"]);
 unset($fields["menu"]);
 unset($fields["tab"]);
 unset($fields["category"]);
-unset($fileds["notice"]);
+unset($fields["notice"]);
 
 if (isset($_["id"])) {
     $object_db->setId($_["id"]);
@@ -19,5 +19,11 @@ if (isset($_["id"])) {
 
 $object_db->save($fields);
 var_dump($fields);
-redirect("settings", "?category=objects&menu=".$object_name."&tab=".$tab_selected."&notice=".t("Configuration updated"));
+var_dump($object_db->error);
+if ($object_db->error) {
+    $notice = "&error=".t($object_db->error);
+} else {
+    $notice = "&notice=".t("Configuration updated");
+}
 
+redirect("settings", "?category=objects&menu=$object_name&tab=$tab_selected$notice");
