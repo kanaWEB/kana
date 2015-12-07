@@ -1,4 +1,5 @@
 <!-- /core/templates/body/close.html -->
+<!-- /core/templates/footer/footer.view -->
 <div class="br10"></div>
 <div id="footer" class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom">
@@ -9,9 +10,10 @@
                 {loop="$collectors_name"}
                 <span class="label label-primary">{$value.text}</span> <span id="c-{$value.value}" onclick="collector_changestate(this,'{$value.value}')" class="label label-warning">?</span>
                 {/loop}
-                <span class="label label-danger">{"Prototyping"|t}</span>
+                <a href="index.php?logout" class="btn btn-danger"><i class="glyphicon glyphicon-user"></i></a>
             </h4>
         </div>
+        
     </nav>
 </div>
 </body>

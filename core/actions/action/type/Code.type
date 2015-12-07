@@ -10,7 +10,12 @@ if (file_exists(USER_OBJECTS.$object_name."/json")) {
     if ($state) {
         $code = $code_db->getById($actions_values["code_on"]);
     } else {
-        $code = $code_db->getById($actions_values["code_off"]);
+        if ($state == 0) {
+            $code = $code_db->getById($actions_values["code_off"]);
+        }
+        else {
+            $code = $code_db->getById($actions_values["code_$state"]);
+        }
     }
     $code = $code["code"];
 } else {

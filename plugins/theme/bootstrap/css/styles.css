@@ -232,3 +232,15 @@ Dashboard CSS
   background-color: #428bca;
   color:#ffffff;
 }
+
+
+.navbar-nav > li > a, .navbar-brand {
+    padding-top:4px !important; 
+    padding-bottom:0 !important;
+    margin-bottom:0px;
+    height: 50px;
+}
+.navbar {
+  min-height:50px !important;
+  margin-bottom:0px;
+}

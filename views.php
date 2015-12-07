@@ -13,7 +13,7 @@ if (isset($currentUser)) {
             $view_name = $_['view'];
             $view_right = $currentUser->ViewRight($view_name);
 
-            if ($view_right) {
+            if (($view_right)  || ($currentUser->isadmin())) {
                 $view_dir = USER_VIEWS.'/'.$view_name.'/';
                 $view_file = $view_dir.$view_name.'.view';
                 $data_path = USER_DATA.$view_name.'/';
@@ -49,13 +49,7 @@ if (isset($currentUser)) {
                     include CORE_TEMPLATES.'datatable/blocks.view';
                 }
             } else {
-                //Root hasn't got any access to the views?, show the admin user page
-                if ($currentUser->isadmin()) {
-                    redirect('settings', '?category=configuration&menu=users&id=1&notice='.t('You must set your permissions first'));
-                } else {
-                    //Else if it's an user, tell them to ask the admin to give him right
                     $tpl->draw(CORE_TEMPLATES.'modal/permissions_denied');
-                }
             }
         } else {
             //If no view is set

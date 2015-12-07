@@ -163,15 +163,19 @@ class User
 
     public function viewsRight()
     {
-        $views = Functions::getdir(USER_VIEWS);
-        $view_right_db = new Entity('core', 'ViewRight');
-        foreach ($views as $key => $view) {
-            $view_right = $view_right_db->load([
-            'id_user' => $this->id,
-            'id_view' => $view,
-            ]);
-            if (!$view_right) {
-                unset($views[$key]);
+        if ($this->isadmin()) {
+            $views = Functions::getdir(USER_VIEWS);
+        } else {
+            $views = Functions::getdir(USER_VIEWS);
+            $view_right_db = new Entity('core', 'ViewRight');
+            foreach ($views as $key => $view) {
+                $view_right = $view_right_db->load([
+                'id_user' => $this->id,
+                'id_view' => $view,
+                ]);
+                if (!$view_right) {
+                    unset($views[$key]);
+                }
             }
         }
 
@@ -180,23 +184,27 @@ class User
 
     public function viewRight($view_name)
     {
+     
         $view_right_db = new Entity('core', 'ViewRight');
         $view_right = $view_right_db->load([
             'id_user' => $this->id,
             'id_view' => $view_name,
-            ]);
-
+        ]);
+        //var_dump($view_right);
         return $view_right;
     }
 
     public function groupRight($group_id)
     {
-        $group_right_db = new Entity('core', 'GroupRight');
-        $group_right = $group_right_db->load([
-            'id_user' => $this->id,
-            'id_group' => $group_id,
+        if ($this->isadmin()) {
+            return true;
+        } else {
+            $group_right_db = new Entity('core', 'GroupRight');
+            $group_right = $group_right_db->load([
+                'id_user' => $this->id,
+                'id_group' => $group_id,
             ]);
-
+        }
         return $group_right;
     }
 }

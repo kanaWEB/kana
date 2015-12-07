@@ -33,5 +33,6 @@ if (isset($_["submit"])) {
     } else {
         //User Not OK
         redirect("index", "?error=".t("This account doesn't exist"));
+        error_log("FAILED LOGIN : ".$_SERVER['REMOTE_ADDR']);
     }
 }

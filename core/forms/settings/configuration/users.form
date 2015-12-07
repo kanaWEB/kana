@@ -19,7 +19,12 @@ $view_right_db = new Entity("core", "ViewRight");
 if (isset($_["id"])) {
     $selected_db = new Entity("core", "Users");
     $selected = $selected_db->getById($_["id"]);
-    $form_name = "ID:".$_["id"];
+    if ($selected["state"] == 1) {
+        //@todo template this
+        $form_name = "<span class='text-danger'>Admin</span>";
+    } else {
+        $form_name = "ID:".$_["id"];
+    }
     $hidden_input = [
     "type" => "hidden",
     "value" => $_["id"]
@@ -55,7 +60,7 @@ $form->input([
     "required" => true
     ]);
 
-if ($selected) {
+if (($selected) && ($selected["state"] != 1)) {
     foreach ($groups as $group) {
         $group_right = $group_right_db->load([
             'id_user'=>$selected["id"],
@@ -69,14 +74,13 @@ if ($selected) {
         ];
     }
 
-    $form->input([
-        "type" => "ajaxswitch",
-        "id" => "id_group",
-        "name" => "Groups",
-        "onclick" => "change_group_right",
-        "switchs" => $switchs
-        ]);
-
+        $form->input([
+            "type" => "ajaxswitch",
+            "id" => "id_group",
+            "name" => "Groups",
+            "onclick" => "change_group_right",
+            "switchs" => $switchs
+            ]);
 
     unset($switchs);
 
