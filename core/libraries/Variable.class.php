@@ -330,8 +330,11 @@ Widget need
                         var_dump($object." doesn't have a correct buttons.json for action:".$action['action']);
                         exit();
                     }
-                    $webobjects[$key]['buttons'] = $buttons_json->buttons;
-
+                    if (isset($buttons_json->buttons)) {
+                        $webobjects[$key]['buttons'] = $buttons_json->buttons;
+                    } else {
+                        $webobjects[$key]['buttons'] = false;
+                    }
                     //$webobjects[$key]["buttons"] = $buttons_json;
                     $webobjects[$key]['state'] = $state_json;
 

@@ -77,7 +77,7 @@ function button_link_htmlviews(button,url){
 	command = effect.button.data("command");
 	object = effect.button.data("object");
 	id = effect.button.data("id");
-	url = 'actions.php?type=htmlviews&plugin_name='+object+'&action_name='+command+'&page='+url+'&id='+id;
+	url = 'actions.php?type=htmlviews&plugin_name='+object+'&page='+url+'&id='+id;
 	//console.log(url);
 	window.open(url);
 }

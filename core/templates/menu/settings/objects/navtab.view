@@ -35,8 +35,14 @@ if (file_exists(USER_OBJECTS.$object_name)) {
         $navtab_items[] = Variable::navtab_item($category_selected, $name, "jsondb", $menu_selected);
     }
 
+    //@todo refactor
     if (file_exists(USER_OBJECTS.$object_name."/codes")) {
-        $navtab_items[] = Variable::navtab_item($category_selected, "Codes", "codes", $menu_selected);
+        if (file_exists(USER_OBJECTS.$object_name."/codes.txt")) {
+            $codeMenuName = t(file_get_contents(USER_OBJECTS.$object_name."/codes.txt"));
+        } else {
+            $codeMenuName = "Codes";
+        }
+        $navtab_items[] = Variable::navtab_item($category_selected, $codeMenuName, "codes", $menu_selected);
     }
 
     if (file_exists(USER_OBJECTS.$object_name."/actions")) {

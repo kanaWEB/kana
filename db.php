@@ -20,7 +20,7 @@ if (!isset($_SERVER['REMOTE_ADDR']) || DATA_REMOTE) {
         //echo $path;
         if (!is_dir($path)) {
             $folder = explode('/', dirname($db));
-            var_dump($folder);
+            //var_dump($folder);
             if (count($folder) == 2) {
                 echo '2 folders'."\n\r<br>";
                 mkdir(DATA_DIR.'/'.$folder[0]);

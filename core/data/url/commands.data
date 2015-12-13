@@ -1,75 +1,70 @@
 <?php
-if(isset($_["action_name"]) && isset($_["object_name"])){
-	//@todo DEPRECATED use json instead
-	$md_actions_dir = (USER_OBJECTS.$_["object_name"]."/actions/".$_["action_name"]."/actions/");
-	$actions_array = Functions::getdir($md_actions_dir);
-	foreach($actions_array as $actions){
-		$data = Variable::md2var($md_actions_dir."/".$actions);
-	}
-}
-else{
+if (isset($_["action_name"]) && isset($_["object_name"])) {
+    //@todo DEPRECATED use json instead
+    $md_actions_dir = (USER_OBJECTS.$_["object_name"]."/actions/".$_["action_name"]."/actions/");
+    $actions_array = Functions::getdir($md_actions_dir);
+    foreach ($actions_array as $actions) {
+        $data = Variable::md2var($md_actions_dir."/".$actions);
+    }
+} else {
 
-	$objects_dir = Functions::getdir(USER_OBJECTS);
-	$key = 0;
-	foreach($objects_dir as $object_dir){
-		//Get actions from objects	
-		$actions_db = new Entity("actions",$object_dir);
-		$actions_db = $actions_db->populate();
+    $objects_dir = Functions::getdir(USER_OBJECTS);
+    $key = 0;
+    foreach ($objects_dir as $object_dir) {
+        //Get actions from objects  
+        $actions_db = new Entity("actions", $object_dir);
+        $actions_db = $actions_db->populate();
 
-	//If objects has actions
-		if($actions_db){
-			foreach($actions_db as $action){
-				if($currentUser->GroupRight($action["group_key"])){
-					$buttons_file_path = USER_OBJECTS.$object_dir."/actions/".$action["action"]."/"."buttons.json";
-					if(file_exists($buttons_file_path)){
-						$buttons_file = file_get_contents($buttons_file_path);
-						$buttons_json = json_decode($buttons_file);
+    //If objects has actions
+        if ($actions_db) {
+            foreach ($actions_db as $action) {
+                if ($currentUser->GroupRight($action["group_key"])) {
+                    $buttons_file_path = USER_OBJECTS.$object_dir."/actions/".$action["action"]."/"."buttons.json";
+                    if (file_exists($buttons_file_path)) {
+                        $buttons_file = file_get_contents($buttons_file_path);
+                        $buttons_json = json_decode($buttons_file);
 
-					//var_dump($buttons_json);
-						foreach($buttons_json as $buttons){
-							foreach($buttons as $button){
-								if(isset($button->command)){
-								//var_dump($button);
-									$action_data[$key]["object"] = $object_dir;
-									$action_data[$key]["id"] = $action["id"];
-									$action_data[$key]["command"] = $button->command;
+                        //var_dump($buttons_json);
+                        foreach ($buttons_json as $buttons) {
+                            foreach ($buttons as $button) {
+                                if (isset($button->command)) {
+                                    //var_dump($button);
+                                    $action_data[$key]["object"] = $object_dir;
+                                    $action_data[$key]["id"] = $action["id"];
+                                    $action_data[$key]["command"] = $button->command;
 
-									
-									if(isset($button->state)){
+                                    
+                                    if (isset($button->state)) {
+                                        $action_data[$key]["state"] = $button->state;
+                                    } else {
+                                        $action_data[$key]["state"] = 1;
+                                    }
 
-										$action_data[$key]["state"] = $button->state;
-									}
-									else{
-										$action_data[$key]["state"] = 1;
-									}
+                                    $action_data[$key]["entity_action"] = $button->name;
+                                    $action_data[$key]["entity_name"] = $action["entity_name"];
+                                    $action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
+                                    //var_dump($action_data);
+                                    $key++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (isset($action_data)) {
+        $data = $action_data;
+    } else {
+        $action_data[$key]["object"] = false;
+        $action_data[$key]["id"] = false;
+        $action_data[$key]["command"] = false;
+        $action_data[$key]["state"] = false;
+        $action_data[$key]["entity_action"] = "Unknown Action";
+        $action_data[$key]["entity_name"] = "Unknown Object";
+        $action_data[$key]["icon"] = false;
 
-									$action_data[$key]["entity_action"] = $button->name;
-									$action_data[$key]["entity_name"] = $action["entity_name"];
-									$action_data[$key]["icon"] = "plugins/objects/".$object_dir."/icon.png";
-
-									$key++;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if(isset($action_data)){
-		$data = $action_data;
-	}
-	else{
-		$action_data[$key]["object"] = false;
-		$action_data[$key]["id"] = false;
-		$action_data[$key]["command"] = false;
-		$action_data[$key]["state"] = false;
-		$action_data[$key]["entity_action"] = "Unknown Action";	
-		$action_data[$key]["entity_name"] = "Unknown Object";
-		$action_data[$key]["icon"] = false;
-
-		$data = $action_data;
-	}
+        $data = $action_data;
+    }
 
 }
-?>

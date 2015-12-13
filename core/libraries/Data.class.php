@@ -163,7 +163,7 @@ class data
                                 //Change timeout
                                 $db_triggers->change(array('timestamp' => $time), array('id' => $trigger['id']));
                                 //Launch action
-                                Functions::launchBackground("./action.py '".$scenario['action_tag']."'");
+                                Functions::launchBackground("/do/kana/action '".$scenario['action_tag']."'");
                             }
                         }
                     }

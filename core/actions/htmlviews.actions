@@ -1,7 +1,8 @@
 <?php
 
-if (isset($_["plugin_name"]) && isset($_["action_name"]) && isset($_["page"])) {
-    $html_view = USER_OBJECTS.$_["plugin_name"]."/actions/".$_["action_name"]."/bin/".$_["page"].".view";
+//@todo sanitize
+if (isset($_["plugin_name"]) && isset($_["page"])) {
+    $html_view = USER_OBJECTS.$_["plugin_name"]."/views/".$_["page"].".view";
 
     if (file_exists($html_view)) {
         include($html_view);
