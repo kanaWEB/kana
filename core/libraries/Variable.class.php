@@ -1,5 +1,10 @@
 <?php
 
+/*
+Variable class convert information on the database to usable information for Kana
+This is highly improvable
+*/
+
 class Variable
 {
     public static function sensors_or_objects_dir($entity)
@@ -154,8 +159,7 @@ Fields
     }
 
 //Markdown to array //JSON is going to be used so this will be deprecated
-    public static function md2vars($file)
-    {
+    public static function md2vars($file){
         $input_data = file($file);
         foreach ($input_data as $key => $data) {
             $variables = explode('|', $input_data[$key]);
@@ -178,8 +182,7 @@ Fields
     }
 
 //Availables Actions menu item (Triggers)
-    public static function md2menuitem($category, $object_name, $available_md_item)
-    {
+    public static function md2menuitem($category, $object_name, $available_md_item) {
         if ($category == 'scenario') {
             $link = $_SERVER['SCRIPT_NAME'].'?category='.$category.'&menu=triggers&tab='.$object_name.'&trigger='.$available_md_item;
             $dir = 'triggers';
@@ -256,7 +259,7 @@ Fields
 
 /*
 
-REFACTORING IN PROGRESS
+@todo REFACTORING IN PROGRESS
 EVERYTHING RELATED TO WIDGETS VARIABLE AND DRAWING WILL BE MOVED INSIDE WIDGET.CLASS.PHP FOR SIMPLIFICATION
 
 actions_to_webobjects($object,$actions_list);
@@ -269,7 +272,7 @@ objects_to_webobjects($current_group);
 sensors_to_websensors($current_group);
 
 Widget need
-
+@todo Refactor error messages should be translated and not var_dumpy scary
 */
 
     public static function actions_to_webobjects($object, $actions_list)
@@ -376,7 +379,7 @@ Widget need
 
 
                 } else {
-                    var_dump($object." doesn't have action:".$action['action']);
+                    var_dump("PLUGIN ERROR:".$object."/".$action['action']." doesn't have action:".$action['action']);
                 }
             }
         }
