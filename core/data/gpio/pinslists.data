@@ -4,8 +4,8 @@ unset($data);
 include(CORE_DATA."/gpio/model.data");
 $model = $data;
 unset($data);
-
-if ($model == "Model B+" || $model == "Model 2") {
+echo $model;
+if ($model == "Pi B+" || $model == "Pi 2") {
     for ($i=0; $i <= 29; $i++) {
         $data[] = [
         "value" => $i,
